@@ -7,11 +7,17 @@ environment:
   sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
-  # The following adds the Cupertino Icons font to your application.
-  # Use with the CupertinoIcons class for iOS style icons.
+  # Make an animated circular countdown 
+  circular_countdown_timer: ^0.2.3
+  # Cupertino Icons font to your application.
   cupertino_icons: ^1.0.6
+  # Internationalization (Easy translations)
+  easy_localization: ^3.0.3
   flutter:
     sdk: flutter
+  introduction_screen: ^3.1.14
+  # Small, easy to use and extensible logger which prints beautiful logs.
+  logger: ^2.0.2+1
 
 dev_dependencies:
   flutter_test:

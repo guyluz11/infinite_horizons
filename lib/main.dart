@@ -1,9 +1,21 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/presentation/core/color_schemes.dart';
-import 'package:infinite_horizons/presentation/pages/home_page.dart';
+import 'package:infinite_horizons/presentation/pages/pages.dart';
 
-void main() {
-  runApp(const MyApp());
+void main() async {
+  await EasyLocalization.ensureInitialized();
+
+  runApp(
+    EasyLocalization(
+      supportedLocales: const [
+        Locale('en', 'US'),
+      ],
+      path: 'assets/translations',
+      fallbackLocale: const Locale('en', 'US'),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -12,12 +24,10 @@ class MyApp extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
-
+      title: 'Infinite Horizons',
       theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
       darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
-    
-      home: HomePage(),
+      home: IntroPage(),
     );
   }
 }

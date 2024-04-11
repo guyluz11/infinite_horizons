@@ -1,37 +1,24 @@
-
-
-
+import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class HomePage extends StatelessWidget {
+  final CountDownController controller = CountDownController();
+
   @override
   Widget build(BuildContext context) {
-    return   Scaffold(
-      appBar: AppBar(
-        backgroundColor: Theme.of(context).colorScheme.inversePrimary,
-        title: const Text('tt'),
+    return Scaffold(
+      body: Column(
+        children: [
+          Center(
+            child: TimerAtom(controller),
+          ),
+          ButtonAtom(
+            variant: ButtonVariant.primary,
+            onPressed: () => controller.start(),
+          ),
+        ],
       ),
-      body: Center(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const Text(
-              'You have pushed the button this many times:',
-            ),
-            Text(
-             'tt',
-              style: Theme.of(context).textTheme.headlineMedium,
-            ),
-          ],
-        ),
-      ),
-      floatingActionButton: FloatingActionButton(
-        onPressed: (){},
-        tooltip: 'Increment',
-        child: const Icon(Icons.add),
-      ), 
     );
   }
-
-
 }
