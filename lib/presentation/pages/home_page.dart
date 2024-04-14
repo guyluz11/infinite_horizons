@@ -9,13 +9,22 @@ class HomePage extends StatelessWidget {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceAround,
         children: [
-          Center(
-            child: TimerAtom(controller),
-          ),
-          ButtonAtom(
-            variant: ButtonVariant.primary,
-            onPressed: () => controller.start(),
+          const TextAtom('Maximize Study efficiency'),
+          Expanded(
+            child: Column(
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                Center(
+                  child: TimerAtom(controller),
+                ),
+                ButtonAtom(
+                  variant: ButtonVariant.primary,
+                  onPressed: () => controller.start(),
+                ),
+              ],
+            ),
           ),
         ],
       ),
