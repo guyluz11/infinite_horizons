@@ -1,13 +1,33 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/domain/study_type_abstract.dart';
+import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 import 'package:infinite_horizons/presentation/pages/home_page.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
-class IntroPage extends StatelessWidget {
+class IntroPage extends StatefulWidget {
+  @override
+  State<IntroPage> createState() => _IntroPageState();
+}
+
+class _IntroPageState extends State<IntroPage> {
+  final GlobalKey<IntroductionScreenState> _introKey =
+      GlobalKey<IntroductionScreenState>();
+
+  String studyType = '';
+
+  void nextPage() {
+    _introKey.currentState?.next();
+  }
+
+  void onDone(BuildContext context) => Navigator.of(context)
+      .push(MaterialPageRoute(builder: (context) => HomePage()));
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: IntroductionScreen(
+        key: _introKey,
         pages: [
           PageViewModel(
             title: 'Let’s Study Efficiently',
@@ -15,28 +35,30 @@ class IntroPage extends StatelessWidget {
           ),
           PageViewModel(
             title: 'Study Type',
-            bodyWidget: StudyTypeOrganism(),
+            bodyWidget: StudyTypeSelectionMolecule(() {
+              setState(() {
+                studyType = StudyTypeAbstract.instance!.studyType.previewName;
+              });
+              nextPage();
+            }),
           ),
           PageViewModel(
-            title: 'Efficient Creativity study',
+            title: 'Efficient $studyType Study',
             bodyWidget: TipsOrganism(),
           ),
           PageViewModel(
             title: 'Energy',
-            bodyWidget: EnergyOrganism(),
+            bodyWidget: EnergySelectionMolecule(nextPage),
           ),
           PageViewModel(
             title: 'Let’s Start',
-            bodyWidget: MotivationOrganism(),
+            bodyWidget: MotivationOrganism(() => onDone(context)),
           ),
         ],
-        onDone: () => Navigator.of(context)
-            .push(MaterialPageRoute(builder: (context) => HomePage())),
         showBackButton: true,
-        //rtl: true, // Display as right-to-left
         back: const Icon(Icons.arrow_back),
         next: const Icon(Icons.arrow_forward),
-        done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600)),
+        showDoneButton: false,
       ),
     );
   }

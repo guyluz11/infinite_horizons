@@ -40,17 +40,57 @@ class ButtonAtom extends StatelessWidget {
           style: FilledButton.styleFrom().copyWith(
             alignment: Alignment.center,
             backgroundColor: disabled
-                ? MaterialStateProperty.all(colorScheme.surfaceVariant)
-                : null,
+                ? MaterialStateProperty.all(colorScheme.outline)
+                : MaterialStateProperty.all(colorScheme.primaryContainer),
+          ),
+          icon: Icon(icon),
+          label: TextAtom(text ?? '',
+              translate: translate, maxLines: 1, style: textTheme.bodyLarge),
+        ),
+      );
+    } else if (variant == ButtonVariant.secondary) {
+      return Container(
+        constraints: const BoxConstraints(
+          minWidth: 300,
+        ),
+        height: _height,
+        child: FilledButton.icon(
+          onPressed: onPressed,
+          style: FilledButton.styleFrom().copyWith(
+            alignment: Alignment.center,
+            backgroundColor: disabled
+                ? MaterialStateProperty.all(colorScheme.outline)
+                : MaterialStateProperty.all(colorScheme.secondaryContainer),
           ),
           icon: Icon(icon),
           label: TextAtom(
             text ?? '',
             translate: translate,
             maxLines: 1,
-            style: textTheme.bodyLarge!.copyWith(
-              color: colorScheme.onPrimary,
-            ),
+            style: textTheme.bodyLarge,
+          ),
+        ),
+      );
+    } else if (variant == ButtonVariant.tertiary) {
+      return Container(
+        constraints: const BoxConstraints(
+          minWidth: 300,
+        ),
+        height: _height,
+        child: FilledButton.icon(
+          onPressed: onPressed,
+          style: FilledButton.styleFrom().copyWith(
+            alignment: Alignment.center,
+            backgroundColor: disabled
+                ? MaterialStateProperty.all(colorScheme.outline)
+                : MaterialStateProperty.all(colorScheme.tertiaryContainer),
+          ),
+          icon: Icon(icon),
+          label: TextAtom(
+            text ?? '',
+            translate: translate,
+            maxLines: 1,
+            style: textTheme.bodyLarge,
           ),
         ),
       );
