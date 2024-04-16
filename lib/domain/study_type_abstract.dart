@@ -45,16 +45,16 @@ extension StudyTypeExtension on StudyType {
 }
 
 enum EnergyType {
-  undefined('undefined', 0),
-  veryLow('Very Low', 5),
-  low('Low', 10),
-  medium('Medium', 25),
-  high('High', 40),
-  veryHigh('Very High', 60),
-  max('Max', 90),
+  undefined('undefined', Duration.zero),
+  veryLow('Very Low', Duration(minutes: 5)),
+  low('Low', Duration(minutes: 10)),
+  medium('Medium', Duration(minutes: 25)),
+  high('High', Duration(minutes: 40)),
+  veryHigh('Very High', Duration(minutes: 60)),
+  max('Max', Duration(minutes: 90)),
   ;
 
-  const EnergyType(this.previewName, this.minutes);
-  final int minutes;
+  const EnergyType(this.previewName, this.duration);
+  final Duration duration;
   final String previewName;
 }

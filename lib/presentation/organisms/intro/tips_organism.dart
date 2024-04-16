@@ -25,12 +25,13 @@ class TipsOrganism extends StatelessWidget {
           },
           itemCount: StudyTypeAbstract.instance!.getTips().length,
         ),
-        const Row(
-          mainAxisAlignment: MainAxisAlignment.end,
-          children: [
-            TextAtom('Full list'),
-          ],
-        ),
+        // TODO: Add full list page
+        // const Row(
+        //   mainAxisAlignment: MainAxisAlignment.end,
+        //   children: [
+        //     TextAtom('Full list'),
+        //   ],
+        // ),
       ],
     );
   }

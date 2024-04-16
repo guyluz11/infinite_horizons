@@ -17,6 +17,7 @@ class _IntroPageState extends State<IntroPage> {
   String studyType = '';
 
   void nextPage() {
+    // TODO: Hide next button for sertan pages until element get selected
     _introKey.currentState?.next();
   }
 

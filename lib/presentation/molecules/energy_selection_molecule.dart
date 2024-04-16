@@ -37,7 +37,7 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
         const TextAtom('Classic Pomodoro:'),
         const SeparatorAtom(),
         ListTileAtom(
-          '${EnergyType.medium.previewName} - ${EnergyType.medium.minutes}m',
+          '${EnergyType.medium.previewName} - ${EnergyType.medium.duration.inMinutes}m',
           Radio<EnergyType>(
             value: EnergyType.medium,
             groupValue: energy,
@@ -50,7 +50,7 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
         Column(
           children: [
             ListTileAtom(
-              '${EnergyType.max.previewName} - ${EnergyType.max.minutes}m',
+              '${EnergyType.max.previewName} - ${EnergyType.max.duration.inMinutes}m',
               Radio<EnergyType>(
                 value: EnergyType.max,
                 groupValue: energy,
@@ -58,7 +58,7 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
               ),
             ),
             ListTileAtom(
-              '${EnergyType.veryHigh.previewName} - ${EnergyType.veryHigh.minutes}m',
+              '${EnergyType.veryHigh.previewName} - ${EnergyType.veryHigh.duration.inMinutes}m',
               Radio<EnergyType>(
                 value: EnergyType.veryHigh,
                 groupValue: energy,
@@ -66,7 +66,7 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
               ),
             ),
             ListTileAtom(
-              '${EnergyType.high.previewName} - ${EnergyType.high.minutes}m',
+              '${EnergyType.high.previewName} - ${EnergyType.high.duration.inMinutes}m',
               Radio<EnergyType>(
                 value: EnergyType.high,
                 groupValue: energy,
@@ -74,7 +74,7 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
               ),
             ),
             ListTileAtom(
-              '${EnergyType.low.previewName} - ${EnergyType.low.minutes}m',
+              '${EnergyType.low.previewName} - ${EnergyType.low.duration.inMinutes}m',
               Radio<EnergyType>(
                 value: EnergyType.low,
                 groupValue: energy,
@@ -82,7 +82,7 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
               ),
             ),
             ListTileAtom(
-              '${EnergyType.veryLow.previewName} - ${EnergyType.veryLow.minutes}m',
+              '${EnergyType.veryLow.previewName} - ${EnergyType.veryLow.duration.inMinutes}m',
               Radio<EnergyType>(
                 value: EnergyType.veryLow,
                 groupValue: energy,

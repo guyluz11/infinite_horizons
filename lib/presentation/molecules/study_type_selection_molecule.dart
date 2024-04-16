@@ -47,6 +47,7 @@ class _StudyTypeSelectionMoleculeState
             groupValue: selectedType,
             onChanged: onChanged,
           ),
+          subtitle: 'Recommended in the morning',
         ),
         ListTileAtom(
           StudyType.creatively.previewName,
@@ -55,6 +56,7 @@ class _StudyTypeSelectionMoleculeState
             groupValue: selectedType,
             onChanged: onChanged,
           ),
+          subtitle: 'Recommended in the evening',
         ),
       ],
     );

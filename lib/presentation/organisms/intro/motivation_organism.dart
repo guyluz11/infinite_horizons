@@ -28,7 +28,9 @@ class MotivationOrganism extends StatelessWidget {
       case EnergyType.max:
         text = "So much energy 🔋⚡🔋⚡🔋⚡🔋\nLet's begin";
     }
+    // TODO: Center the elements on the page
     return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         TextAtom(text),
         const SeparatorAtom(variant: SeparatorVariant.farAppart),
