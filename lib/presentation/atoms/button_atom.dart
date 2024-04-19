@@ -44,8 +44,12 @@ class ButtonAtom extends StatelessWidget {
                 : MaterialStateProperty.all(colorScheme.primaryContainer),
           ),
           icon: Icon(icon),
-          label: TextAtom(text ?? '',
-              translate: translate, maxLines: 1, style: textTheme.bodyLarge),
+          label: TextAtom(
+            text ?? '',
+            translate: translate,
+            maxLines: 1,
+            style: textTheme.bodyLarge,
+          ),
         ),
       );
     } else if (variant == ButtonVariant.secondary) {

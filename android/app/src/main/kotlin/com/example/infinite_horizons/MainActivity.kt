@@ -1,4 +1,4 @@
-package com.example.infinite_horizons
+package com.haveinfinitehorizons
 
 import io.flutter.embedding.android.FlutterActivity
 

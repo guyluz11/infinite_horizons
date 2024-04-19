@@ -4,6 +4,7 @@ import 'package:infinite_horizons/presentation/core/color_schemes.dart';
 import 'package:infinite_horizons/presentation/pages/pages.dart';
 
 void main() async {
+  WidgetsFlutterBinding.ensureInitialized();
   await EasyLocalization.ensureInitialized();
 
   runApp(
