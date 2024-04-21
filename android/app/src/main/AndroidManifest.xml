@@ -1,6 +1,6 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android">
     <application
-        android:label="infinite_horizons"
+        android:label="Infinite Horizons"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity
