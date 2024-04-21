@@ -15,6 +15,9 @@ class TimerAtom extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
+    final ColorScheme colorScheme = themeData.colorScheme;
+
     return CircularCountDownTimer(
       duration: timer.inSeconds,
       controller: controller,
@@ -24,9 +27,9 @@ class TimerAtom extends StatelessWidget {
       fillColor: Colors.purpleAccent[100]!,
       strokeWidth: 20.0,
       strokeCap: StrokeCap.round,
-      textStyle: const TextStyle(
+      textStyle: TextStyle(
         fontSize: 33.0,
-        color: Colors.white,
+        color: colorScheme.onBackground,
         fontWeight: FontWeight.bold,
       ),
       textFormat: CountdownTextFormat.S,

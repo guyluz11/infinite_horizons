@@ -16,9 +16,10 @@ class _IntroPageState extends State<IntroPage> {
       GlobalKey<IntroductionScreenState>();
 
   String studyType = '';
+  bool showNextButton = true;
+  IntroState state = IntroState.welcome;
 
   void nextPage() {
-    // TODO: Hide next button for sertan pages until element get selected
     _introKey.currentState?.next();
   }
 
@@ -47,7 +48,7 @@ class _IntroPageState extends State<IntroPage> {
               }),
             ),
             PageViewModel(
-              title: 'Efficient $studyType Study',
+              title: 'Efficient $studyType Tips',
               bodyWidget: TipsOrganism(),
             ),
             PageViewModel(
@@ -62,9 +63,50 @@ class _IntroPageState extends State<IntroPage> {
           showBackButton: true,
           back: const Icon(Icons.arrow_back),
           next: const Icon(Icons.arrow_forward),
+          showNextButton: showNextButton,
+          scrollPhysics: const NeverScrollableScrollPhysics(),
+          onChange: (int n) {
+            state = IntroState.getStateByPageNumber(n);
+            bool showNextButtonTemp = true;
+
+            if (state == IntroState.studyType &&
+                (StudyTypeAbstract.instance?.studyType == null ||
+                    StudyTypeAbstract.instance!.studyType ==
+                        StudyType.undefined)) {
+              showNextButtonTemp = false;
+            } else if (state == IntroState.energy &&
+                StudyTypeAbstract.instance!.energy == EnergyType.undefined) {
+              showNextButtonTemp = false;
+            }
+            setState(() {
+              showNextButton = showNextButtonTemp;
+            });
+          },
           showDoneButton: false,
         ),
       ),
     );
+  }
+}
+
+enum IntroState {
+  welcome(0),
+  studyType(1),
+  tips(2),
+  energy(3),
+  encouragementSentence(4),
+  ;
+
+  const IntroState(this.pageNumber);
+
+  final int pageNumber;
+
+  static IntroState getStateByPageNumber(int number) {
+    for (final IntroState state in IntroState.values) {
+      if (state.pageNumber == number) {
+        return state;
+      }
+    }
+    return IntroState.welcome;
   }
 }

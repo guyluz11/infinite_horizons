@@ -37,7 +37,10 @@ class _HomePageState extends State<HomePage> {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const TextAtom('Study'),
+            const TextAtom(
+              'Study Timer',
+              variant: TextVariant.smallTitle,
+            ),
             TimerMolecule(
               onTimerComplete,
               StudyTypeAbstract.instance!.energy.duration,
@@ -81,14 +84,19 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
-        children: [
-          const TextAtom('Maximize Study Efficiency'),
-          Expanded(
-            child: stateWidget(),
-          ),
-        ],
+      body: SafeArea(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.spaceAround,
+          children: [
+            const TextAtom(
+              'Maximize Study Efficiency',
+              variant: TextVariant.title,
+            ),
+            Expanded(
+              child: stateWidget(),
+            ),
+          ],
+        ),
       ),
     );
   }

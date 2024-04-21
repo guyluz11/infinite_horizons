@@ -12,35 +12,33 @@ class TimerMolecule extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Expanded(
-      child: Column(
-        mainAxisAlignment: MainAxisAlignment.center,
-        children: [
-          Center(
-            child: TimerAtom(
-              controller,
-              duration,
-              onComplete,
+    return Column(
+      mainAxisAlignment: MainAxisAlignment.center,
+      children: [
+        Center(
+          child: TimerAtom(
+            controller,
+            duration,
+            onComplete,
+          ),
+        ),
+        const SeparatorAtom(),
+        Column(
+          children: [
+            ButtonAtom(
+              variant: ButtonVariant.primary,
+              onPressed: controller.resume,
+              text: 'Continue',
             ),
-          ),
-          const SeparatorAtom(),
-          Row(
-            mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-            children: [
-              ButtonAtom(
-                variant: ButtonVariant.primary,
-                onPressed: controller.resume,
-                text: 'Continue',
-              ),
-              ButtonAtom(
-                variant: ButtonVariant.secondary,
-                onPressed: controller.pause,
-                text: 'Pause',
-              ),
-            ],
-          ),
-        ],
-      ),
+            const SeparatorAtom(),
+            ButtonAtom(
+              variant: ButtonVariant.secondary,
+              onPressed: controller.pause,
+              text: 'Pause',
+            ),
+          ],
+        ),
+      ],
     );
   }
 }
