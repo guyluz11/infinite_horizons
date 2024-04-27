@@ -26,6 +26,9 @@ class _ProgressIndicatorAtomState extends State<ProgressIndicatorAtom>
       vsync: this,
       duration: widget.totalDuration,
     );
+    controller.addListener(() {
+      setState(() {});
+    });
     controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         widget.callback();
