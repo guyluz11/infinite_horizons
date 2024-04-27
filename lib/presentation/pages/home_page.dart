@@ -9,7 +9,7 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  HomeState state = HomeState.study;
+  HomeState state = HomeState.getReadyForStudy;
   final Duration getReadyDuration = const Duration(seconds: 10);
   final int breakTimeRatio = 5;
 
@@ -75,6 +75,8 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const TextAtom('Get ready to study'),
+            const SeparatorAtom(variant: SeparatorVariant.farAppart),
+            const TextAtom('start_with'),
             ProgressIndicatorAtom(getReadyDuration, onTimerComplete),
           ],
         );

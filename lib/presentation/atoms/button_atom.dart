@@ -17,7 +17,7 @@ class ButtonAtom extends StatelessWidget {
   final VoidCallback onPressed;
   final String? text;
   final IconData? icon;
-  double get width => 250;
+  double get width => 150;
   double get _height => 60;
   final bool disabled;
   final bool translate;
@@ -30,9 +30,32 @@ class ButtonAtom extends StatelessWidget {
     final ColorScheme colorScheme = themeData.colorScheme;
 
     if (variant == ButtonVariant.primary) {
+      if (icon == null) {
+        return Container(
+          constraints: BoxConstraints(
+            minWidth: width,
+          ),
+          height: _height,
+          child: FilledButton(
+            onPressed: onPressed,
+            style: FilledButton.styleFrom().copyWith(
+              alignment: Alignment.center,
+              backgroundColor: disabled
+                  ? MaterialStateProperty.all(colorScheme.outline)
+                  : null,
+            ),
+            child: TextAtom(
+              text ?? '',
+              translate: translate,
+              maxLines: 1,
+              style: textTheme.bodyLarge,
+            ),
+          ),
+        );
+      }
       return Container(
-        constraints: const BoxConstraints(
-          minWidth: 300,
+        constraints: BoxConstraints(
+          minWidth: width,
         ),
         height: _height,
         child: FilledButton.icon(
@@ -41,7 +64,7 @@ class ButtonAtom extends StatelessWidget {
             alignment: Alignment.center,
             backgroundColor: disabled
                 ? MaterialStateProperty.all(colorScheme.outline)
-                : MaterialStateProperty.all(colorScheme.primaryContainer),
+                : null,
           ),
           icon: Icon(icon),
           label: TextAtom(
@@ -53,9 +76,32 @@ class ButtonAtom extends StatelessWidget {
         ),
       );
     } else if (variant == ButtonVariant.secondary) {
+      if (icon == null) {
+        return Container(
+          constraints: BoxConstraints(
+            minWidth: width,
+          ),
+          height: _height,
+          child: FilledButton.tonal(
+            onPressed: onPressed,
+            style: FilledButton.styleFrom().copyWith(
+              alignment: Alignment.center,
+              backgroundColor: disabled
+                  ? MaterialStateProperty.all(colorScheme.outline)
+                  : null,
+            ),
+            child: TextAtom(
+              text ?? '',
+              translate: translate,
+              maxLines: 1,
+              style: textTheme.bodyLarge,
+            ),
+          ),
+        );
+      }
       return Container(
-        constraints: const BoxConstraints(
-          minWidth: 300,
+        constraints: BoxConstraints(
+          minWidth: width,
         ),
         height: _height,
         child: FilledButton.icon(
@@ -64,7 +110,7 @@ class ButtonAtom extends StatelessWidget {
             alignment: Alignment.center,
             backgroundColor: disabled
                 ? MaterialStateProperty.all(colorScheme.outline)
-                : MaterialStateProperty.all(colorScheme.secondaryContainer),
+                : null,
           ),
           icon: Icon(icon),
           label: TextAtom(
@@ -77,8 +123,8 @@ class ButtonAtom extends StatelessWidget {
       );
     } else if (variant == ButtonVariant.tertiary) {
       return Container(
-        constraints: const BoxConstraints(
-          minWidth: 300,
+        constraints: BoxConstraints(
+          minWidth: width,
         ),
         height: _height,
         child: FilledButton.icon(

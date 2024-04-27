@@ -23,7 +23,8 @@ class TimerMolecule extends StatelessWidget {
           ),
         ),
         const SeparatorAtom(),
-        Column(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ButtonAtom(
               variant: ButtonVariant.primary,
