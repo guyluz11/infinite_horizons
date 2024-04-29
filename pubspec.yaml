@@ -18,6 +18,7 @@ dependencies:
   introduction_screen: ^3.1.14
   # Small, easy to use and extensible logger which prints beautiful logs.
   logger: ^2.0.2+1
+  wakelock: ^0.6.2
 
 dev_dependencies:
   flutter_test:

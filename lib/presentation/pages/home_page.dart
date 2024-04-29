@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
+import 'package:wakelock/wakelock.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -12,6 +13,20 @@ class _HomePageState extends State<HomePage> {
   HomeState state = HomeState.getReadyForStudy;
   final Duration getReadyDuration = const Duration(seconds: 10);
   final int breakTimeRatio = 5;
+
+  @override
+  void initState() {
+    super.initState();
+    Wakelock.enable();
+  }
+
+
+  @override
+  void dispose() {
+    Wakelock.disable();
+    super.dispose();
+  }
+
 
   void onTimerComplete() {
     HomeState nextState;
