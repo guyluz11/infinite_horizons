@@ -32,10 +32,11 @@ class TimerAtom extends StatelessWidget {
         color: colorScheme.onBackground,
         fontWeight: FontWeight.bold,
       ),
-      textFormat: CountdownTextFormat.S,
+      textFormat: CountdownTextFormat.MM_SS,
       isReverseAnimation: true,
       isReverse: true,
       onComplete: onComplete,
+
     );
   }
 }

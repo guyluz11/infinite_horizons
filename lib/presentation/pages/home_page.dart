@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
@@ -17,16 +19,18 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    Wakelock.enable();
+    if (!Platform.isLinux) {
+      Wakelock.enable();
+    }
   }
-
 
   @override
   void dispose() {
-    Wakelock.disable();
+    if (!Platform.isLinux) {
+      Wakelock.disable();
+    }
     super.dispose();
   }
-
 
   void onTimerComplete() {
     HomeState nextState;
