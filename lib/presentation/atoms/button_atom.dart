@@ -23,6 +23,21 @@ class ButtonAtom extends StatelessWidget {
   final bool translate;
   final bool disableActionType;
 
+  Widget buttonConstraints({required Widget child}) => Container(
+        constraints: BoxConstraints(
+          minWidth: width,
+        ),
+        height: _height,
+        child: child,
+      );
+
+  Widget label(TextTheme textTheme) => TextAtom(
+        text ?? '',
+        translate: translate,
+        maxLines: 1,
+        style: textTheme.bodyLarge,
+      );
+
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
@@ -31,11 +46,7 @@ class ButtonAtom extends StatelessWidget {
 
     if (variant == ButtonVariant.primary) {
       if (icon == null) {
-        return Container(
-          constraints: BoxConstraints(
-            minWidth: width,
-          ),
-          height: _height,
+        return buttonConstraints(
           child: FilledButton(
             onPressed: onPressed,
             style: FilledButton.styleFrom().copyWith(
@@ -44,20 +55,11 @@ class ButtonAtom extends StatelessWidget {
                   ? MaterialStateProperty.all(colorScheme.outline)
                   : null,
             ),
-            child: TextAtom(
-              text ?? '',
-              translate: translate,
-              maxLines: 1,
-              style: textTheme.bodyLarge,
-            ),
+            child: label(textTheme),
           ),
         );
       }
-      return Container(
-        constraints: BoxConstraints(
-          minWidth: width,
-        ),
-        height: _height,
+      return buttonConstraints(
         child: FilledButton.icon(
           onPressed: onPressed,
           style: FilledButton.styleFrom().copyWith(
@@ -67,21 +69,12 @@ class ButtonAtom extends StatelessWidget {
                 : null,
           ),
           icon: Icon(icon),
-          label: TextAtom(
-            text ?? '',
-            translate: translate,
-            maxLines: 1,
-            style: textTheme.bodyLarge,
-          ),
+          label: label(textTheme),
         ),
       );
     } else if (variant == ButtonVariant.secondary) {
       if (icon == null) {
-        return Container(
-          constraints: BoxConstraints(
-            minWidth: width,
-          ),
-          height: _height,
+        return buttonConstraints(
           child: FilledButton.tonal(
             onPressed: onPressed,
             style: FilledButton.styleFrom().copyWith(
@@ -90,20 +83,11 @@ class ButtonAtom extends StatelessWidget {
                   ? MaterialStateProperty.all(colorScheme.outline)
                   : null,
             ),
-            child: TextAtom(
-              text ?? '',
-              translate: translate,
-              maxLines: 1,
-              style: textTheme.bodyLarge,
-            ),
+            child: label(textTheme),
           ),
         );
       }
-      return Container(
-        constraints: BoxConstraints(
-          minWidth: width,
-        ),
-        height: _height,
+      return buttonConstraints(
         child: FilledButton.icon(
           onPressed: onPressed,
           style: FilledButton.styleFrom().copyWith(
@@ -113,20 +97,11 @@ class ButtonAtom extends StatelessWidget {
                 : null,
           ),
           icon: Icon(icon),
-          label: TextAtom(
-            text ?? '',
-            translate: translate,
-            maxLines: 1,
-            style: textTheme.bodyLarge,
-          ),
+          label: label(textTheme),
         ),
       );
     } else if (variant == ButtonVariant.tertiary) {
-      return Container(
-        constraints: BoxConstraints(
-          minWidth: width,
-        ),
-        height: _height,
+      return buttonConstraints(
         child: FilledButton.icon(
           onPressed: onPressed,
           style: FilledButton.styleFrom().copyWith(
@@ -136,12 +111,7 @@ class ButtonAtom extends StatelessWidget {
                 : MaterialStateProperty.all(colorScheme.tertiaryContainer),
           ),
           icon: Icon(icon),
-          label: TextAtom(
-            text ?? '',
-            translate: translate,
-            maxLines: 1,
-            style: textTheme.bodyLarge,
-          ),
+          label: label(textTheme),
         ),
       );
     }

@@ -26,9 +26,9 @@ abstract class StudyTypeAbstract {
 }
 
 enum StudyType {
-  undefined('Undefined'),
-  analytically('Analytically'),
-  creatively('Creatively'),
+  undefined('undefined'),
+  analytically('analytically'),
+  creatively('creatively'),
   ;
 
   const StudyType(this.previewName);
@@ -46,12 +46,12 @@ extension StudyTypeExtension on StudyType {
 
 enum EnergyType {
   undefined('undefined', Duration.zero),
-  veryLow('Very Low', Duration(minutes: 5)),
-  low('Low', Duration(minutes: 10)),
-  medium('Medium', Duration(minutes: 25)),
-  high('High', Duration(minutes: 40)),
-  veryHigh('Very High', Duration(minutes: 60)),
-  max('Max', Duration(minutes: 90)),
+  veryLow('very_low', Duration(minutes: 5)),
+  low('low', Duration(minutes: 10)),
+  medium('medium', Duration(minutes: 25)),
+  high('high', Duration(minutes: 40)),
+  veryHigh('very_high', Duration(minutes: 60)),
+  max('max', Duration(minutes: 90)),
   ;
 
   const EnergyType(this.previewName, this.duration);

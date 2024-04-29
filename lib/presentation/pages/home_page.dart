@@ -57,7 +57,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const TextAtom(
-              'Study Timer',
+              'study_timer',
               variant: TextVariant.smallTitle,
             ),
             TimerMolecule(
@@ -70,7 +70,7 @@ class _HomePageState extends State<HomePage> {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const TextAtom('Get ready for a break'),
+            const TextAtom('ready_for_break'),
             ProgressIndicatorAtom(getReadyDuration, onTimerComplete),
           ],
         );
@@ -78,7 +78,7 @@ class _HomePageState extends State<HomePage> {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const TextAtom('Take a break'),
+            const TextAtom('take_break'),
             TimerMolecule(
               onTimerComplete,
               Duration(
@@ -93,8 +93,8 @@ class _HomePageState extends State<HomePage> {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const TextAtom('Get ready to study'),
-            const SeparatorAtom(variant: SeparatorVariant.farAppart),
+            const TextAtom('ready_study'),
+            const SeparatorAtom(variant: SeparatorVariant.farApart),
             const TextAtom('start_with'),
             ProgressIndicatorAtom(getReadyDuration, onTimerComplete),
           ],
@@ -110,7 +110,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             const TextAtom(
-              'Maximize Study Efficiency',
+              'study_efficiency',
               variant: TextVariant.title,
             ),
             Expanded(

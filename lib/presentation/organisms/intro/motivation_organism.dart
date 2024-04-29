@@ -28,16 +28,15 @@ class MotivationOrganism extends StatelessWidget {
       case EnergyType.max:
         text = "So much energy 🔋⚡🔋⚡🔋⚡🔋\nLet's begin";
     }
-    // TODO: Center the elements on the page
     return Column(
       mainAxisAlignment: MainAxisAlignment.center,
       children: [
         TextAtom(text),
-        const SeparatorAtom(variant: SeparatorVariant.farAppart),
+        const SeparatorAtom(variant: SeparatorVariant.farApart),
         ButtonAtom(
           variant: ButtonVariant.primary,
           onPressed: callback,
-          text: 'Start',
+          text: 'start',
         ),
       ],
     );
