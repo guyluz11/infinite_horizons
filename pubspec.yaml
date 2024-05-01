@@ -1,7 +1,7 @@
 name: infinite_horizons
 description: "A new Flutter project."
 publish_to: 'none'
-version: 1.0.0+1
+version: 1.0.1+2
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -15,9 +15,14 @@ dependencies:
   easy_localization: ^3.0.3
   flutter:
     sdk: flutter
+  # Font Awesome Icon pack available as Flutter Icons.
+  font_awesome_flutter: ^10.6.0
   introduction_screen: ^3.1.14
   # Small, easy to use and extensible logger which prints beautiful logs.
   logger: ^2.0.2+1
+  url_launcher: ^6.2.6
+  wakelock_plus: ^1.2.4
+
 
 dev_dependencies:
   flutter_test:

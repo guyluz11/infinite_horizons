@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -9,9 +10,22 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  HomeState state = HomeState.study;
+  HomeState state = HomeState.getReadyForStudy;
   final Duration getReadyDuration = const Duration(seconds: 10);
   final int breakTimeRatio = 5;
+
+  @override
+  void initState() {
+    super.initState();
+    WakelockPlus.enable();
+  }
+
+  @override
+  void dispose() {
+    WakelockPlus.disable();
+
+    super.dispose();
+  }
 
   void onTimerComplete() {
     HomeState nextState;
@@ -38,7 +52,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
             const TextAtom(
-              'Study Timer',
+              'study_timer',
               variant: TextVariant.smallTitle,
             ),
             TimerMolecule(
@@ -51,7 +65,7 @@ class _HomePageState extends State<HomePage> {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const TextAtom('Get ready for a break'),
+            const TextAtom('ready_for_break'),
             ProgressIndicatorAtom(getReadyDuration, onTimerComplete),
           ],
         );
@@ -59,7 +73,7 @@ class _HomePageState extends State<HomePage> {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const TextAtom('Take a break'),
+            const TextAtom('take_break'),
             TimerMolecule(
               onTimerComplete,
               Duration(
@@ -74,7 +88,9 @@ class _HomePageState extends State<HomePage> {
         return Column(
           mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const TextAtom('Get ready to study'),
+            const TextAtom('ready_study'),
+            const SeparatorAtom(variant: SeparatorVariant.farApart),
+            const TextAtom('start_with'),
             ProgressIndicatorAtom(getReadyDuration, onTimerComplete),
           ],
         );
@@ -89,7 +105,7 @@ class _HomePageState extends State<HomePage> {
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
             const TextAtom(
-              'Maximize Study Efficiency',
+              'study_efficiency',
               variant: TextVariant.title,
             ),
             Expanded(

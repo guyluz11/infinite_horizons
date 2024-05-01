@@ -23,18 +23,19 @@ class TimerMolecule extends StatelessWidget {
           ),
         ),
         const SeparatorAtom(),
-        Column(
+        Row(
+          mainAxisAlignment: MainAxisAlignment.center,
           children: [
             ButtonAtom(
               variant: ButtonVariant.primary,
               onPressed: controller.resume,
-              text: 'Continue',
+              text: 'continue',
             ),
             const SeparatorAtom(),
             ButtonAtom(
               variant: ButtonVariant.secondary,
               onPressed: controller.pause,
-              text: 'Pause',
+              text: 'pause',
             ),
           ],
         ),

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 class ProgressIndicatorAtom extends StatefulWidget {
   const ProgressIndicatorAtom(this.totalDuration, this.callback);
 
-  /// In Seconds
   final Duration totalDuration;
   final VoidCallback callback;
 

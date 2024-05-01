@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/presentation/core/theme_data.dart';
@@ -35,11 +36,11 @@ class _IntroPageState extends State<IntroPage> {
           key: _introKey,
           pages: [
             PageViewModel(
-              title: 'Let’s Study Efficiently',
+              title: 'study_efficiently'.tr(),
               bodyWidget: WelcomeOrganism(),
             ),
             PageViewModel(
-              title: 'Study Type',
+              title: 'study_type'.tr(),
               bodyWidget: StudyTypeSelectionMolecule(() {
                 setState(() {
                   studyType = StudyTypeAbstract.instance!.studyType.previewName;
@@ -48,15 +49,15 @@ class _IntroPageState extends State<IntroPage> {
               }),
             ),
             PageViewModel(
-              title: 'Efficient $studyType Tips',
+              title: 'efficient_tips'.tr(args: [studyType.tr()]),
               bodyWidget: TipsOrganism(),
             ),
             PageViewModel(
-              title: 'Energy',
+              title: 'energy'.tr(),
               bodyWidget: EnergySelectionMolecule(nextPage),
             ),
             PageViewModel(
-              title: 'Let’s Start',
+              title: 'lets_start'.tr(),
               bodyWidget: MotivationOrganism(() => onDone(context)),
             ),
           ],

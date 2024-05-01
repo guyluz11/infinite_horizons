@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
@@ -29,66 +30,36 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
     widget.callback();
   }
 
+  Widget energyWidget(EnergyType type) {
+    return ListTileAtom(
+      '${type.previewName.tr()} - ${type.duration.inMinutes}${'minutes_single'.tr()}',
+      Radio<EnergyType>(
+        value: type,
+        groupValue: energy,
+        onChanged: onChanged,
+      ),
+      translateTitle: false,
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        const TextAtom('Classic Pomodoro:'),
+        const TextAtom('classic_pomodoro'),
         const SeparatorAtom(),
-        ListTileAtom(
-          '${EnergyType.medium.previewName} - ${EnergyType.medium.duration.inMinutes}m',
-          Radio<EnergyType>(
-            value: EnergyType.medium,
-            groupValue: energy,
-            onChanged: onChanged,
-          ),
-        ),
-        const SeparatorAtom(variant: SeparatorVariant.farAppart),
-        const TextAtom('Custom:'),
+        energyWidget(EnergyType.medium),
+        const SeparatorAtom(variant: SeparatorVariant.farApart),
+        const TextAtom('custom'),
         const SeparatorAtom(),
         Column(
           children: [
-            ListTileAtom(
-              '${EnergyType.max.previewName} - ${EnergyType.max.duration.inMinutes}m',
-              Radio<EnergyType>(
-                value: EnergyType.max,
-                groupValue: energy,
-                onChanged: onChanged,
-              ),
-            ),
-            ListTileAtom(
-              '${EnergyType.veryHigh.previewName} - ${EnergyType.veryHigh.duration.inMinutes}m',
-              Radio<EnergyType>(
-                value: EnergyType.veryHigh,
-                groupValue: energy,
-                onChanged: onChanged,
-              ),
-            ),
-            ListTileAtom(
-              '${EnergyType.high.previewName} - ${EnergyType.high.duration.inMinutes}m',
-              Radio<EnergyType>(
-                value: EnergyType.high,
-                groupValue: energy,
-                onChanged: onChanged,
-              ),
-            ),
-            ListTileAtom(
-              '${EnergyType.low.previewName} - ${EnergyType.low.duration.inMinutes}m',
-              Radio<EnergyType>(
-                value: EnergyType.low,
-                groupValue: energy,
-                onChanged: onChanged,
-              ),
-            ),
-            ListTileAtom(
-              '${EnergyType.veryLow.previewName} - ${EnergyType.veryLow.duration.inMinutes}m',
-              Radio<EnergyType>(
-                value: EnergyType.veryLow,
-                groupValue: energy,
-                onChanged: onChanged,
-              ),
-            ),
+            energyWidget(EnergyType.max),
+            energyWidget(EnergyType.veryHigh),
+            energyWidget(EnergyType.high),
+            energyWidget(EnergyType.low),
+            energyWidget(EnergyType.veryLow),
           ],
         ),
       ],
