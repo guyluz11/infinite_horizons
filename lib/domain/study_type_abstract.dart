@@ -32,6 +32,7 @@ enum StudyType {
   ;
 
   const StudyType(this.previewName);
+
   final String previewName;
 }
 
@@ -54,7 +55,11 @@ enum EnergyType {
   max('max', Duration(minutes: 90)),
   ;
 
-  const EnergyType(this.previewName, this.duration);
+  const EnergyType(
+    this.previewName,
+    this.duration,
+  );
+
   final Duration duration;
   final String previewName;
 }

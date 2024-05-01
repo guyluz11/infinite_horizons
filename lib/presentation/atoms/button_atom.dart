@@ -17,7 +17,9 @@ class ButtonAtom extends StatelessWidget {
   final VoidCallback onPressed;
   final String? text;
   final IconData? icon;
+
   double get width => 150;
+
   double get _height => 60;
   final bool disabled;
   final bool translate;
@@ -101,6 +103,20 @@ class ButtonAtom extends StatelessWidget {
         ),
       );
     } else if (variant == ButtonVariant.tertiary) {
+      if (icon == null) {
+        return buttonConstraints(
+          child: FilledButton(
+            onPressed: onPressed,
+            style: FilledButton.styleFrom().copyWith(
+              alignment: Alignment.center,
+              backgroundColor: disabled
+                  ? MaterialStateProperty.all(colorScheme.outline)
+                  : MaterialStateProperty.all(colorScheme.tertiaryContainer),
+            ),
+            child: label(textTheme),
+          ),
+        );
+      }
       return buttonConstraints(
         child: FilledButton.icon(
           onPressed: onPressed,

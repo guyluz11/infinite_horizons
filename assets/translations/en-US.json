@@ -26,5 +26,8 @@
   "start": "Start",
   "analytically": "Analytically",
   "creatively": "Creatively",
-  "undefined": "Undefined"
+  "undefined": "Undefined",
+  "studies_link": "Full List",
+  "all_tips": "All Tips",
+  "resource_is_empty": "Resource is empty"
 }

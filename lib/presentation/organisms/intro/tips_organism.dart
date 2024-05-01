@@ -1,8 +1,8 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
+import 'package:infinite_horizons/presentation/pages/all_tips.dart';
 
 class TipsOrganism extends StatelessWidget {
   void onCheckBox(int id, bool value) =>
@@ -25,13 +25,18 @@ class TipsOrganism extends StatelessWidget {
           },
           itemCount: StudyTypeAbstract.instance!.getTips().length,
         ),
-        // TODO: Add full list page
-        // const Row(
-        //   mainAxisAlignment: MainAxisAlignment.end,
-        //   children: [
-        //     TextAtom('Full list'),
-        //   ],
-        // ),
+        Row(
+          mainAxisAlignment: MainAxisAlignment.end,
+          children: [
+            ButtonAtom(
+              variant: ButtonVariant.tertiary,
+              onPressed: () => Navigator.of(context).push(
+                MaterialPageRoute(builder: (context) => AllTips()),
+              ),
+              text: 'studies_link',
+            ),
+          ],
+        ),
       ],
     );
   }

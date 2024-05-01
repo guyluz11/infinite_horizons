@@ -1,10 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
-import 'package:wakelock/wakelock.dart';
+import 'package:wakelock_plus/wakelock_plus.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -19,16 +17,13 @@ class _HomePageState extends State<HomePage> {
   @override
   void initState() {
     super.initState();
-    if (!Platform.isLinux) {
-      Wakelock.enable();
-    }
+    WakelockPlus.enable();
   }
 
   @override
   void dispose() {
-    if (!Platform.isLinux) {
-      Wakelock.disable();
-    }
+    WakelockPlus.disable();
+
     super.dispose();
   }
 
