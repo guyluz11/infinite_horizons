@@ -8,7 +8,7 @@ class StudyTypeCreatively extends StudyTypeAbstract {
   List<Tip> getTips() {
     if (tips.isEmpty) {
       tips = <Tip>[
-            tipsList[3],
+            tipsList[4],
           ] +
           super.getTips();
     }

@@ -23,7 +23,11 @@ class TipInformation extends StatelessWidget {
           Expanded(
             child: ListView.separated(
               itemBuilder: (context, r) {
-                final Uri link = tip.resourceLinks[r];
+                final Uri? link = tip.resourceLinks[r].link;
+
+                if (link == null) {
+                  return const SizedBox();
+                }
 
                 return ButtonAtom(
                   variant: ButtonVariant.tertiary,

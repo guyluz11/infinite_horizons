@@ -20,6 +20,7 @@ abstract class StudyTypeAbstract {
   List<Tip> getTips() => [
         tipsList[0],
         tipsList[1],
+        tipsList[2],
       ];
 
   Tip getTipById(int id) => tips.firstWhere((element) => element.id == id);
