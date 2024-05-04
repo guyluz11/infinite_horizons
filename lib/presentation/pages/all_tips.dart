@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
-import 'package:infinite_horizons/presentation/organisms/organisms.dart';
+import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/pages/tip_information.dart';
 
 class AllTips extends StatelessWidget {

@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
-import 'package:infinite_horizons/presentation/organisms/organisms.dart';
+import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 class HomePage extends StatefulWidget {
