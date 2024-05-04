@@ -33,7 +33,7 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
   Widget energyWidget(EnergyType type) {
     return ListTileAtom(
       '${type.previewName.tr()} - ${type.duration.inMinutes}${'minutes_single'.tr()}',
-      Radio<EnergyType>(
+      leading: Radio<EnergyType>(
         value: type,
         groupValue: energy,
         onChanged: onChanged,
