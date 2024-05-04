@@ -5,6 +5,40 @@ import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 import 'package:infinite_horizons/presentation/pages/tip_information.dart';
 
 class AllTips extends StatelessWidget {
+  Widget tipList(TipType type) {
+    final List<Tip> tips =
+        tipsList.where((element) => element.type == type).toList();
+
+    return Column(
+      children: [
+        TextAtom(
+          type.name,
+          variant: TextVariant.smallTitle,
+        ),
+        const SeparatorAtom(),
+        ListView.separated(
+          physics: const NeverScrollableScrollPhysics(),
+          shrinkWrap: true,
+          itemBuilder: (context, n) {
+            final Tip tip = tips[n];
+
+            return ListTileAtom(
+              tip.text,
+              trailing: const Icon(Icons.arrow_forward),
+              onTap: () => Navigator.of(context).push(
+                MaterialPageRoute(
+                  builder: (context) => TipInformation(tip),
+                ),
+              ),
+            );
+          },
+          separatorBuilder: (context, i) => const SeparatorAtom(),
+          itemCount: tips.length,
+        ),
+      ],
+    );
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -15,25 +49,18 @@ class AllTips extends StatelessWidget {
             leftIcon: Icons.arrow_back,
             leftIconFunction: (c) => Navigator.of(c).pop(),
           ),
-          ListView.separated(
-            shrinkWrap: true,
-            itemBuilder: (context, n) {
-              final Tip tip = tipsList[n];
-
-              return UnconstrainedBox(
-                child: ButtonAtom(
-                  variant: ButtonVariant.tertiary,
-                  onPressed: () => Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => TipInformation(tip),
-                    ),
-                  ),
-                  text: tip.text,
-                ),
-              );
-            },
-            separatorBuilder: (context, i) => const SeparatorAtom(),
-            itemCount: tipsList.length,
+          Expanded(
+            child: SingleChildScrollView(
+              child: Column(
+                children: [
+                  tipList(TipType.general),
+                  const SeparatorAtom(variant: SeparatorVariant.farApart),
+                  tipList(TipType.analytical),
+                  const SeparatorAtom(variant: SeparatorVariant.farApart),
+                  tipList(TipType.creative),
+                ],
+              ),
+            ),
           ),
         ],
       ),

@@ -5,13 +5,8 @@ class StudyTypeCreatively extends StudyTypeAbstract {
   StudyTypeCreatively() : super(StudyType.creatively);
 
   @override
-  List<Tip> getTips() {
-    if (tips.isEmpty) {
-      tips = <Tip>[
-            tipsList[4],
-          ] +
-          super.getTips();
-    }
-    return tips;
-  }
+  List<Tip> getTips() => tipsList
+      .where((element) =>
+          element.type == TipType.general || element.type == TipType.creative)
+      .toList();
 }

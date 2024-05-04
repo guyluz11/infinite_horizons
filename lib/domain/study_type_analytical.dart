@@ -5,13 +5,8 @@ class StudyTypeAnalytical extends StudyTypeAbstract {
   StudyTypeAnalytical() : super(StudyType.analytically);
 
   @override
-  List<Tip> getTips() {
-    if (tips.isEmpty) {
-      tips = <Tip>[
-            tipsList[3],
-          ] +
-          super.getTips();
-    }
-    return tips;
-  }
+  List<Tip> getTips() => tipsList
+      .where((element) =>
+          element.type == TipType.general || element.type == TipType.analytical)
+      .toList();
 }

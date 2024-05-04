@@ -6,16 +6,34 @@ class Resource {
   String resourceExplanation;
 }
 
+enum TipType {
+  general('General'),
+  analytical('Analytical'),
+  creative('Creative'),
+  ;
+
+  const TipType(this.name);
+  final String name;
+}
+
+enum TipTiming { before, inSession, inBreak, after }
+
 class Tip {
   Tip(
-    this.id,
     this.text, {
+    required this.type,
+    required this.timing,
     this.selected = false,
     this.resourceLinks = const [],
-  });
+  }) {
+    id = ++totalTipNumber;
+  }
 
-  int id;
+  static int totalTipNumber = 0;
+  late int id;
   String text;
+  TipType type;
+  TipTiming timing;
   bool selected;
   final List<Resource> resourceLinks;
 }
@@ -23,8 +41,9 @@ class Tip {
 List<Tip> tipsList = [
   /// General tips
   Tip(
-    0,
     'Siting straight up',
+    type: TipType.general,
+    timing: TipTiming.inSession,
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
@@ -34,8 +53,9 @@ List<Tip> tipsList = [
     ],
   ),
   Tip(
-    1,
     'Screen/book is being hold in eye level',
+    type: TipType.general,
+    timing: TipTiming.inSession,
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
@@ -45,8 +65,9 @@ List<Tip> tipsList = [
     ],
   ),
   Tip(
-    4,
     'Alternate back and forth siting and standing while working about 50/50 of your total sessions for the day',
+    type: TipType.general,
+    timing: TipTiming.inSession,
     resourceLinks: [
       Resource(
         'Scientific paper: "Effects of a Workplace Sit–Stand Desk Intervention on Health and Productivity"',
@@ -63,8 +84,9 @@ List<Tip> tipsList = [
 
   /// Analytical tips
   Tip(
-    2,
     'Room with low ceiling or wearing a hat/hoodie',
+    type: TipType.analytical,
+    timing: TipTiming.inSession,
     resourceLinks: [
       Resource(
         'Scientific paper: "The Influence of Ceiling Height: The Effect of Priming on the Type of Processing That People Use"',
@@ -81,8 +103,9 @@ List<Tip> tipsList = [
 
   // Creatively tips
   Tip(
-    3,
     'Environment with high ceiling or outside',
+    type: TipType.creative,
+    timing: TipTiming.inSession,
     resourceLinks: [
       Resource(
         'Scientific paper: "The Influence of Ceiling Height: The Effect of Priming on the Type of Processing That People Use"',

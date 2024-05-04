@@ -42,7 +42,7 @@ class _StudyTypeSelectionMoleculeState
       children: [
         ListTileAtom(
           StudyType.analytically.previewName,
-          Radio<StudyType>(
+          leading: Radio<StudyType>(
             value: StudyType.analytically,
             groupValue: selectedType,
             onChanged: onChanged,
@@ -51,7 +51,7 @@ class _StudyTypeSelectionMoleculeState
         ),
         ListTileAtom(
           StudyType.creatively.previewName,
-          Radio<StudyType>(
+          leading: Radio<StudyType>(
             value: StudyType.creatively,
             groupValue: selectedType,
             onChanged: onChanged,
