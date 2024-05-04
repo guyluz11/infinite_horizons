@@ -1,9 +1,9 @@
 class Resource {
   Resource(this.title, this.resourceExplanation, {this.link});
 
-  Uri? link;
   String title;
   String resourceExplanation;
+  Uri? link;
 }
 
 enum TipType {
@@ -16,7 +16,16 @@ enum TipType {
   final String name;
 }
 
-enum TipTiming { before, inSession, inBreak, after }
+enum TipTiming {
+  before('before'),
+  inSession('in_session'),
+  inBreak('in_break'),
+  after('after'),
+  ;
+
+  const TipTiming(this.name);
+  final String name;
+}
 
 class Tip {
   Tip(
