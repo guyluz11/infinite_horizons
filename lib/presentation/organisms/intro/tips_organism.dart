@@ -5,17 +5,29 @@ import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/pages/all_tips.dart';
 
 class TipsOrganism extends StatelessWidget {
+  const TipsOrganism(this.onNext);
+
+  final VoidCallback onNext;
+
   void onCheckBox(int id, bool value) =>
       StudyTypeAbstract.instance!.setTipValue(id, value);
 
   @override
   Widget build(BuildContext context) {
+    final List<Tip> beforeStudyTips = StudyTypeAbstract.instance!
+        .getTips()
+        .where((element) =>
+            element.timing == TipTiming.before &&
+                element.type == TipType.general ||
+            element.type == StudyTypeAbstract.instance!.studyType)
+        .toList();
+
     return Column(
       children: [
         ListView.builder(
           shrinkWrap: true,
           itemBuilder: (BuildContext context, int index) {
-            final Tip tip = StudyTypeAbstract.instance!.getTips()[index];
+            final Tip tip = beforeStudyTips[index];
 
             return CheckBoxAtom(
               tip.text,
@@ -23,10 +35,10 @@ class TipsOrganism extends StatelessWidget {
               initialValue: tip.selected,
             );
           },
-          itemCount: StudyTypeAbstract.instance!.getTips().length,
+          itemCount: beforeStudyTips.length,
         ),
+        const SeparatorAtom(),
         Row(
-          mainAxisAlignment: MainAxisAlignment.end,
           children: [
             ButtonAtom(
               variant: ButtonVariant.tertiary,
@@ -34,6 +46,14 @@ class TipsOrganism extends StatelessWidget {
                 MaterialPageRoute(builder: (context) => AllTips()),
               ),
               text: 'studies_link',
+            ),
+            const Expanded(
+              child: SizedBox(),
+            ),
+            ButtonAtom(
+              variant: ButtonVariant.primary,
+              onPressed: onNext,
+              text: 'next',
             ),
           ],
         ),

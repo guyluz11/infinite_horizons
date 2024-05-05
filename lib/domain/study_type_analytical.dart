@@ -2,7 +2,7 @@ import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/tip.dart';
 
 class StudyTypeAnalytical extends StudyTypeAbstract {
-  StudyTypeAnalytical() : super(StudyType.analytically);
+  StudyTypeAnalytical() : super(TipType.analytical);
 
   @override
   List<Tip> getTips() => tipsList

@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/study_type_abstract.dart';
-import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
+import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
 
 class HomePage extends StatefulWidget {
@@ -11,8 +10,6 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   HomeState state = HomeState.getReadyForStudy;
-  final Duration getReadyDuration = const Duration(seconds: 10);
-  final int breakTimeRatio = 5;
 
   @override
   void initState() {
@@ -23,7 +20,6 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     WakelockPlus.disable();
-
     super.dispose();
   }
 
@@ -48,51 +44,21 @@ class _HomePageState extends State<HomePage> {
   Widget stateWidget() {
     switch (state) {
       case HomeState.study:
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const TextAtom(
-              'study_timer',
-              variant: TextVariant.smallTitle,
-            ),
-            TimerMolecule(
-              onTimerComplete,
-              StudyTypeAbstract.instance!.energy.duration,
-            ),
-          ],
-        );
+        return TimerOrganism(TimerVariant.study, onComplete: onTimerComplete);
       case HomeState.getReadyForBreak:
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const TextAtom('ready_for_break'),
-            ProgressIndicatorAtom(getReadyDuration, onTimerComplete),
-          ],
+        return ProgressIndicatorMolecule(
+          ProgressIndicatorVariant.beforeBreak,
+          onComplete: onTimerComplete,
         );
       case HomeState.breakTime:
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const TextAtom('take_break'),
-            TimerMolecule(
-              onTimerComplete,
-              Duration(
-                milliseconds: StudyTypeAbstract
-                        .instance!.energy.duration.inMilliseconds ~/
-                    breakTimeRatio,
-              ),
-            ),
-          ],
+        return TimerOrganism(
+          TimerVariant.breakTime,
+          onComplete: onTimerComplete,
         );
       case HomeState.getReadyForStudy:
-        return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: [
-            const TextAtom('ready_study'),
-            const SeparatorAtom(variant: SeparatorVariant.farApart),
-            const TextAtom('start_with'),
-            ProgressIndicatorAtom(getReadyDuration, onTimerComplete),
-          ],
+        return ProgressIndicatorMolecule(
+          ProgressIndicatorVariant.beforeStudy,
+          onComplete: onTimerComplete,
         );
     }
   }
@@ -104,10 +70,7 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const TextAtom(
-              'study_efficiency',
-              variant: TextVariant.title,
-            ),
+            const TopBarMolecule(pageName: 'study_efficiency'),
             Expanded(
               child: stateWidget(),
             ),

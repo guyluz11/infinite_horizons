@@ -1,5 +1,5 @@
 {
-  "start_with": "Tip: start with thinking about your last session",
+  "start_by": "start by thinking about your last session",
   "study_efficiently": "Let’s Study Efficiently",
   "study_type": "Study Type",
   "efficient_tips": "Efficient {} Tips",
@@ -24,8 +24,8 @@
   "continue": "Continue",
   "pause": "Pause",
   "start": "Start",
-  "analytically": "Analytically",
-  "creatively": "Creatively",
+  "analytical": "Analytical",
+  "creative": "Creative",
   "undefined": "Undefined",
   "studies_link": "Full List",
   "all_tips": "All Tips",
@@ -36,5 +36,6 @@
   "after": "After",
   "type:": "Type:",
   "timing:": "Timing:",
-  "tip:": "Tip:"
+  "tip:": "Tip:",
+  "next": "Next"
 }

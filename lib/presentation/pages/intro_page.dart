@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
+import 'package:infinite_horizons/domain/tip.dart';
 import 'package:infinite_horizons/presentation/core/theme_data.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
@@ -43,14 +44,14 @@ class _IntroPageState extends State<IntroPage> {
               title: 'study_type'.tr(),
               bodyWidget: StudyTypeSelectionMolecule(() {
                 setState(() {
-                  studyType = StudyTypeAbstract.instance!.studyType.previewName;
+                  studyType = StudyTypeAbstract.instance!.studyType.name;
                 });
                 nextPage();
               }),
             ),
             PageViewModel(
               title: 'efficient_tips'.tr(args: [studyType.tr()]),
-              bodyWidget: TipsOrganism(),
+              bodyWidget: TipsOrganism(nextPage),
             ),
             PageViewModel(
               title: 'energy'.tr(),
@@ -73,7 +74,7 @@ class _IntroPageState extends State<IntroPage> {
             if (state == IntroState.studyType &&
                 (StudyTypeAbstract.instance?.studyType == null ||
                     StudyTypeAbstract.instance!.studyType ==
-                        StudyType.undefined)) {
+                        TipType.undefined)) {
               showNextButtonTemp = false;
             } else if (state == IntroState.energy &&
                 StudyTypeAbstract.instance!.energy == EnergyType.undefined) {

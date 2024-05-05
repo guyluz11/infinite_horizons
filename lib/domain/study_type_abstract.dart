@@ -6,7 +6,7 @@ abstract class StudyTypeAbstract {
 
   static StudyTypeAbstract? instance;
 
-  StudyType studyType;
+  TipType studyType;
 
   EnergyType energy = EnergyType.undefined;
 
@@ -21,26 +21,6 @@ abstract class StudyTypeAbstract {
       tipsList.where((element) => element.type == TipType.general).toList();
 
   Tip getTipById(int id) => tips.firstWhere((element) => element.id == id);
-}
-
-enum StudyType {
-  undefined('undefined'),
-  analytically('analytically'),
-  creatively('creatively'),
-  ;
-
-  const StudyType(this.previewName);
-
-  final String previewName;
-}
-
-extension StudyTypeExtension on StudyType {
-  static StudyType fromString(String typeAsString) {
-    return StudyType.values.firstWhere(
-      (element) => element.toString().split('.').last == typeAsString,
-      orElse: () => StudyType.undefined,
-    );
-  }
 }
 
 enum EnergyType {
