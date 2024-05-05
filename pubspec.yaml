@@ -8,7 +8,9 @@ environment:
 
 dependencies:
   # Make an animated circular countdown 
-  circular_countdown_timer: ^0.2.3
+  circular_countdown_timer:
+    git:
+      url: https://github.com/vijaykarthiktk/circular_countdown_timer.git
   # Cupertino Icons font to your application.
   cupertino_icons: ^1.0.6
   # Internationalization (Easy translations)
