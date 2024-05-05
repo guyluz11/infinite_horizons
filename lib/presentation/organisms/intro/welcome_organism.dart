@@ -10,7 +10,7 @@ class WelcomeOrganism extends StatelessWidget {
           "Sometimes we study new material but can't remember as much as we would like to.\nSometimes we work but our focus isn't as strong as we know it could be.\nUsing this app your study and work session efficiency can increase dramatically by following methods that got approved by science.",
         ),
         const SeparatorAtom(),
-        Image.asset('assets/cbj_happy.png'),
+        Image.asset('assets/logo.png'),
       ],
     );
   }
