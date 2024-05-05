@@ -36,6 +36,7 @@ class TimerAtom extends StatelessWidget {
       isReverseAnimation: true,
       isReverse: true,
       onComplete: onComplete,
+      isControlButtonShown: true,
 
     );
   }
