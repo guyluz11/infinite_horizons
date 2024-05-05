@@ -17,10 +17,8 @@ abstract class StudyTypeAbstract {
     tips.firstWhere((element) => element.id == id).selected = value;
   }
 
-  List<Tip> getTips() => [
-        tipsList[0],
-        tipsList[1],
-      ];
+  List<Tip> getTips() =>
+      tipsList.where((element) => element.type == TipType.general).toList();
 
   Tip getTipById(int id) => tips.firstWhere((element) => element.id == id);
 }

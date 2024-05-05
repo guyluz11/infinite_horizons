@@ -29,5 +29,12 @@
   "undefined": "Undefined",
   "studies_link": "Full List",
   "all_tips": "All Tips",
-  "resource_is_empty": "Resource is empty"
+  "resource_is_empty": "Resource is empty",
+  "before": "Before",
+  "in_session": "In Session",
+  "in_break": "In Break",
+  "after": "After",
+  "type:": "Type:",
+  "timing:": "Timing:",
+  "tip:": "Tip:"
 }
