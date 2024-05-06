@@ -67,21 +67,3 @@ class AllTips extends StatelessWidget {
     );
   }
 }
-
-// ListView.separated(
-//   shrinkWrap: true,
-//   physics: const NeverScrollableScrollPhysics(),
-//   scrollDirection: Axis.horizontal,
-//   itemBuilder: (context, r) {
-//     final Uri resource = tip.resourceLinks[r];
-//
-//     return ButtonAtom(
-//       variant: ButtonVariant.tertiary,
-//       onPressed: () => launchUrl(resource),
-//       // TODO: Add to translation
-//       text: 'Link $r',
-//     );
-//   },
-//   separatorBuilder: (context, r) => const SeparatorAtom(),
-//   itemCount: tip.resourceLinks.length,
-// ),
