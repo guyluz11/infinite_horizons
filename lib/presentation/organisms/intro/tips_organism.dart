@@ -7,9 +7,8 @@ import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/pages/all_tips_page.dart';
 
 class TipsOrganism extends StatelessWidget {
-  const TipsOrganism(this.onNext, this.studyType);
+  const TipsOrganism(this.studyType);
 
-  final VoidCallback onNext;
   final String studyType;
 
   void onCheckBox(int id, bool value) =>
@@ -29,6 +28,7 @@ class TipsOrganism extends StatelessWidget {
 
     return MarginedExpandedAtom(
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           TopBarMolecule(
             title: 'efficient_tips'.tr(args: [studyType.tr()]),
@@ -51,24 +51,12 @@ class TipsOrganism extends StatelessWidget {
             itemCount: beforeStudyTips.length,
           ),
           const SeparatorAtom(variant: SeparatorVariant.farApart),
-          Row(
-            children: [
-              ButtonAtom(
-                variant: ButtonVariant.tertiary,
-                onPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(builder: (context) => AllTipsPage()),
-                ),
-                text: 'studies_link',
-              ),
-              const Expanded(
-                child: SizedBox(),
-              ),
-              ButtonAtom(
-                variant: ButtonVariant.primary,
-                onPressed: onNext,
-                text: 'next',
-              ),
-            ],
+          ButtonAtom(
+            variant: ButtonVariant.tertiary,
+            onPressed: () => Navigator.of(context).push(
+              MaterialPageRoute(builder: (context) => AllTipsPage()),
+            ),
+            text: 'studies_link',
           ),
         ],
       ),

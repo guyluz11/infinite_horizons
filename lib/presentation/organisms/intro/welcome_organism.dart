@@ -28,6 +28,7 @@ class WelcomeOrganism extends StatelessWidget {
                 child: Image.asset('assets/logo.png'),
               ),
             ),
+            const SeparatorAtom(),
           ],
         ),
       ),

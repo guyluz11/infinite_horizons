@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/tip.dart';
+import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 import 'package:infinite_horizons/presentation/pages/home_page.dart';
@@ -30,7 +31,6 @@ class _IntroPageState extends State<IntroPage> {
         pageMargin: EdgeInsets.zero,
         footerPadding: EdgeInsets.zero,
         titlePadding: EdgeInsets.zero,
-        contentMargin: EdgeInsets.zero,
       );
 
   @override
@@ -38,6 +38,13 @@ class _IntroPageState extends State<IntroPage> {
     return Scaffold(
       body: IntroductionScreen(
         key: _introKey,
+        overrideNext: Center(
+          child: ButtonAtom(
+            variant: ButtonVariant.primary,
+            onPressed: nextPage,
+            text: 'next',
+          ),
+        ),
         pages: [
           PageViewModel(
             useScrollView: false,
@@ -58,7 +65,7 @@ class _IntroPageState extends State<IntroPage> {
           PageViewModel(
             titleWidget: const SizedBox(),
             decoration: emptyPageDecoration(),
-            bodyWidget: TipsOrganism(nextPage, studyType),
+            bodyWidget: TipsOrganism(studyType),
           ),
           PageViewModel(
             titleWidget: const SizedBox(),

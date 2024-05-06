@@ -71,26 +71,34 @@ class ProgressIndicatorMolecule extends StatelessWidget {
             .toList();
 
         return Column(
-          mainAxisAlignment: MainAxisAlignment.center,
           children: [
-            const TextAtom('ready_for_break'),
-            ProgressIndicatorAtom(getReadyDuration, onComplete),
-            const SeparatorAtom(variant: SeparatorVariant.farApart),
-            const TextAtom('Here are some tips'),
-            ListView.separated(
-              physics: const NeverScrollableScrollPhysics(),
-              shrinkWrap: true,
-              itemBuilder: (context, item) {
-                final Tip tip = tips[item];
-
-                return TextAtom(tip.text);
-              },
-              itemCount: tips.length,
-              separatorBuilder: (BuildContext context, int index) =>
-                  const SeparatorAtom(),
+            const TextAtom(
+              'ready_for_break',
+              variant: TextVariant.smallTitle,
             ),
-            const SeparatorAtom(variant: SeparatorVariant.farApart),
-            ProgressIndicatorAtom(getReadyDuration, onComplete),
+            Expanded(
+              child: Column(
+                mainAxisAlignment: MainAxisAlignment.center,
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const TextAtom('Some tips:'),
+                  ListView.separated(
+                    physics: const NeverScrollableScrollPhysics(),
+                    shrinkWrap: true,
+                    itemBuilder: (context, item) {
+                      final Tip tip = tips[item];
+
+                      return TextAtom(tip.text);
+                    },
+                    itemCount: tips.length,
+                    separatorBuilder: (BuildContext context, int index) =>
+                        const SeparatorAtom(),
+                  ),
+                  const SeparatorAtom(variant: SeparatorVariant.farApart),
+                  ProgressIndicatorAtom(getReadyDuration, onComplete),
+                ],
+              ),
+            ),
           ],
         );
     }
