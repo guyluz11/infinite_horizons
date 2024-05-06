@@ -1,7 +1,7 @@
 name: infinite_horizons
-description: "A new Flutter project."
+description: "Using this app your study and work session efficiency can increase dramatically by following methods that got approved by science."
 publish_to: 'none'
-version: 1.0.3+4
+version: 1.0.4+5
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
