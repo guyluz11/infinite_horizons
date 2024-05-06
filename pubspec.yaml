@@ -10,6 +10,7 @@ dependencies:
   # Make an animated circular countdown 
   circular_countdown_timer: ^0.2.3
   # Cupertino Icons font to your application.
+  collection: ^1.18.0
   cupertino_icons: ^1.0.8
   # Internationalization (Easy translations)
   easy_localization: ^3.0.6

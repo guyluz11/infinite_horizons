@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:infinite_horizons/domain/tip.dart';
 
@@ -14,7 +15,14 @@ abstract class StudyTypeAbstract {
   List<Tip> tips = [];
 
   void setTipValue(int id, bool value) {
-    tips.firstWhere((element) => element.id == id).selected = value;
+    final Tip? tip = tips.firstWhereOrNull((element) => element.id == id);
+    if (tip == null) {
+      tips.add(
+        tipsList.firstWhere((element) => element.id == id)..selected = value,
+      );
+      return;
+    }
+    tip.selected = value;
   }
 
   List<Tip> getTips() =>
