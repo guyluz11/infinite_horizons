@@ -23,8 +23,8 @@ class ProgressIndicatorMolecule extends StatelessWidget {
             .where(
               (element) =>
                   element.timing == TipTiming.inSession &&
-                      element.type == StudyTypeAbstract.instance!.studyType ||
-                  element.type == TipType.general,
+                  (element.type == StudyTypeAbstract.instance!.studyType ||
+                      element.type == TipType.general),
             )
             .toList();
 
@@ -65,8 +65,8 @@ class ProgressIndicatorMolecule extends StatelessWidget {
             .where(
               (element) =>
                   element.timing == TipTiming.inBreak &&
-                      element.type == StudyTypeAbstract.instance!.studyType ||
-                  element.type == TipType.general,
+                  (element.type == StudyTypeAbstract.instance!.studyType ||
+                      element.type == TipType.general),
             )
             .toList();
 

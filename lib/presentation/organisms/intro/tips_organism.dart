@@ -21,8 +21,8 @@ class TipsOrganism extends StatelessWidget {
         .where(
           (element) =>
               element.timing == TipTiming.before &&
-                  element.type == TipType.general ||
-              element.type == StudyTypeAbstract.instance!.studyType,
+              (element.type == TipType.general ||
+                  element.type == StudyTypeAbstract.instance!.studyType),
         )
         .toList();
 

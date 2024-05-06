@@ -37,6 +37,7 @@ class _IntroPageState extends State<IntroPage> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: IntroductionScreen(
+        isProgressTap: false,
         key: _introKey,
         overrideNext: Center(
           child: ButtonAtom(
