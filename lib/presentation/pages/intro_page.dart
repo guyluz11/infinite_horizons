@@ -42,8 +42,9 @@ class _IntroPageState extends State<IntroPage> {
         overrideNext: Center(
           child: ButtonAtom(
             variant: ButtonVariant.primary,
-            onPressed: nextPage,
+            onPressed: showNextButton ? nextPage : () {},
             text: 'next',
+            disabled: !showNextButton,
           ),
         ),
         pages: [
@@ -83,7 +84,6 @@ class _IntroPageState extends State<IntroPage> {
         showBackButton: true,
         back: const Icon(Icons.arrow_back),
         next: const Icon(Icons.arrow_forward),
-        showNextButton: showNextButton,
         scrollPhysics: const NeverScrollableScrollPhysics(),
         onChange: (int n) {
           state = IntroState.getStateByPageNumber(n);
