@@ -4,6 +4,7 @@ import 'package:infinite_horizons/domain/study_type_analytical.dart';
 import 'package:infinite_horizons/domain/study_type_creatively.dart';
 import 'package:infinite_horizons/domain/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
+import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 
 class StudyTypeSelectionMolecule extends StatefulWidget {
   const StudyTypeSelectionMolecule(this.onSelected);
@@ -39,27 +40,35 @@ class _StudyTypeSelectionMoleculeState
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTileAtom(
-          TipType.analytical.name,
-          leading: Radio<TipType>(
-            value: TipType.analytical,
-            groupValue: selectedType,
-            onChanged: onChanged,
+    return MarginedExpandedAtom(
+      child: Column(
+        children: [
+          const TopBarMolecule(
+            title: 'study_type',
+            topBarType: TopBarType.none,
+            margin: false,
           ),
-          subtitle: 'recommended_morning',
-        ),
-        ListTileAtom(
-          TipType.creative.name,
-          leading: Radio<TipType>(
-            value: TipType.creative,
-            groupValue: selectedType,
-            onChanged: onChanged,
+          const SeparatorAtom(variant: SeparatorVariant.farApart),
+          ListTileAtom(
+            TipType.analytical.name,
+            leading: Radio<TipType>(
+              value: TipType.analytical,
+              groupValue: selectedType,
+              onChanged: onChanged,
+            ),
+            subtitle: 'recommended_morning',
           ),
-          subtitle: 'recommended_evening',
-        ),
-      ],
+          ListTileAtom(
+            TipType.creative.name,
+            leading: Radio<TipType>(
+              value: TipType.creative,
+              groupValue: selectedType,
+              onChanged: onChanged,
+            ),
+            subtitle: 'recommended_evening',
+          ),
+        ],
+      ),
     );
   }
 }

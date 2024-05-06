@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 import 'package:wakelock_plus/wakelock_plus.dart';
@@ -66,11 +67,15 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: SafeArea(
+      body: MarginedExpandedAtom(
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const TopBarMolecule(pageName: 'study_efficiency'),
+            const TopBarMolecule(
+              title: 'study_efficiency',
+              topBarType: TopBarType.none,
+            ),
+            const SeparatorAtom(variant: SeparatorVariant.farApart),
             Expanded(
               child: stateWidget(),
             ),
