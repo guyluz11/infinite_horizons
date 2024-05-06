@@ -36,6 +36,7 @@ class _CheckBoxAtomState extends State<CheckBoxAtom> {
   @override
   Widget build(BuildContext context) {
     return CheckboxListTile(
+      contentPadding: EdgeInsets.zero,
       title: TextAtom(widget.text),
       controlAffinity: ListTileControlAffinity.leading,
       value: isChecked,

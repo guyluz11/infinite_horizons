@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/study_type_analytical.dart';
 import 'package:infinite_horizons/domain/study_type_creatively.dart';
+import 'package:infinite_horizons/domain/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
+import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 
 class StudyTypeSelectionMolecule extends StatefulWidget {
   const StudyTypeSelectionMolecule(this.onSelected);
@@ -16,19 +18,19 @@ class StudyTypeSelectionMolecule extends StatefulWidget {
 
 class _StudyTypeSelectionMoleculeState
     extends State<StudyTypeSelectionMolecule> {
-  late StudyType selectedType;
+  late TipType selectedType;
 
   @override
   void initState() {
     super.initState();
-    selectedType = StudyTypeAbstract.instance?.studyType ?? StudyType.undefined;
+    selectedType = StudyTypeAbstract.instance?.studyType ?? TipType.undefined;
   }
 
-  void onChanged(StudyType? type) {
+  void onChanged(TipType? type) {
     setState(() {
-      selectedType = type ?? StudyType.undefined;
+      selectedType = type ?? TipType.undefined;
     });
-    if (selectedType == StudyType.analytically) {
+    if (selectedType == TipType.analytical) {
       StudyTypeAbstract.instance = StudyTypeAnalytical();
     } else {
       StudyTypeAbstract.instance = StudyTypeCreatively();
@@ -38,27 +40,35 @@ class _StudyTypeSelectionMoleculeState
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        ListTileAtom(
-          StudyType.analytically.previewName,
-          leading: Radio<StudyType>(
-            value: StudyType.analytically,
-            groupValue: selectedType,
-            onChanged: onChanged,
+    return MarginedExpandedAtom(
+      child: Column(
+        children: [
+          const TopBarMolecule(
+            title: 'study_type',
+            topBarType: TopBarType.none,
+            margin: false,
           ),
-          subtitle: 'recommended_morning',
-        ),
-        ListTileAtom(
-          StudyType.creatively.previewName,
-          leading: Radio<StudyType>(
-            value: StudyType.creatively,
-            groupValue: selectedType,
-            onChanged: onChanged,
+          const SeparatorAtom(variant: SeparatorVariant.farApart),
+          ListTileAtom(
+            TipType.analytical.name,
+            leading: Radio<TipType>(
+              value: TipType.analytical,
+              groupValue: selectedType,
+              onChanged: onChanged,
+            ),
+            subtitle: 'recommended_morning',
           ),
-          subtitle: 'recommended_evening',
-        ),
-      ],
+          ListTileAtom(
+            TipType.creative.name,
+            leading: Radio<TipType>(
+              value: TipType.creative,
+              groupValue: selectedType,
+              onChanged: onChanged,
+            ),
+            subtitle: 'recommended_evening',
+          ),
+        ],
+      ),
     );
   }
 }

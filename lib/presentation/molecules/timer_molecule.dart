@@ -1,5 +1,6 @@
 import 'package:circular_countdown_timer/circular_countdown_timer.dart';
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class TimerMolecule extends StatelessWidget {
@@ -13,13 +14,14 @@ class TimerMolecule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
-        Center(
-          child: TimerAtom(
-            controller,
-            duration,
-            onComplete,
+        Expanded(
+          child: Center(
+            child: TimerAtom(
+              controller,
+              duration,
+              onComplete,
+            ),
           ),
         ),
         const SeparatorAtom(),

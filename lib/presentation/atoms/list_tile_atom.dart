@@ -23,6 +23,7 @@ class ListTileAtom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      contentPadding: EdgeInsets.zero,
       title: TextAtom(title, translate: translateTitle),
       subtitle: subtitle == null
           ? null
