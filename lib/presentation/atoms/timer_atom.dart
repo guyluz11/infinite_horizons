@@ -2,6 +2,7 @@ import 'dart:math';
 
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/presentation/atoms/text_atom.dart';
 
 class TimerAtom extends StatelessWidget {
   const TimerAtom(this.controller, this.timer, this.callback);
@@ -44,10 +45,10 @@ class TimerAtom extends StatelessWidget {
                         children: [
                           Positioned.fill(
                             child: CircularProgressIndicator(
-                              backgroundColor: Colors.grey[300],
+                              backgroundColor: colorScheme.primaryContainer,
                               color: value == CustomTimerState.counting
-                                  ? Colors.purpleAccent[100]!
-                                  : Colors.grey[500],
+                                  ? colorScheme.primary
+                                  : colorScheme.outline,
                               value: time.duration.inMilliseconds /
                                   timer.inMilliseconds,
                               strokeWidth: 22,
@@ -56,7 +57,7 @@ class TimerAtom extends StatelessWidget {
                           ),
                           Align(
                             alignment: FractionalOffset.center,
-                            child: Text(
+                            child: TextAtom(
                               "${time.minutes}:${time.seconds}",
                               style: TextStyle(
                                 fontSize: 33.0,
@@ -64,6 +65,7 @@ class TimerAtom extends StatelessWidget {
                                 fontWeight: FontWeight.bold,
                               ),
                               textAlign: TextAlign.left,
+                              translate: false,
                             ),
                           )
                         ],

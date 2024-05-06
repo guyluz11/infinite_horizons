@@ -23,8 +23,8 @@ class _TimerMoleculeState extends State<TimerMolecule>
 
   @override
   void initState() {
-    controller.start();
     super.initState();
+    controller.start();
     controller.addListener(() {
       if (controller.state.value == CustomTimerState.finished) {
         widget.onComplete();
