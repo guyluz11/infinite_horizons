@@ -19,10 +19,12 @@ class ProgressIndicatorMolecule extends StatelessWidget {
     switch (variant) {
       case ProgressIndicatorVariant.beforeStudy:
         final List<Tip> tips = tipsList
-            .where((element) =>
-                element.timing == TipTiming.inSession &&
-                    element.type == StudyTypeAbstract.instance!.studyType ||
-                element.type == TipType.general)
+            .where(
+              (element) =>
+                  element.timing == TipTiming.inSession &&
+                      element.type == StudyTypeAbstract.instance!.studyType ||
+                  element.type == TipType.general,
+            )
             .toList();
 
         return Column(

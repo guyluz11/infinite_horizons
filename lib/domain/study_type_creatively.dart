@@ -6,7 +6,9 @@ class StudyTypeCreatively extends StudyTypeAbstract {
 
   @override
   List<Tip> getTips() => tipsList
-      .where((element) =>
-          element.type == TipType.general || element.type == TipType.creative)
+      .where(
+        (element) =>
+            element.type == TipType.general || element.type == TipType.creative,
+      )
       .toList();
 }
