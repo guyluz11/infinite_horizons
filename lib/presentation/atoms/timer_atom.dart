@@ -71,7 +71,7 @@ class TimerAtom extends StatelessWidget {
                                 : null,
                             child: TextAtom(
                               "${time.minutes}:${time.seconds}",
-                              variant: TextVariant.time,
+                              variant: TextVariant.title,
                               textAlign: TextAlign.left,
                               translate: false,
                             ),
