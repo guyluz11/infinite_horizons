@@ -24,39 +24,51 @@ class TimerAtom extends StatelessWidget {
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 40.0),
       child: CustomTimer(
-          controller: controller,
-          builder: (state, time) {
-            return SizedBox(
-              width: min(MediaQuery.of(context).size.width / 2, MediaQuery.of(context).size.height / 2),
-              child: AspectRatio(
-                aspectRatio: 1.0,
-                child: ValueListenableBuilder(
-                  valueListenable: controller.state,
-                  builder: (context, value, child) {
-                    return GestureDetector(
-                      onTap: () {
-                        if (value == CustomTimerState.counting) {
-                          controller.pause();
-                        } else {
-                          controller.start();
-                        }
-                      },
-                      child: Stack(
-                        children: [
-                          Positioned.fill(
-                            child: CircularProgressIndicator(
-                              backgroundColor: colorScheme.primaryContainer,
-                              color: value == CustomTimerState.counting
-                                  ? colorScheme.primary
-                                  : colorScheme.outline,
-                              value: time.duration.inMilliseconds /
-                                  timer.inMilliseconds,
-                              strokeWidth: 22,
-                              strokeCap: StrokeCap.round,
-                            ),
+        controller: controller,
+        builder: (state, time) {
+          return SizedBox(
+            width: min(
+              MediaQuery.of(context).size.width / 2,
+              MediaQuery.of(context).size.height / 2,
+            ),
+            child: AspectRatio(
+              aspectRatio: 1.0,
+              child: ValueListenableBuilder(
+                valueListenable: controller.state,
+                builder: (context, value, child) {
+                  return GestureDetector(
+                    onTap: () {
+                      if (value == CustomTimerState.counting) {
+                        controller.pause();
+                      } else {
+                        controller.start();
+                      }
+                    },
+                    child: Stack(
+                      children: [
+                        Positioned.fill(
+                          child: CircularProgressIndicator(
+                            backgroundColor: colorScheme.primaryContainer,
+                            color: value == CustomTimerState.counting
+                                ? colorScheme.primary
+                                : colorScheme.outline,
+                            value: time.duration.inMilliseconds /
+                                timer.inMilliseconds,
+                            strokeWidth: 22,
+                            strokeCap: StrokeCap.round,
                           ),
-                          Align(
-                            alignment: FractionalOffset.center,
+                        ),
+                        Align(
+                          alignment: value != CustomTimerState.counting
+                              ? FractionalOffset.topCenter
+                              : FractionalOffset.center,
+                          child: Container(
+                            padding: value != CustomTimerState.counting
+                                ? const EdgeInsets.symmetric(
+                                    vertical: 50,
+                                    horizontal: 20,
+                                  )
+                                : null,
                             child: TextAtom(
                               "${time.minutes}:${time.seconds}",
                               style: TextStyle(
@@ -67,15 +79,32 @@ class TimerAtom extends StatelessWidget {
                               textAlign: TextAlign.left,
                               translate: false,
                             ),
-                          )
-                        ],
-                      ),
-                    );
-                  },
-                ),
+                          ),
+                        ),
+                        Align(
+                          alignment: FractionalOffset.bottomCenter,
+                          child: Padding(
+                            padding: const EdgeInsets.symmetric(
+                              vertical: 38,
+                              horizontal: 38,
+                            ),
+                            child: (value != CustomTimerState.counting)
+                                ? const Icon(
+                                    Icons.stop,
+                                    size: 50.0,
+                                  )
+                                : const SizedBox(),
+                          ),
+                        ),
+                      ],
+                    ),
+                  );
+                },
               ),
-            );
-          }),
+            ),
+          );
+        },
+      ),
     );
   }
 }
