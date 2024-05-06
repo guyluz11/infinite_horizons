@@ -16,10 +16,12 @@ class TipsOrganism extends StatelessWidget {
   Widget build(BuildContext context) {
     final List<Tip> beforeStudyTips = StudyTypeAbstract.instance!
         .getTips()
-        .where((element) =>
-            element.timing == TipTiming.before &&
-                element.type == TipType.general ||
-            element.type == StudyTypeAbstract.instance!.studyType)
+        .where(
+          (element) =>
+              element.timing == TipTiming.before &&
+                  element.type == TipType.general ||
+              element.type == StudyTypeAbstract.instance!.studyType,
+        )
         .toList();
 
     return Column(

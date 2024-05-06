@@ -6,7 +6,10 @@ class StudyTypeAnalytical extends StudyTypeAbstract {
 
   @override
   List<Tip> getTips() => tipsList
-      .where((element) =>
-          element.type == TipType.general || element.type == TipType.analytical)
+      .where(
+        (element) =>
+            element.type == TipType.general ||
+            element.type == TipType.analytical,
+      )
       .toList();
 }
