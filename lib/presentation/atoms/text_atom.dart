@@ -58,5 +58,4 @@ enum TextVariant {
   regular,
   medium,
   title,
-  ;
 }
