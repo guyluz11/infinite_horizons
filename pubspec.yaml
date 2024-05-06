@@ -1,7 +1,7 @@
 name: infinite_horizons
-description: "A new Flutter project."
+description: "Using this app your study and work session efficiency can increase dramatically by following methods that got approved by science."
 publish_to: 'none'
-version: 1.0.3+4
+version: 1.0.4+5
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -16,23 +16,37 @@ dependencies:
   flutter:
     sdk: flutter
   # Font Awesome Icon pack available as Flutter Icons.
-  font_awesome_flutter: ^10.6.0
+  font_awesome_flutter: ^10.7.0
   introduction_screen: ^3.1.14
   # Small, easy to use and extensible logger which prints beautiful logs.
   logger: ^2.2.0
   url_launcher: ^6.2.6
-  wakelock_plus: ^1.2.4
+  wakelock_plus: ^1.2.5
 
 
 dev_dependencies:
+
+  # Simplifies the task of updating your Flutter app's launcher icon
+  flutter_launcher_icons: "^0.13.1"
   flutter_test:
     sdk: flutter
   # Collection of lint rules for Dart and Flutter projects.
   lint: ^2.3.0
   test: ^1.24.9
 
+
+
 flutter:
   uses-material-design: true
   assets:
     - assets/
     - assets/translations/
+
+
+flutter_launcher_icons:
+  android: true
+  ios: true
+  remove_alpha_ios: true
+  image_path: "assets/logo.png"
+  adaptive_icon_foreground: "assets/logo_foreground.png"
+  adaptive_icon_background: "#061E4A"

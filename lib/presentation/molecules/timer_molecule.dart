@@ -35,7 +35,6 @@ class _TimerMoleculeState extends State<TimerMolecule>
   @override
   Widget build(BuildContext context) {
     return Column(
-      mainAxisAlignment: MainAxisAlignment.center,
       children: [
         Center(
           child: TimerAtom(

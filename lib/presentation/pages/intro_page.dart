@@ -1,7 +1,7 @@
-import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
-import 'package:infinite_horizons/presentation/core/theme_data.dart';
+import 'package:infinite_horizons/domain/tip.dart';
+import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 import 'package:infinite_horizons/presentation/pages/home_page.dart';
@@ -27,64 +27,81 @@ class _IntroPageState extends State<IntroPage> {
   void onDone(BuildContext context) => Navigator.of(context)
       .push(MaterialPageRoute(builder: (context) => HomePage()));
 
+  PageDecoration emptyPageDecoration() => const PageDecoration(
+        pageMargin: EdgeInsets.zero,
+        footerPadding: EdgeInsets.zero,
+        titlePadding: EdgeInsets.zero,
+      );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: const EdgeInsets.only(top: AppThemeData.generalSpacing),
-        child: IntroductionScreen(
-          key: _introKey,
-          pages: [
-            PageViewModel(
-              title: 'study_efficiently'.tr(),
-              bodyWidget: WelcomeOrganism(),
-            ),
-            PageViewModel(
-              title: 'study_type'.tr(),
-              bodyWidget: StudyTypeSelectionMolecule(() {
-                setState(() {
-                  studyType = StudyTypeAbstract.instance!.studyType.previewName;
-                });
-                nextPage();
-              }),
-            ),
-            PageViewModel(
-              title: 'efficient_tips'.tr(args: [studyType.tr()]),
-              bodyWidget: TipsOrganism(),
-            ),
-            PageViewModel(
-              title: 'energy'.tr(),
-              bodyWidget: EnergySelectionMolecule(nextPage),
-            ),
-            PageViewModel(
-              title: 'lets_start'.tr(),
-              bodyWidget: MotivationOrganism(() => onDone(context)),
-            ),
-          ],
-          showBackButton: true,
-          back: const Icon(Icons.arrow_back),
-          next: const Icon(Icons.arrow_forward),
-          showNextButton: showNextButton,
-          scrollPhysics: const NeverScrollableScrollPhysics(),
-          onChange: (int n) {
-            state = IntroState.getStateByPageNumber(n);
-            bool showNextButtonTemp = true;
-
-            if (state == IntroState.studyType &&
-                (StudyTypeAbstract.instance?.studyType == null ||
-                    StudyTypeAbstract.instance!.studyType ==
-                        StudyType.undefined)) {
-              showNextButtonTemp = false;
-            } else if (state == IntroState.energy &&
-                StudyTypeAbstract.instance!.energy == EnergyType.undefined) {
-              showNextButtonTemp = false;
-            }
-            setState(() {
-              showNextButton = showNextButtonTemp;
-            });
-          },
-          showDoneButton: false,
+      body: IntroductionScreen(
+        isProgressTap: false,
+        key: _introKey,
+        overrideNext: Center(
+          child: ButtonAtom(
+            variant: ButtonVariant.primary,
+            onPressed: showNextButton ? nextPage : () {},
+            text: 'next',
+            disabled: !showNextButton,
+          ),
         ),
+        pages: [
+          PageViewModel(
+            useScrollView: false,
+            decoration: emptyPageDecoration(),
+            bodyWidget: WelcomeOrganism(),
+            titleWidget: const SizedBox(),
+          ),
+          PageViewModel(
+            titleWidget: const SizedBox(),
+            decoration: emptyPageDecoration(),
+            bodyWidget: StudyTypeSelectionMolecule(() {
+              setState(() {
+                studyType = StudyTypeAbstract.instance!.studyType.name;
+              });
+              nextPage();
+            }),
+          ),
+          PageViewModel(
+            titleWidget: const SizedBox(),
+            decoration: emptyPageDecoration(),
+            bodyWidget: TipsOrganism(studyType),
+          ),
+          PageViewModel(
+            titleWidget: const SizedBox(),
+            decoration: emptyPageDecoration(),
+            bodyWidget: EnergySelectionMolecule(nextPage),
+          ),
+          PageViewModel(
+            titleWidget: const SizedBox(),
+            useScrollView: false,
+            decoration: emptyPageDecoration(),
+            bodyWidget: MotivationOrganism(() => onDone(context)),
+          ),
+        ],
+        showBackButton: true,
+        back: const Icon(Icons.arrow_back),
+        next: const Icon(Icons.arrow_forward),
+        scrollPhysics: const NeverScrollableScrollPhysics(),
+        onChange: (int n) {
+          state = IntroState.getStateByPageNumber(n);
+          bool showNextButtonTemp = true;
+
+          if (state == IntroState.studyType &&
+              (StudyTypeAbstract.instance?.studyType == null ||
+                  StudyTypeAbstract.instance!.studyType == TipType.undefined)) {
+            showNextButtonTemp = false;
+          } else if (state == IntroState.energy &&
+              StudyTypeAbstract.instance!.energy == EnergyType.undefined) {
+            showNextButtonTemp = false;
+          }
+          setState(() {
+            showNextButton = showNextButtonTemp;
+          });
+        },
+        showDoneButton: false,
       ),
     );
   }

@@ -1,135 +1,98 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
-import 'package:infinite_horizons/presentation/core/theme_data.dart';
 
-/// Top part of the pages, will show page name and settings logo,
-/// and sometimes will have back button.
 class TopBarMolecule extends StatelessWidget {
   const TopBarMolecule({
-    required this.pageName,
-    this.rightIcon,
-    this.rightIconFunction,
-    this.leftIcon,
-    this.leftIconFunction,
-    this.rightSecondIcon,
-    this.rightSecondFunction,
-    this.backgroundColor,
+    required this.topBarType,
+    this.title,
+    this.iconColor,
+    this.onTap,
+    this.secondaryButtonOnTap,
+    this.secondaryButtonText,
+    this.translate = true,
+    this.margin = true,
   });
 
-  /// Page name to show in the left side of the navigation bar
-  final String? pageName;
-
-  /// Icon to show in the right side of the bar
-  final IconData? rightIcon;
-
-  /// Icon to show in the right side of the bar left to the first icon
-  /// from the right
-  final IconData? rightSecondIcon;
-
-  /// Icon to show in the left side of the bar
-  final IconData? leftIcon;
-
-  /// Function to execute when pressing the icon in the right side
-  final Function(BuildContext)? rightIconFunction;
-
-  /// What to execute if second right icon was pressed
-  final Function(BuildContext)? rightSecondFunction;
-
-  /// What to execute if back button was pressed
-  final Function(BuildContext)? leftIconFunction;
-
-  final Color? backgroundColor;
+  final TopBarType topBarType;
+  final String? title;
+  final Color? iconColor;
+  final VoidCallback? onTap;
+  final VoidCallback? secondaryButtonOnTap;
+  final String? secondaryButtonText;
+  final bool translate;
+  final bool margin;
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData themeData = Theme.of(context);
-    final ColorScheme colorScheme = themeData.colorScheme;
-    final TextTheme textTheme = themeData.textTheme;
-
-    final TextStyle style = textTheme.bodyLarge!;
-
+    final Widget widget = topBarWidget(context);
     return SafeArea(
-      child: ColoredBox(
-        color: backgroundColor != null
-            ? backgroundColor!.withOpacity(0.72)
-            : colorScheme.background,
-        child: Container(
-          margin: const EdgeInsets.fromLTRB(
-            9,
-            AppThemeData.generalSpacing,
-            9,
-            AppThemeData.generalSpacing,
-          ),
-          child: Row(
-            mainAxisAlignment: MainAxisAlignment.spaceBetween,
-            children: <Widget>[
+      bottom: false,
+      child: margin
+          ? MarginedExpandedAtom(
+              child: widget,
+            )
+          : widget,
+    );
+  }
+
+  Widget topBarWidget(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
+    final TextTheme textTheme = themeData.textTheme;
+    return Column(
+      children: [
+        const SizedBox(height: 15),
+        Row(
+          children: [
+            if (topBarType != TopBarType.none)
               Row(
-                children: <Widget>[
-                  if (leftIcon != null)
-                    Container(
-                      alignment: Alignment.centerLeft,
-                      child: IconButton(
-                        icon: FaIcon(
-                          leftIcon,
-                          size: style.fontSize,
-                          color: colorScheme.tertiary,
-                        ),
-                        onPressed: () => leftIconFunction!(context),
-                      ),
-                    )
-                  else
-                    const SizedBox(),
-                  TextAtom(
-                    pageName!,
-                    style: style.copyWith(color: colorScheme.tertiary),
+                children: [
+                  GestureDetector(
+                    onTap: () {
+                      if (onTap != null) {
+                        return onTap!();
+                      }
+                      Navigator.of(context).pop();
+                    },
+                    child: Icon(
+                      topBarType == TopBarType.close
+                          ? Icons.close_rounded
+                          : Icons.arrow_back_ios_rounded,
+                      color: iconColor,
+                      size: textTheme.titleMedium!.fontSize,
+                    ),
+                  ),
+                  const SeparatorAtom(
+                    variant: SeparatorVariant.relatedElements,
                   ),
                 ],
               ),
-              if (rightIcon != null)
-                Row(
-                  children: [
-                    if (rightSecondIcon != null)
-                      SizedBox(
-                        width: 70,
-                        child: TextButton(
-                          style: ButtonStyle(
-                            padding: MaterialStateProperty.all<EdgeInsets>(
-                              EdgeInsets.zero,
-                            ),
-                          ),
-                          onPressed: () => rightSecondFunction!(context),
-                          child: FaIcon(
-                            rightSecondIcon,
-                            size: style.fontSize,
-                            color: style.color,
-                          ),
-                        ),
-                      ),
-                    SizedBox(
-                      width: 25,
-                      child: TextButton(
-                        style: ButtonStyle(
-                          padding: MaterialStateProperty.all<EdgeInsets>(
-                            EdgeInsets.zero,
-                          ),
-                        ),
-                        onPressed: () => rightIconFunction!(context),
-                        child: Icon(
-                          rightIcon,
-                          size: style.fontSize! + 5,
-                          color: style.color,
-                        ),
-                      ),
-                    ),
-                  ],
-                )
-              else
-                const SizedBox(),
-            ],
-          ),
+            Expanded(
+              child: TextAtom(
+                title ?? '',
+                variant: TextVariant.smallTitle,
+              ),
+            ),
+            Row(
+              children: [
+                if (secondaryButtonText != null && secondaryButtonOnTap != null)
+                  ButtonAtom(
+                    variant: ButtonVariant.tertiary,
+                    text: secondaryButtonText,
+                    onPressed: secondaryButtonOnTap!,
+                    translate: translate,
+                  )
+                else
+                  TextAtom(
+                    '',
+                    style: textTheme.headlineSmall,
+                  ),
+              ],
+            ),
+          ],
         ),
-      ),
+      ],
     );
   }
 }
+
+enum TopBarType { none, back, close }
