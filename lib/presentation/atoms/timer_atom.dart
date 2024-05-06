@@ -71,11 +71,7 @@ class TimerAtom extends StatelessWidget {
                                 : null,
                             child: TextAtom(
                               "${time.minutes}:${time.seconds}",
-                              style: TextStyle(
-                                fontSize: 33.0,
-                                color: colorScheme.onBackground,
-                                fontWeight: FontWeight.bold,
-                              ),
+                              variant: TextVariant.time,
                               textAlign: TextAlign.left,
                               translate: false,
                             ),
@@ -90,7 +86,7 @@ class TimerAtom extends StatelessWidget {
                             ),
                             child: (value != CustomTimerState.counting)
                                 ? const Icon(
-                                    Icons.stop,
+                                    Icons.play_arrow_rounded,
                                     size: 50.0,
                                   )
                                 : const SizedBox(),
