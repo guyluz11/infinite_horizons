@@ -39,11 +39,6 @@ class TextAtom extends StatelessWidget {
         tempStyle = textTheme.headlineMedium;
       case TextVariant.medium:
         tempStyle = textTheme.bodyMedium;
-      case TextVariant.time:
-        tempStyle = const TextStyle(
-          fontSize: 33.0,
-          fontWeight: FontWeight.bold,
-        );
     }
 
     return Text(
@@ -63,5 +58,4 @@ enum TextVariant {
   regular,
   medium,
   title,
-  time;
 }
