@@ -2,7 +2,7 @@ import 'dart:math';
 
 import 'package:custom_timer/custom_timer.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/presentation/atoms/text_atom.dart';
+import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class TimerAtom extends StatelessWidget {
   const TimerAtom(this.controller, this.timer, this.callback);
