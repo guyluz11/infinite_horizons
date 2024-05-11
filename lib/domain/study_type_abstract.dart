@@ -1,3 +1,4 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:infinite_horizons/domain/tip.dart';
 
@@ -6,7 +7,7 @@ abstract class StudyTypeAbstract {
 
   static StudyTypeAbstract? instance;
 
-  StudyType studyType;
+  TipType studyType;
 
   EnergyType energy = EnergyType.undefined;
 
@@ -14,35 +15,20 @@ abstract class StudyTypeAbstract {
   List<Tip> tips = [];
 
   void setTipValue(int id, bool value) {
-    tips.firstWhere((element) => element.id == id).selected = value;
+    final Tip? tip = tips.firstWhereOrNull((element) => element.id == id);
+    if (tip == null) {
+      tips.add(
+        tipsList.firstWhere((element) => element.id == id)..selected = value,
+      );
+      return;
+    }
+    tip.selected = value;
   }
 
-  List<Tip> getTips() => [
-        tipsList[0],
-        tipsList[1],
-      ];
+  List<Tip> getTips() =>
+      tipsList.where((element) => element.type == TipType.general).toList();
 
   Tip getTipById(int id) => tips.firstWhere((element) => element.id == id);
-}
-
-enum StudyType {
-  undefined('undefined'),
-  analytically('analytically'),
-  creatively('creatively'),
-  ;
-
-  const StudyType(this.previewName);
-
-  final String previewName;
-}
-
-extension StudyTypeExtension on StudyType {
-  static StudyType fromString(String typeAsString) {
-    return StudyType.values.firstWhere(
-      (element) => element.toString().split('.').last == typeAsString,
-      orElse: () => StudyType.undefined,
-    );
-  }
 }
 
 enum EnergyType {
