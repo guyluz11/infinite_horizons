@@ -40,31 +40,27 @@ class _StudyTypeSelectionMoleculeState
   Widget build(BuildContext context) {
     return Column(
       children: [
-        InkWell(
-          onTap: () => onChanged(StudyType.analytically),
-          child: ListTileAtom(
-            StudyType.analytically.previewName,
-            Radio<StudyType>(
-              value: StudyType.analytically,
-              groupValue: selectedType,
-              onChanged: onChanged,
-            ),
-            subtitle: 'recommended_morning',
-          ),
-        ),
-        InkWell(
-          onTap: () => onChanged(StudyType.creatively),
-          child: ListTileAtom(
-            StudyType.creatively.previewName,
-            Radio<StudyType>(
-              value: StudyType.creatively,
-              groupValue: selectedType,
-              onChanged: onChanged,
-            ),
-            subtitle: 'recommended_evening',
-          ),
-        ),
+        studyTypeRadioButton(onChanged, selectedType, StudyType.analytically),
+        studyTypeRadioButton(onChanged, selectedType, StudyType.creatively),
       ],
+    );
+  }
+
+  Widget studyTypeRadioButton(void Function(StudyType?)? onChanged,
+      StudyType selectedType, StudyType buttonType) {
+    return InkWell(
+      onTap: () => onChanged!(buttonType),
+      child: ListTileAtom(
+        buttonType.previewName,
+        Radio<StudyType>(
+          value: buttonType,
+          groupValue: selectedType,
+          onChanged: onChanged,
+        ),
+        subtitle: buttonType == StudyType.analytically
+            ? 'recommended_morning'
+            : 'recommended_evening',
+      ),
     );
   }
 }
