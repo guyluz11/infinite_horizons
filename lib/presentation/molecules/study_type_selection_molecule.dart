@@ -49,25 +49,27 @@ class _StudyTypeSelectionMoleculeState
             margin: false,
           ),
           const SeparatorAtom(variant: SeparatorVariant.farApart),
-          ListTileAtom(
-            TipType.analytical.name,
-            leading: Radio<TipType>(
-              value: TipType.analytical,
-              groupValue: selectedType,
-              onChanged: onChanged,
-            ),
-            subtitle: 'recommended_morning',
-          ),
-          ListTileAtom(
-            TipType.creative.name,
-            leading: Radio<TipType>(
-              value: TipType.creative,
-              groupValue: selectedType,
-              onChanged: onChanged,
-            ),
-            subtitle: 'recommended_evening',
-          ),
+          studyTypeRadioButton(onChanged, selectedType, TipType.analytical),
+          studyTypeRadioButton(onChanged, selectedType, TipType.creative),
         ],
+      ),
+    );
+  }
+
+  Widget studyTypeRadioButton(void Function(TipType?)? onChanged,
+      TipType selectedType, TipType buttonType) {
+    return InkWell(
+      onTap: () => onChanged!(buttonType),
+      child: ListTileAtom(
+        buttonType.name,
+        leading: Radio<TipType>(
+          value: buttonType,
+          groupValue: selectedType,
+          onChanged: onChanged,
+        ),
+        subtitle: buttonType == TipType.analytical
+            ? 'recommended_morning'
+            : 'recommended_evening',
       ),
     );
   }
