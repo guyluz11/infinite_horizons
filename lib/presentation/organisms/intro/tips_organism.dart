@@ -5,6 +5,7 @@ import 'package:infinite_horizons/domain/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/pages/all_tips_page.dart';
+import 'package:flutter_dnd/flutter_dnd.dart';
 
 class TipsOrganism extends StatelessWidget {
   const TipsOrganism(this.studyType);
@@ -37,6 +38,24 @@ class TipsOrganism extends StatelessWidget {
             translate: false,
           ),
           const SeparatorAtom(variant: SeparatorVariant.farApart),
+          Center(
+              child: ElevatedButton(
+                  onPressed: () async {
+                    bool filter =
+                        await FlutterDnd.getCurrentInterruptionFilter() ==
+                            FlutterDnd.INTERRUPTION_FILTER_PRIORITY;
+                    if (await FlutterDnd.isNotificationPolicyAccessGranted ??
+                        false) {
+                      await FlutterDnd.setInterruptionFilter(
+                        filter
+                            ? FlutterDnd.INTERRUPTION_FILTER_ALL
+                            : FlutterDnd.INTERRUPTION_FILTER_PRIORITY,
+                      ); // Turn on DND - All notifications are suppressed.
+                    } else {
+                      FlutterDnd.gotoPolicySettings();
+                    }
+                  },
+                  child: Text("Toggle DND"))),
           ListView.builder(
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
