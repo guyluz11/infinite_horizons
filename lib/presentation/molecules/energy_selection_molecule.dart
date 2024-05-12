@@ -32,14 +32,17 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
   }
 
   Widget energyWidget(EnergyType type) {
-    return ListTileAtom(
-      '${type.previewName.tr()} - ${type.duration.inMinutes}${'minutes_single'.tr()}',
-      leading: Radio<EnergyType>(
-        value: type,
-        groupValue: energy,
-        onChanged: onChanged,
+    return InkWell(
+      onTap: () => onChanged(type),
+      child: ListTileAtom(
+        '${type.previewName.tr()} - ${type.duration.inMinutes}${'minutes_single'.tr()}',
+        leading: Radio<EnergyType>(
+          value: type,
+          groupValue: energy,
+          onChanged: onChanged,
+        ),
+        translateTitle: false,
       ),
-      translateTitle: false,
     );
   }
 
