@@ -38,5 +38,7 @@
   "timing:": "Timing:",
   "tip:": "Tip:",
   "next": "Next",
-  "tip_description": "Tip Description"
+  "tip_description": "Tip Description",
+  "dnd":"Toggle DND",
+  "dnd_ios":"We recommend turning on Do Not Disturb mode to avoid distractions"
 }
