@@ -42,13 +42,15 @@ class TipsOrganism extends StatelessWidget {
           ),
           const SeparatorAtom(variant: SeparatorVariant.farApart),
           Center(
-            child: ButtonAtom(
-              variant: ButtonVariant.primary,
-              onPressed: () {
-                toggleDND(context);
-              },
-              text: Platform.isAndroid ? 'dnd' : 'dnd_ios',
-            ),
+            child: Platform.isAndroid
+                ? ButtonAtom(
+                    variant: ButtonVariant.primary,
+                    onPressed: () {
+                      toggleDND(context);
+                    },
+                    text: 'dnd',
+                  )
+                : const TextAtom('dnd_ios'),
           ),
           ListView.builder(
             shrinkWrap: true,

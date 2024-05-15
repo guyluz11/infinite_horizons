@@ -59,7 +59,7 @@ class _StudyTypeSelectionMoleculeState
   Widget studyTypeRadioButton(void Function(TipType?) onChanged,
       TipType selectedType, TipType buttonType) {
     return InkWell(
-      onTap: () => onChanged!(buttonType),
+      onTap: () => onChanged(buttonType),
       child: ListTileAtom(
         buttonType.name,
         leading: Radio<TipType>(
