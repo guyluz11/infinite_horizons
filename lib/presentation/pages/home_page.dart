@@ -52,7 +52,7 @@ class _HomePageState extends State<HomePage> {
         return TimerOrganism(TimerVariant.study, onComplete: onTimerComplete);
       case HomeState.getReadyForBreak:
         PlayerController.instance.play('session_completed.wav');
-        VibrationController.instance.vibrate(VibrationType.heavy);
+        VibrationController.instance.vibrate(VibrationType.medium);
         return ProgressIndicatorMolecule(
           ProgressIndicatorVariant.beforeBreak,
           onComplete: onTimerComplete,

@@ -17,11 +17,11 @@ class _VibrationRepository extends VibrationController {
     FeedbackType feedbackType;
     switch (type) {
       case VibrationType.light:
-        feedbackType = FeedbackType.light;
+        feedbackType = FeedbackType.success;
       case VibrationType.medium:
-        feedbackType = FeedbackType.medium;
+        feedbackType = FeedbackType.warning;
       case VibrationType.heavy:
-        feedbackType = FeedbackType.heavy;
+        feedbackType = FeedbackType.error;
     }
 
     Vibrate.feedback(feedbackType);
