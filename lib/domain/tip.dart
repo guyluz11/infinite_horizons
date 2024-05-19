@@ -27,6 +27,7 @@ extension TipTypeExtension on TipType {
 }
 
 enum TipTiming {
+  general('general'),
   before('before'),
   inSession('in_session'),
   inBreak('in_break'),
@@ -108,6 +109,18 @@ List<Tip> tipsList = [
 
   /// Analytical tips
   Tip(
+    'recommended_morning',
+    type: TipType.analytical,
+    timing: TipTiming.general,
+    resourceLinks: [
+      Resource(
+        'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity',
+        'We think more analytically in the morning and creative in the evening',
+        link: Uri.parse('https://www.youtube.com/watch?v=Ze2pc6NwsHQ'),
+      ),
+    ],
+  ),
+  Tip(
     'Room with low ceiling or wearing a hat/hoodie',
     type: TipType.analytical,
     timing: TipTiming.before,
@@ -126,6 +139,18 @@ List<Tip> tipsList = [
   ),
 
   // Creatively tips
+  Tip(
+    'recommended_evening',
+    type: TipType.creative,
+    timing: TipTiming.general,
+    resourceLinks: [
+      Resource(
+        'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity',
+        'We think more analytically in the morning and creative in the evening',
+        link: Uri.parse('https://www.youtube.com/watch?v=Ze2pc6NwsHQ'),
+      ),
+    ],
+  ),
   Tip(
     'Environment with high ceiling or outside',
     type: TipType.creative,

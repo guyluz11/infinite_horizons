@@ -1,7 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
+import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
+import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 
 class EnergySelectionMolecule extends StatefulWidget {
@@ -32,14 +34,22 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
   }
 
   Widget energyWidget(EnergyType type) {
-    return ListTileAtom(
-      '${type.previewName.tr()} - ${type.duration.inMinutes}${'minutes_single'.tr()}',
-      leading: Radio<EnergyType>(
-        value: type,
-        groupValue: energy,
-        onChanged: onChanged,
+    return InkWell(
+      onTap: () {
+        VibrationController.instance.vibrate(VibrationType.light);
+        onChanged(type);
+      },
+      child: ListTileAtom(
+        '${type.previewName.tr()} - ${type.duration.inMinutes}${'minutes_single'.tr()}',
+        subtitle:
+            '${GlobalVariables.breakTime(type.duration).inMinutes}m break',
+        leading: Radio<EnergyType>(
+          value: type,
+          groupValue: energy,
+          onChanged: onChanged,
+        ),
+        translateTitle: false,
       ),
-      translateTitle: false,
     );
   }
 

@@ -1,7 +1,7 @@
 name: infinite_horizons
 description: "Using this app your study and work session efficiency can increase dramatically by following methods that got approved by science."
 publish_to: 'none'
-version: 1.0.5+6
+version: 1.0.6+7
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
@@ -22,6 +22,10 @@ dependencies:
   logger: ^2.2.0
   url_launcher: ^6.2.6
   wakelock_plus: ^1.2.5
+  collection: ^1.18.0
+  audioplayers: ^6.0.0
+  vibration: ^1.8.4
+  flutter_vibrate: ^1.3.0
 
 
 dev_dependencies:
@@ -41,6 +45,7 @@ flutter:
   assets:
     - assets/
     - assets/translations/
+    - assets/sound_effects/
 
 
 flutter_launcher_icons:

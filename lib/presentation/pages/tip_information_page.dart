@@ -21,7 +21,6 @@ class TipInformationPage extends StatelessWidget {
               margin: false,
             ),
             const SeparatorAtom(variant: SeparatorVariant.farApart),
-            if (tip.resourceLinks.isEmpty) const TextAtom('resource_is_empty'),
             Expanded(
               child: SingleChildScrollView(
                 child: Column(
@@ -54,37 +53,51 @@ class TipInformationPage extends StatelessWidget {
                       ],
                     ),
                     const SeparatorAtom(variant: SeparatorVariant.farApart),
-                    ExpansionPanelList.radio(
-                      children: tip.resourceLinks.map<ExpansionPanelRadio>(
-                        (Resource r) {
-                          final Uri? link = r.link;
+                    if (tip.resourceLinks.isEmpty)
+                      const TextAtom('resource_is_empty')
+                    else
+                      Column(
+                        crossAxisAlignment: CrossAxisAlignment.start,
+                        children: [
+                          const TextAtom(
+                            'resources',
+                            variant: TextVariant.smallTitle,
+                          ),
+                          const SeparatorAtom(),
+                          ExpansionPanelList.radio(
+                            children:
+                                tip.resourceLinks.map<ExpansionPanelRadio>(
+                              (Resource r) {
+                                final Uri? link = r.link;
 
-                          return ExpansionPanelRadio(
-                            value: r.title,
-                            headerBuilder:
-                                (BuildContext context, bool isExpanded) {
-                              return TextAtom(r.title);
-                            },
-                            body: Row(
-                              children: [
-                                Expanded(
-                                  child: TextAtom(r.resourceExplanation),
-                                ),
-                                IconButton(
-                                  onPressed: () {
-                                    if (link == null) {
-                                      return;
-                                    }
-                                    launchUrl(link);
+                                return ExpansionPanelRadio(
+                                  value: r.title,
+                                  headerBuilder:
+                                      (BuildContext context, bool isExpanded) {
+                                    return TextAtom(r.title);
                                   },
-                                  icon: const Icon(Icons.link),
-                                ),
-                              ],
-                            ),
-                          );
-                        },
-                      ).toList(),
-                    ),
+                                  body: Row(
+                                    children: [
+                                      Expanded(
+                                        child: TextAtom(r.resourceExplanation),
+                                      ),
+                                      IconButton(
+                                        onPressed: () {
+                                          if (link == null) {
+                                            return;
+                                          }
+                                          launchUrl(link);
+                                        },
+                                        icon: const Icon(Icons.link),
+                                      ),
+                                    ],
+                                  ),
+                                );
+                              },
+                            ).toList(),
+                          ),
+                        ],
+                      ),
                   ],
                 ),
               ),

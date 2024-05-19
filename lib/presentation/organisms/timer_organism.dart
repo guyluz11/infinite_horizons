@@ -2,6 +2,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
+import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 
 class TimerOrganism extends StatelessWidget {
@@ -12,8 +13,6 @@ class TimerOrganism extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    const int breakTimeRatio = 5;
-
     return Column(
       children: [
         TextAtom(
@@ -25,10 +24,8 @@ class TimerOrganism extends StatelessWidget {
             onComplete,
             variant == TimerVariant.study
                 ? StudyTypeAbstract.instance!.energy.duration
-                : Duration(
-                    milliseconds: StudyTypeAbstract
-                            .instance!.energy.duration.inMilliseconds ~/
-                        breakTimeRatio,
+                : GlobalVariables.breakTime(
+                    StudyTypeAbstract.instance!.energy.duration,
                   ),
           ),
         ),

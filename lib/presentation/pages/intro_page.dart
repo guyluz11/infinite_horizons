@@ -57,10 +57,11 @@ class _IntroPageState extends State<IntroPage> {
           PageViewModel(
             titleWidget: const SizedBox(),
             decoration: emptyPageDecoration(),
-            bodyWidget: StudyTypeSelectionMolecule(() {
+            bodyWidget: StudyTypeSelectionMolecule(() async {
               setState(() {
                 studyType = StudyTypeAbstract.instance!.studyType.name;
               });
+              await Future.delayed(const Duration(milliseconds: 200));
               nextPage();
             }),
           ),
@@ -72,7 +73,10 @@ class _IntroPageState extends State<IntroPage> {
           PageViewModel(
             titleWidget: const SizedBox(),
             decoration: emptyPageDecoration(),
-            bodyWidget: EnergySelectionMolecule(nextPage),
+            bodyWidget: EnergySelectionMolecule(() async {
+              await Future.delayed(const Duration(milliseconds: 200));
+              nextPage();
+            }),
           ),
           PageViewModel(
             titleWidget: const SizedBox(),
