@@ -4,6 +4,7 @@ import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/study_type_analytical.dart';
 import 'package:infinite_horizons/domain/study_type_creatively.dart';
 import 'package:infinite_horizons/domain/tip.dart';
+import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 
@@ -73,7 +74,10 @@ class _StudyTypeSelectionMoleculeState
         '';
 
     return InkWell(
-      onTap: () => onChanged(buttonType),
+      onTap: () {
+        VibrationController.instance.vibrate(VibrationType.light);
+        onChanged(buttonType);
+      },
       child: ListTileAtom(
         buttonType.name,
         leading: Radio<TipType>(

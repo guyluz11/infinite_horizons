@@ -25,6 +25,7 @@ dependencies:
   collection: ^1.18.0
   audioplayers: ^6.0.0
   vibration: ^1.8.4
+  flutter_vibrate: ^1.3.0
 
 
 dev_dependencies:

@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class CheckBoxAtom extends StatefulWidget {
@@ -29,6 +30,7 @@ class _CheckBoxAtomState extends State<CheckBoxAtom> {
     setState(() {
       isChecked = value!;
     });
+    VibrationController.instance.vibrate(VibrationType.light);
 
     widget.callback(isChecked);
   }

@@ -33,6 +33,12 @@ class _TimerMoleculeState extends State<TimerMolecule>
   }
 
   @override
+  void dispose() {
+    controller.dispose();
+    super.dispose();
+  }
+
+  @override
   Widget build(BuildContext context) {
     return Column(
       children: [
