@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 part 'package:infinite_horizons/infrastructure/vibration_repository.dart';

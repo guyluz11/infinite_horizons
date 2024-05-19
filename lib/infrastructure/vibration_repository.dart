@@ -10,7 +10,7 @@ class _VibrationRepository extends VibrationController {
 
   @override
   Future vibrate(VibrationType type) async {
-    if (!canVibrate) {
+    if (!Platform.isAndroid && !Platform.isIOS) {
       return;
     }
 
