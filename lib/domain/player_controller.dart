@@ -1,3 +1,5 @@
+import 'package:audioplayers/audioplayers.dart';
+
 part 'package:infinite_horizons/infrastructure/player_repository.dart';
 
 abstract class PlayerController {
@@ -7,7 +9,7 @@ abstract class PlayerController {
     return _instance ??= _PlayerRepository();
   }
 
-  Future play(String path);
-}
+  void initialize();
 
-enum VibrationType { light, medium, heavy }
+  Future play(String fileName);
+}
