@@ -23,6 +23,8 @@ dependencies:
   url_launcher: ^6.2.6
   wakelock_plus: ^1.2.5
   collection: ^1.18.0
+  audioplayers: ^6.0.0
+  vibration: ^1.8.4
 
 
 dev_dependencies:
@@ -42,6 +44,7 @@ flutter:
   assets:
     - assets/
     - assets/translations/
+    - assets/sound_effects/
 
 
 flutter_launcher_icons:

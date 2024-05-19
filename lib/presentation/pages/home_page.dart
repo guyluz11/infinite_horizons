@@ -1,3 +1,4 @@
+import 'package:audioplayers/audioplayers.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
@@ -11,6 +12,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   HomeState state = HomeState.getReadyForStudy;
+  final AudioPlayer player = AudioPlayer();
 
   @override
   void initState() {
@@ -21,6 +23,7 @@ class _HomePageState extends State<HomePage> {
   @override
   void dispose() {
     WakelockPlus.disable();
+    player.dispose();
     super.dispose();
   }
 
@@ -45,8 +48,10 @@ class _HomePageState extends State<HomePage> {
   Widget stateWidget() {
     switch (state) {
       case HomeState.study:
+        player.play(AssetSource('sound_effects/start_session.wav'));
         return TimerOrganism(TimerVariant.study, onComplete: onTimerComplete);
       case HomeState.getReadyForBreak:
+        player.play(AssetSource('sound_effects/session_completed.wav'));
         return ProgressIndicatorMolecule(
           ProgressIndicatorVariant.beforeBreak,
           onComplete: onTimerComplete,
