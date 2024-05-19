@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
+import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 
 class EnergySelectionMolecule extends StatefulWidget {
@@ -40,6 +41,8 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
       },
       child: ListTileAtom(
         '${type.previewName.tr()} - ${type.duration.inMinutes}${'minutes_single'.tr()}',
+        subtitle:
+            '${GlobalVariables.breakTime(type.duration).inMinutes}m break',
         leading: Radio<EnergyType>(
           value: type,
           groupValue: energy,
