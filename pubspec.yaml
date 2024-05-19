@@ -1,7 +1,7 @@
 name: infinite_horizons
 description: "Using this app your study and work session efficiency can increase dramatically by following methods that got approved by science."
 publish_to: 'none'
-version: 1.0.5+6
+version: 1.0.6+7
 
 environment:
   sdk: '>=3.3.0 <4.0.0'
