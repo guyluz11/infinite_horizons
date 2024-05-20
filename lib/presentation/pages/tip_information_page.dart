@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:infinite_horizons/domain/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
@@ -49,7 +50,12 @@ class TipInformationPage extends StatelessWidget {
                         const SeparatorAtom(
                           variant: SeparatorVariant.relatedElements,
                         ),
-                        TextAtom(tip.text),
+                        Flexible(
+                          child: TextAtom(
+                            tip.text,
+                            overflow: TextOverflow.clip,
+                          ),
+                        ),
                       ],
                     ),
                     const SeparatorAtom(variant: SeparatorVariant.farApart),
