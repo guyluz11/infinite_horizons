@@ -65,7 +65,7 @@ class _StudyTypeSelectionMoleculeState
         leading: Radio<TipType>(
           value: buttonType,
           groupValue: selectedType,
-          onChanged: onChanged,
+          onChanged: (value) => onChanged(value ?? TipType.undefined),
         ),
         subtitle: buttonType == TipType.analytical
             ? 'recommended_morning'
