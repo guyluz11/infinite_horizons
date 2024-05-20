@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:infinite_horizons/presentation/pages/tip_resources_page.dart';
 
 class TipInformationPage extends StatelessWidget {
   const TipInformationPage(this.tip);
@@ -88,10 +88,17 @@ class TipInformationPage extends StatelessWidget {
                                       ),
                                       IconButton(
                                         onPressed: () {
-                                          if (link == null) {
-                                            return;
-                                          }
-                                          launchUrl(link);
+                                          // if (link == null) {
+                                          //   return;
+                                          // }
+                                          print("click");
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) => TipResource(
+                                                url: link.toString(),
+                                              ),
+                                            ),
+                                          );
                                         },
                                         icon: const Icon(Icons.link),
                                       ),
