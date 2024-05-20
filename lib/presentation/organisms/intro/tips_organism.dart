@@ -2,13 +2,12 @@ import 'dart:io';
 
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/domain/dnd_controller.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/tip.dart';
-import 'package:infinite_horizons/infrastructure/core/dnd.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/pages/all_tips_page.dart';
-import 'package:flutter_dnd/flutter_dnd.dart';
 
 class TipsOrganism extends StatelessWidget {
   const TipsOrganism(this.studyType);
@@ -45,9 +44,7 @@ class TipsOrganism extends StatelessWidget {
             child: Platform.isAndroid
                 ? ButtonAtom(
                     variant: ButtonVariant.primary,
-                    onPressed: () {
-                      toggleDND(context);
-                    },
+                    onPressed: () => DndController.instance.toggleDnd(),
                     text: 'dnd',
                   )
                 : const TextAtom('dnd_ios'),
