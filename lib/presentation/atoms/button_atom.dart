@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class ButtonAtom extends StatelessWidget {
@@ -25,6 +26,11 @@ class ButtonAtom extends StatelessWidget {
   final bool translate;
   final bool disableActionType;
 
+  void onPressVibrate() {
+    VibrationController.instance.vibrate(VibrationType.light);
+    onPressed();
+  }
+
   Widget buttonConstraints({required Widget child}) => Container(
         constraints: BoxConstraints(
           minWidth: width,
@@ -50,7 +56,7 @@ class ButtonAtom extends StatelessWidget {
       if (icon == null) {
         return buttonConstraints(
           child: FilledButton(
-            onPressed: onPressed,
+            onPressed: onPressVibrate,
             style: FilledButton.styleFrom().copyWith(
               alignment: Alignment.center,
               backgroundColor: disabled
@@ -63,7 +69,7 @@ class ButtonAtom extends StatelessWidget {
       }
       return buttonConstraints(
         child: FilledButton.icon(
-          onPressed: onPressed,
+          onPressed: onPressVibrate,
           style: FilledButton.styleFrom().copyWith(
             alignment: Alignment.center,
             backgroundColor: disabled

@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/domain/player_controller.dart';
+import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
@@ -45,8 +47,12 @@ class _HomePageState extends State<HomePage> {
   Widget stateWidget() {
     switch (state) {
       case HomeState.study:
+        PlayerController.instance.play('start_session.wav');
+        VibrationController.instance.vibrate(VibrationType.heavy);
         return TimerOrganism(TimerVariant.study, onComplete: onTimerComplete);
       case HomeState.getReadyForBreak:
+        PlayerController.instance.play('session_completed.wav');
+        VibrationController.instance.vibrate(VibrationType.medium);
         return ProgressIndicatorMolecule(
           ProgressIndicatorVariant.beforeBreak,
           onComplete: onTimerComplete,

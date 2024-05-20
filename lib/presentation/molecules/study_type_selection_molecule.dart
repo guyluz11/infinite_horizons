@@ -1,8 +1,10 @@
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/study_type_analytical.dart';
 import 'package:infinite_horizons/domain/study_type_creatively.dart';
 import 'package:infinite_horizons/domain/tip.dart';
+import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 
@@ -56,10 +58,26 @@ class _StudyTypeSelectionMoleculeState
     );
   }
 
-  Widget studyTypeRadioButton(void Function(TipType?) onChanged,
-      TipType selectedType, TipType buttonType) {
+  Widget studyTypeRadioButton(
+    void Function(TipType) onChanged,
+    TipType selectedType,
+    TipType buttonType,
+  ) {
+    final String subtitle = (buttonType == TipType.analytical
+                ? tipsList.firstWhereOrNull(
+                    (element) => element.text == 'recommended_morning',
+                  )
+                : tipsList.firstWhereOrNull(
+                    (element) => element.text == 'recommended_evening',
+                  ))
+            ?.text ??
+        '';
+
     return InkWell(
-      onTap: () => onChanged(buttonType),
+      onTap: () {
+        VibrationController.instance.vibrate(VibrationType.light);
+        onChanged(buttonType);
+      },
       child: ListTileAtom(
         buttonType.name,
         leading: Radio<TipType>(
@@ -67,9 +85,7 @@ class _StudyTypeSelectionMoleculeState
           groupValue: selectedType,
           onChanged: (value) => onChanged(value ?? TipType.undefined),
         ),
-        subtitle: buttonType == TipType.analytical
-            ? 'recommended_morning'
-            : 'recommended_evening',
+        subtitle: subtitle,
       ),
     );
   }

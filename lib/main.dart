@@ -1,10 +1,14 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/domain/player_controller.dart';
+import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/presentation/core/color_schemes.dart';
 import 'package:infinite_horizons/presentation/pages/pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
+  PlayerController.instance.initialize();
+  await VibrationController.instance.initialize();
   await EasyLocalization.ensureInitialized();
 
   runApp(
