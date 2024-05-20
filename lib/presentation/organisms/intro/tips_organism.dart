@@ -1,5 +1,8 @@
+import 'dart:io';
+
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/domain/dnd_controller.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
@@ -37,6 +40,15 @@ class TipsOrganism extends StatelessWidget {
             translate: false,
           ),
           const SeparatorAtom(variant: SeparatorVariant.farApart),
+          Center(
+            child: Platform.isAndroid
+                ? ButtonAtom(
+                    variant: ButtonVariant.primary,
+                    onPressed: () => DndController.instance.toggleDnd(),
+                    text: 'dnd',
+                  )
+                : const TextAtom('dnd_ios'),
+          ),
           ListView.builder(
             shrinkWrap: true,
             itemBuilder: (BuildContext context, int index) {
