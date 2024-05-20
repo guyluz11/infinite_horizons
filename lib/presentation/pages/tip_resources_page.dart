@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
 import 'package:webview_flutter/webview_flutter.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
@@ -26,43 +25,46 @@ class TipResource extends StatelessWidget {
       );
       //Display the video
     } else if (isVideo) {
-      final YoutubePlayerController _controller = YoutubePlayerController(
+      final YoutubePlayerController controller = YoutubePlayerController(
         //Convert the url to the video id
         initialVideoId: YoutubePlayer.convertUrlToId(url) ?? "",
         //Hide the thumbnail
         flags: const YoutubePlayerFlags(hideThumbnail: true),
       );
-      return Stack(children: [
-        //Add a transparent container to close the video and implement it like a popup window
-        GestureDetector(
+      return Stack(
+        children: [
+          //Add a transparent container to close the video and implement it like a popup window
+          GestureDetector(
             onTap: () => Navigator.pop(context),
             child: Container(
               height: double.infinity,
               color: Colors.transparent.withOpacity(0.5),
-            )),
-        //Builder is used when full screen functionality is required
-        YoutubePlayerBuilder(
-          player: YoutubePlayer(
-            //controller initialized above
-            controller: _controller,
-            //Show the progress bar
-            showVideoProgressIndicator: true,
-            //Set the color of the progress bar and other attrs
-            progressIndicatorColor: Colors.red,
-            progressColors: const ProgressBarColors(
-              playedColor: Colors.red,
-              handleColor: Colors.red,
             ),
           ),
-          builder: (context, player) {
-            //Center and pad the player for UI Improvement
-            return Padding(
-              padding: const EdgeInsets.all(8.0),
-              child: Center(child: player),
-            );
-          },
-        ),
-      ]);
+          //Builder is used when full screen functionality is required
+          YoutubePlayerBuilder(
+            player: YoutubePlayer(
+              //controller initialized above
+              controller: controller,
+              //Show the progress bar
+              showVideoProgressIndicator: true,
+              //Set the color of the progress bar and other attrs
+              progressIndicatorColor: Colors.red,
+              progressColors: const ProgressBarColors(
+                playedColor: Colors.red,
+                handleColor: Colors.red,
+              ),
+            ),
+            builder: (context, player) {
+              //Center and pad the player for UI Improvement
+              return Padding(
+                padding: const EdgeInsets.all(8.0),
+                child: Center(child: player),
+              );
+            },
+          ),
+        ],
+      );
       //Display the webview
     } else {
       final controller = WebViewController()
