@@ -14,7 +14,7 @@ workflows:
         GOOGLE_PLAY_TRACK: production
       android_signing:
         - keystore_reference
-      java: 18
+      java: 1.8
       flutter: stable
     scripts:
       - name: Set up local.properties
