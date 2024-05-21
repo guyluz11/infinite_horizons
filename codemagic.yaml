@@ -35,9 +35,6 @@ workflows:
   ios-workflow:
     environment:
       flutter: stable
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.haveinfinitehorizons
     scripts:
       - name: Set up code signing settings on Xcode project
         script: |
