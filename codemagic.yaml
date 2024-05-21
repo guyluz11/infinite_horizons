@@ -7,7 +7,7 @@ workflows:
   android-workflow:
     environment:
       groups:
-        - keystore_credentials
+#        - keystore_credentials
         - google_play
       vars:
         PACKAGE_NAME: "com.haveinfinitehorizons"
