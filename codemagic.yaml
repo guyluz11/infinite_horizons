@@ -58,6 +58,10 @@ workflows:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
       - flutter_drive.log
+    # Integration section is required to make use of the keys stored in
+    # Codemagic UI under Apple Developer Portal integration.
+    integrations:
+      app_store_connect: Codemagic API Key
 
     publishing:
       app_store_connect:
