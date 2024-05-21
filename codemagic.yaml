@@ -12,6 +12,8 @@ workflows:
       vars:
         PACKAGE_NAME: "com.haveinfinitehorizons"
         GOOGLE_PLAY_TRACK: production
+
+      flutter: stable
     scripts:
       - name: Set up local.properties
         script: |
