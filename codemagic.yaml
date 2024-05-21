@@ -5,6 +5,13 @@ workflows:
     instance_type: mac_mini_m1
 
   android-workflow:
+    environment:
+      groups:
+        - keystore_reference
+        - google_play
+      vars:
+        PACKAGE_NAME: "com.haveinfinitehorizons"
+        GOOGLE_PLAY_TRACK: production
     scripts:
       - name: Set up local.properties
         script: |
@@ -14,7 +21,10 @@ workflows:
           flutter packages pub get
       - name: Build AAB with Flutter
         script: |
-          flutter build appbundle --release
+          BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME" --tracks="$GOOGLE_PLAY_TRACK") + 1))      
+          flutter build appbundle --release \
+            --build-name=1.0.$BUILD_NUMBER \
+            --build-number=$BUILD_NUMBER
     artifacts:
       - build/**/outputs/**/*.aab
       - build/**/outputs/**/mapping.txt
