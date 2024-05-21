@@ -1,13 +1,7 @@
 workflows:
-  sample-workflow:
-    name: Codemagic Sample Workflow
-    max_build_duration: 60
-    instance_type: mac_mini_m1
-
   android-workflow:
     environment:
       groups:
-#        - keystore_credentials
         - google_play
       vars:
         PACKAGE_NAME: "com.haveinfinitehorizons"
@@ -34,15 +28,14 @@ workflows:
       - build/**/outputs/**/mapping.txt
       - flutter_drive.log
     publishing:
-      # ...
       google_play:
         credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
         track: production
 
   ios-workflow:
     name: iOS Workflow
-    # ....
     environment:
+      flutter: stable
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.haveinfinitehorizons
@@ -65,4 +58,16 @@ workflows:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
       - flutter_drive.log
-      # ... your build commands
+
+    publishing:
+      app_store_connect:
+        # Use referenced App Store Connect API key to authenticate binary upload
+        auth: integration
+
+        # Whether or not to submit the uploaded
+        # build to App Store review.
+        submit_to_app_store: true
+
+        cancel_previous_submissions: true
+
+        release_type: AFTER_APPROVAL
