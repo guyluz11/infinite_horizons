@@ -12,7 +12,8 @@ workflows:
       vars:
         PACKAGE_NAME: "com.haveinfinitehorizons"
         GOOGLE_PLAY_TRACK: production
-
+      android_signing:
+        - keystore_reference
       flutter: stable
     scripts:
       - name: Set up local.properties
