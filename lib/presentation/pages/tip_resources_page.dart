@@ -25,7 +25,7 @@ class TipResourcePage extends StatelessWidget {
               onTap: () => Navigator.pop(context),
             ),
             const SeparatorAtom(variant: SeparatorVariant.closeWidgets),
-            Expanded(child: PdfViewerMolecule(url, true, true, Colors.blue)),
+            Expanded(child: pdfViewerMolecule(url, true, true, Colors.blue)),
           ],
         ),
       );
@@ -39,8 +39,15 @@ class TipResourcePage extends StatelessWidget {
               color: Colors.transparent.withOpacity(0.5),
             ),
           ),
-          YouTubePlayerMolecule(url, true, true, Colors.red, Colors.red,
-              Colors.red, const EdgeInsets.all(8.0))
+          youtubePlayerMolecule(
+            url,
+            true,
+            true,
+            Colors.red,
+            Colors.red,
+            Colors.red,
+            const EdgeInsets.all(8.0),
+          ),
         ],
       );
     } else {
@@ -64,8 +71,12 @@ class TipResourcePage extends StatelessWidget {
     }
   }
 
-  Widget PdfViewerMolecule(String url, bool autoSpacing, bool pageFling,
-      Color progressIndicatorColor) {
+  Widget pdfViewerMolecule(
+    String url,
+    bool autoSpacing,
+    bool pageFling,
+    Color progressIndicatorColor,
+  ) {
     return PDF(
       autoSpacing: autoSpacing,
       pageFling: pageFling,
@@ -88,14 +99,15 @@ class TipResourcePage extends StatelessWidget {
     );
   }
 
-  Widget YouTubePlayerMolecule(
-      String url,
-      bool hideThumbnail,
-      bool showVideoProgressIndicator,
-      Color progressIndicatorColor,
-      Color playedColor,
-      Color handleColor,
-      EdgeInsetsGeometry padding) {
+  Widget youtubePlayerMolecule(
+    String url,
+    bool hideThumbnail,
+    bool showVideoProgressIndicator,
+    Color progressIndicatorColor,
+    Color playedColor,
+    Color handleColor,
+    EdgeInsetsGeometry padding,
+  ) {
     final YoutubePlayerController controller = YoutubePlayerController(
       initialVideoId: YoutubePlayer.convertUrlToId(url) ?? "",
       flags: YoutubePlayerFlags(hideThumbnail: hideThumbnail),

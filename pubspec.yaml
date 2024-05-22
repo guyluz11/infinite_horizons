@@ -29,7 +29,6 @@ dependencies:
   url_launcher: ^6.2.6
   vibration: ^1.8.4
   wakelock_plus: ^1.2.5
-  webview_flutter: ^4.7.0
   youtube_player_flutter: ^9.0.1
 
 dev_dependencies:
