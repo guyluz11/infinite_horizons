@@ -1,0 +1,68 @@
+workflows:
+  sample-workflow:
+    name: Codemagic Sample Workflow
+    max_build_duration: 60
+    instance_type: mac_mini_m1
+
+  android-workflow:
+    environment:
+      groups:
+#        - keystore_credentials
+        - google_play
+      vars:
+        PACKAGE_NAME: "com.haveinfinitehorizons"
+        GOOGLE_PLAY_TRACK: production
+      android_signing:
+        - keystore_reference
+      java: 17
+      flutter: stable
+    scripts:
+      - name: Set up local.properties
+        script: |
+          echo "flutter.sdk=$HOME/programs/flutter" > "$CM_BUILD_DIR/android/local.properties"
+      - name: Get Flutter packages
+        script: |
+          flutter packages pub get
+      - name: Build AAB with Flutter
+        script: |
+          BUILD_NUMBER=$(($(google-play get-latest-build-number --package-name "$PACKAGE_NAME" --tracks="$GOOGLE_PLAY_TRACK") + 1))      
+          flutter build appbundle --release \
+            --build-name=1.0.$BUILD_NUMBER \
+            --build-number=$BUILD_NUMBER
+    artifacts:
+      - build/**/outputs/**/*.aab
+      - build/**/outputs/**/mapping.txt
+      - flutter_drive.log
+    publishing:
+      # ...
+      google_play:
+        credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
+        track: production
+
+  ios-workflow:
+    name: iOS Workflow
+    # ....
+    environment:
+      ios_signing:
+        distribution_type: app_store
+        bundle_identifier: com.haveinfinitehorizons
+    scripts:
+      - name: Set up code signing settings on Xcode project
+        script: |
+          xcode-project use-profiles
+      - name: Get Flutter packages
+        script: |
+          flutter packages pub get
+      - name: Install pods
+        script: |
+          find . -name "Podfile" -execdir pod install \;
+      - name: Flutter build ipa
+        script: |
+          flutter build ipa --release \
+            --build-name=1.0.0 \
+            --export-options-plist=/Users/builder/export_options.plist
+    artifacts:
+      - build/ios/ipa/*.ipa
+      - /tmp/xcodebuild_logs/*.log
+      - flutter_drive.log
+      # ... your build commands
