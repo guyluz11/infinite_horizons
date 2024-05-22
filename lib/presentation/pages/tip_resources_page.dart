@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/atoms/separator_atom.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
-import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class TipResourcePage extends StatelessWidget {
   const TipResourcePage({
@@ -15,7 +13,7 @@ class TipResourcePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (url.contains("pdf")) {
+    if (url.endsWith(".pdf")) {
       return Scaffold(
         body: Column(
           children: [
@@ -25,7 +23,11 @@ class TipResourcePage extends StatelessWidget {
               onTap: () => Navigator.pop(context),
             ),
             const SeparatorAtom(variant: SeparatorVariant.closeWidgets),
-            Expanded(child: pdfViewerMolecule(url, true, true, Colors.blue)),
+            Expanded(
+              child: PdfViewerMolecule(
+                url: url,
+              ),
+            ),
           ],
         ),
       );
@@ -39,14 +41,9 @@ class TipResourcePage extends StatelessWidget {
               color: Colors.transparent.withOpacity(0.5),
             ),
           ),
-          youtubePlayerMolecule(
-            url,
-            true,
-            true,
-            Colors.red,
-            Colors.red,
-            Colors.red,
-            const EdgeInsets.all(8.0),
+          YoutubePlayerMolecule(
+            url: url,
+            hideThumbnail: true,
           ),
         ],
       );
@@ -69,65 +66,5 @@ class TipResourcePage extends StatelessWidget {
         ),
       );
     }
-  }
-
-  Widget pdfViewerMolecule(
-    String url,
-    bool autoSpacing,
-    bool pageFling,
-    Color progressIndicatorColor,
-  ) {
-    return PDF(
-      autoSpacing: autoSpacing,
-      pageFling: pageFling,
-    ).cachedFromUrl(
-      url,
-      placeholder: (progress) => Center(
-        child: Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            CircularProgressIndicator(
-              color: progressIndicatorColor,
-            ),
-            Text('$progress %'),
-          ],
-        ),
-      ),
-      errorWidget: (error) => Center(
-        child: Text(error.toString()),
-      ),
-    );
-  }
-
-  Widget youtubePlayerMolecule(
-    String url,
-    bool hideThumbnail,
-    bool showVideoProgressIndicator,
-    Color progressIndicatorColor,
-    Color playedColor,
-    Color handleColor,
-    EdgeInsetsGeometry padding,
-  ) {
-    final YoutubePlayerController controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(url) ?? "",
-      flags: YoutubePlayerFlags(hideThumbnail: hideThumbnail),
-    );
-    return YoutubePlayerBuilder(
-      player: YoutubePlayer(
-        controller: controller,
-        showVideoProgressIndicator: showVideoProgressIndicator,
-        progressIndicatorColor: progressIndicatorColor,
-        progressColors: ProgressBarColors(
-          playedColor: playedColor,
-          handleColor: handleColor,
-        ),
-      ),
-      builder: (context, player) {
-        return Padding(
-          padding: padding,
-          child: Center(child: player),
-        );
-      },
-    );
   }
 }

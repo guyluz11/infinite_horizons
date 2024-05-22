@@ -88,6 +88,17 @@ class TipInformationPage extends StatelessWidget {
                                       ),
                                       IconButton(
                                         onPressed: () {
+                                          if (link == null) {
+                                            ScaffoldMessenger.of(context)
+                                                .showSnackBar(
+                                              const SnackBar(
+                                                content: Text(
+                                                  'Link is not available',
+                                                ),
+                                              ),
+                                            );
+                                            return;
+                                          }
                                           Navigator.of(context).push(
                                             MaterialPageRoute(
                                               builder: (context) =>
