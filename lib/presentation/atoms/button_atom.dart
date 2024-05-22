@@ -52,10 +52,24 @@ class ButtonAtom extends StatelessWidget {
     final TextTheme textTheme = themeData.textTheme;
     final ColorScheme colorScheme = themeData.colorScheme;
 
-    if (variant == ButtonVariant.primary) {
-      if (icon == null) {
+    switch (variant) {
+      case ButtonVariant.primary:
+        if (icon == null) {
+          return buttonConstraints(
+            child: FilledButton(
+              onPressed: onPressVibrate,
+              style: FilledButton.styleFrom().copyWith(
+                alignment: Alignment.center,
+                backgroundColor: disabled
+                    ? WidgetStateProperty.all(colorScheme.outline)
+                    : null,
+              ),
+              child: label(textTheme),
+            ),
+          );
+        }
         return buttonConstraints(
-          child: FilledButton(
+          child: FilledButton.icon(
             onPressed: onPressVibrate,
             style: FilledButton.styleFrom().copyWith(
               alignment: Alignment.center,
@@ -63,26 +77,27 @@ class ButtonAtom extends StatelessWidget {
                   ? WidgetStateProperty.all(colorScheme.outline)
                   : null,
             ),
-            child: label(textTheme),
+            icon: Icon(icon),
+            label: label(textTheme),
           ),
         );
-      }
-      return buttonConstraints(
-        child: FilledButton.icon(
-          onPressed: onPressVibrate,
-          style: FilledButton.styleFrom().copyWith(
-            alignment: Alignment.center,
-            backgroundColor:
-                disabled ? WidgetStateProperty.all(colorScheme.outline) : null,
-          ),
-          icon: Icon(icon),
-          label: label(textTheme),
-        ),
-      );
-    } else if (variant == ButtonVariant.secondary) {
-      if (icon == null) {
+      case ButtonVariant.secondary:
+        if (icon == null) {
+          return buttonConstraints(
+            child: FilledButton.tonal(
+              onPressed: onPressed,
+              style: FilledButton.styleFrom().copyWith(
+                alignment: Alignment.center,
+                backgroundColor: disabled
+                    ? WidgetStateProperty.all(colorScheme.outline)
+                    : null,
+              ),
+              child: label(textTheme),
+            ),
+          );
+        }
         return buttonConstraints(
-          child: FilledButton.tonal(
+          child: FilledButton.icon(
             onPressed: onPressed,
             style: FilledButton.styleFrom().copyWith(
               alignment: Alignment.center,
@@ -90,26 +105,27 @@ class ButtonAtom extends StatelessWidget {
                   ? WidgetStateProperty.all(colorScheme.outline)
                   : null,
             ),
-            child: label(textTheme),
+            icon: Icon(icon),
+            label: label(textTheme),
           ),
         );
-      }
-      return buttonConstraints(
-        child: FilledButton.icon(
-          onPressed: onPressed,
-          style: FilledButton.styleFrom().copyWith(
-            alignment: Alignment.center,
-            backgroundColor:
-                disabled ? WidgetStateProperty.all(colorScheme.outline) : null,
-          ),
-          icon: Icon(icon),
-          label: label(textTheme),
-        ),
-      );
-    } else if (variant == ButtonVariant.tertiary) {
-      if (icon == null) {
+      case ButtonVariant.tertiary:
+        if (icon == null) {
+          return buttonConstraints(
+            child: FilledButton(
+              onPressed: onPressed,
+              style: FilledButton.styleFrom().copyWith(
+                alignment: Alignment.center,
+                backgroundColor: disabled
+                    ? WidgetStateProperty.all(colorScheme.outline)
+                    : WidgetStateProperty.all(colorScheme.tertiaryContainer),
+              ),
+              child: label(textTheme),
+            ),
+          );
+        }
         return buttonConstraints(
-          child: FilledButton(
+          child: FilledButton.icon(
             onPressed: onPressed,
             style: FilledButton.styleFrom().copyWith(
               alignment: Alignment.center,
@@ -117,25 +133,16 @@ class ButtonAtom extends StatelessWidget {
                   ? WidgetStateProperty.all(colorScheme.outline)
                   : WidgetStateProperty.all(colorScheme.tertiaryContainer),
             ),
-            child: label(textTheme),
+            icon: Icon(icon),
+            label: label(textTheme),
           ),
         );
-      }
-      return buttonConstraints(
-        child: FilledButton.icon(
+      case ButtonVariant.iconButton:
+        return IconButton(
           onPressed: onPressed,
-          style: FilledButton.styleFrom().copyWith(
-            alignment: Alignment.center,
-            backgroundColor: disabled
-                ? WidgetStateProperty.all(colorScheme.outline)
-                : WidgetStateProperty.all(colorScheme.tertiaryContainer),
-          ),
           icon: Icon(icon),
-          label: label(textTheme),
-        ),
-      );
+        );
     }
-    return const Text('Type is not supported yet');
   }
 }
 
@@ -143,7 +150,10 @@ enum ButtonVariant {
   primary,
   secondary,
   tertiary,
-  action,
-  actionToggled,
-  back,
+
+  /// No borders
+  iconButton,
+  // action,
+  // actionToggled,
+  // back,
 }

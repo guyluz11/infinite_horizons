@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/player_controller.dart';
 import 'package:infinite_horizons/domain/vibration_controller.dart';
+import 'package:infinite_horizons/domain/wake_lock_controller.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
-import 'package:wakelock_plus/wakelock_plus.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -13,16 +13,20 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   HomeState state = HomeState.getReadyForStudy;
+  // TODO: save toggled state for next time
+  bool lockScreen = true;
 
   @override
   void initState() {
     super.initState();
-    WakelockPlus.enable();
+    if (lockScreen) {
+      WakeLockController.instance.setWakeLock(true);
+    }
   }
 
   @override
   void dispose() {
-    WakelockPlus.disable();
+    WakeLockController.instance.setWakeLock(false);
     super.dispose();
   }
 
@@ -70,6 +74,33 @@ class _HomePageState extends State<HomePage> {
     }
   }
 
+  void secondaryButtonOnTap(BuildContext context) {
+    final Widget body = Column(
+      children: [
+        ToggleButtonMolecule(
+          text: 'Sound',
+          offIcon: Icons.music_off_rounded,
+          onIcon: Icons.music_note_rounded,
+          onChange: (bool value) =>
+              PlayerController.instance.setSilentState(!value),
+          initialValue: PlayerController.instance.getSilentState(),
+        ),
+        ToggleButtonMolecule(
+          text: 'Screen Lock',
+          offIcon: Icons.lock_clock,
+          onIcon: Icons.lock_open,
+          onChange: (bool value) {
+            lockScreen = value;
+            WakeLockController.instance.setWakeLock(lockScreen);
+          },
+          initialValue: lockScreen,
+        ),
+      ],
+    );
+
+    openAlertDialog(context, body);
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -77,9 +108,10 @@ class _HomePageState extends State<HomePage> {
         child: Column(
           mainAxisAlignment: MainAxisAlignment.spaceAround,
           children: [
-            const TopBarMolecule(
+            TopBarMolecule(
               title: 'study_efficiency',
               topBarType: TopBarType.none,
+              secondaryButtonOnTap: () => secondaryButtonOnTap(context),
             ),
             const SeparatorAtom(variant: SeparatorVariant.farApart),
             Expanded(

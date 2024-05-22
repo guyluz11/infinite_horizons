@@ -41,5 +41,6 @@
   "tip_description": "Tip Description",
   "resources": "Resources:",
   "dnd":"Toggle DND",
-  "dnd_ios":"We recommend turning Do Not Disturb mode to avoid distractions"
+  "dnd_ios":"We recommend turning Do Not Disturb mode to avoid distractions",
+  "close": "Close"
 }
