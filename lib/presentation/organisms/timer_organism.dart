@@ -1,4 +1,3 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
