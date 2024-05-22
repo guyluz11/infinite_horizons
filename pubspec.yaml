@@ -17,15 +17,15 @@ dependencies:
   easy_localization: ^3.0.6
   flutter:
     sdk: flutter
+  flutter_cached_pdfview: ^0.4.2
   flutter_dnd: ^0.1.4+1
-  flutter_pdfview: ^1.3.2
+  flutter_inappwebview: ^6.0.0
   flutter_vibrate: ^1.3.0
   # Font Awesome Icon pack available as Flutter Icons.
   font_awesome_flutter: ^10.7.0
   introduction_screen: ^3.1.14
   # Small, easy to use and extensible logger which prints beautiful logs.
   logger: ^2.2.0
-  syncfusion_flutter_pdfviewer: ^20.4.54
   url_launcher: ^6.2.6
   vibration: ^1.8.4
   wakelock_plus: ^1.2.5

@@ -88,13 +88,10 @@ class TipInformationPage extends StatelessWidget {
                                       ),
                                       IconButton(
                                         onPressed: () {
-                                          // if (link == null) {
-                                          //   return;
-                                          // }
-                                          print("click");
                                           Navigator.of(context).push(
                                             MaterialPageRoute(
-                                              builder: (context) => TipResource(
+                                              builder: (context) =>
+                                                  TipResourcePage(
                                                 url: link.toString(),
                                               ),
                                             ),

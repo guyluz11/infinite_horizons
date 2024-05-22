@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:syncfusion_flutter_pdfviewer/pdfviewer.dart';
-import 'package:webview_flutter/webview_flutter.dart';
+import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:flutter_inappwebview/flutter_inappwebview.dart';
+import 'package:infinite_horizons/presentation/atoms/atoms.dart';
+import 'package:infinite_horizons/presentation/atoms/separator_atom.dart';
+import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-class TipResource extends StatelessWidget {
-  const TipResource({
+class TipResourcePage extends StatelessWidget {
+  const TipResourcePage({
     required this.url,
     super.key,
   });
@@ -12,28 +15,23 @@ class TipResource extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    //Check what type of resource is being displayed
-    final bool isVideo = url.contains("youtube") || url.contains("youtu.be");
-    final bool isPdf = url.contains("pdf");
-    //Display the pdf
-    if (isPdf) {
+    if (url.contains("pdf")) {
       return Scaffold(
-        appBar: AppBar(
-          title: const Text('Resource'),
+        body: Column(
+          children: [
+            TopBarMolecule(
+              topBarType: TopBarType.back,
+              title: "Resource",
+              onTap: () => Navigator.pop(context),
+            ),
+            const SeparatorAtom(variant: SeparatorVariant.closeWidgets),
+            Expanded(child: PdfViewerMolecule(url, true, true, Colors.blue)),
+          ],
         ),
-        body: SfPdfViewer.network(url),
       );
-      //Display the video
-    } else if (isVideo) {
-      final YoutubePlayerController controller = YoutubePlayerController(
-        //Convert the url to the video id
-        initialVideoId: YoutubePlayer.convertUrlToId(url) ?? "",
-        //Hide the thumbnail
-        flags: const YoutubePlayerFlags(hideThumbnail: true),
-      );
+    } else if (url.contains("youtube") || url.contains("youtu.be")) {
       return Stack(
         children: [
-          //Add a transparent container to close the video and implement it like a popup window
           GestureDetector(
             onTap: () => Navigator.pop(context),
             child: Container(
@@ -41,55 +39,83 @@ class TipResource extends StatelessWidget {
               color: Colors.transparent.withOpacity(0.5),
             ),
           ),
-          //Builder is used when full screen functionality is required
-          YoutubePlayerBuilder(
-            player: YoutubePlayer(
-              //controller initialized above
-              controller: controller,
-              //Show the progress bar
-              showVideoProgressIndicator: true,
-              //Set the color of the progress bar and other attrs
-              progressIndicatorColor: Colors.red,
-              progressColors: const ProgressBarColors(
-                playedColor: Colors.red,
-                handleColor: Colors.red,
-              ),
-            ),
-            builder: (context, player) {
-              //Center and pad the player for UI Improvement
-              return Padding(
-                padding: const EdgeInsets.all(8.0),
-                child: Center(child: player),
-              );
-            },
-          ),
+          YouTubePlayerMolecule(url, true, true, Colors.red, Colors.red,
+              Colors.red, const EdgeInsets.all(8.0))
         ],
       );
-      //Display the webview
     } else {
-      final controller = WebViewController()
-        //Allows unrestricted javascript execution
-        ..setJavaScriptMode(JavaScriptMode.unrestricted)
-        //Set the background color to transparent
-        ..setBackgroundColor(const Color(0x00000000))
-        //Defines properties for the webview navigation
-        ..setNavigationDelegate(
-          NavigationDelegate(
-            onProgress: (int progress) {
-              // Update loading bar.
-            },
-            onPageStarted: (String url) {},
-            onPageFinished: (String url) {},
-            onWebResourceError: (WebResourceError error) {},
-          ),
-        )
-        //Load the url
-        ..loadRequest(Uri.parse(url));
       return Scaffold(
-        appBar: AppBar(title: const Text('Resource')),
-        //Actual webview widget to which the controller is passed
-        body: WebViewWidget(controller: controller),
+        body: Column(
+          children: [
+            TopBarMolecule(
+              topBarType: TopBarType.back,
+              title: "Resource",
+              onTap: () => Navigator.pop(context),
+            ),
+            const SeparatorAtom(variant: SeparatorVariant.closeWidgets),
+            Expanded(
+              child: InAppWebView(
+                initialUrlRequest: URLRequest(url: WebUri(url)),
+              ),
+            ),
+          ],
+        ),
       );
     }
+  }
+
+  Widget PdfViewerMolecule(String url, bool autoSpacing, bool pageFling,
+      Color progressIndicatorColor) {
+    return PDF(
+      autoSpacing: autoSpacing,
+      pageFling: pageFling,
+    ).cachedFromUrl(
+      url,
+      placeholder: (progress) => Center(
+        child: Row(
+          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+          children: [
+            CircularProgressIndicator(
+              color: progressIndicatorColor,
+            ),
+            Text('$progress %'),
+          ],
+        ),
+      ),
+      errorWidget: (error) => Center(
+        child: Text(error.toString()),
+      ),
+    );
+  }
+
+  Widget YouTubePlayerMolecule(
+      String url,
+      bool hideThumbnail,
+      bool showVideoProgressIndicator,
+      Color progressIndicatorColor,
+      Color playedColor,
+      Color handleColor,
+      EdgeInsetsGeometry padding) {
+    final YoutubePlayerController controller = YoutubePlayerController(
+      initialVideoId: YoutubePlayer.convertUrlToId(url) ?? "",
+      flags: YoutubePlayerFlags(hideThumbnail: hideThumbnail),
+    );
+    return YoutubePlayerBuilder(
+      player: YoutubePlayer(
+        controller: controller,
+        showVideoProgressIndicator: showVideoProgressIndicator,
+        progressIndicatorColor: progressIndicatorColor,
+        progressColors: ProgressBarColors(
+          playedColor: playedColor,
+          handleColor: handleColor,
+        ),
+      ),
+      builder: (context, player) {
+        return Padding(
+          padding: padding,
+          child: Center(child: player),
+        );
+      },
+    );
   }
 }
