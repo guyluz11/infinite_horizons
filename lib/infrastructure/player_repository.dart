@@ -3,7 +3,7 @@ part of 'package:infinite_horizons/domain/player_controller.dart';
 class _PlayerRepository extends PlayerController {
   late AudioPlayer player;
 
-  bool isSilent = false;
+  bool _isSilent = false;
 
   @override
   void initialize() {
@@ -12,14 +12,14 @@ class _PlayerRepository extends PlayerController {
 
   @override
   Future play(String fileName) async {
-    if (!isSilent) {
+    if (!_isSilent) {
       player.play(AssetSource('sound_effects/$fileName'));
     }
   }
 
   @override
-  void setSilentState(bool value) => isSilent = value;
+  void setSilentState(bool value) => _isSilent = value;
 
   @override
-  bool getSilentState() => isSilent;
+  bool isSilent() => _isSilent;
 }

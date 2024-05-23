@@ -21,6 +21,7 @@ class _TextAreaOrganismState extends State<TextAreaOrganism>
         const TopBarMolecule(
           title: 'Free Text Area',
           topBarType: TopBarType.none,
+          margin: false,
         ),
         const SeparatorAtom(variant: SeparatorVariant.farApart),
         const TextAtom(

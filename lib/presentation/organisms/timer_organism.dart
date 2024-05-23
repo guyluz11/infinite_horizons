@@ -108,7 +108,7 @@ class _TimerOrganismState extends State<TimerOrganism>
           onIcon: Icons.music_note_rounded,
           onChange: (bool value) =>
               PlayerController.instance.setSilentState(!value),
-          initialValue: PlayerController.instance.getSilentState(),
+          initialValue: !PlayerController.instance.isSilent(),
         ),
         ToggleButtonMolecule(
           text: 'Screen Lock',
@@ -137,6 +137,7 @@ class _TimerOrganismState extends State<TimerOrganism>
           title: 'study_efficiency',
           topBarType: TopBarType.none,
           secondaryButtonOnTap: () => secondaryButtonOnTap(context),
+          margin: false,
         ),
         const SeparatorAtom(variant: SeparatorVariant.farApart),
         Expanded(

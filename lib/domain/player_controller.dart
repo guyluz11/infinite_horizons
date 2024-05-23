@@ -10,7 +10,7 @@ abstract class PlayerController {
   }
 
   void setSilentState(bool value);
-  bool getSilentState();
+  bool isSilent();
 
   void initialize();
 
