@@ -11,7 +11,7 @@ abstract class VibrationController {
     return _instance ??= _VibrationRepository();
   }
 
-  Future initialize();
+  Future init();
 
   Future vibrate(VibrationType type);
 }

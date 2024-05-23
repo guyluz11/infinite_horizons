@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/domain/preferences_controller.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 
@@ -7,33 +8,42 @@ class TextAreaOrganism extends StatefulWidget {
   State<TextAreaOrganism> createState() => _TextAreaOrganismState();
 }
 
-class _TextAreaOrganismState extends State<TextAreaOrganism>
-    with AutomaticKeepAliveClientMixin<TextAreaOrganism> {
+class _TextAreaOrganismState extends State<TextAreaOrganism> {
   @override
-  bool get wantKeepAlive => true;
+  void initState() {
+    super.initState();
+    freeText = PreferencesController.instance.getString('freeText') ?? '';
+  }
+
+  late String freeText;
+
+  void onChanged(String text) =>
+      PreferencesController.instance.setString('freeText', text);
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     return Column(
       children: [
         const TopBarMolecule(
-          title: 'Free Text Area',
+          title: 'Notes',
           topBarType: TopBarType.none,
           margin: false,
         ),
         const SeparatorAtom(variant: SeparatorVariant.farApart),
         const TextAtom(
-          'Whenever unrelated thought pops up during your session just write it down and your brain will be free',
+          'We encourage writing down unrelated tasks that are on your mind to keep your brain free and come back to it after the sessions',
           variant: TextVariant.smallTitle,
         ),
+        const SeparatorAtom(),
         const SeparatorAtom(),
         Expanded(
           child: TextFormField(
             minLines: 6,
             keyboardType: TextInputType.multiline,
             maxLines: null,
+            initialValue: freeText,
+            onChanged: onChanged,
+            autofocus: true,
           ),
         ),
       ],
