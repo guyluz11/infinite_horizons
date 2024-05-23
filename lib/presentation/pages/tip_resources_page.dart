@@ -47,24 +47,23 @@ class TipResourcePage extends StatelessWidget {
           ),
         ],
       );
-    } else {
-      return Scaffold(
-        body: Column(
-          children: [
-            TopBarMolecule(
-              topBarType: TopBarType.back,
-              title: "Resource",
-              onTap: () => Navigator.pop(context),
-            ),
-            const SeparatorAtom(variant: SeparatorVariant.closeWidgets),
-            Expanded(
-              child: InAppWebView(
-                initialUrlRequest: URLRequest(url: WebUri(url)),
-              ),
-            ),
-          ],
-        ),
-      );
     }
+    return Scaffold(
+      body: Column(
+        children: [
+          TopBarMolecule(
+            topBarType: TopBarType.back,
+            title: "Resource",
+            onTap: () => Navigator.pop(context),
+          ),
+          const SeparatorAtom(variant: SeparatorVariant.closeWidgets),
+          Expanded(
+            child: InAppWebView(
+              initialUrlRequest: URLRequest(url: WebUri(url)),
+            ),
+          ),
+        ],
+      ),
+    );
   }
 }
