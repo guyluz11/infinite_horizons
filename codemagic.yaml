@@ -57,7 +57,7 @@ workflows:
     # Integration section is required to make use of the keys stored in
     # Codemagic UI under Apple Developer Portal integration.
     integrations:
-      app_store_connect: app_store_connect_api_key2
+      app_store_connect: codemagic_api_key2
 
     publishing:
       app_store_connect:
