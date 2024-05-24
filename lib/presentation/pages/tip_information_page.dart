@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
+import 'package:infinite_horizons/presentation/core/snack_bar_service.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/pages/tip_resources_page.dart';
 
@@ -89,14 +90,9 @@ class TipInformationPage extends StatelessWidget {
                                       IconButton(
                                         onPressed: () {
                                           if (link == null) {
-                                            ScaffoldMessenger.of(context)
-                                                .showSnackBar(
-                                              const SnackBar(
-                                                content: Text(
-                                                  'Link is not available',
-                                                ),
-                                              ),
-                                            );
+                                            final snackBar = SnackBarService();
+                                            snackBar.show(context,
+                                                "No Link available for the resource");
                                             return;
                                           }
                                           Navigator.of(context).push(

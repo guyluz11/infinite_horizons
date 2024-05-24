@@ -1,16 +1,18 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/presentation/core/color_schemes.dart';
+import 'package:infinite_horizons/presentation/core/theme_data.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YoutubePlayerMolecule extends StatelessWidget {
-  const YoutubePlayerMolecule({
+  YoutubePlayerMolecule({
     required this.url,
-    super.key,
     this.hideThumbnail = false,
     this.showVideoProgressIndicator = true,
     this.progressIndicatorColor = Colors.red,
     this.playedColor = Colors.red,
     this.handleColor = Colors.red,
     this.padding = const EdgeInsets.all(8.0),
+    super.key,
   });
   final String url;
   final bool hideThumbnail;
@@ -23,7 +25,7 @@ class YoutubePlayerMolecule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     final YoutubePlayerController controller = YoutubePlayerController(
-      initialVideoId: YoutubePlayer.convertUrlToId(url) ?? "",
+      initialVideoId: YoutubePlayer.convertUrlToId(url)!,
       flags: YoutubePlayerFlags(hideThumbnail: hideThumbnail),
     );
     return YoutubePlayerBuilder(

@@ -1,12 +1,15 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_cached_pdfview/flutter_cached_pdfview.dart';
+import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class PdfViewerMolecule extends StatelessWidget {
-  const PdfViewerMolecule(
-      {required this.url, super.key,
-      this.autoSpacing = true,
-      this.pageFling = true,
-      this.progressIndicatorColor = Colors.blue,});
+  const PdfViewerMolecule({
+    required this.url,
+    super.key,
+    this.autoSpacing = true,
+    this.pageFling = true,
+    this.progressIndicatorColor = Colors.blue,
+  });
   final String url;
   final bool autoSpacing;
   final bool pageFling;
@@ -26,12 +29,12 @@ class PdfViewerMolecule extends StatelessWidget {
             CircularProgressIndicator(
               color: progressIndicatorColor,
             ),
-            Text('$progress %'),
+            TextAtom('$progress %'),
           ],
         ),
       ),
       errorWidget: (error) => Center(
-        child: Text(error.toString()),
+        child: TextAtom(error.toString()),
       ),
     );
   }

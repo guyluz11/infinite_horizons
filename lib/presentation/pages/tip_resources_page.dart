@@ -3,6 +3,7 @@ import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/atoms/separator_atom.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
+import 'package:infinite_horizons/presentation/molecules/web_view_molecule.dart';
 
 class TipResourcePage extends StatelessWidget {
   const TipResourcePage({
@@ -57,11 +58,7 @@ class TipResourcePage extends StatelessWidget {
             onTap: () => Navigator.pop(context),
           ),
           const SeparatorAtom(variant: SeparatorVariant.closeWidgets),
-          Expanded(
-            child: InAppWebView(
-              initialUrlRequest: URLRequest(url: WebUri(url)),
-            ),
-          ),
+          Expanded(child: WebViewMolecule(url: url)),
         ],
       ),
     );
