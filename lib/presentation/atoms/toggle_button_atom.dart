@@ -29,7 +29,14 @@ class _ToggleButtonAtomState extends State<ToggleButtonAtom> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
+    final ColorScheme colorScheme = themeData.colorScheme;
     return AnimatedToggleSwitch<bool>.rolling(
+      style: ToggleStyle(
+        backgroundColor: colorScheme.outline,
+        borderColor: colorScheme.outline,
+        indicatorColor: colorScheme.primary,
+      ),
       current: toggle,
       values: const [false, true],
       onChanged: (value) {
