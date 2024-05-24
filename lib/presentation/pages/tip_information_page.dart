@@ -91,8 +91,10 @@ class TipInformationPage extends StatelessWidget {
                                         onPressed: () {
                                           if (link == null) {
                                             final snackBar = SnackBarService();
-                                            snackBar.show(context,
-                                                "No Link available for the resource",);
+                                            snackBar.show(
+                                              context,
+                                              "no_link",
+                                            );
                                             return;
                                           }
                                           Navigator.of(context).push(

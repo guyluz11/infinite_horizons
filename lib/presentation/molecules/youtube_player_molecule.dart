@@ -20,11 +20,11 @@ class YoutubePlayerMolecule extends StatelessWidget {
       player: YoutubePlayer(
         controller: controller,
         showVideoProgressIndicator: true,
-        progressIndicatorColor: colorScheme.primary,
+        progressIndicatorColor: colorScheme.outline,
         progressColors: ProgressBarColors(
-          playedColor: colorScheme.primary,
-          handleColor: colorScheme.primary,
-        ),
+            playedColor: colorScheme.outline,
+            handleColor: colorScheme.outline,
+            backgroundColor: colorScheme.primary,),
       ),
       builder: (context, player) {
         return Center(child: player);
