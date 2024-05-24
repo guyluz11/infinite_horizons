@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:infinite_horizons/presentation/core/theme_data.dart';
 
 class MarginedExpandedAtom extends StatelessWidget {
@@ -10,7 +11,7 @@ class MarginedExpandedAtom extends StatelessWidget {
   Widget build(BuildContext context) {
     return Center(
       child: Container(
-        constraints: const BoxConstraints(maxWidth: 600),
+        constraints: GlobalVariables.maxWidth,
         margin: AppThemeData.generalHorizontalEdgeInsets,
         child: child,
       ),

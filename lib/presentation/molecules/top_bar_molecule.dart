@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class TopBarMolecule extends StatelessWidget {
@@ -8,7 +9,6 @@ class TopBarMolecule extends StatelessWidget {
     this.iconColor,
     this.onTap,
     this.secondaryButtonOnTap,
-    this.secondaryButtonText,
     this.translate = true,
     this.margin = true,
   });
@@ -18,7 +18,6 @@ class TopBarMolecule extends StatelessWidget {
   final Color? iconColor;
   final VoidCallback? onTap;
   final VoidCallback? secondaryButtonOnTap;
-  final String? secondaryButtonText;
   final bool translate;
   final bool margin;
 
@@ -74,12 +73,12 @@ class TopBarMolecule extends StatelessWidget {
             ),
             Row(
               children: [
-                if (secondaryButtonText != null && secondaryButtonOnTap != null)
+                if (secondaryButtonOnTap != null)
                   ButtonAtom(
-                    variant: ButtonVariant.tertiary,
-                    text: secondaryButtonText,
+                    variant: ButtonVariant.iconButton,
                     onPressed: secondaryButtonOnTap!,
                     translate: translate,
+                    icon: FontAwesomeIcons.gear,
                   )
                 else
                   TextAtom(
