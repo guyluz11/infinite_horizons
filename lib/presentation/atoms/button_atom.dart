@@ -60,7 +60,7 @@ class ButtonAtom extends StatelessWidget {
             style: FilledButton.styleFrom().copyWith(
               alignment: Alignment.center,
               backgroundColor: disabled
-                  ? MaterialStateProperty.all(colorScheme.outline)
+                  ? WidgetStateProperty.all(colorScheme.outline)
                   : null,
             ),
             child: label(textTheme),
@@ -73,7 +73,7 @@ class ButtonAtom extends StatelessWidget {
           style: FilledButton.styleFrom().copyWith(
             alignment: Alignment.center,
             backgroundColor: disabled
-                ? MaterialStateProperty.all(colorScheme.outline)
+                ? WidgetStateProperty.all(colorScheme.outline)
                 : null,
           ),
           icon: Icon(icon),
@@ -88,7 +88,7 @@ class ButtonAtom extends StatelessWidget {
             style: FilledButton.styleFrom().copyWith(
               alignment: Alignment.center,
               backgroundColor: disabled
-                  ? MaterialStateProperty.all(colorScheme.outline)
+                  ? WidgetStateProperty.all(colorScheme.outline)
                   : null,
             ),
             child: label(textTheme),
@@ -101,7 +101,7 @@ class ButtonAtom extends StatelessWidget {
           style: FilledButton.styleFrom().copyWith(
             alignment: Alignment.center,
             backgroundColor: disabled
-                ? MaterialStateProperty.all(colorScheme.outline)
+                ? WidgetStateProperty.all(colorScheme.outline)
                 : null,
           ),
           icon: Icon(icon),
@@ -116,8 +116,8 @@ class ButtonAtom extends StatelessWidget {
             style: FilledButton.styleFrom().copyWith(
               alignment: Alignment.center,
               backgroundColor: disabled
-                  ? MaterialStateProperty.all(colorScheme.outline)
-                  : MaterialStateProperty.all(colorScheme.tertiaryContainer),
+                  ? WidgetStateProperty.all(colorScheme.outline)
+                  : WidgetStateProperty.all(colorScheme.tertiaryContainer),
             ),
             child: label(textTheme),
           ),
@@ -129,8 +129,8 @@ class ButtonAtom extends StatelessWidget {
           style: FilledButton.styleFrom().copyWith(
             alignment: Alignment.center,
             backgroundColor: disabled
-                ? MaterialStateProperty.all(colorScheme.outline)
-                : MaterialStateProperty.all(colorScheme.tertiaryContainer),
+                ? WidgetStateProperty.all(colorScheme.outline)
+                : WidgetStateProperty.all(colorScheme.tertiaryContainer),
           ),
           icon: Icon(icon),
           label: label(textTheme),

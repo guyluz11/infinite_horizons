@@ -6,20 +6,15 @@ class PdfViewerMolecule extends StatelessWidget {
   const PdfViewerMolecule({
     required this.url,
     super.key,
-    this.autoSpacing = true,
-    this.pageFling = true,
-    this.progressIndicatorColor = Colors.blue,
   });
   final String url;
-  final bool autoSpacing;
-  final bool pageFling;
-  final Color progressIndicatorColor;
 
   @override
   Widget build(BuildContext context) {
-    return PDF(
-      autoSpacing: autoSpacing,
-      pageFling: pageFling,
+    final ThemeData themeData = Theme.of(context);
+    final ColorScheme colorScheme = themeData.colorScheme;
+    return const PDF(
+      
     ).cachedFromUrl(
       url,
       placeholder: (progress) => Center(
@@ -27,7 +22,7 @@ class PdfViewerMolecule extends StatelessWidget {
           mainAxisAlignment: MainAxisAlignment.spaceEvenly,
           children: [
             CircularProgressIndicator(
-              color: progressIndicatorColor,
+              color: colorScheme.primary,
             ),
             TextAtom('$progress %'),
           ],

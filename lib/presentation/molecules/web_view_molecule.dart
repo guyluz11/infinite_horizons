@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_inappwebview/flutter_inappwebview.dart';
 
 class WebViewMolecule extends StatelessWidget {
-  const WebViewMolecule({super.key, required this.url});
+  const WebViewMolecule({required this.url, super.key});
 
   final String url;
 
