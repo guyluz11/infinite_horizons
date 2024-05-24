@@ -100,29 +100,43 @@ class _TimerOrganismState extends State<TimerOrganism>
   }
 
   void secondaryButtonOnTap(BuildContext context) {
-    final Widget body = Column(
-      children: [
-        ToggleButtonMolecule(
-          text: 'Sound',
-          offIcon: Icons.music_off_rounded,
-          onIcon: Icons.music_note_rounded,
-          onChange: (bool value) =>
-              PlayerController.instance.setSilentState(!value),
-          initialValue: !PlayerController.instance.isSilent(),
-        ),
-        ToggleButtonMolecule(
-          text: 'Screen Lock',
-          offIcon: Icons.lock_clock,
-          onIcon: Icons.lock_open,
-          onChange: (bool value) {
-            lockScreen = value;
-            WakeLockController.instance.setWakeLock(lockScreen);
-          },
-          initialValue: lockScreen,
-        ),
-      ],
+    final Widget body = SizedBox(
+      width: 200,
+      child: Column(
+        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+        children: [
+          TopBarMolecule(
+            title: "settings",
+            topBarType: TopBarType.none,
+          ),
+          SeparatorAtom(
+            variant: SeparatorVariant.generalSpacing,
+          ),
+          ToggleButtonMolecule(
+            text: 'Sound',
+            offIcon: Icons.music_off_rounded,
+            onIcon: Icons.music_note_rounded,
+            onChange: (bool value) =>
+                PlayerController.instance.setSilentState(!value),
+            initialValue: !PlayerController.instance.isSilent(),
+          ),
+          SeparatorAtom(),
+          ToggleButtonMolecule(
+            text: 'Screen Lock',
+            offIcon: Icons.lock_clock,
+            onIcon: Icons.lock_open,
+            onChange: (bool value) {
+              lockScreen = value;
+              WakeLockController.instance.setWakeLock(lockScreen);
+            },
+            initialValue: lockScreen,
+          ),
+          SeparatorAtom(
+            variant: SeparatorVariant.farApart,
+          ),
+        ],
+      ),
     );
-
     openAlertDialog(context, body);
   }
 
