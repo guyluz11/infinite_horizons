@@ -103,12 +103,12 @@ class _TimerOrganismState extends State<TimerOrganism>
     final Widget body = Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
-        TopBarMolecule(
+        const TopBarMolecule(
           title: "settings",
           topBarType: TopBarType.none,
         ),
-        SeparatorAtom(
-          variant: SeparatorVariant.generalSpacing,
+        const SeparatorAtom(
+          
         ),
         ToggleButtonMolecule(
           text: 'sound',
@@ -118,7 +118,7 @@ class _TimerOrganismState extends State<TimerOrganism>
               PlayerController.instance.setSilentState(!value),
           initialValue: !PlayerController.instance.isSilent(),
         ),
-        SeparatorAtom(),
+        const SeparatorAtom(),
         ToggleButtonMolecule(
           text: 'screen_lock',
           offIcon: Icons.lock_clock,
@@ -129,7 +129,7 @@ class _TimerOrganismState extends State<TimerOrganism>
           },
           initialValue: lockScreen,
         ),
-        SeparatorAtom(
+        const SeparatorAtom(
           variant: SeparatorVariant.farApart,
         ),
       ],
