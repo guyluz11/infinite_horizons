@@ -102,14 +102,14 @@ class _TimerOrganismState extends State<TimerOrganism>
   void secondaryButtonOnTap(BuildContext context) {
     final Widget body = Column(
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         const TopBarMolecule(
           title: "settings",
           topBarType: TopBarType.none,
+          margin: false,
         ),
-        const SeparatorAtom(
-          
-        ),
+        const SeparatorAtom(),
         ToggleButtonMolecule(
           text: 'sound',
           offIcon: Icons.music_off_rounded,

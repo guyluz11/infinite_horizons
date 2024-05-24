@@ -24,7 +24,6 @@ class ToggleButtonMolecule extends StatelessWidget {
       mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TextAtom(text),
-        const SeparatorAtom(),
         ToggleButtonAtom(
           offIcon: offIcon,
           onIcon: onIcon,
