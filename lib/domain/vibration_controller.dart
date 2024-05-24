@@ -10,7 +10,7 @@ abstract class VibrationController {
   static VibrationController get instance =>
       _instance ??= _VibrationRepository();
 
-  Future initialize();
+  Future init();
 
   Future vibrate(VibrationType type);
 }

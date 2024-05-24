@@ -7,6 +7,7 @@ environment:
   sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
+  animated_toggle_switch: ^0.8.2
   audioplayers: ^6.0.0
   collection: ^1.18.0
   # Cupertino Icons font to your application
@@ -27,6 +28,7 @@ dependencies:
   # Small, easy to use and extensible logger which prints beautiful logs.
   liquid_progress_indicator_v2: ^0.5.0
   logger: ^2.2.0
+  shared_preferences: ^2.2.3
   url_launcher: ^6.2.6
   vibration: ^1.8.4
   wakelock_plus: ^1.2.5
