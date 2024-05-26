@@ -19,11 +19,8 @@ class TipResourcePage extends StatelessWidget {
         title: "resource",
       );
     } else if (url.contains("youtube") || url.contains("youtu.be")) {
-      return TipResourceMolecule(
-        innerWidget: YoutubePlayerMolecule(
-          url: url,
-        ),
-        title: "resource",
+      return YoutubePlayerMolecule(
+        url: url,
       );
     }
     return TipResourceMolecule(
