@@ -1,12 +1,23 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
+import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
 
+// ignore: must_be_immutable
 class ProgressIndicatorAtom extends StatefulWidget {
-  const ProgressIndicatorAtom(this.totalDuration, this.callback);
+  ProgressIndicatorAtom({
+    required this.totalDuration,
+    required this.callback,
+    this.controller,
+    this.isPdfLoader = false,
+    this.centerWidget = const SizedBox(),
+  });
 
   final Duration totalDuration;
   final VoidCallback callback;
+  AnimationController? controller;
+  final bool isPdfLoader;
+  final Widget centerWidget;
 
   @override
   State<ProgressIndicatorAtom> createState() => _ProgressIndicatorAtomState();
@@ -14,8 +25,6 @@ class ProgressIndicatorAtom extends StatefulWidget {
 
 class _ProgressIndicatorAtomState extends State<ProgressIndicatorAtom>
     with TickerProviderStateMixin {
-  late AnimationController controller;
-
   @override
   void initState() {
     updateProgress();
@@ -23,24 +32,25 @@ class _ProgressIndicatorAtomState extends State<ProgressIndicatorAtom>
   }
 
   void updateProgress() {
-    controller = AnimationController(
+    widget.controller ??= AnimationController(
       vsync: this,
       duration: widget.totalDuration,
     );
-    controller.addListener(() {
+    widget.controller!.addListener(() {
       setState(() {});
     });
-    controller.addStatusListener((status) {
+
+    widget.controller!.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         widget.callback();
       }
     });
-    controller.forward();
+    if (!widget.isPdfLoader) widget.controller!.forward();
   }
 
   @override
   void dispose() {
-    controller.dispose();
+    widget.controller!.dispose();
     super.dispose();
   }
 
@@ -52,16 +62,13 @@ class _ProgressIndicatorAtomState extends State<ProgressIndicatorAtom>
       width: double.infinity,
       height: 35,
       child: LiquidLinearProgressIndicator(
-        value: controller.value,
+        value: widget.controller!.value,
         backgroundColor: colorScheme.outline,
         valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
         borderColor: colorScheme.outline,
-        borderRadius: 10,
-        borderWidth: 2,
-        center: TextAtom(
-          '${(controller.value * 100).toInt()}%',
-          translate: false,
-        ),
+        borderRadius: GlobalVariables.defaultRadius,
+        borderWidth: GlobalVariables.defaultBorderWidth,
+        center: widget.centerWidget,
       ),
     );
   }
