@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
 
