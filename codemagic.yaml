@@ -33,6 +33,12 @@ workflows:
         track: production
 
   ios-workflow:
+    distribution_type: app_store
+    bundle_identifier: com.haveinfinitehorizons
+    # Integration section is required to make use of the keys stored in
+    # Codemagic UI under Apple Developer Portal integration.
+    integrations:
+      app_store_connect: code_megic_apple_connect_api
     environment:
       flutter: stable
     scripts:
@@ -54,10 +60,6 @@ workflows:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
       - flutter_drive.log
-    # Integration section is required to make use of the keys stored in
-    # Codemagic UI under Apple Developer Portal integration.
-    integrations:
-      app_store_connect: codemagic_api_key2
 
     publishing:
       app_store_connect:
