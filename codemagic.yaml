@@ -33,8 +33,6 @@ workflows:
         track: production
 
   ios-workflow:
-    distribution_type: app_store
-    bundle_identifier: com.haveinfinitehorizons
     # Integration section is required to make use of the keys stored in
     # Codemagic UI under Apple Developer Portal integration.
     integrations:
