@@ -54,9 +54,12 @@ workflows:
           find . -name "Podfile" -execdir pod install \;
       - name: Flutter build ipa
         script: |
+          echo "APPLE_BUNDLE_IDENTIFIER = ${APPLE_BUNDLE_IDENTIFIER}" >> ios/Flutter/Release.xcconfig
+          BUILD_NUMBER=$(($(app-store-connect get-latest-app-store-build-number $APPLE_BUNDLE_IDENTIFIER) + 1))
           flutter build ipa --release \
-            --build-name=1.0.0 \
-            --export-options-plist=/Users/builder/export_options.plist
+          --build-number=$BUILD_NUMBER \
+          --export-options-plist=/Users/builder/export_options.plist
+
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
