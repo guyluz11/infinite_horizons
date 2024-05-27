@@ -55,6 +55,7 @@ workflows:
           echo "BUILD_NUMBER:$BUILD_NUMBER"
           flutter build ipa --release \
           --build-number=$BUILD_NUMBER \
+          --build-name=1.0.$BUILD_NUMBER \
           --export-options-plist=/Users/builder/export_options.plist
 
     artifacts:
