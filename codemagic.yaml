@@ -55,7 +55,8 @@ workflows:
       - name: Flutter build ipa
         script: |
           echo "APPLE_BUNDLE_IDENTIFIER = ${APPLE_BUNDLE_IDENTIFIER}" >> ios/Flutter/Release.xcconfig
-          BUILD_NUMBER=$(($(app-store-connect get-latest-app-store-build-number $APPLE_BUNDLE_IDENTIFIER) + 1))
+          BUILD_NUMBER=$(($(app-store-connect get-latest-app-store-build-number $APPLE_BUNDLE_IDENTIFIER) + 2))
+          echo "$APPLE_BUNDLE_IDENTIFIER and $BUILD_NUMBER"
           flutter build ipa --release \
           --build-number=$BUILD_NUMBER \
           --export-options-plist=/Users/builder/export_options.plist
