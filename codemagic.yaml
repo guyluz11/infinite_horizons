@@ -1,13 +1,15 @@
 workflows:
-  sample-workflow:
-    name: Codemagic Sample Workflow
-    max_build_duration: 60
-    instance_type: mac_mini_m1
-
   android-workflow:
+    instance_type: linux
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+      cancel_previous_builds: true
     environment:
       groups:
-#        - keystore_credentials
         - google_play
       vars:
         PACKAGE_NAME: "com.haveinfinitehorizons"
@@ -34,15 +36,22 @@ workflows:
       - build/**/outputs/**/mapping.txt
       - flutter_drive.log
     publishing:
-      # ...
       google_play:
         credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
         track: production
 
   ios-workflow:
-    name: iOS Workflow
-    # ....
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+      cancel_previous_builds: true
+    integrations:
+      app_store_connect: code_megic_apple_connect_api
     environment:
+      flutter: stable
       ios_signing:
         distribution_type: app_store
         bundle_identifier: com.haveinfinitehorizons
@@ -53,16 +62,28 @@ workflows:
       - name: Get Flutter packages
         script: |
           flutter packages pub get
-      - name: Install pods
-        script: |
-          find . -name "Podfile" -execdir pod install \;
       - name: Flutter build ipa
         script: |
+          BUILD_NUMBER=$(($(app-store-connect get-latest-app-store-build-number 6502440548) + 1))
           flutter build ipa --release \
-            --build-name=1.0.0 \
-            --export-options-plist=/Users/builder/export_options.plist
+          --build-number=$BUILD_NUMBER \
+          --build-name=1.0.$BUILD_NUMBER \
+          --export-options-plist=/Users/builder/export_options.plist
+
     artifacts:
       - build/ios/ipa/*.ipa
       - /tmp/xcodebuild_logs/*.log
       - flutter_drive.log
-      # ... your build commands
+
+    publishing:
+      app_store_connect:
+        # Use referenced App Store Connect API key to authenticate binary upload
+        auth: integration
+
+        # Whether or not to submit the uploaded
+        # build to App Store review.
+        submit_to_app_store: true
+
+        cancel_previous_submissions: true
+
+        release_type: AFTER_APPROVAL
