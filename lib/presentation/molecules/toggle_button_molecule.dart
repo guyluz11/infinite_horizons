@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class ToggleButtonMolecule extends StatelessWidget {
@@ -20,10 +21,9 @@ class ToggleButtonMolecule extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Row(
-      mainAxisAlignment: MainAxisAlignment.center,
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
       children: [
         TextAtom(text),
-        const SeparatorAtom(),
         ToggleButtonAtom(
           offIcon: offIcon,
           onIcon: onIcon,
