@@ -1,5 +1,12 @@
 workflows:
   android-workflow:
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+      cancel_previous_builds: true
     environment:
       groups:
         - google_play
@@ -33,6 +40,13 @@ workflows:
         track: production
 
   ios-workflow:
+    triggering:
+      events:
+        - push
+      branch_patterns:
+        - pattern: main
+          include: true
+      cancel_previous_builds: true
     # Integration section is required to make use of the keys stored in
     # Codemagic UI under Apple Developer Portal integration.
     integrations:
@@ -52,7 +66,6 @@ workflows:
       - name: Flutter build ipa
         script: |
           BUILD_NUMBER=$(($(app-store-connect get-latest-app-store-build-number 6502440548) + 1))
-          echo "BUILD_NUMBER:$BUILD_NUMBER"
           flutter build ipa --release \
           --build-number=$BUILD_NUMBER \
           --build-name=1.0.$BUILD_NUMBER \
