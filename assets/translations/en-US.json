@@ -44,6 +44,9 @@
   "dnd":"Toggle DND",
   "dnd_ios":"We recommend turning Do Not Disturb mode to avoid distractions",
   "close": "Close",
+  "settings" : "Settings",
+  "sound" : "Sound",
+  "screen_lock": "Screen Lock",
   "error_pdf": "Some error occured while loading the resource",
   "no_link": "No Link available for the resource"
 }

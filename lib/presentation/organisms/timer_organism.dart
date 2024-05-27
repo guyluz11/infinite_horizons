@@ -101,17 +101,26 @@ class _TimerOrganismState extends State<TimerOrganism>
 
   void secondaryButtonOnTap(BuildContext context) {
     final Widget body = Column(
+      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
+        const TopBarMolecule(
+          title: "settings",
+          topBarType: TopBarType.none,
+          margin: false,
+        ),
+        const SeparatorAtom(),
         ToggleButtonMolecule(
-          text: 'Sound',
+          text: 'sound',
           offIcon: Icons.music_off_rounded,
           onIcon: Icons.music_note_rounded,
           onChange: (bool value) =>
               PlayerController.instance.setSilentState(!value),
           initialValue: !PlayerController.instance.isSilent(),
         ),
+        const SeparatorAtom(),
         ToggleButtonMolecule(
-          text: 'Screen Lock',
+          text: 'screen_lock',
           offIcon: Icons.lock_clock,
           onIcon: Icons.lock_open,
           onChange: (bool value) {
@@ -120,9 +129,11 @@ class _TimerOrganismState extends State<TimerOrganism>
           },
           initialValue: lockScreen,
         ),
+        const SeparatorAtom(
+          variant: SeparatorVariant.farApart,
+        ),
       ],
     );
-
     openAlertDialog(context, body);
   }
 
