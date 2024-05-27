@@ -36,6 +36,11 @@ workflows:
     environment:
       flutter: stable
     scripts:
+      - name: Automatic signing
+        script: |
+          keychain initialize
+          app-store-connect fetch-signing-files "com.haveinfinitehorizons" --type IOS_APP_STORE --create
+          keychain add-certificates
       - name: Set up code signing settings on Xcode project
         script: |
           xcode-project use-profiles
