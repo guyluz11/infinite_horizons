@@ -1,4 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/presentation/atoms/atoms.dart';
+import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
 
 class ProgressIndicatorAtom extends StatefulWidget {
   const ProgressIndicatorAtom(this.totalDuration, this.callback);
@@ -44,8 +46,23 @@ class _ProgressIndicatorAtomState extends State<ProgressIndicatorAtom>
 
   @override
   Widget build(BuildContext context) {
-    return LinearProgressIndicator(
-      value: controller.value,
+    final ThemeData themeData = Theme.of(context);
+    final ColorScheme colorScheme = themeData.colorScheme;
+    return SizedBox(
+      width: double.infinity,
+      height: 35,
+      child: LiquidLinearProgressIndicator(
+        value: controller.value,
+        backgroundColor: colorScheme.outline,
+        valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
+        borderColor: colorScheme.outline,
+        borderRadius: 10,
+        borderWidth: 2,
+        center: TextAtom(
+          '${(controller.value * 100).toInt()}%',
+          translate: false,
+        ),
+      ),
     );
   }
 }
