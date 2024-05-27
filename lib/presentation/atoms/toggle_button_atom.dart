@@ -33,9 +33,9 @@ class _ToggleButtonAtomState extends State<ToggleButtonAtom> {
     final ColorScheme colorScheme = themeData.colorScheme;
     return AnimatedToggleSwitch<bool>.rolling(
       style: ToggleStyle(
-        backgroundColor: colorScheme.outline,
-        borderColor: colorScheme.outline,
-        indicatorColor: colorScheme.primary,
+        backgroundColor: toggle ? colorScheme.primary : colorScheme.outline,
+        borderColor: toggle ? colorScheme.primary : colorScheme.outline,
+        indicatorColor: toggle ? colorScheme.secondary : colorScheme.error,
       ),
       current: toggle,
       values: const [false, true],
