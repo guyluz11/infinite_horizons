@@ -1,5 +1,6 @@
 workflows:
   android-workflow:
+    instance_type: linux
     triggering:
       events:
         - push
@@ -47,8 +48,6 @@ workflows:
         - pattern: main
           include: true
       cancel_previous_builds: true
-    # Integration section is required to make use of the keys stored in
-    # Codemagic UI under Apple Developer Portal integration.
     integrations:
       app_store_connect: code_megic_apple_connect_api
     environment:
