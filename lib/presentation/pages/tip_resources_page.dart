@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
-import 'package:infinite_horizons/presentation/molecules/web_view_molecule.dart';
 
 class TipResourcePage extends StatelessWidget {
   const TipResourcePage({
@@ -19,8 +18,11 @@ class TipResourcePage extends StatelessWidget {
         title: "resource",
       );
     } else if (url.contains("youtube") || url.contains("youtu.be")) {
-      return YoutubePlayerMolecule(
-        url: url,
+      return TipResourceMolecule(
+        innerWidget: YoutubePlayerMolecule(
+          url: url,
+        ),
+        title: "resource",
       );
     }
     return TipResourceMolecule(

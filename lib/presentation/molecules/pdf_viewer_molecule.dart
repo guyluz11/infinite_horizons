@@ -15,27 +15,33 @@ class PdfViewerMolecule extends StatefulWidget {
 
 class _PdfViewerMoleculeState extends State<PdfViewerMolecule>
     with SingleTickerProviderStateMixin {
-  late final AnimationController controller = AnimationController(
-    vsync: this,
-    duration: const Duration(seconds: 10),
-  );
+  AnimationController? controller;
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller = AnimationController(
+      vsync: this,
+      duration: const Duration(seconds: 10),
+    );
+  }
 
   @override
   Widget build(BuildContext context) {
     return const PDF().cachedFromUrl(
       widget.url,
       placeholder: (progress) {
-        controller.animateTo(progress / 100, duration: Duration.zero);
+        controller!.animateTo(progress / 100, duration: Duration.zero);
         return Padding(
           padding: GlobalVariables.defaultPadding,
           child: Center(
             child: ProgressIndicatorAtom(
               totalDuration: const Duration(seconds: 100),
               callback: () {},
-              controller: controller,
+              inputController: controller,
               isPdfLoader: true,
               centerWidget: TextAtom(
-                '${(controller.value * 100).toInt()}%',
+                '${(controller!.value * 100).toInt()}%',
                 translate: false,
               ),
             ),

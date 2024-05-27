@@ -1,13 +1,10 @@
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/presentation/atoms/atoms.dart';
-import 'package:infinite_horizons/presentation/molecules/molecules.dart';
+import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
-// ignore: must_be_immutable
 class YoutubePlayerMolecule extends StatefulWidget {
-  YoutubePlayerMolecule({required this.url, super.key});
+  const YoutubePlayerMolecule({required this.url, super.key});
   final String url;
-  bool isFullScreen = false;
 
   @override
   State<YoutubePlayerMolecule> createState() => _YoutubePlayerMoleculeState();
@@ -16,13 +13,20 @@ class YoutubePlayerMolecule extends StatefulWidget {
 class _YoutubePlayerMoleculeState extends State<YoutubePlayerMolecule> {
   late final YoutubePlayerController controller;
   void listener() {
-    widget.isFullScreen = controller.value.isFullScreen;
-    setState(() {});
+    setState(() {
+      GlobalVariables.isFullScreen.value = controller.value.isFullScreen;
+    });
+  }
+
+  @override
+  void dispose() {
+    controller.removeListener(listener);
+    controller.dispose();
+    super.dispose();
   }
 
   @override
   void initState() {
-    // TODO: implement initState
     super.initState();
     controller = YoutubePlayerController(
       initialVideoId: YoutubePlayer.convertUrlToId(widget.url)!,
@@ -47,21 +51,7 @@ class _YoutubePlayerMoleculeState extends State<YoutubePlayerMolecule> {
       ),
       builder: (context, player) {
         return Scaffold(
-          body: Column(
-            children: [
-              if (widget.isFullScreen)
-                const SizedBox()
-              else
-                const TopBarMolecule(
-                  title: "resource",
-                  topBarType: TopBarType.back,
-                ),
-              const SeparatorAtom(
-                variant: SeparatorVariant.closeWidgets,
-              ),
-              Expanded(child: Center(child: player)),
-            ],
-          ),
+          body: Center(child: player),
         );
       },
     );
