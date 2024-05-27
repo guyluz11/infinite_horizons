@@ -8,14 +8,13 @@ class ProgressIndicatorAtom extends StatefulWidget {
     required this.callback,
     this.inputController,
     this.isPdfLoader = false,
-    this.centerWidget = const SizedBox(),
+    this.centerWidget,
   });
-
   final Duration totalDuration;
   final VoidCallback callback;
   final AnimationController? inputController;
   final bool isPdfLoader;
-  final Widget centerWidget;
+  final Widget? centerWidget;
 
   @override
   State<ProgressIndicatorAtom> createState() => _ProgressIndicatorAtomState();
@@ -23,7 +22,7 @@ class ProgressIndicatorAtom extends StatefulWidget {
 
 class _ProgressIndicatorAtomState extends State<ProgressIndicatorAtom>
     with TickerProviderStateMixin {
-  AnimationController? controller;
+  late AnimationController controller;
   @override
   void initState() {
     updateProgress();
@@ -31,27 +30,28 @@ class _ProgressIndicatorAtomState extends State<ProgressIndicatorAtom>
   }
 
   void updateProgress() {
-    widget.inputController == null
-        ? controller = AnimationController(
-            vsync: this,
-            duration: widget.totalDuration,
-          )
-        : controller = widget.inputController;
-    controller!.addListener(() {
+    controller = widget.inputController ??
+        AnimationController(
+          vsync: this,
+          duration: widget.totalDuration,
+        );
+    controller.addListener(() {
       setState(() {});
     });
 
-    controller!.addStatusListener((status) {
+    controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         widget.callback();
       }
     });
-    if (!widget.isPdfLoader) controller!.forward();
+    if (!widget.isPdfLoader) {
+      controller.forward();
+    }
   }
 
   @override
   void dispose() {
-    controller!.dispose();
+    controller.dispose();
     super.dispose();
   }
 
@@ -63,7 +63,7 @@ class _ProgressIndicatorAtomState extends State<ProgressIndicatorAtom>
       width: double.infinity,
       height: 35,
       child: LiquidLinearProgressIndicator(
-        value: controller!.value,
+        value: controller.value,
         backgroundColor: colorScheme.outline,
         valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
         borderColor: colorScheme.outline,

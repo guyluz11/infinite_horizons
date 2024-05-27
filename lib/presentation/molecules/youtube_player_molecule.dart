@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/presentation/core/global_variables.dart';
+import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YoutubePlayerMolecule extends StatefulWidget {
@@ -14,7 +14,7 @@ class _YoutubePlayerMoleculeState extends State<YoutubePlayerMolecule> {
   late final YoutubePlayerController controller;
   void listener() {
     setState(() {
-      GlobalVariables.isFullScreen.value = controller.value.isFullScreen;
+      isFullScreen.value = controller.value.isFullScreen;
     });
   }
 

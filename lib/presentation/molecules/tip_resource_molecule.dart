@@ -3,6 +3,8 @@ import 'package:infinite_horizons/presentation/atoms/separator_atom.dart';
 import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 
+ValueNotifier<bool> isFullScreen = ValueNotifier(false);
+
 class TipResourceMolecule extends StatefulWidget {
   const TipResourceMolecule({
     required this.innerWidget,
@@ -15,14 +17,13 @@ class TipResourceMolecule extends StatefulWidget {
   final TopBarType topBarType;
   final String title;
   final SeparatorVariant separatorVariant;
-
   @override
   State<TipResourceMolecule> createState() => _TipResourceMoleculeState();
 }
 
 class _TipResourceMoleculeState extends State<TipResourceMolecule> {
   EdgeInsetsGeometry get padding {
-    if (GlobalVariables.isFullScreen.value) {
+    if (isFullScreen.value) {
       return GlobalVariables.zeroPadding;
     }
     return GlobalVariables.defaultPadding;
@@ -35,12 +36,12 @@ class _TipResourceMoleculeState extends State<TipResourceMolecule> {
   @override
   void initState() {
     super.initState();
-    GlobalVariables.isFullScreen.addListener(listener);
+    isFullScreen.addListener(listener);
   }
 
   @override
   void dispose() {
-    GlobalVariables.isFullScreen.removeListener(listener);
+    isFullScreen.removeListener(listener);
     super.dispose();
   }
 
@@ -51,7 +52,7 @@ class _TipResourceMoleculeState extends State<TipResourceMolecule> {
         padding: padding,
         child: Column(
           children: [
-            if (!GlobalVariables.isFullScreen.value)
+            if (!isFullScreen.value)
               TopBarMolecule(
                 topBarType: widget.topBarType,
                 title: widget.title,
