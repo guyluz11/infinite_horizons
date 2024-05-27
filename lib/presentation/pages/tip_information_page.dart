@@ -4,11 +4,18 @@ import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class TipInformationPage extends StatelessWidget {
-  const TipInformationPage(this.tip);
-
+class TipInformationPage extends StatefulWidget {
+  const TipInformationPage({
+    required this.tip,
+    super.key,
+  });
   final Tip tip;
 
+  @override
+  State<TipInformationPage> createState() => _TipInformationPageState();
+}
+
+class _TipInformationPageState extends State<TipInformationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -31,7 +38,7 @@ class TipInformationPage extends StatelessWidget {
                         const SeparatorAtom(
                           variant: SeparatorVariant.relatedElements,
                         ),
-                        TextAtom(tip.type.name),
+                        TextAtom(widget.tip.type.name),
                       ],
                     ),
                     Row(
@@ -40,7 +47,7 @@ class TipInformationPage extends StatelessWidget {
                         const SeparatorAtom(
                           variant: SeparatorVariant.relatedElements,
                         ),
-                        TextAtom(tip.timing.name),
+                        TextAtom(widget.tip.timing.name),
                       ],
                     ),
                     Row(
@@ -51,14 +58,14 @@ class TipInformationPage extends StatelessWidget {
                         ),
                         Flexible(
                           child: TextAtom(
-                            tip.text,
+                            widget.tip.text,
                             overflow: TextOverflow.clip,
                           ),
                         ),
                       ],
                     ),
                     const SeparatorAtom(variant: SeparatorVariant.farApart),
-                    if (tip.resourceLinks.isEmpty)
+                    if (widget.tip.resourceLinks.isEmpty)
                       const TextAtom('resource_is_empty')
                     else
                       Column(
@@ -70,32 +77,42 @@ class TipInformationPage extends StatelessWidget {
                           ),
                           const SeparatorAtom(),
                           ExpansionPanelList.radio(
-                            children:
-                                tip.resourceLinks.map<ExpansionPanelRadio>(
+                            children: widget.tip.resourceLinks
+                                .map<ExpansionPanelRadio>(
                               (Resource r) {
                                 final Uri? link = r.link;
 
                                 return ExpansionPanelRadio(
                                   value: r.title,
+                                  canTapOnHeader: true,
                                   headerBuilder:
                                       (BuildContext context, bool isExpanded) {
                                     return TextAtom(r.title);
                                   },
-                                  body: Row(
-                                    children: [
-                                      Expanded(
-                                        child: TextAtom(r.resourceExplanation),
-                                      ),
-                                      IconButton(
-                                        onPressed: () {
-                                          if (link == null) {
-                                            return;
-                                          }
-                                          launchUrl(link);
-                                        },
-                                        icon: const Icon(Icons.link),
-                                      ),
-                                    ],
+                                  body: InkWell(
+                                    onTap: () {
+                                      if (link == null) {
+                                        return;
+                                      }
+                                      launchUrl(link);
+                                    },
+                                    child: Row(
+                                      children: [
+                                        Expanded(
+                                          child:
+                                              TextAtom(r.resourceExplanation),
+                                        ),
+                                        IconButton(
+                                          onPressed: () {
+                                            if (link == null) {
+                                              return;
+                                            }
+                                            launchUrl(link);
+                                          },
+                                          icon: const Icon(Icons.link),
+                                        ),
+                                      ],
+                                    ),
                                   ),
                                 );
                               },
