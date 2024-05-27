@@ -3,7 +3,7 @@ import 'package:infinite_horizons/domain/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/core/snack_bar_service.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
-import 'package:infinite_horizons/presentation/pages/tip_resources_page.dart';
+import 'package:infinite_horizons/presentation/pages/pages.dart';
 
 class TipInformationPage extends StatelessWidget {
   const TipInformationPage(this.tip);
