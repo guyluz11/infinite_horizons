@@ -39,9 +39,6 @@ workflows:
       app_store_connect: code_megic_apple_connect_api
     environment:
       flutter: stable
-      ios_signing:
-        distribution_type: app_store
-        bundle_identifier: com.haveinfinitehorizons
     scripts:
       - name: Automatic signing
         script: |
