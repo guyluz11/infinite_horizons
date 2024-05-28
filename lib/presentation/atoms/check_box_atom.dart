@@ -2,18 +2,19 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
+
 class CheckBoxAtom extends StatefulWidget {
   const CheckBoxAtom(
     this.text, {
     required this.callback,
     this.initialValue = false,
-    this.trailing,
+    this.onIconPressed,
   });
 
   final String text;
   final bool initialValue;
   final Function(bool) callback;
-  final Widget? trailing;
+  final VoidCallback? onIconPressed;
 
   @override
   State<CheckBoxAtom> createState() => _CheckBoxAtomState();
@@ -48,7 +49,11 @@ class _CheckBoxAtomState extends State<CheckBoxAtom> {
         value: isChecked,
         onChanged: onChange,
       ),
-      trailing: widget.trailing,
+      trailing: widget.onIconPressed != null
+          ? IconButton(
+              onPressed: widget.onIconPressed,
+              icon: const Icon(Icons.arrow_forward),)
+          : null,
     );
   }
 }

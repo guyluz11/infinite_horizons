@@ -59,13 +59,11 @@ class TipsOrganism extends StatelessWidget {
                 tip.text,
                 callback: (value) => onCheckBox(tip.id, value),
                 initialValue: tip.selected,
-                trailing: IconButton(
-                    onPressed: () => Navigator.of(context).push(
-                          MaterialPageRoute(
-                            builder: (context) => TipInformationPage(tip),
-                          ),
-                        ),
-                    icon: const Icon(Icons.arrow_forward),),
+                onIconPressed: () => Navigator.of(context).push(
+                  MaterialPageRoute(
+                    builder: (context) => TipInformationPage(tip),
+                  ),
+                ),
               );
             },
             itemCount: beforeStudyTips.length,
