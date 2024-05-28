@@ -9,7 +9,7 @@ class YoutubePlayerMolecule extends StatefulWidget {
     super.key,
   });
   final String url;
-  final VoidCallback callback;
+  final Function(bool) callback;
 
   @override
   State<YoutubePlayerMolecule> createState() => _YoutubePlayerMoleculeState();
@@ -18,10 +18,7 @@ class YoutubePlayerMolecule extends StatefulWidget {
 class _YoutubePlayerMoleculeState extends State<YoutubePlayerMolecule> {
   late final YoutubePlayerController controller;
   void listener() {
-    setState(() {
-      isFullScreen = controller.value.isFullScreen;
-    });
-    widget.callback();
+    widget.callback(controller.value.isFullScreen);
   }
 
   @override

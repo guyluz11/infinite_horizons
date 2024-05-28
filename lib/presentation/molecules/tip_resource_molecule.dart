@@ -3,9 +3,6 @@ import 'package:infinite_horizons/presentation/atoms/separator_atom.dart';
 import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 
-bool isFullScreen = false;
-
-//IF CALLING FOR YOUTUBE PLAYER, SET YOUTUBE TO TRUE AND PASS URL
 class TipResourceMolecule extends StatefulWidget {
   const TipResourceMolecule({
     this.innerWidget,
@@ -27,6 +24,7 @@ class TipResourceMolecule extends StatefulWidget {
 }
 
 class _TipResourceMoleculeState extends State<TipResourceMolecule> {
+  bool isFullScreen = false;
   EdgeInsetsGeometry get padding {
     if (isFullScreen) {
       return EdgeInsets.zero;
@@ -55,8 +53,10 @@ class _TipResourceMoleculeState extends State<TipResourceMolecule> {
                 child: widget.isYouTube
                     ? YoutubePlayerMolecule(
                         url: widget.url!,
-                        callback: () {
-                          setState(() {});
+                        callback: (bool ytFullScreen) {
+                          setState(() {
+                            isFullScreen = ytFullScreen;
+                          });
                         },
                       )
                     : widget.innerWidget!),
