@@ -8,6 +8,7 @@ import 'package:infinite_horizons/domain/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/pages/all_tips_page.dart';
+import 'package:infinite_horizons/presentation/pages/tip_information_page.dart';
 
 class TipsOrganism extends StatelessWidget {
   const TipsOrganism(this.studyType);
@@ -58,6 +59,13 @@ class TipsOrganism extends StatelessWidget {
                 tip.text,
                 callback: (value) => onCheckBox(tip.id, value),
                 initialValue: tip.selected,
+                trailing: IconButton(
+                    onPressed: () => Navigator.of(context).push(
+                          MaterialPageRoute(
+                            builder: (context) => TipInformationPage(tip),
+                          ),
+                        ),
+                    icon: const Icon(Icons.arrow_forward),),
               );
             },
             itemCount: beforeStudyTips.length,
