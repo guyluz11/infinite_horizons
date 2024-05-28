@@ -15,11 +15,11 @@ class TimerOrganism extends StatefulWidget {
 class _TimerOrganismState extends State<TimerOrganism>
     with AutomaticKeepAliveClientMixin<TimerOrganism> {
   HomeState state = HomeState.getReadyForStudy;
-  // TODO: save toggled state for next time
 
   @override
   bool get wantKeepAlive => true;
   bool lockScreen = true;
+  bool firstStudyCompleted = false;
 
   @override
   void initState() {
@@ -78,10 +78,13 @@ class _TimerOrganismState extends State<TimerOrganism>
   Widget stateWidget() {
     switch (state) {
       case HomeState.study:
-        PlayerController.instance.play('start_session.wav');
+        if (!firstStudyCompleted) {
+          PlayerController.instance.play('start_session.wav');
+        }
         VibrationController.instance.vibrate(VibrationType.heavy);
         return timerWithTitle(variant: TimerVariant.study);
       case HomeState.getReadyForBreak:
+        firstStudyCompleted = true;
         PlayerController.instance.play('session_completed.wav');
         VibrationController.instance.vibrate(VibrationType.medium);
         return ProgressIndicatorMolecule(
@@ -90,8 +93,10 @@ class _TimerOrganismState extends State<TimerOrganism>
         );
       case HomeState.breakTime:
         return timerWithTitle(variant: TimerVariant.breakTime);
-
       case HomeState.getReadyForStudy:
+        if (firstStudyCompleted) {
+          PlayerController.instance.play('start_session.wav');
+        }
         return ProgressIndicatorMolecule(
           ProgressIndicatorVariant.beforeStudy,
           onComplete: onTimerComplete,

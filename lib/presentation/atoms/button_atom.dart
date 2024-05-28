@@ -153,7 +153,4 @@ enum ButtonVariant {
 
   /// No borders
   iconButton,
-  // action,
-  // actionToggled,
-  // back,
 }

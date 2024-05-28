@@ -1,6 +1,5 @@
 workflows:
   android-workflow:
-    instance_type: linux
     triggering:
       events:
         - push
@@ -77,13 +76,7 @@ workflows:
 
     publishing:
       app_store_connect:
-        # Use referenced App Store Connect API key to authenticate binary upload
         auth: integration
-
-        # Whether or not to submit the uploaded
-        # build to App Store review.
         submit_to_app_store: true
-
         cancel_previous_submissions: true
-
         release_type: AFTER_APPROVAL
