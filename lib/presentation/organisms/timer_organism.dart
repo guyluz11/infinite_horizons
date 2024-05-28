@@ -1,12 +1,12 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/player_controller.dart';
+import 'package:infinite_horizons/domain/preferences_controller.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/domain/wake_lock_controller.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
-import 'package:shared_preferences/shared_preferences.dart';
 
 class TimerOrganism extends StatefulWidget {
   @override
@@ -16,7 +16,7 @@ class TimerOrganism extends StatefulWidget {
 class _TimerOrganismState extends State<TimerOrganism>
     with AutomaticKeepAliveClientMixin<TimerOrganism> {
   HomeState state = HomeState.getReadyForStudy;
-  late SharedPreferences _prefs;
+  final PreferencesController _prefs = PreferencesController.instance;
 
   @override
   bool get wantKeepAlive => true;
@@ -26,14 +26,10 @@ class _TimerOrganismState extends State<TimerOrganism>
   @override
   void initState() {
     super.initState();
-    SharedPreferences.getInstance().then(
-      (value)  {
-        _prefs = value;
-        lockScreen = _prefs.getBool("isLockScreen") ?? lockScreen;
-        WakeLockController.instance.setWakeLock(lockScreen);
-        PlayerController.instance.setSilentState(!(_prefs.getBool("isSound") ?? true));
-      },
-    );
+    lockScreen = _prefs.getBool("isLockScreen") ?? lockScreen;
+    WakeLockController.instance.setWakeLock(lockScreen);
+    PlayerController.instance.setSilentState(!(_prefs.getBool("isSound") ?? true));
+
     if (lockScreen) {
       WakeLockController.instance.setWakeLock(true);
     }
