@@ -4,9 +4,7 @@ class _PreferencesRepository extends PreferencesController {
   late SharedPreferences preferences;
 
   @override
-  Future init() async {
-    preferences = await SharedPreferences.getInstance();
-  }
+  Future init() async => preferences = await SharedPreferences.getInstance();
 
   @override
   String? getString(String key) => preferences.getString(key);
