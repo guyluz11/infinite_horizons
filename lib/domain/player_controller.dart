@@ -9,6 +9,10 @@ abstract class PlayerController {
     return _instance ??= _PlayerRepository();
   }
 
+  void setSilentState(bool value);
+
+  bool isSilent();
+
   void initialize();
 
   Future play(String fileName);

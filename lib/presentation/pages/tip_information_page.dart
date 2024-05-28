@@ -49,7 +49,12 @@ class TipInformationPage extends StatelessWidget {
                         const SeparatorAtom(
                           variant: SeparatorVariant.relatedElements,
                         ),
-                        TextAtom(tip.text),
+                        Flexible(
+                          child: TextAtom(
+                            tip.text,
+                            overflow: TextOverflow.clip,
+                          ),
+                        ),
                       ],
                     ),
                     const SeparatorAtom(variant: SeparatorVariant.farApart),

@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter_vibrate/flutter_vibrate.dart';
 
 part 'package:infinite_horizons/infrastructure/vibration_repository.dart';
@@ -9,7 +11,7 @@ abstract class VibrationController {
     return _instance ??= _VibrationRepository();
   }
 
-  Future initialize();
+  Future init();
 
   Future vibrate(VibrationType type);
 }

@@ -6,3 +6,4 @@ export 'package:infinite_horizons/presentation/atoms/progress_indicator_atom.dar
 export 'package:infinite_horizons/presentation/atoms/separator_atom.dart';
 export 'package:infinite_horizons/presentation/atoms/text_atom.dart';
 export 'package:infinite_horizons/presentation/atoms/timer_atom.dart';
+export 'package:infinite_horizons/presentation/atoms/toggle_button_atom.dart';

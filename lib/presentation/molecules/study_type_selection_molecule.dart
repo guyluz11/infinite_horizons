@@ -83,7 +83,7 @@ class _StudyTypeSelectionMoleculeState
         leading: Radio<TipType>(
           value: buttonType,
           groupValue: selectedType,
-          onChanged: (tipType) => onChanged(tipType ?? TipType.undefined),
+          onChanged: (value) => onChanged(value ?? TipType.undefined),
         ),
         subtitle: subtitle,
       ),
