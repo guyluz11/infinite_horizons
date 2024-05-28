@@ -4,18 +4,13 @@ import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class TipInformationPage extends StatefulWidget {
+class TipInformationPage extends StatelessWidget {
   const TipInformationPage({
     required this.tip,
     super.key,
   });
   final Tip tip;
 
-  @override
-  State<TipInformationPage> createState() => _TipInformationPageState();
-}
-
-class _TipInformationPageState extends State<TipInformationPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -38,7 +33,7 @@ class _TipInformationPageState extends State<TipInformationPage> {
                         const SeparatorAtom(
                           variant: SeparatorVariant.relatedElements,
                         ),
-                        TextAtom(widget.tip.type.name),
+                        TextAtom(tip.type.name),
                       ],
                     ),
                     Row(
@@ -47,7 +42,7 @@ class _TipInformationPageState extends State<TipInformationPage> {
                         const SeparatorAtom(
                           variant: SeparatorVariant.relatedElements,
                         ),
-                        TextAtom(widget.tip.timing.name),
+                        TextAtom(tip.timing.name),
                       ],
                     ),
                     Row(
@@ -58,14 +53,14 @@ class _TipInformationPageState extends State<TipInformationPage> {
                         ),
                         Flexible(
                           child: TextAtom(
-                            widget.tip.text,
+                            tip.text,
                             overflow: TextOverflow.clip,
                           ),
                         ),
                       ],
                     ),
                     const SeparatorAtom(variant: SeparatorVariant.farApart),
-                    if (widget.tip.resourceLinks.isEmpty)
+                    if (tip.resourceLinks.isEmpty)
                       const TextAtom('resource_is_empty')
                     else
                       Column(
@@ -77,8 +72,8 @@ class _TipInformationPageState extends State<TipInformationPage> {
                           ),
                           const SeparatorAtom(),
                           ExpansionPanelList.radio(
-                            children: widget.tip.resourceLinks
-                                .map<ExpansionPanelRadio>(
+                            children:
+                                tip.resourceLinks.map<ExpansionPanelRadio>(
                               (Resource r) {
                                 final Uri? link = r.link;
 
