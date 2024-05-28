@@ -7,11 +7,13 @@ class CheckBoxAtom extends StatefulWidget {
     this.text, {
     required this.callback,
     this.initialValue = false,
+    this.trailing,
   });
 
   final String text;
   final bool initialValue;
   final Function(bool) callback;
+  final Widget? trailing;
 
   @override
   State<CheckBoxAtom> createState() => _CheckBoxAtomState();
@@ -37,12 +39,16 @@ class _CheckBoxAtomState extends State<CheckBoxAtom> {
 
   @override
   Widget build(BuildContext context) {
-    return CheckboxListTile(
+    return ListTile(
       contentPadding: EdgeInsets.zero,
-      title: TextAtom(widget.text),
-      controlAffinity: ListTileControlAffinity.leading,
-      value: isChecked,
-      onChanged: onChange,
+      title: CheckboxListTile(
+        contentPadding: EdgeInsets.zero,
+        title: TextAtom(widget.text),
+        controlAffinity: ListTileControlAffinity.leading,
+        value: isChecked,
+        onChanged: onChange,
+      ),
+      trailing: widget.trailing,
     );
   }
 }
