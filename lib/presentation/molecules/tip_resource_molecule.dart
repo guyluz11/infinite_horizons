@@ -3,28 +3,33 @@ import 'package:infinite_horizons/presentation/atoms/separator_atom.dart';
 import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 
-ValueNotifier<bool> isFullScreen = ValueNotifier(false);
+bool isFullScreen = false;
 
+//IF CALLING FOR YOUTUBE PLAYER, SET YOUTUBE TO TRUE AND PASS URL
 class TipResourceMolecule extends StatefulWidget {
   const TipResourceMolecule({
-    required this.innerWidget,
+    this.innerWidget,
     required this.title,
     super.key,
     this.topBarType = TopBarType.back,
     this.separatorVariant = SeparatorVariant.closeWidgets,
+    this.isYouTube = false,
+    this.url,
   });
-  final Widget innerWidget;
+  final Widget? innerWidget;
   final TopBarType topBarType;
   final String title;
   final SeparatorVariant separatorVariant;
+  final bool isYouTube;
+  final String? url;
   @override
   State<TipResourceMolecule> createState() => _TipResourceMoleculeState();
 }
 
 class _TipResourceMoleculeState extends State<TipResourceMolecule> {
   EdgeInsetsGeometry get padding {
-    if (isFullScreen.value) {
-      return GlobalVariables.zeroPadding;
+    if (isFullScreen) {
+      return EdgeInsets.zero;
     }
     return GlobalVariables.defaultPadding;
   }
@@ -34,31 +39,27 @@ class _TipResourceMoleculeState extends State<TipResourceMolecule> {
   }
 
   @override
-  void initState() {
-    super.initState();
-    isFullScreen.addListener(listener);
-  }
-
-  @override
-  void dispose() {
-    isFullScreen.removeListener(listener);
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
         padding: padding,
         child: Column(
           children: [
-            if (!isFullScreen.value)
+            if (!isFullScreen)
               TopBarMolecule(
                 topBarType: widget.topBarType,
                 title: widget.title,
               ),
             SeparatorAtom(variant: widget.separatorVariant),
-            Expanded(child: widget.innerWidget),
+            Expanded(
+                child: widget.isYouTube
+                    ? YoutubePlayerMolecule(
+                        url: widget.url!,
+                        callback: () {
+                          setState(() {});
+                        },
+                      )
+                    : widget.innerWidget!),
           ],
         ),
       ),

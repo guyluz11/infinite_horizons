@@ -90,8 +90,7 @@ class TipInformationPage extends StatelessWidget {
                                       IconButton(
                                         onPressed: () {
                                           if (link == null) {
-                                            final snackBar = SnackBarService();
-                                            snackBar.show(
+                                            SnackBarService().show(
                                               context,
                                               "no_link",
                                             );

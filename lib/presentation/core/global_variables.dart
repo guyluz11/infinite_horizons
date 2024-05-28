@@ -12,7 +12,6 @@ class GlobalVariables {
         milliseconds: studyTime.inMilliseconds ~/ breakTimeRatio,
       );
   static EdgeInsetsGeometry defaultPadding = const EdgeInsets.all(8.0);
-  static EdgeInsetsGeometry zeroPadding = EdgeInsets.zero;
   static double defaultRadius = 10.0;
   static double defaultBorderWidth = 2.0;
 }
