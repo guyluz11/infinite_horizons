@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class TopBarMolecule extends StatelessWidget {
@@ -75,10 +74,10 @@ class TopBarMolecule extends StatelessWidget {
               children: [
                 if (secondaryButtonOnTap != null)
                   ButtonAtom(
-                    variant: ButtonVariant.iconButton,
+                    variant: ButtonVariant.lowEmphasisIcon,
                     onPressed: secondaryButtonOnTap!,
                     translate: translate,
-                    icon: FontAwesomeIcons.gear,
+                    icon: Icons.more_vert,
                   )
                 else
                   TextAtom(

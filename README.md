@@ -1,3 +1,5 @@
+# Infinite Horizons
+
 <div align="center">
 
 [![Playstore: install](https://img.shields.io/badge/Playstore-install-brightgreen?logo=googleplay)](https://play.google.com/store/apps/details?id=com.haveinfinite_horizons) [![dart CI](https://github.com/guyluz11/infinite_horizons/actions/workflows/dart.yml/badge.svg)](https://github.com/guyluz11/infinite_horizons/actions?query=workflow%3A%22Dart+CI%22) [![License: AGPL v3](https://img.shields.io/badge/License-AGPL%20v3-blue.svg)](https://www.gnu.org/licenses/agpl-3.0) [<img src="https://firstcontributions.github.io/open-source-badges/badges/open-source-v1/open-source.svg" height="20">](https://en.wikipedia.org/wiki/Open_source)

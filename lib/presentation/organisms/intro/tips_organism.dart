@@ -44,7 +44,7 @@ class TipsOrganism extends StatelessWidget {
           Center(
             child: Platform.isAndroid
                 ? ButtonAtom(
-                    variant: ButtonVariant.primary,
+                    variant: ButtonVariant.mediumEmphasisOutlined,
                     onPressed: () => DndController.instance.toggleDnd(),
                     text: 'dnd',
                   )
@@ -70,11 +70,12 @@ class TipsOrganism extends StatelessWidget {
           ),
           const SeparatorAtom(variant: SeparatorVariant.farApart),
           ButtonAtom(
-            variant: ButtonVariant.tertiary,
+            variant: ButtonVariant.lowEmphasisText,
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => AllTipsPage()),
             ),
             text: 'studies_link',
+            icon: Icons.library_books,
           ),
         ],
       ),
