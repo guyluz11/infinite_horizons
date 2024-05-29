@@ -49,7 +49,7 @@ class MotivationOrganism extends StatelessWidget {
                   TextAtom(text),
                   const SeparatorAtom(variant: SeparatorVariant.farApart),
                   ButtonAtom(
-                    variant: ButtonVariant.primary,
+                    variant: ButtonVariant.highEmphasisFilled,
                     onPressed: callback,
                     text: 'start',
                   ),

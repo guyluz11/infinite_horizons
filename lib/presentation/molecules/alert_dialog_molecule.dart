@@ -30,7 +30,7 @@ class UpdateAppDialogMolecule extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
                 ButtonAtom(
-                  variant: ButtonVariant.primary,
+                  variant: ButtonVariant.highEmphasisFilled,
                   onPressed: () => Navigator.pop(context),
                   text: 'close',
                 ),

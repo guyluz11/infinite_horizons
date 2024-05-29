@@ -41,7 +41,7 @@ class _IntroPageState extends State<IntroPage> {
         key: _introKey,
         overrideNext: Center(
           child: ButtonAtom(
-            variant: ButtonVariant.primary,
+            variant: ButtonVariant.highEmphasisFilled,
             onPressed: showNextButton ? nextPage : () {},
             text: 'next',
             disabled: !showNextButton,
