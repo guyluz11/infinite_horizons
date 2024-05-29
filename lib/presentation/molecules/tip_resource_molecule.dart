@@ -5,8 +5,8 @@ import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 
 class TipResourceMolecule extends StatefulWidget {
   const TipResourceMolecule({
-    this.innerWidget,
     required this.title,
+    this.innerWidget,
     super.key,
     this.topBarType = TopBarType.back,
     this.separatorVariant = SeparatorVariant.closeWidgets,
@@ -32,10 +32,6 @@ class _TipResourceMoleculeState extends State<TipResourceMolecule> {
     return GlobalVariables.defaultPadding;
   }
 
-  void listener() {
-    setState(() {});
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -50,16 +46,17 @@ class _TipResourceMoleculeState extends State<TipResourceMolecule> {
               ),
             SeparatorAtom(variant: widget.separatorVariant),
             Expanded(
-                child: widget.isYouTube
-                    ? YoutubePlayerMolecule(
-                        url: widget.url!,
-                        callback: (bool ytFullScreen) {
-                          setState(() {
-                            isFullScreen = ytFullScreen;
-                          });
-                        },
-                      )
-                    : widget.innerWidget!),
+              child: widget.isYouTube
+                  ? YoutubePlayerMolecule(
+                      url: widget.url!,
+                      callback: (bool ytFullScreen) {
+                        setState(() {
+                          isFullScreen = ytFullScreen;
+                        });
+                      },
+                    )
+                  : widget.innerWidget!,
+            ),
           ],
         ),
       ),
