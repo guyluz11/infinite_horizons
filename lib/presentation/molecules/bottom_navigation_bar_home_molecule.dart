@@ -13,8 +13,8 @@ class BottomNavigationBarHomePage extends StatelessWidget {
     final ColorScheme colorScheme = themeData.colorScheme;
 
     return BottomNavigationBar(
-      selectedItemColor: colorScheme.primary,
-      unselectedItemColor: colorScheme.outline,
+      selectedItemColor: colorScheme.onSurface,
+      unselectedItemColor: colorScheme.onSurfaceVariant,
       currentIndex: pageIndex,
       onTap: callback,
       items: const [
