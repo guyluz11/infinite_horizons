@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/player_controller.dart';
+import 'package:infinite_horizons/domain/preferences_controller.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/domain/wake_lock_controller.dart';
@@ -15,6 +16,7 @@ class TimerOrganism extends StatefulWidget {
 class _TimerOrganismState extends State<TimerOrganism>
     with AutomaticKeepAliveClientMixin<TimerOrganism> {
   HomeState state = HomeState.getReadyForStudy;
+  final PreferencesController _prefs = PreferencesController.instance;
 
   @override
   bool get wantKeepAlive => true;
@@ -24,6 +26,10 @@ class _TimerOrganismState extends State<TimerOrganism>
   @override
   void initState() {
     super.initState();
+    lockScreen = _prefs.getBool("isLockScreen") ?? lockScreen;
+    WakeLockController.instance.setWakeLock(lockScreen);
+    PlayerController.instance.setIsSound(_prefs.getBool("isSound") ?? true);
+
     if (lockScreen) {
       WakeLockController.instance.setWakeLock(true);
     }
@@ -119,9 +125,11 @@ class _TimerOrganismState extends State<TimerOrganism>
           text: 'sound',
           offIcon: Icons.music_off_rounded,
           onIcon: Icons.music_note_rounded,
-          onChange: (bool value) =>
-              PlayerController.instance.setSilentState(!value),
-          initialValue: !PlayerController.instance.isSilent(),
+          onChange: (bool value) {
+            PlayerController.instance.setIsSound(value);
+            _prefs.setBool("isSound", value);
+          },
+          initialValue: PlayerController.instance.isSound(),
         ),
         const SeparatorAtom(),
         ToggleButtonMolecule(
@@ -130,6 +138,7 @@ class _TimerOrganismState extends State<TimerOrganism>
           onIcon: Icons.lock_open,
           onChange: (bool value) {
             lockScreen = value;
+            _prefs.setBool("isLockScreen", lockScreen);
             WakeLockController.instance.setWakeLock(lockScreen);
           },
           initialValue: lockScreen,
