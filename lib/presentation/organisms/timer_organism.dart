@@ -26,9 +26,9 @@ class _TimerOrganismState extends State<TimerOrganism>
   @override
   void initState() {
     super.initState();
-    lockScreen = _prefs.getBool("isSilent") ?? lockScreen;
+    lockScreen = _prefs.getBool("isLockScreen") ?? lockScreen;
     WakeLockController.instance.setWakeLock(lockScreen);
-    PlayerController.instance.setSilentState(!(_prefs.getBool("setSilentState") ?? true));
+    PlayerController.instance.setSoundState(!(_prefs.getBool("isSound") ?? true));
 
     if (lockScreen) {
       WakeLockController.instance.setWakeLock(true);
@@ -126,8 +126,8 @@ class _TimerOrganismState extends State<TimerOrganism>
           offIcon: Icons.music_off_rounded,
           onIcon: Icons.music_note_rounded,
           onChange: (bool value) {
-            PlayerController.instance.setSilentState(!value);
-            _prefs.setBool("setSilentState", value);
+            PlayerController.instance.setSoundState(!value);
+            _prefs.setBool("isSound", value);
           },
           initialValue: !PlayerController.instance.isSilent(),
         ),
@@ -138,7 +138,7 @@ class _TimerOrganismState extends State<TimerOrganism>
           onIcon: Icons.lock_open,
           onChange: (bool value) {
             lockScreen = value;
-            _prefs.setBool("isSilent", lockScreen);
+            _prefs.setBool("isLockScreen", lockScreen);
             WakeLockController.instance.setWakeLock(lockScreen);
           },
           initialValue: lockScreen,
