@@ -19,16 +19,13 @@ class ReadyForSessionOrganism extends StatefulWidget {
 }
 
 class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
-  final Duration confettiDuration = const Duration(seconds: 2);
-
   late ConfettiController controllerCenter;
   bool nextPressed = false;
-  bool isConfettiStart = false;
 
   @override
   void initState() {
     super.initState();
-    controllerCenter = ConfettiController(duration: confettiDuration);
+    controllerCenter = ConfettiController(duration: const Duration(seconds: 2));
     controllerCenter.addListener(() {
       if (!nextPressed ||
           controllerCenter.state == ConfettiControllerState.playing) {
@@ -71,7 +68,7 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
                   ],
                 ),
               const TextAtom(
-                'In session tips:',
+                'in_session_tips',
                 variant: TextVariant.smallTitle,
               ),
               const SeparatorAtom(),

@@ -44,5 +44,6 @@
   "screen_lock": "Screen Lock",
   "ready": "I am ready",
   "ready_for_session": "Next Round?",
-  "start_session": "Start Session"
+  "start_session": "Start Session",
+  "in_session_tips": "In session tips:"
 }
