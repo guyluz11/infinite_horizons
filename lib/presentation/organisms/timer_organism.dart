@@ -129,7 +129,7 @@ class _TimerOrganismState extends State<TimerOrganism>
             PlayerController.instance.setIsSound(value);
             _prefs.setBool("isSound", value);
           },
-          initialValue: !PlayerController.instance.isSound(),
+          initialValue: PlayerController.instance.isSound(),
         ),
         const SeparatorAtom(),
         ToggleButtonMolecule(
