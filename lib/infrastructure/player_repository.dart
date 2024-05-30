@@ -18,8 +18,8 @@ class _PlayerRepository extends PlayerController {
   }
 
   @override
-  void setSoundState(bool value) => _isSilent = value;
+  void setIsSound(bool value) => _isSilent = value;
 
   @override
-  bool isSilent() => _isSilent;
+  bool isSound() => _isSilent;
 }
