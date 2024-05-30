@@ -18,7 +18,12 @@ class WelcomeOrganism extends StatelessWidget {
             ),
             const SeparatorAtom(variant: SeparatorVariant.farApart),
             const TextAtom(
-              "Sometimes we study new material but can't remember as much as we would like to.\nSometimes we work but our focus isn't as strong as we know it could be.\nUsing this app your study and work session efficiency can increase dramatically by following methods that got approved by science.",
+              "About the app:\n"
+              "Sometimes we study new material but can't remember as much as we would like to.\n"
+              "Sometimes we work but our focus isn't as strong as we know it could be.\nUsing this app your study and work session efficiency can increase dramatically by following methods that got approved by studies and published in research papers.\n\n"
+              "Instructions:\nEach time you sit to study a new material or work in your office we recommend opening the app and let it guid you for efficient and productive session.\n"
+              "The app use your responses to tailor the tips and session timer to your specific needs, so make sure to follow it as best as you can.\n\n"
+              "Enjoy",
             ),
             const SeparatorAtom(),
             Expanded(
