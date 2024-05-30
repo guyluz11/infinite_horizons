@@ -11,6 +11,7 @@ dependencies:
   audioplayers: ^6.0.0
   collection: ^1.18.0
   # Cupertino Icons font to your application
+  confetti: ^0.7.0
   cupertino_icons: ^1.0.8
   # Make an animated circular countdown
   custom_timer: ^0.2.3

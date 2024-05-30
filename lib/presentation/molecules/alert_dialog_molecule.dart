@@ -5,12 +5,12 @@ import 'package:infinite_horizons/presentation/core/global_variables.dart';
 void openAlertDialog(BuildContext context, Widget body) {
   showDialog(
     context: context,
-    builder: (_) => UpdateAppDialogMolecule(body),
+    builder: (_) => DialogMolecule(body),
   );
 }
 
-class UpdateAppDialogMolecule extends StatelessWidget {
-  const UpdateAppDialogMolecule(this.body);
+class DialogMolecule extends StatelessWidget {
+  const DialogMolecule(this.body);
 
   final Widget body;
 
