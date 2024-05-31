@@ -63,7 +63,7 @@ class TipsOrganism extends StatelessWidget {
                   initialValue: tip.selected,
                   onIconPressed: () => Navigator.of(context).push(
                     MaterialPageRoute(
-                      builder: (context) => TipInformationPage(tip),
+                      builder: (context) => TipInformationPage(tip: tip),
                     ),
                   ),
                 ),

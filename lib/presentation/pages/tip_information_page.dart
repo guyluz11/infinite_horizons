@@ -87,43 +87,46 @@ class TipInformationPage extends StatelessWidget {
                                       final Uri? link = r.link;
 
                                       return ExpansionPanelRadio(
-                                  value: r.title,
-                                  canTapOnHeader: true,
-                                  headerBuilder:
-                                      (BuildContext context, bool isExpanded) {
-                                    return TextAtom(r.title);
-                                  },
-                                  body: InkWell(
-                                    onTap: () {
-                                      if (link == null) {
-                                        return;
-                                      }
-                                      launchUrl(link);
-                                    },
-                                    child: Row(
-                                      children: [
-                                        Expanded(
-                                          child:
-                                              TextAtom(r.resourceExplanation),
-                                        ),
-                                        IconButton(
-                                          onPressed: () {
+                                        value: r.title,
+                                        canTapOnHeader: true,
+                                        headerBuilder: (BuildContext context,
+                                            bool isExpanded,) {
+                                          return TextAtom(r.title);
+                                        },
+                                        body: InkWell(
+                                          onTap: () {
                                             if (link == null) {
                                               return;
                                             }
                                             launchUrl(link);
                                           },
-                                          icon: const Icon(Icons.link),
+                                          child: Row(
+                                            children: [
+                                              Expanded(
+                                                child: TextAtom(
+                                                    r.resourceExplanation,),
+                                              ),
+                                              IconButton(
+                                                onPressed: () {
+                                                  if (link == null) {
+                                                    return;
+                                                  }
+                                                  launchUrl(link);
+                                                },
+                                                icon: const Icon(Icons.link),
+                                              ),
+                                            ],
+                                          ),
                                         ),
-                                      ],
-                                    ),
-                                  ),
-                                );
-                              },
-                            ).toList(),
-                          ),
+                                      );
+                                    },
+                                  ).toList(),
+                                ),
+                              ],
+                            ),
                         ],
                       ),
+                    ),
                   ],
                 ),
               ),

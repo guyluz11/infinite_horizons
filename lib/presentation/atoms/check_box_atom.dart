@@ -39,9 +39,6 @@ class _CheckBoxAtomState extends State<CheckBoxAtom> {
 
   @override
   Widget build(BuildContext context) {
-    final ThemeData themeData = Theme.of(context);
-    final ColorScheme colorScheme = themeData.colorScheme;
-
     return CardAtom(
       child: Row(
         children: [
