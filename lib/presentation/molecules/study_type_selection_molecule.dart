@@ -51,8 +51,15 @@ class _StudyTypeSelectionMoleculeState
             margin: false,
           ),
           const SeparatorAtom(variant: SeparatorVariant.farApart),
-          studyTypeRadioButton(onChanged, selectedType, TipType.analytical),
-          studyTypeRadioButton(onChanged, selectedType, TipType.creative),
+          CardAtom(
+            child: Column(
+              children: [
+                studyTypeRadioButton(
+                    onChanged, selectedType, TipType.analytical),
+                studyTypeRadioButton(onChanged, selectedType, TipType.creative),
+              ],
+            ),
+          ),
         ],
       ),
     );

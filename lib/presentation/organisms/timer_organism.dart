@@ -102,27 +102,31 @@ class _TimerOrganismState extends State<TimerOrganism>
           margin: false,
         ),
         const SeparatorAtom(),
-        ToggleButtonMolecule(
-          text: 'sound',
-          offIcon: Icons.music_off_rounded,
-          onIcon: Icons.music_note_rounded,
-          onChange: (bool value) {
-            PlayerController.instance.setIsSound(value);
-            _prefs.setBool("isSound", value);
-          },
-          initialValue: PlayerController.instance.isSound(),
+        CardAtom(
+          child: ToggleButtonMolecule(
+            text: 'sound',
+            offIcon: Icons.music_off_rounded,
+            onIcon: Icons.music_note_rounded,
+            onChange: (bool value) {
+              PlayerController.instance.setIsSound(value);
+              _prefs.setBool("isSound", value);
+            },
+            initialValue: PlayerController.instance.isSound(),
+          ),
         ),
         const SeparatorAtom(),
-        ToggleButtonMolecule(
-          text: 'screen_lock',
-          offIcon: Icons.lock_clock,
-          onIcon: Icons.lock_open,
-          onChange: (bool value) {
-            lockScreen = value;
-            _prefs.setBool("isLockScreen", lockScreen);
-            WakeLockController.instance.setWakeLock(lockScreen);
-          },
-          initialValue: lockScreen,
+        CardAtom(
+          child: ToggleButtonMolecule(
+            text: 'screen_lock',
+            offIcon: Icons.lock_clock,
+            onIcon: Icons.lock_open,
+            onChange: (bool value) {
+              lockScreen = value;
+              _prefs.setBool("isLockScreen", lockScreen);
+              WakeLockController.instance.setWakeLock(lockScreen);
+            },
+            initialValue: lockScreen,
+          ),
         ),
         const SeparatorAtom(
           variant: SeparatorVariant.farApart,

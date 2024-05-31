@@ -55,13 +55,16 @@ class TipsOrganism extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               final Tip tip = beforeStudyTips[index];
 
-              return CheckBoxAtom(
-                tip.text,
-                callback: (value) => onCheckBox(tip.id, value),
-                initialValue: tip.selected,
-                onIconPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => TipInformationPage(tip),
+              return Container(
+                margin: const EdgeInsets.symmetric(vertical: 5),
+                child: CheckBoxAtom(
+                  tip.text,
+                  callback: (value) => onCheckBox(tip.id, value),
+                  initialValue: tip.selected,
+                  onIconPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => TipInformationPage(tip),
+                    ),
                   ),
                 ),
               );
