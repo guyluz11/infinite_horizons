@@ -22,7 +22,6 @@ class _TimerOrganismState extends State<TimerOrganism>
   @override
   bool get wantKeepAlive => true;
   bool lockScreen = true;
-  bool firstStudyCompleted = false;
 
   @override
   void initState() {
@@ -63,9 +62,7 @@ class _TimerOrganismState extends State<TimerOrganism>
   Widget stateWidget() {
     switch (state) {
       case HomeState.study:
-        if (!firstStudyCompleted) {
-          PlayerController.instance.play('start_session.wav');
-        }
+        PlayerController.instance.play('start_session.wav');
         VibrationController.instance.vibrate(VibrationType.heavy);
         return TimerMolecule(
           setNextState,
@@ -73,7 +70,6 @@ class _TimerOrganismState extends State<TimerOrganism>
         );
 
       case HomeState.getReadyForBreak:
-        firstStudyCompleted = true;
         PlayerController.instance.play('session_completed.wav');
         VibrationController.instance.vibrate(VibrationType.medium);
         return ProgressIndicatorMolecule(onComplete: setNextState);
@@ -85,7 +81,7 @@ class _TimerOrganismState extends State<TimerOrganism>
           ),
         );
       case HomeState.readyToStart:
-        PlayerController.instance.play('start_session.wav');
+        PlayerController.instance.play('break_ended.wav');
 
         return ReadyForSessionOrganism(setNextState);
     }

@@ -36,9 +36,10 @@ class _TextAreaOrganismState extends State<TextAreaOrganism> {
               children: [
                 CardAtom(
                   child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
                     children: [
                       const TextAtom(
-                        'We encourage writing down unrelated tasks that are on your mind to keep your brain free and come back to it after the sessions',
+                        'Free your mind',
                         variant: TextVariant.smallTitle,
                       ),
                       const SeparatorAtom(),

@@ -55,7 +55,10 @@ class _StudyTypeSelectionMoleculeState
             child: Column(
               children: [
                 studyTypeRadioButton(
-                    onChanged, selectedType, TipType.analytical),
+                  onChanged,
+                  selectedType,
+                  TipType.analytical,
+                ),
                 studyTypeRadioButton(onChanged, selectedType, TipType.creative),
               ],
             ),

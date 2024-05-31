@@ -64,7 +64,10 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
                   Column(
                     children: [
                       CardAtom(
-                        child: TextAtom(widget.topText!),
+                        child: SizedBox(
+                          width: double.infinity,
+                          child: TextAtom(widget.topText!),
+                        ),
                       ),
                       const SeparatorAtom(),
                       const SeparatorAtom(),
