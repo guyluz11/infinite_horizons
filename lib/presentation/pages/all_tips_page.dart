@@ -55,11 +55,17 @@ class AllTipsPage extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    tipList(TipType.general),
+                    CardAtom(
+                      child: tipList(TipType.general),
+                    ),
                     const SeparatorAtom(variant: SeparatorVariant.farApart),
-                    tipList(TipType.analytical),
+                    CardAtom(
+                      child: tipList(TipType.analytical),
+                    ),
                     const SeparatorAtom(variant: SeparatorVariant.farApart),
-                    tipList(TipType.creative),
+                    CardAtom(
+                      child: tipList(TipType.creative),
+                    ),
                   ],
                 ),
               ),
