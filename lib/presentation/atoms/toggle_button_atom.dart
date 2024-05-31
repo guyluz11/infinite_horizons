@@ -31,11 +31,13 @@ class _ToggleButtonAtomState extends State<ToggleButtonAtom> {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     final ColorScheme colorScheme = themeData.colorScheme;
+
     return AnimatedToggleSwitch<bool>.rolling(
       style: ToggleStyle(
-        backgroundColor: toggle ? colorScheme.primary : colorScheme.outline,
+        backgroundColor:
+            toggle ? colorScheme.primary : colorScheme.surfaceContainerHighest,
         borderColor: toggle ? colorScheme.primary : colorScheme.outline,
-        indicatorColor: toggle ? colorScheme.secondary : colorScheme.error,
+        indicatorColor: toggle ? colorScheme.onPrimary : colorScheme.outline,
       ),
       current: toggle,
       values: const [false, true],
@@ -44,8 +46,8 @@ class _ToggleButtonAtomState extends State<ToggleButtonAtom> {
         widget.onChange(value);
       },
       iconList: [
-        Icon(widget.offIcon),
-        Icon(widget.onIcon),
+        Icon(widget.offIcon, color: colorScheme.surfaceContainerHighest),
+        Icon(widget.onIcon, color: colorScheme.onPrimaryContainer),
       ],
     );
   }

@@ -34,9 +34,11 @@ class TextAtom extends StatelessWidget {
         // tempStyle = textTheme.bodySmall;
         break;
       case TextVariant.smallTitle:
-        tempStyle = textTheme.titleLarge;
+        tempStyle = textTheme.titleMedium;
       case TextVariant.title:
         tempStyle = textTheme.headlineMedium;
+      case TextVariant.titleLarge:
+        tempStyle = textTheme.titleLarge;
       case TextVariant.medium:
         tempStyle = textTheme.bodyMedium;
     }
@@ -53,9 +55,10 @@ class TextAtom extends StatelessWidget {
 
 enum TextVariant {
   smallTitle,
+  title,
+  titleLarge,
 
   /// define out side, trying to deprecate
   regular,
   medium,
-  title,
 }
