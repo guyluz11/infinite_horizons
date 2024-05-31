@@ -88,14 +88,14 @@ class TipInformationPage extends StatelessWidget {
                                       return ExpansionPanelRadio(
                                         value: r.title,
                                         headerBuilder: (BuildContext context,
-                                            bool isExpanded) {
+                                            bool isExpanded,) {
                                           return TextAtom(r.title);
                                         },
                                         body: Row(
                                           children: [
                                             Expanded(
                                               child: TextAtom(
-                                                  r.resourceExplanation),
+                                                  r.resourceExplanation,),
                                             ),
                                             IconButton(
                                               onPressed: () {
