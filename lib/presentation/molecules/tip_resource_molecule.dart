@@ -10,52 +10,32 @@ class TipResourceMolecule extends StatefulWidget {
     super.key,
     this.topBarType = TopBarType.back,
     this.separatorVariant = SeparatorVariant.closeWidgets,
-    this.isYouTube = false,
     this.url,
   });
   final Widget? innerWidget;
   final TopBarType topBarType;
   final String title;
   final SeparatorVariant separatorVariant;
-  final bool isYouTube;
   final String? url;
   @override
   State<TipResourceMolecule> createState() => _TipResourceMoleculeState();
 }
 
 class _TipResourceMoleculeState extends State<TipResourceMolecule> {
-  bool isFullScreen = false;
-  EdgeInsetsGeometry get padding {
-    if (isFullScreen) {
-      return EdgeInsets.zero;
-    }
-    return GlobalVariables.defaultPadding;
-  }
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       body: Padding(
-        padding: padding,
+        padding: GlobalVariables.defaultPadding,
         child: Column(
           children: [
-            if (!isFullScreen)
-              TopBarMolecule(
-                topBarType: widget.topBarType,
-                title: widget.title,
-              ),
+            TopBarMolecule(
+              topBarType: widget.topBarType,
+              title: widget.title,
+            ),
             SeparatorAtom(variant: widget.separatorVariant),
             Expanded(
-              child: widget.isYouTube
-                  ? YoutubePlayerMolecule(
-                      url: widget.url!,
-                      callback: (bool ytFullScreen) {
-                        setState(() {
-                          isFullScreen = ytFullScreen;
-                        });
-                      },
-                    )
-                  : widget.innerWidget!,
+              child: widget.innerWidget!,
             ),
           ],
         ),

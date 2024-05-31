@@ -100,9 +100,20 @@ class TipInformationPage extends StatelessWidget {
                                             IconButton(
                                               onPressed: () {
                                                 if (link == null) {
+                                                  SnackBarService().show(
+                                                    context,
+                                                    "no_link",
+                                                  );
                                                   return;
                                                 }
-                                                launchUrl(link);
+                                                Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        TipResourcePage(
+                                                      url: link.toString(),
+                                                    ),
+                                                  ),
+                                                );
                                               },
                                               icon: const Icon(Icons.link),
                                             ),

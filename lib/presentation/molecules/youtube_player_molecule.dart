@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:youtube_player_flutter/youtube_player_flutter.dart';
 
 class YoutubePlayerMolecule extends StatefulWidget {
