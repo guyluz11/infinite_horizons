@@ -44,7 +44,6 @@ class _TextAreaOrganismState extends State<TextAreaOrganism> {
                       const SeparatorAtom(),
                       const SeparatorAtom(),
                       TextFormField(
-                        minLines: 6,
                         keyboardType: TextInputType.multiline,
                         maxLines: null,
                         initialValue: freeText,
