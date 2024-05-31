@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
-
 class CheckBoxAtom extends StatefulWidget {
   const CheckBoxAtom(
     this.text, {
@@ -40,20 +39,28 @@ class _CheckBoxAtomState extends State<CheckBoxAtom> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTile(
-      contentPadding: EdgeInsets.zero,
-      title: CheckboxListTile(
-        contentPadding: EdgeInsets.zero,
-        title: TextAtom(widget.text),
-        controlAffinity: ListTileControlAffinity.leading,
-        value: isChecked,
-        onChanged: onChange,
-      ),
-      trailing: widget.onIconPressed != null
-          ? IconButton(
+    final ThemeData themeData = Theme.of(context);
+    final ColorScheme colorScheme = themeData.colorScheme;
+
+    return CardAtom(
+      child: Row(
+        children: [
+          Expanded(
+            child: CheckboxListTile(
+              contentPadding: EdgeInsets.zero,
+              title: TextAtom(widget.text),
+              controlAffinity: ListTileControlAffinity.leading,
+              value: isChecked,
+              onChanged: onChange,
+            ),
+          ),
+          if (widget.onIconPressed != null)
+            IconButton(
               onPressed: widget.onIconPressed,
-              icon: const Icon(Icons.arrow_forward),)
-          : null,
+              icon: const Icon(Icons.arrow_forward),
+            ),
+        ],
+      ),
     );
   }
 }
