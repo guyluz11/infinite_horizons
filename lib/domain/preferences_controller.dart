@@ -12,7 +12,12 @@ abstract class PreferencesController {
 
   String? getString(String key);
 
+  bool? getBool(String key);
+
   void remove(String key);
 
   void setString(String key, String value);
+
+  void setBool(String key, bool value);
+
 }

@@ -9,9 +9,9 @@ abstract class PlayerController {
     return _instance ??= _PlayerRepository();
   }
 
-  void setSilentState(bool value);
+  void setIsSound(bool value);
 
-  bool isSilent();
+  bool isSound();
 
   void initialize();
 

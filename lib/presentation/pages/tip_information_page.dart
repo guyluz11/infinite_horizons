@@ -27,57 +27,66 @@ class TipInformationPage extends StatelessWidget {
               child: SingleChildScrollView(
                 child: Column(
                   children: [
-                    Row(
-                      children: [
-                        const TextAtom('type:'),
-                        const SeparatorAtom(
-                          variant: SeparatorVariant.relatedElements,
-                        ),
-                        TextAtom(tip.type.name),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const TextAtom('timing:'),
-                        const SeparatorAtom(
-                          variant: SeparatorVariant.relatedElements,
-                        ),
-                        TextAtom(tip.timing.name),
-                      ],
-                    ),
-                    Row(
-                      children: [
-                        const TextAtom('tip:'),
-                        const SeparatorAtom(
-                          variant: SeparatorVariant.relatedElements,
-                        ),
-                        Flexible(
-                          child: TextAtom(
-                            tip.text,
-                            overflow: TextOverflow.clip,
+                    CardAtom(
+                      child: Column(
+                        children: [
+                          Row(
+                            children: [
+                              const TextAtom('type:'),
+                              const SeparatorAtom(
+                                variant: SeparatorVariant.relatedElements,
+                              ),
+                              TextAtom(tip.type.name),
+                            ],
                           ),
-                        ),
-                      ],
+                          Row(
+                            children: [
+                              const TextAtom('timing:'),
+                              const SeparatorAtom(
+                                variant: SeparatorVariant.relatedElements,
+                              ),
+                              TextAtom(tip.timing.name),
+                            ],
+                          ),
+                          Row(
+                            children: [
+                              const TextAtom('tip:'),
+                              const SeparatorAtom(
+                                variant: SeparatorVariant.relatedElements,
+                              ),
+                              Flexible(
+                                child: TextAtom(
+                                  tip.text,
+                                  overflow: TextOverflow.clip,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ],
+                      ),
                     ),
                     const SeparatorAtom(variant: SeparatorVariant.farApart),
-                    if (tip.resourceLinks.isEmpty)
-                      const TextAtom('resource_is_empty')
-                    else
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
+                    CardAtom(
+                      child: Column(
                         children: [
-                          const TextAtom(
-                            'resources',
-                            variant: TextVariant.smallTitle,
-                          ),
-                          const SeparatorAtom(),
-                          ExpansionPanelList.radio(
-                            children:
-                                tip.resourceLinks.map<ExpansionPanelRadio>(
-                              (Resource r) {
-                                final Uri? link = r.link;
+                          if (tip.resourceLinks.isEmpty)
+                            const TextAtom('resource_is_empty')
+                          else
+                            Column(
+                              crossAxisAlignment: CrossAxisAlignment.start,
+                              children: [
+                                const TextAtom(
+                                  'resources',
+                                  variant: TextVariant.smallTitle,
+                                ),
+                                const SeparatorAtom(),
+                                ExpansionPanelList.radio(
+                                  children: tip.resourceLinks
+                                      .map<ExpansionPanelRadio>(
+                                    (Resource r) {
+                                      final Uri? link = r.link;
 
-                                return ExpansionPanelRadio(
+                                      return ExpansionPanelRadio(
                                   value: r.title,
                                   canTapOnHeader: true,
                                   headerBuilder:

@@ -44,7 +44,7 @@ class TipsOrganism extends StatelessWidget {
           Center(
             child: Platform.isAndroid
                 ? ButtonAtom(
-                    variant: ButtonVariant.primary,
+                    variant: ButtonVariant.mediumEmphasisOutlined,
                     onPressed: () => DndController.instance.toggleDnd(),
                     text: 'dnd',
                   )
@@ -55,13 +55,16 @@ class TipsOrganism extends StatelessWidget {
             itemBuilder: (BuildContext context, int index) {
               final Tip tip = beforeStudyTips[index];
 
-              return CheckBoxAtom(
-                tip.text,
-                callback: (value) => onCheckBox(tip.id, value),
-                initialValue: tip.selected,
-                onIconPressed: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => TipInformationPage(tip),
+              return Container(
+                margin: const EdgeInsets.symmetric(vertical: 5),
+                child: CheckBoxAtom(
+                  tip.text,
+                  callback: (value) => onCheckBox(tip.id, value),
+                  initialValue: tip.selected,
+                  onIconPressed: () => Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => TipInformationPage(tip),
+                    ),
                   ),
                 ),
               );
@@ -70,11 +73,12 @@ class TipsOrganism extends StatelessWidget {
           ),
           const SeparatorAtom(variant: SeparatorVariant.farApart),
           ButtonAtom(
-            variant: ButtonVariant.tertiary,
+            variant: ButtonVariant.lowEmphasisText,
             onPressed: () => Navigator.of(context).push(
               MaterialPageRoute(builder: (context) => AllTipsPage()),
             ),
             text: 'studies_link',
+            icon: Icons.library_books,
           ),
         ],
       ),
