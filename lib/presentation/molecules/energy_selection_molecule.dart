@@ -55,6 +55,9 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
+    final ColorScheme colorScheme = themeData.colorScheme;
+
     return MarginedExpandedAtom(
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,

@@ -85,14 +85,6 @@ class _ConfettiAtomState extends State<ConfettiAtom> {
         colorScheme.onTertiaryFixedVariant,
 
         /// Surface
-        colorScheme.surface,
-        colorScheme.surfaceDim,
-        colorScheme.surfaceBright,
-        colorScheme.surfaceTint,
-        colorScheme.surfaceContainer,
-        colorScheme.surfaceContainerLowest,
-        colorScheme.surfaceContainerLow,
-        colorScheme.surfaceContainerHigh,
         colorScheme.surfaceContainerHighest,
         colorScheme.onSurface,
         colorScheme.onSurfaceVariant,
