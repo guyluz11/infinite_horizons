@@ -4,7 +4,7 @@ import 'package:infinite_horizons/domain/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
-import 'package:infinite_horizons/presentation/pages/home_page.dart';
+import 'package:infinite_horizons/presentation/pages/pages.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 class IntroPage extends StatefulWidget {
@@ -19,10 +19,9 @@ class _IntroPageState extends State<IntroPage> {
   String studyType = '';
   bool showNextButton = true;
   IntroState state = IntroState.welcome;
+  final Duration selectionTransitionDelay = const Duration(milliseconds: 200);
 
-  void nextPage() {
-    _introKey.currentState?.next();
-  }
+  void nextPage() => _introKey.currentState?.next();
 
   void onDone(BuildContext context) => Navigator.of(context)
       .push(MaterialPageRoute(builder: (context) => HomePage()));
@@ -49,19 +48,19 @@ class _IntroPageState extends State<IntroPage> {
         ),
         pages: [
           PageViewModel(
-            useScrollView: false,
             decoration: emptyPageDecoration(),
             bodyWidget: WelcomeOrganism(),
             titleWidget: const SizedBox(),
           ),
           PageViewModel(
             titleWidget: const SizedBox(),
+            useScrollView: false,
             decoration: emptyPageDecoration(),
             bodyWidget: StudyTypeSelectionMolecule(() async {
               setState(() {
                 studyType = StudyTypeAbstract.instance!.studyType.name;
               });
-              await Future.delayed(const Duration(milliseconds: 200));
+              await Future.delayed(selectionTransitionDelay);
               nextPage();
             }),
           ),
@@ -74,7 +73,7 @@ class _IntroPageState extends State<IntroPage> {
             titleWidget: const SizedBox(),
             decoration: emptyPageDecoration(),
             bodyWidget: EnergySelectionMolecule(() async {
-              await Future.delayed(const Duration(milliseconds: 200));
+              await Future.delayed(selectionTransitionDelay);
               nextPage();
             }),
           ),
@@ -82,7 +81,7 @@ class _IntroPageState extends State<IntroPage> {
             titleWidget: const SizedBox(),
             useScrollView: false,
             decoration: emptyPageDecoration(),
-            bodyWidget: MotivationOrganism(() => onDone(context)),
+            bodyWidget: ReadyForSessionPage(() => onDone(context)),
           ),
         ],
         showBackButton: true,

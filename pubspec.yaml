@@ -10,6 +10,8 @@ dependencies:
   animated_toggle_switch: ^0.8.2
   audioplayers: ^6.0.0
   collection: ^1.18.0
+  # Blast confetti
+  confetti: ^0.7.0
   # Cupertino Icons font to your application
   cupertino_icons: ^1.0.8
   # Make an animated circular countdown

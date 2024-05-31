@@ -1,12 +1,11 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
+import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 
-class MotivationOrganism extends StatelessWidget {
-  const MotivationOrganism(this.callback);
+class ReadyForSessionPage extends StatelessWidget {
+  const ReadyForSessionPage(this.callback);
 
   final VoidCallback callback;
 
@@ -35,25 +34,18 @@ class MotivationOrganism extends StatelessWidget {
     return Expanded(
       child: MarginedExpandedAtom(
         child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
             const TopBarMolecule(
-              title: 'lets_start',
+              title: 'start_session',
               topBarType: TopBarType.none,
               margin: false,
             ),
+            const SeparatorAtom(variant: SeparatorVariant.farApart),
             Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextAtom(text),
-                  const SeparatorAtom(variant: SeparatorVariant.farApart),
-                  ButtonAtom(
-                    variant: ButtonVariant.highEmphasisFilled,
-                    onPressed: callback,
-                    text: 'start',
-                  ),
-                ],
+              child: ReadyForSessionOrganism(
+                callback,
+                topText: text,
               ),
             ),
           ],

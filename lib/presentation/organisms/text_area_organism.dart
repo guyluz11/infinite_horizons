@@ -30,20 +30,32 @@ class _TextAreaOrganismState extends State<TextAreaOrganism> {
           margin: false,
         ),
         const SeparatorAtom(variant: SeparatorVariant.farApart),
-        const TextAtom(
-          'We encourage writing down unrelated tasks that are on your mind to keep your brain free and come back to it after the sessions',
-          variant: TextVariant.smallTitle,
-        ),
-        const SeparatorAtom(),
-        const SeparatorAtom(),
         Expanded(
-          child: TextFormField(
-            minLines: 6,
-            keyboardType: TextInputType.multiline,
-            maxLines: null,
-            initialValue: freeText,
-            onChanged: onChanged,
-            autofocus: true,
+          child: SingleChildScrollView(
+            child: Column(
+              children: [
+                CardAtom(
+                  child: Column(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      const TextAtom(
+                        'Free your mind',
+                        variant: TextVariant.smallTitle,
+                      ),
+                      const SeparatorAtom(),
+                      const SeparatorAtom(),
+                      TextFormField(
+                        keyboardType: TextInputType.multiline,
+                        maxLines: null,
+                        initialValue: freeText,
+                        onChanged: onChanged,
+                        autofocus: true,
+                      ),
+                    ],
+                  ),
+                ),
+              ],
+            ),
           ),
         ),
       ],
