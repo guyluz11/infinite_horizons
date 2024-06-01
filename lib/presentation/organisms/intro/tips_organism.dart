@@ -30,17 +30,13 @@ class TipsOrganism extends StatelessWidget {
         )
         .toList();
 
-    return MarginedExpandedAtom(
+    return PageEnclosureMolecule(
+      scaffold: false,
+      title: 'efficient_tips'.tr(args: [studyType.tr()]),
+      topBarTranslate: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          TopBarMolecule(
-            title: 'efficient_tips'.tr(args: [studyType.tr()]),
-            topBarType: TopBarType.none,
-            margin: false,
-            translate: false,
-          ),
-          const SeparatorAtom(variant: SeparatorVariant.farApart),
           Center(
             child: Platform.isAndroid
                 ? ButtonAtom(

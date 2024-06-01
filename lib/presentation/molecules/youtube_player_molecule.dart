@@ -40,6 +40,7 @@ class _YoutubePlayerMoleculeState extends State<YoutubePlayerMolecule> {
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     final ColorScheme colorScheme = themeData.colorScheme;
+
     return YoutubePlayerBuilder(
       player: YoutubePlayer(
         controller: controller,

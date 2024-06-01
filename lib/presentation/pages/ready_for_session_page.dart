@@ -1,6 +1,5 @@
 import 'package:flutter/cupertino.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
-import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 
@@ -31,24 +30,13 @@ class ReadyForSessionPage extends StatelessWidget {
         text = "So much energy 🔋⚡🔋⚡🔋⚡🔋\nLet's begin";
     }
 
-    return Expanded(
-      child: MarginedExpandedAtom(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            const TopBarMolecule(
-              title: 'start_session',
-              topBarType: TopBarType.none,
-              margin: false,
-            ),
-            const SeparatorAtom(variant: SeparatorVariant.farApart),
-            Expanded(
-              child: ReadyForSessionOrganism(
-                callback,
-                topText: text,
-              ),
-            ),
-          ],
+    return PageEnclosureMolecule(
+      scaffold: false,
+      title: 'start_session',
+      child: Expanded(
+        child: ReadyForSessionOrganism(
+          callback,
+          topText: text,
         ),
       ),
     );

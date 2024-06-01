@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
-import 'package:infinite_horizons/presentation/pages/youtube_player_page.dart';
+import 'package:infinite_horizons/presentation/pages/pages.dart';
 
 class TipResourcePage extends StatelessWidget {
   const TipResourcePage({
@@ -12,11 +12,13 @@ class TipResourcePage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     if (url.endsWith(".pdf")) {
-      return TipResourceMolecule(
-        innerWidget: PdfViewerMolecule(
+      return PageEnclosureMolecule(
+        title: "resource",
+        margin: false,
+        topBarType: TopBarType.back,
+        child: PdfViewerMolecule(
           url: url,
         ),
-        title: "resource",
       );
     } else if (url.contains("youtube") || url.contains("youtu.be")) {
       return YoutubePlayerPage(
@@ -24,11 +26,13 @@ class TipResourcePage extends StatelessWidget {
         url: url,
       );
     }
-    return TipResourceMolecule(
-      innerWidget: WebViewMolecule(
+    return PageEnclosureMolecule(
+      title: "resource",
+      margin: false,
+      topBarType: TopBarType.back,
+      child: WebViewMolecule(
         url: url,
       ),
-      title: "resource",
     );
   }
 }

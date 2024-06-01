@@ -30,6 +30,7 @@ class _IntroPageState extends State<IntroPage> {
         pageMargin: EdgeInsets.zero,
         footerPadding: EdgeInsets.zero,
         titlePadding: EdgeInsets.zero,
+        contentMargin: EdgeInsets.zero,
       );
 
   @override
@@ -48,6 +49,7 @@ class _IntroPageState extends State<IntroPage> {
         ),
         pages: [
           PageViewModel(
+            useScrollView: false,
             decoration: emptyPageDecoration(),
             bodyWidget: WelcomeOrganism(),
             titleWidget: const SizedBox(),
@@ -66,11 +68,13 @@ class _IntroPageState extends State<IntroPage> {
           ),
           PageViewModel(
             titleWidget: const SizedBox(),
+            useScrollView: false,
             decoration: emptyPageDecoration(),
             bodyWidget: TipsOrganism(studyType),
           ),
           PageViewModel(
             titleWidget: const SizedBox(),
+            useScrollView: false,
             decoration: emptyPageDecoration(),
             bodyWidget: EnergySelectionMolecule(() async {
               await Future.delayed(selectionTransitionDelay);

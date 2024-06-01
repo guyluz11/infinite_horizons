@@ -42,15 +42,11 @@ class _StudyTypeSelectionMoleculeState
 
   @override
   Widget build(BuildContext context) {
-    return MarginedExpandedAtom(
+    return PageEnclosureMolecule(
+      scaffold: false,
+      title: 'study_type',
       child: Column(
         children: [
-          const TopBarMolecule(
-            title: 'study_type',
-            topBarType: TopBarType.none,
-            margin: false,
-          ),
-          const SeparatorAtom(variant: SeparatorVariant.farApart),
           CardAtom(
             child: Column(
               children: [

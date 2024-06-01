@@ -48,5 +48,6 @@
   "start_session": "Start Session",
   "in_session_tips": "In session tips",
   "error_pdf": "Some error occured while loading the resource",
-  "no_link": "No Link available for the resource"
+  "no_link": "No Link available for the resource",
+  "notes": "Notes"
 }
