@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
+import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:infinite_horizons/presentation/core/snack_bar_service.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/pages/pages.dart';
@@ -81,53 +82,66 @@ class TipInformationPage extends StatelessWidget {
                                   (Resource r) {
                                     final Uri? link = r.link;
 
-                                      return ExpansionPanelRadio(
-                                        value: r.title,
-                                        canTapOnHeader: true,
-                                        headerBuilder: (BuildContext context,
-                                            bool isExpanded,) {
-                                          return TextAtom(r.title);
+                                    return ExpansionPanelRadio(
+                                      value: r.title,
+                                      canTapOnHeader: true,
+                                      headerBuilder: (
+                                        BuildContext context,
+                                        bool isExpanded,
+                                      ) {
+                                        return Padding(
+                                          padding:
+                                              GlobalVariables.defaultPadding,
+                                          child: TextAtom(r.title),
+                                        );
+                                      },
+                                      body: InkWell(
+                                        onTap: () {
+                                          if (link == null) {
+                                            SnackBarService().show(
+                                              context,
+                                              "no_link",
+                                            );
+                                            return;
+                                          }
+                                          Navigator.of(context).push(
+                                            MaterialPageRoute(
+                                              builder: (context) =>
+                                                  TipResourcePage(
+                                                url: link.toString(),
+                                              ),
+                                            ),
+                                          );
                                         },
-                                        body: InkWell(
-                                          onTap: () {
-                                            if (link == null) {
-                                              return;
-                                            }
-                                            launchUrl(link);
-                                          },
+                                        child: Padding(
+                                          padding:
+                                              GlobalVariables.defaultPadding,
                                           child: Row(
                                             children: [
                                               Expanded(
                                                 child: TextAtom(
-                                                    r.resourceExplanation,),
+                                                  r.resourceExplanation,
+                                                ),
                                               ),
-                                              IconButton(
-                                                onPressed: () {
-                                                  if (link == null) {
-                                                    return;
-                                                  }
-                                                  launchUrl(link);
-                                                },
-                                                icon: const Icon(Icons.link),
-                                              ),
+                                              const Icon(Icons.link),
                                             ],
                                           ),
                                         ),
-                                      );
-                                    },
-                                  ).toList(),
-                                ),
-                              ],
-                            ),
-                        ],
-                      ),
+                                      ),
+                                    );
+                                  },
+                                ).toList(),
+                              ),
+                            ],
+                          ),
+                      ],
                     ),
-                  ],
-                ),
+                  ),
+                ],
               ),
             ),
-          ],
-        ),
+          ),
+        ],
       ),
     );
   }
