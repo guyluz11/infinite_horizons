@@ -55,16 +55,12 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
 
   @override
   Widget build(BuildContext context) {
-    return MarginedExpandedAtom(
+    return PageEnclosureMolecule(
+      title: 'energy',
+      scaffold: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const TopBarMolecule(
-            title: 'energy',
-            topBarType: TopBarType.none,
-            margin: false,
-          ),
-          const SeparatorAtom(variant: SeparatorVariant.farApart),
           CardAtom(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,

@@ -35,6 +35,7 @@
   "tip:": "Tip:",
   "next": "Next",
   "tip_description": "Tip Description",
+  "resource" : "Linked Resource",
   "resources": "Resources:",
   "dnd":"Toggle DND",
   "dnd_ios":"We recommend turning Do Not Disturb mode to avoid distractions",
@@ -45,5 +46,8 @@
   "ready": "I am ready",
   "ready_for_session": "Next Round?",
   "start_session": "Start Session",
-  "in_session_tips": "In session tips"
+  "in_session_tips": "In session tips",
+  "error_pdf": "Some error occured while loading the resource",
+  "no_link": "No Link available for the resource",
+  "notes": "Notes"
 }

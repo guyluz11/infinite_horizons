@@ -48,7 +48,10 @@ class ProgressIndicatorMolecule extends StatelessWidget {
               const SeparatorAtom(variant: SeparatorVariant.farApart),
             ],
           ),
-        ProgressIndicatorAtom(getReadyDuration, onComplete),
+        ProgressIndicatorAtom(
+          totalDuration: getReadyDuration,
+          callback: onComplete,
+        ),
       ],
     );
   }

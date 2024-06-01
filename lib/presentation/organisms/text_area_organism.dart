@@ -22,43 +22,35 @@ class _TextAreaOrganismState extends State<TextAreaOrganism> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const TopBarMolecule(
-          title: 'Notes',
-          topBarType: TopBarType.none,
-          margin: false,
-        ),
-        const SeparatorAtom(variant: SeparatorVariant.farApart),
-        Expanded(
-          child: SingleChildScrollView(
-            child: Column(
-              children: [
-                CardAtom(
-                  child: Column(
-                    crossAxisAlignment: CrossAxisAlignment.start,
-                    children: [
-                      const TextAtom(
-                        'Free your mind',
-                        variant: TextVariant.smallTitle,
-                      ),
-                      const SeparatorAtom(),
-                      const SeparatorAtom(),
-                      TextFormField(
-                        keyboardType: TextInputType.multiline,
-                        maxLines: null,
-                        initialValue: freeText,
-                        onChanged: onChanged,
-                        autofocus: true,
-                      ),
-                    ],
+    return PageEnclosureMolecule(
+      title: 'notes',
+      scaffold: false,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            CardAtom(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const TextAtom(
+                    'What is on your mind',
+                    variant: TextVariant.smallTitle,
                   ),
-                ),
-              ],
+                  const SeparatorAtom(),
+                  const SeparatorAtom(),
+                  TextFormField(
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    initialValue: freeText,
+                    onChanged: onChanged,
+                    autofocus: true,
+                  ),
+                ],
+              ),
             ),
-          ),
+          ],
         ),
-      ],
+      ),
     );
   }
 }
