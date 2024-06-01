@@ -1,8 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
+import 'package:infinite_horizons/presentation/core/snack_bar_service.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
-import 'package:url_launcher/url_launcher.dart';
+import 'package:infinite_horizons/presentation/pages/pages.dart';
 
 class TipInformationPage extends StatelessWidget {
   const TipInformationPage(this.tip);
@@ -87,21 +88,32 @@ class TipInformationPage extends StatelessWidget {
                                       return ExpansionPanelRadio(
                                         value: r.title,
                                         headerBuilder: (BuildContext context,
-                                            bool isExpanded) {
+                                            bool isExpanded,) {
                                           return TextAtom(r.title);
                                         },
                                         body: Row(
                                           children: [
                                             Expanded(
                                               child: TextAtom(
-                                                  r.resourceExplanation),
+                                                  r.resourceExplanation,),
                                             ),
                                             IconButton(
                                               onPressed: () {
                                                 if (link == null) {
+                                                  SnackBarService().show(
+                                                    context,
+                                                    "no_link",
+                                                  );
                                                   return;
                                                 }
-                                                launchUrl(link);
+                                                Navigator.of(context).push(
+                                                  MaterialPageRoute(
+                                                    builder: (context) =>
+                                                        TipResourcePage(
+                                                      url: link.toString(),
+                                                    ),
+                                                  ),
+                                                );
                                               },
                                               icon: const Icon(Icons.link),
                                             ),

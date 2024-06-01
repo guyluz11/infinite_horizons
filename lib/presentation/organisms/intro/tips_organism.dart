@@ -45,7 +45,7 @@ class TipsOrganism extends StatelessWidget {
             child: Platform.isAndroid
                 ? ButtonAtom(
                     variant: ButtonVariant.mediumEmphasisOutlined,
-                    onPressed: () => DndController.instance.toggleDnd(),
+                    onPressed: DndController.instance.toggleDnd,
                     text: 'dnd',
                   )
                 : const TextAtom('dnd_ios'),
