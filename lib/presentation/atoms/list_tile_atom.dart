@@ -10,6 +10,7 @@ class ListTileAtom extends StatelessWidget {
     this.translateTitle = true,
     this.translateSubtitle = true,
     this.onTap,
+    this.enable = true,
   });
 
   final String title;
@@ -19,10 +20,12 @@ class ListTileAtom extends StatelessWidget {
   final bool translateTitle;
   final bool translateSubtitle;
   final VoidCallback? onTap;
+  final bool enable;
 
   @override
   Widget build(BuildContext context) {
     return ListTile(
+      enabled: enable,
       contentPadding: EdgeInsets.zero,
       title: TextAtom(title, translate: translateTitle),
       subtitle: subtitle == null

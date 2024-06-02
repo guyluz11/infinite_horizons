@@ -22,7 +22,6 @@ class TipResourcePage extends StatelessWidget {
       );
     } else if (url.contains("youtube") || url.contains("youtu.be")) {
       return YoutubePlayerPage(
-        title: 'resource',
         url: url,
       );
     }

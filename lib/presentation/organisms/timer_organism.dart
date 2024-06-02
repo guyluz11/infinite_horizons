@@ -99,7 +99,7 @@ class _TimerOrganismState extends State<TimerOrganism>
         ),
         const SeparatorAtom(),
         CardAtom(
-          child: ToggleButtonMolecule(
+          child: ToggleSwitchMolecule(
             text: 'sound',
             offIcon: Icons.music_off_rounded,
             onIcon: Icons.music_note_rounded,
@@ -112,7 +112,7 @@ class _TimerOrganismState extends State<TimerOrganism>
         ),
         const SeparatorAtom(),
         CardAtom(
-          child: ToggleButtonMolecule(
+          child: ToggleSwitchMolecule(
             text: 'screen_lock',
             offIcon: Icons.lock_clock,
             onIcon: Icons.lock_open,

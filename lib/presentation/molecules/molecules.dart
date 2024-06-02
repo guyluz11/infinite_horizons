@@ -6,7 +6,7 @@ export 'package:infinite_horizons/presentation/molecules/pdf_viewer_molecule.dar
 export 'package:infinite_horizons/presentation/molecules/progress_indicator_molecule.dart';
 export 'package:infinite_horizons/presentation/molecules/study_type_selection_molecule.dart';
 export 'package:infinite_horizons/presentation/molecules/timer_molecule.dart';
-export 'package:infinite_horizons/presentation/molecules/toggle_button_molecule.dart';
+export 'package:infinite_horizons/presentation/molecules/toggle_switch_tile_molecule.dart';
 export 'package:infinite_horizons/presentation/molecules/top_bar_molecule.dart';
 export 'package:infinite_horizons/presentation/molecules/web_view_molecule.dart';
 export 'package:infinite_horizons/presentation/molecules/youtube_player_molecule.dart';

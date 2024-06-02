@@ -5,15 +5,10 @@ import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 
 class YoutubePlayerPage extends StatefulWidget {
   const YoutubePlayerPage({
-    required this.title,
     required this.url,
     super.key,
-    this.topBarType = TopBarType.back,
-    this.separatorVariant = SeparatorVariant.closeWidgets,
   });
-  final TopBarType topBarType;
-  final String title;
-  final SeparatorVariant separatorVariant;
+
   final String url;
 
   @override
@@ -32,28 +27,25 @@ class _YoutubePlayerPageState extends State<YoutubePlayerPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Padding(
-        padding: padding,
-        child: Column(
-          children: [
-            if (!isFullScreen)
-              TopBarMolecule(
-                topBarType: widget.topBarType,
-                title: widget.title,
-              ),
-            SeparatorAtom(variant: widget.separatorVariant),
-            Expanded(
-              child: YoutubePlayerMolecule(
-                url: widget.url,
-                callback: (bool ytFullScreen) {
-                  setState(() {
-                    isFullScreen = ytFullScreen;
-                  });
-                },
-              ),
+      body: Column(
+        children: [
+          if (!isFullScreen)
+            const TopBarMolecule(
+              topBarType: TopBarType.back,
+              title: 'resource',
             ),
-          ],
-        ),
+          const SeparatorAtom(variant: SeparatorVariant.closeWidgets),
+          Expanded(
+            child: YoutubePlayerMolecule(
+              url: widget.url,
+              callback: (bool ytFullScreen) {
+                setState(() {
+                  isFullScreen = ytFullScreen;
+                });
+              },
+            ),
+          ),
+        ],
       ),
     );
   }
