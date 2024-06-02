@@ -64,7 +64,7 @@ class _ProgressIndicatorAtomState extends State<ProgressIndicatorAtom>
       height: 35,
       child: LiquidLinearProgressIndicator(
         value: controller.value,
-        backgroundColor: colorScheme.outline,
+        backgroundColor: colorScheme.secondaryContainer,
         valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
         borderColor: colorScheme.outline,
         borderRadius: GlobalVariables.defaultRadius,

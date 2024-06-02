@@ -11,11 +11,6 @@ class TimerAtom extends StatelessWidget {
   final Duration timer;
   final VoidCallback callback;
 
-  void onComplete() {
-    // TODO: Play complete sound
-    callback();
-  }
-
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
@@ -48,7 +43,7 @@ class TimerAtom extends StatelessWidget {
                       children: [
                         Positioned.fill(
                           child: CircularProgressIndicator(
-                            backgroundColor: colorScheme.primaryContainer,
+                            backgroundColor: colorScheme.secondaryContainer,
                             color: value == CustomTimerState.counting
                                 ? colorScheme.primary
                                 : colorScheme.outline,
