@@ -22,31 +22,35 @@ class _TextAreaOrganismState extends State<TextAreaOrganism> {
 
   @override
   Widget build(BuildContext context) {
-    return Column(
-      children: [
-        const TopBarMolecule(
-          title: 'Notes',
-          topBarType: TopBarType.none,
-          margin: false,
+    return PageEnclosureMolecule(
+      title: 'notes',
+      scaffold: false,
+      child: SingleChildScrollView(
+        child: Column(
+          children: [
+            CardAtom(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  const TextAtom(
+                    'What is on your mind',
+                    variant: TextVariant.smallTitle,
+                  ),
+                  const SeparatorAtom(),
+                  const SeparatorAtom(),
+                  TextFormField(
+                    keyboardType: TextInputType.multiline,
+                    maxLines: null,
+                    initialValue: freeText,
+                    onChanged: onChanged,
+                    autofocus: true,
+                  ),
+                ],
+              ),
+            ),
+          ],
         ),
-        const SeparatorAtom(variant: SeparatorVariant.farApart),
-        const TextAtom(
-          'We encourage writing down unrelated tasks that are on your mind to keep your brain free and come back to it after the sessions',
-          variant: TextVariant.smallTitle,
-        ),
-        const SeparatorAtom(),
-        const SeparatorAtom(),
-        Expanded(
-          child: TextFormField(
-            minLines: 6,
-            keyboardType: TextInputType.multiline,
-            maxLines: null,
-            initialValue: freeText,
-            onChanged: onChanged,
-            autofocus: true,
-          ),
-        ),
-      ],
+      ),
     );
   }
 }

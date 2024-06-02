@@ -55,30 +55,42 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
 
   @override
   Widget build(BuildContext context) {
-    return MarginedExpandedAtom(
+    return PageEnclosureMolecule(
+      title: 'energy',
+      scaffold: false,
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const TopBarMolecule(
-            title: 'energy',
-            topBarType: TopBarType.none,
-            margin: false,
+          CardAtom(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const TextAtom(
+                  'classic_pomodoro',
+                  variant: TextVariant.smallTitle,
+                ),
+                const SeparatorAtom(),
+                energyWidget(EnergyType.medium),
+              ],
+            ),
           ),
           const SeparatorAtom(variant: SeparatorVariant.farApart),
-          const TextAtom('classic_pomodoro'),
-          const SeparatorAtom(),
-          energyWidget(EnergyType.medium),
-          const SeparatorAtom(variant: SeparatorVariant.farApart),
-          const TextAtom('custom'),
-          const SeparatorAtom(),
-          Column(
-            children: [
-              energyWidget(EnergyType.max),
-              energyWidget(EnergyType.veryHigh),
-              energyWidget(EnergyType.high),
-              energyWidget(EnergyType.low),
-              energyWidget(EnergyType.veryLow),
-            ],
+          CardAtom(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const TextAtom(
+                  'custom',
+                  variant: TextVariant.smallTitle,
+                ),
+                const SeparatorAtom(),
+                energyWidget(EnergyType.max),
+                energyWidget(EnergyType.veryHigh),
+                energyWidget(EnergyType.high),
+                energyWidget(EnergyType.low),
+                energyWidget(EnergyType.veryLow),
+              ],
+            ),
           ),
         ],
       ),

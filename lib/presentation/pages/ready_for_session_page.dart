@@ -1,12 +1,10 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/material.dart';
-import 'package:flutter/widgets.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
-import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
+import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 
-class MotivationOrganism extends StatelessWidget {
-  const MotivationOrganism(this.callback);
+class ReadyForSessionPage extends StatelessWidget {
+  const ReadyForSessionPage(this.callback);
 
   final VoidCallback callback;
 
@@ -32,31 +30,13 @@ class MotivationOrganism extends StatelessWidget {
         text = "So much energy 🔋⚡🔋⚡🔋⚡🔋\nLet's begin";
     }
 
-    return Expanded(
-      child: MarginedExpandedAtom(
-        child: Column(
-          mainAxisAlignment: MainAxisAlignment.center,
-          children: <Widget>[
-            const TopBarMolecule(
-              title: 'lets_start',
-              topBarType: TopBarType.none,
-              margin: false,
-            ),
-            Expanded(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  TextAtom(text),
-                  const SeparatorAtom(variant: SeparatorVariant.farApart),
-                  ButtonAtom(
-                    variant: ButtonVariant.primary,
-                    onPressed: callback,
-                    text: 'start',
-                  ),
-                ],
-              ),
-            ),
-          ],
+    return PageEnclosureMolecule(
+      scaffold: false,
+      title: 'start_session',
+      child: Expanded(
+        child: ReadyForSessionOrganism(
+          callback,
+          topText: text,
         ),
       ),
     );

@@ -5,13 +5,11 @@ part 'package:infinite_horizons/infrastructure/player_repository.dart';
 abstract class PlayerController {
   static PlayerController? _instance;
 
-  static PlayerController get instance {
-    return _instance ??= _PlayerRepository();
-  }
+  static PlayerController get instance => _instance ??= _PlayerRepository();
 
-  void setSilentState(bool value);
+  void setIsSound(bool value);
 
-  bool isSilent();
+  bool isSound();
 
   void initialize();
 

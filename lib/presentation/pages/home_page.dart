@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 
@@ -38,16 +37,14 @@ class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: MarginedExpandedAtom(
-        child: PageView(
-          onPageChanged: (index) {
-            setState(() {
-              _currentTabNum = index;
-            });
-          },
-          controller: _pageController,
-          children: _tabs,
-        ),
+      body: PageView(
+        onPageChanged: (index) {
+          setState(() {
+            _currentTabNum = index;
+          });
+        },
+        controller: _pageController,
+        children: _tabs,
       ),
       bottomNavigationBar:
           BottomNavigationBarHomePage(callback, _currentTabNum),

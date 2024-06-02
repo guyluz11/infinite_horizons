@@ -41,28 +41,22 @@ class AllTipsPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: MarginedExpandedAtom(
+    return PageEnclosureMolecule(
+      title: 'all_tips',
+      topBarType: TopBarType.back,
+      child: SingleChildScrollView(
         child: Column(
           children: [
-            const TopBarMolecule(
-              title: 'all_tips',
-              topBarType: TopBarType.back,
-              margin: false,
+            CardAtom(
+              child: tipList(TipType.general),
             ),
             const SeparatorAtom(variant: SeparatorVariant.farApart),
-            Expanded(
-              child: SingleChildScrollView(
-                child: Column(
-                  children: [
-                    tipList(TipType.general),
-                    const SeparatorAtom(variant: SeparatorVariant.farApart),
-                    tipList(TipType.analytical),
-                    const SeparatorAtom(variant: SeparatorVariant.farApart),
-                    tipList(TipType.creative),
-                  ],
-                ),
-              ),
+            CardAtom(
+              child: tipList(TipType.analytical),
+            ),
+            const SeparatorAtom(variant: SeparatorVariant.farApart),
+            CardAtom(
+              child: tipList(TipType.creative),
             ),
           ],
         ),

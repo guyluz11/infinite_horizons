@@ -61,6 +61,11 @@ class Tip {
 List<Tip> tipsList = [
   /// General tips
   Tip(
+    'dnd',
+    type: TipType.general,
+    timing: TipTiming.before,
+  ),
+  Tip(
     'Siting straight up',
     type: TipType.general,
     timing: TipTiming.before,

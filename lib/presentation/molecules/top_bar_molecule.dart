@@ -1,5 +1,4 @@
 import 'package:flutter/material.dart';
-import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class TopBarMolecule extends StatelessWidget {
@@ -7,8 +6,8 @@ class TopBarMolecule extends StatelessWidget {
     required this.topBarType,
     this.title,
     this.iconColor,
-    this.onTap,
-    this.secondaryButtonOnTap,
+    this.leftOnTap,
+    this.rightOnTap,
     this.translate = true,
     this.margin = true,
   });
@@ -16,8 +15,8 @@ class TopBarMolecule extends StatelessWidget {
   final TopBarType topBarType;
   final String? title;
   final Color? iconColor;
-  final VoidCallback? onTap;
-  final VoidCallback? secondaryButtonOnTap;
+  final VoidCallback? leftOnTap;
+  final VoidCallback? rightOnTap;
   final bool translate;
   final bool margin;
 
@@ -37,60 +36,97 @@ class TopBarMolecule extends StatelessWidget {
   Widget topBarWidget(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
     final TextTheme textTheme = themeData.textTheme;
-    return Column(
-      children: [
-        const SizedBox(height: 15),
-        Row(
+
+    switch (topBarType) {
+      case TopBarType.none:
+        return Column(
           children: [
-            if (topBarType != TopBarType.none)
-              Row(
-                children: [
-                  GestureDetector(
-                    onTap: () {
-                      if (onTap != null) {
-                        return onTap!();
-                      }
-                      Navigator.of(context).pop();
-                    },
-                    child: Icon(
-                      topBarType == TopBarType.close
-                          ? Icons.close_rounded
-                          : Icons.arrow_back_ios_rounded,
-                      color: iconColor,
-                      size: textTheme.titleMedium!.fontSize,
-                    ),
-                  ),
-                  const SeparatorAtom(
-                    variant: SeparatorVariant.relatedElements,
-                  ),
-                ],
-              ),
-            Expanded(
-              child: TextAtom(
-                title ?? '',
-                variant: TextVariant.smallTitle,
-              ),
-            ),
+            const SizedBox(height: 15),
             Row(
               children: [
-                if (secondaryButtonOnTap != null)
-                  ButtonAtom(
-                    variant: ButtonVariant.iconButton,
-                    onPressed: secondaryButtonOnTap!,
-                    translate: translate,
-                    icon: FontAwesomeIcons.gear,
-                  )
-                else
-                  TextAtom(
-                    '',
-                    style: textTheme.headlineSmall,
+                const Expanded(
+                  child: SizedBox(),
+                ),
+                TextAtom(
+                  title ?? '',
+                  variant: TextVariant.titleLarge,
+                ),
+                Expanded(
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      if (rightOnTap != null)
+                        ButtonAtom(
+                          variant: ButtonVariant.lowEmphasisIcon,
+                          onPressed: rightOnTap!,
+                          translate: translate,
+                          icon: Icons.more_vert,
+                        )
+                      else
+                        TextAtom(
+                          '',
+                          style: textTheme.headlineSmall,
+                        ),
+                    ],
                   ),
+                ),
               ],
             ),
           ],
-        ),
-      ],
-    );
+        );
+
+      case TopBarType.back:
+      case TopBarType.close:
+        return Column(
+          children: [
+            const SizedBox(height: 15),
+            Row(
+              children: [
+                GestureDetector(
+                  onTap: () {
+                    if (leftOnTap != null) {
+                      return leftOnTap!();
+                    }
+                    Navigator.of(context).pop();
+                  },
+                  child: Icon(
+                    topBarType == TopBarType.close
+                        ? Icons.close_rounded
+                        : Icons.arrow_back_ios_rounded,
+                    color: iconColor,
+                    size: textTheme.titleMedium!.fontSize,
+                  ),
+                ),
+                const SeparatorAtom(
+                  variant: SeparatorVariant.relatedElements,
+                ),
+                Expanded(
+                  child: TextAtom(
+                    title ?? '',
+                    variant: TextVariant.titleLarge,
+                  ),
+                ),
+                Row(
+                  children: [
+                    if (rightOnTap != null)
+                      ButtonAtom(
+                        variant: ButtonVariant.lowEmphasisIcon,
+                        onPressed: rightOnTap!,
+                        translate: translate,
+                        icon: Icons.more_vert,
+                      )
+                    else
+                      TextAtom(
+                        '',
+                        style: textTheme.headlineSmall,
+                      ),
+                  ],
+                ),
+              ],
+            ),
+          ],
+        );
+    }
   }
 }
 
