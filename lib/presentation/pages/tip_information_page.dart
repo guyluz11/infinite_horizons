@@ -17,6 +17,7 @@ class TipInformationPage extends StatelessWidget {
   Widget build(BuildContext context) {
     return PageEnclosureMolecule(
       title: 'tip_description',
+      topBarType: TopBarType.back,
       child: Column(
         children: [
           Expanded(

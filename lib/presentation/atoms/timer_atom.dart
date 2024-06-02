@@ -11,11 +11,6 @@ class TimerAtom extends StatelessWidget {
   final Duration timer;
   final VoidCallback callback;
 
-  void onComplete() {
-    // TODO: Play complete sound
-    callback();
-  }
-
   @override
   Widget build(BuildContext context) {
     final ThemeData themeData = Theme.of(context);
@@ -48,7 +43,7 @@ class TimerAtom extends StatelessWidget {
                       children: [
                         Positioned.fill(
                           child: CircularProgressIndicator(
-                            backgroundColor: colorScheme.primaryContainer,
+                            backgroundColor: colorScheme.secondaryContainer,
                             color: value == CustomTimerState.counting
                                 ? colorScheme.primary
                                 : colorScheme.outline,
@@ -59,37 +54,27 @@ class TimerAtom extends StatelessWidget {
                           ),
                         ),
                         Align(
-                          alignment: value != CustomTimerState.counting
-                              ? FractionalOffset.topCenter
-                              : FractionalOffset.center,
-                          child: Container(
-                            padding: value != CustomTimerState.counting
-                                ? const EdgeInsets.symmetric(
-                                    vertical: 50,
-                                    horizontal: 20,
-                                  )
-                                : null,
-                            child: TextAtom(
-                              "${time.minutes}:${time.seconds}",
-                              variant: TextVariant.title,
-                              textAlign: TextAlign.left,
-                              translate: false,
-                            ),
-                          ),
-                        ),
-                        Align(
-                          alignment: FractionalOffset.bottomCenter,
-                          child: Padding(
-                            padding: const EdgeInsets.symmetric(
-                              vertical: 38,
-                              horizontal: 38,
-                            ),
-                            child: (value != CustomTimerState.counting)
-                                ? const Icon(
-                                    Icons.play_arrow_rounded,
-                                    size: 50.0,
-                                  )
-                                : const SizedBox(),
+                          alignment: FractionalOffset.center,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              TextAtom(
+                                "${time.minutes}:${time.seconds}",
+                                variant: TextVariant.title,
+                                textAlign: TextAlign.left,
+                                translate: false,
+                              ),
+                              if (value != CustomTimerState.counting)
+                                const Column(
+                                  children: [
+                                    SeparatorAtom(),
+                                    Icon(
+                                      Icons.play_arrow_rounded,
+                                      size: 50,
+                                    ),
+                                  ],
+                                ),
+                            ],
                           ),
                         ),
                       ],
