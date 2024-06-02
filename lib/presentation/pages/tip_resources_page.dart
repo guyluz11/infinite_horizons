@@ -16,6 +16,7 @@ class TipResourcePage extends StatelessWidget {
         title: "resource",
         margin: false,
         topBarType: TopBarType.back,
+        expendChild: false,
         child: PdfViewerMolecule(
           url: url,
         ),
@@ -29,6 +30,7 @@ class TipResourcePage extends StatelessWidget {
       title: "resource",
       margin: false,
       topBarType: TopBarType.back,
+      expendChild: false,
       child: WebViewMolecule(
         url: url,
       ),

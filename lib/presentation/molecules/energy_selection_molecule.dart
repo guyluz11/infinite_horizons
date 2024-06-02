@@ -58,41 +58,46 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
     return PageEnclosureMolecule(
       title: 'energy',
       scaffold: false,
-      child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
-        children: [
-          CardAtom(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const TextAtom(
-                  'classic_pomodoro',
-                  variant: TextVariant.smallTitle,
+      child: Padding(
+        padding: const EdgeInsets.only(bottom: 30),
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CardAtom(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const TextAtom(
+                      'classic_pomodoro',
+                      variant: TextVariant.smallTitle,
+                    ),
+                    const SeparatorAtom(),
+                    energyWidget(EnergyType.medium),
+                  ],
                 ),
-                const SeparatorAtom(),
-                energyWidget(EnergyType.medium),
-              ],
-            ),
-          ),
-          const SeparatorAtom(variant: SeparatorVariant.farApart),
-          CardAtom(
-            child: Column(
-              crossAxisAlignment: CrossAxisAlignment.start,
-              children: [
-                const TextAtom(
-                  'custom',
-                  variant: TextVariant.smallTitle,
+              ),
+              const SeparatorAtom(variant: SeparatorVariant.farApart),
+              CardAtom(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const TextAtom(
+                      'custom',
+                      variant: TextVariant.smallTitle,
+                    ),
+                    const SeparatorAtom(),
+                    energyWidget(EnergyType.max),
+                    energyWidget(EnergyType.veryHigh),
+                    energyWidget(EnergyType.high),
+                    energyWidget(EnergyType.low),
+                    energyWidget(EnergyType.veryLow),
+                  ],
                 ),
-                const SeparatorAtom(),
-                energyWidget(EnergyType.max),
-                energyWidget(EnergyType.veryHigh),
-                energyWidget(EnergyType.high),
-                energyWidget(EnergyType.low),
-                energyWidget(EnergyType.veryLow),
-              ],
-            ),
+              ),
+            ],
           ),
-        ],
+        ),
       ),
     );
   }

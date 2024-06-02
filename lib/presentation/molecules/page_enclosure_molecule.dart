@@ -11,6 +11,7 @@ class PageEnclosureMolecule extends StatelessWidget {
     this.topBarType = TopBarType.none,
     this.scaffold = true,
     this.topBarRightOnTap,
+    this.expendChild = true,
     super.key,
   });
 
@@ -21,6 +22,7 @@ class PageEnclosureMolecule extends StatelessWidget {
   final bool scaffold;
   final TopBarType topBarType;
   final VoidCallback? topBarRightOnTap;
+  final bool expendChild;
 
   Widget topBarHelper() {
     return Column(
@@ -51,7 +53,10 @@ class PageEnclosureMolecule extends StatelessWidget {
     if (scaffold) {
       page = Scaffold(body: page);
     }
+    if (expendChild) {
+      page = Expanded(child: page);
+    }
 
-    return Expanded(child: page);
+    return page;
   }
 }
