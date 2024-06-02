@@ -6,7 +6,7 @@ import 'package:infinite_horizons/presentation/core/snack_bar_service.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/pages/pages.dart';
 
-class TipInformationPage extends StatelessWidget {
+class TipInformationPage extends StatefulWidget {
   const TipInformationPage({
     required this.tip,
     super.key,
@@ -14,10 +14,25 @@ class TipInformationPage extends StatelessWidget {
   final Tip tip;
 
   @override
+  State<TipInformationPage> createState() => _TipInformationPageState();
+}
+
+class _TipInformationPageState extends State<TipInformationPage> {
+  late Map<String, bool> isExpanded;
+  @override
+  void initState() {
+    super.initState();
+    isExpanded = <String, bool>{};
+    for (final element in widget.tip.resourceLinks) {
+      isExpanded[element.title] = false;
+    }
+    setState(() {});
+  }
+
+  @override
   Widget build(BuildContext context) {
     return PageEnclosureMolecule(
       title: 'tip_description',
-      topBarType: TopBarType.back,
       child: Column(
         children: [
           Expanded(
@@ -33,7 +48,7 @@ class TipInformationPage extends StatelessWidget {
                             const SeparatorAtom(
                               variant: SeparatorVariant.relatedElements,
                             ),
-                            TextAtom(tip.type.name),
+                            TextAtom(widget.tip.type.name),
                           ],
                         ),
                         Row(
@@ -42,7 +57,7 @@ class TipInformationPage extends StatelessWidget {
                             const SeparatorAtom(
                               variant: SeparatorVariant.relatedElements,
                             ),
-                            TextAtom(tip.timing.name),
+                            TextAtom(widget.tip.timing.name),
                           ],
                         ),
                         Row(
@@ -53,7 +68,7 @@ class TipInformationPage extends StatelessWidget {
                             ),
                             Flexible(
                               child: TextAtom(
-                                tip.text,
+                                widget.tip.text,
                                 overflow: TextOverflow.clip,
                               ),
                             ),
@@ -66,7 +81,7 @@ class TipInformationPage extends StatelessWidget {
                   CardAtom(
                     child: Column(
                       children: [
-                        if (tip.resourceLinks.isEmpty)
+                        if (widget.tip.resourceLinks.isEmpty)
                           const TextAtom('resource_is_empty')
                         else
                           Column(
@@ -77,14 +92,23 @@ class TipInformationPage extends StatelessWidget {
                                 variant: TextVariant.smallTitle,
                               ),
                               const SeparatorAtom(),
-                              ExpansionPanelList.radio(
-                                children:
-                                    tip.resourceLinks.map<ExpansionPanelRadio>(
+                              ExpansionPanelList(
+                                expansionCallback: (panelIndex, expanded) {
+                                  setState(() {
+                                    isExpanded.forEach((key, value) {
+                                      isExpanded[key] = false;
+                                    });
+                                    isExpanded[isExpanded.keys
+                                        .elementAt(panelIndex)] = expanded;
+                                  });
+                                },
+                                children: widget.tip.resourceLinks
+                                    .map<ExpansionPanel>(
                                   (Resource r) {
                                     final Uri? link = r.link;
 
-                                    return ExpansionPanelRadio(
-                                      value: r.title,
+                                    return ExpansionPanel(
+                                      isExpanded: isExpanded[r.title]!,
                                       canTapOnHeader: true,
                                       headerBuilder: (
                                         BuildContext context,
@@ -98,21 +122,9 @@ class TipInformationPage extends StatelessWidget {
                                       },
                                       body: InkWell(
                                         onTap: () {
-                                          if (link == null) {
-                                            SnackBarService().show(
-                                              context,
-                                              "no_link",
-                                            );
-                                            return;
-                                          }
-                                          Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                              builder: (context) =>
-                                                  TipResourcePage(
-                                                url: link.toString(),
-                                              ),
-                                            ),
-                                          );
+                                          setState(() {
+                                            isExpanded[r.title] = false;
+                                          });
                                         },
                                         child: Padding(
                                           padding:
@@ -124,7 +136,25 @@ class TipInformationPage extends StatelessWidget {
                                                   r.resourceExplanation,
                                                 ),
                                               ),
-                                              const Icon(Icons.link),
+                                              IconButton(
+                                                  onPressed: () {
+                                                    if (link == null) {
+                                                      SnackBarService().show(
+                                                        context,
+                                                        "no_link",
+                                                      );
+                                                      return;
+                                                    }
+                                                    Navigator.of(context).push(
+                                                      MaterialPageRoute(
+                                                        builder: (context) =>
+                                                            TipResourcePage(
+                                                          url: link.toString(),
+                                                        ),
+                                                      ),
+                                                    );
+                                                  },
+                                                  icon: const Icon(Icons.link)),
                                             ],
                                           ),
                                         ),
