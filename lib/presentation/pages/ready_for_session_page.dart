@@ -33,11 +33,9 @@ class ReadyForSessionPage extends StatelessWidget {
     return PageEnclosureMolecule(
       scaffold: false,
       title: 'start_session',
-      child: Expanded(
-        child: ReadyForSessionOrganism(
-          callback,
-          topText: text,
-        ),
+      child: ReadyForSessionOrganism(
+        callback,
+        response: text,
       ),
     );
   }

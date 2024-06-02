@@ -33,6 +33,8 @@ class _TipInformationPageState extends State<TipInformationPage> {
   Widget build(BuildContext context) {
     return PageEnclosureMolecule(
       title: 'tip_description',
+      topBarType: TopBarType.back,
+      expendChild: false,
       child: Column(
         children: [
           Expanded(

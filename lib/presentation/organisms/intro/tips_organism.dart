@@ -103,8 +103,10 @@ class _TipsOrganismState extends State<TipsOrganism> {
                                       offIcon:
                                           Icons.do_not_disturb_off_outlined,
                                       onIcon: Icons.do_not_disturb_on_outlined,
-                                      onChange: (value) =>
-                                          DndController.instance.enableDnd(),
+                                      onChange: (value) {
+                                        confettiController.play();
+                                        DndController.instance.enableDnd();
+                                      },
                                       initialValue: isDnd!,
                                       trailing: IconButton(
                                         onPressed: () =>
@@ -117,7 +119,6 @@ class _TipsOrganismState extends State<TipsOrganism> {
                                         icon: const Icon(Icons.arrow_forward),
                                       ),
                                       lockOnToggleOn: true,
-                                      confettiController: confettiController,
                                     ),
                                   ],
                                 ),
