@@ -1,4 +1,3 @@
-import 'package:confetti/confetti.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
@@ -12,7 +11,6 @@ class ToggleSwitchMolecule extends StatefulWidget {
     required this.initialValue,
     this.trailing,
     this.lockOnToggleOn = false,
-    this.confettiController,
   });
 
   final String text;
@@ -23,7 +21,6 @@ class ToggleSwitchMolecule extends StatefulWidget {
   final bool initialValue;
   final Widget? trailing;
   final bool lockOnToggleOn;
-  final ConfettiController? confettiController;
 
   @override
   State<ToggleSwitchMolecule> createState() => _ToggleSwitchMoleculeState();
@@ -39,7 +36,6 @@ class _ToggleSwitchMoleculeState extends State<ToggleSwitchMolecule> {
   }
 
   void onChange() {
-    widget.confettiController?.play();
     setState(() {
       isToggled = !isToggled;
     });

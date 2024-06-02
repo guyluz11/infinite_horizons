@@ -25,6 +25,7 @@ class _TextAreaOrganismState extends State<TextAreaOrganism> {
     return PageEnclosureMolecule(
       title: 'notes',
       scaffold: false,
+      expendChild: false,
       child: SingleChildScrollView(
         child: Column(
           children: [

@@ -44,6 +44,7 @@ class AllTipsPage extends StatelessWidget {
     return PageEnclosureMolecule(
       title: 'all_tips',
       topBarType: TopBarType.back,
+      expendChild: false,
       child: SingleChildScrollView(
         child: Column(
           children: [

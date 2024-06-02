@@ -7,11 +7,11 @@ import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 class ReadyForSessionOrganism extends StatefulWidget {
   const ReadyForSessionOrganism(
     this.onComplete, {
-    this.topText,
+    this.response,
   });
 
   final VoidCallback onComplete;
-  final String? topText;
+  final String? response;
 
   @override
   State<ReadyForSessionOrganism> createState() =>
@@ -60,19 +60,6 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                if (widget.topText != null)
-                  Column(
-                    children: [
-                      CardAtom(
-                        child: SizedBox(
-                          width: double.infinity,
-                          child: TextAtom(widget.topText!),
-                        ),
-                      ),
-                      const SeparatorAtom(),
-                      const SeparatorAtom(),
-                    ],
-                  ),
                 CardAtom(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -97,6 +84,15 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
                     ],
                   ),
                 ),
+                const SeparatorAtom(),
+                const SeparatorAtom(),
+                if (widget.response != null)
+                  CardAtom(
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: TextAtom(widget.response!),
+                    ),
+                  ),
                 const SeparatorAtom(variant: SeparatorVariant.farApart),
               ],
             ),

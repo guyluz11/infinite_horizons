@@ -146,6 +146,7 @@ class _TimerOrganismState extends State<TimerOrganism>
     return PageEnclosureMolecule(
       title: title,
       scaffold: false,
+      expendChild: false,
       topBarRightOnTap: () => settingsPopup(context),
       child: stateWidget(),
     );
