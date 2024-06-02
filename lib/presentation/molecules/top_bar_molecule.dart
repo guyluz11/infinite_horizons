@@ -6,8 +6,8 @@ class TopBarMolecule extends StatelessWidget {
     required this.topBarType,
     this.title,
     this.iconColor,
-    this.onTap,
-    this.secondaryButtonOnTap,
+    this.leftOnTap,
+    this.rightOnTap,
     this.translate = true,
     this.margin = true,
   });
@@ -15,8 +15,8 @@ class TopBarMolecule extends StatelessWidget {
   final TopBarType topBarType;
   final String? title;
   final Color? iconColor;
-  final VoidCallback? onTap;
-  final VoidCallback? secondaryButtonOnTap;
+  final VoidCallback? leftOnTap;
+  final VoidCallback? rightOnTap;
   final bool translate;
   final bool margin;
 
@@ -55,10 +55,10 @@ class TopBarMolecule extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
-                      if (secondaryButtonOnTap != null)
+                      if (rightOnTap != null)
                         ButtonAtom(
                           variant: ButtonVariant.lowEmphasisIcon,
-                          onPressed: secondaryButtonOnTap!,
+                          onPressed: rightOnTap!,
                           translate: translate,
                           icon: Icons.more_vert,
                         )
@@ -84,8 +84,8 @@ class TopBarMolecule extends StatelessWidget {
               children: [
                 GestureDetector(
                   onTap: () {
-                    if (onTap != null) {
-                      return onTap!();
+                    if (leftOnTap != null) {
+                      return leftOnTap!();
                     }
                     Navigator.of(context).pop();
                   },
@@ -108,10 +108,10 @@ class TopBarMolecule extends StatelessWidget {
                 ),
                 Row(
                   children: [
-                    if (secondaryButtonOnTap != null)
+                    if (rightOnTap != null)
                       ButtonAtom(
                         variant: ButtonVariant.lowEmphasisIcon,
-                        onPressed: secondaryButtonOnTap!,
+                        onPressed: rightOnTap!,
                         translate: translate,
                         icon: Icons.more_vert,
                       )

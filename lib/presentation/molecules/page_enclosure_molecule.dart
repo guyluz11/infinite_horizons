@@ -10,6 +10,7 @@ class PageEnclosureMolecule extends StatelessWidget {
     this.topBarTranslate = true,
     this.topBarType = TopBarType.none,
     this.scaffold = true,
+    this.topBarRightOnTap,
     super.key,
   });
 
@@ -19,6 +20,7 @@ class PageEnclosureMolecule extends StatelessWidget {
   final bool margin;
   final bool scaffold;
   final TopBarType topBarType;
+  final VoidCallback? topBarRightOnTap;
 
   Widget topBarHelper() {
     return Column(
@@ -28,6 +30,7 @@ class PageEnclosureMolecule extends StatelessWidget {
           title: title,
           margin: false,
           translate: topBarTranslate,
+          rightOnTap: topBarRightOnTap,
         ),
         const SeparatorAtom(variant: SeparatorVariant.farApart),
         Expanded(
