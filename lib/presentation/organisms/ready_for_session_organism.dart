@@ -36,12 +36,6 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
   }
 
   @override
-  void dispose() {
-    controllerCenter.dispose();
-    super.dispose();
-  }
-
-  @override
   Widget build(BuildContext context) {
     final List<Tip> tips = tipsList
         .where(
