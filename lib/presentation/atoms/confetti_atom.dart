@@ -13,12 +13,6 @@ class ConfettiAtom extends StatefulWidget {
 }
 
 class _ConfettiAtomState extends State<ConfettiAtom> {
-  @override
-  void dispose() {
-    widget.controllerCenter.dispose();
-    super.dispose();
-  }
-
   /// A custom Path to paint stars.
   Path drawStar(Size size) {
     // Method to convert degree to radians
