@@ -70,7 +70,9 @@ class TimerAtom extends StatelessWidget {
                                   )
                                 : null,
                             child: TextAtom(
-                              "${time.minutes}:${time.seconds}",
+                              time.hours == "00"
+                                ? "${time.minutes}:${time.seconds}"
+                                : "${time.hours}:${time.minutes}:${time.seconds}",
                               variant: TextVariant.title,
                               textAlign: TextAlign.left,
                               translate: false,
