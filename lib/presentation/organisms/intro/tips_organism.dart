@@ -46,9 +46,8 @@ class _TipsOrganismState extends State<TipsOrganism> {
     });
   }
 
-  void onCheckBox(int id, bool value) {
-    StudyTypeAbstract.instance!.setTipValue(id, value);
-  }
+  void onCheckBox(int id, bool value) =>
+      StudyTypeAbstract.instance!.setTipValue(id, value);
 
   @override
   Widget build(BuildContext context) {
@@ -154,6 +153,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
                                         TipInformationPage(tip: tip),
                                   ),
                                 ),
+                                variant: ListTileVariant.strikethrough,
                               ),
                             );
                           },
