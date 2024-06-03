@@ -139,24 +139,25 @@ class _TipInformationPageState extends State<TipInformationPage> {
                                                 ),
                                               ),
                                               IconButton(
-                                                  onPressed: () {
-                                                    if (link == null) {
-                                                      SnackBarService().show(
-                                                        context,
-                                                        "no_link",
-                                                      );
-                                                      return;
-                                                    }
-                                                    Navigator.of(context).push(
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            TipResourcePage(
-                                                          url: link.toString(),
-                                                        ),
-                                                      ),
+                                                onPressed: () {
+                                                  if (link == null) {
+                                                    SnackBarService().show(
+                                                      context,
+                                                      "no_link",
                                                     );
-                                                  },
-                                                  icon: const Icon(Icons.link)),
+                                                    return;
+                                                  }
+                                                  Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          TipResourcePage(
+                                                        url: link.toString(),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                icon: const Icon(Icons.link),
+                                              ),
                                             ],
                                           ),
                                         ),

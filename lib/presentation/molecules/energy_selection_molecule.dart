@@ -1,9 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
+import 'package:infinite_horizons/domain/timer_states.dart';
 import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
-import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 
 class EnergySelectionMolecule extends StatefulWidget {
@@ -17,23 +17,36 @@ class EnergySelectionMolecule extends StatefulWidget {
 }
 
 class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
-  late EnergyType energy;
+  late TimerStates timerStates;
 
   @override
   void initState() {
     super.initState();
-    energy = StudyTypeAbstract.instance!.energy;
+    timerStates = StudyTypeAbstract.instance!.getTimerStates();
   }
 
   void onChanged(EnergyType? type) {
+    StudyTypeAbstract.instance!.setTimerStates(type ?? EnergyType.undefined);
     setState(() {
-      energy = type ?? EnergyType.undefined;
+      timerStates = StudyTypeAbstract.instance!.getTimerStates();
     });
-    StudyTypeAbstract.instance!.energy = energy;
     widget.callback();
   }
 
   Widget energyWidget(EnergyType type) {
+    final TimerStates timerStatesTemp = TimerStates.fromEnergyType(type);
+    String subtitle = '';
+
+    final TimerSession firstTimerState = timerStatesTemp.sessions.first;
+
+    for (final TimerSession timerState in timerStatesTemp.sessions) {
+      if (timerState != firstTimerState) {
+        subtitle += ' -> ';
+      }
+      subtitle =
+          '$subtitle${timerState.study.inMinutes}m study -> ${timerState.breakDuration.inMinutes}m break';
+    }
+
     return InkWell(
       onTap: () {
         VibrationController.instance.vibrate(VibrationType.light);
@@ -41,11 +54,10 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
       },
       child: ListTileAtom(
         '${type.previewName.tr()} - ${type.duration.inMinutes}${'minutes_single'.tr()}',
-        subtitle:
-            '${GlobalVariables.breakTime(type.duration).inMinutes}m break',
+        subtitle: subtitle,
         leading: Radio<EnergyType>(
           value: type,
-          groupValue: energy,
+          groupValue: timerStates.type,
           onChanged: onChanged,
         ),
         translateTitle: false,
@@ -69,11 +81,26 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const TextAtom(
-                      'classic_pomodoro',
+                      'recommended',
                       variant: TextVariant.smallTitle,
                     ),
                     const SeparatorAtom(),
-                    energyWidget(EnergyType.medium),
+                    // TODO: add trailing icon to see all tips
+                    energyWidget(EnergyType.efficient),
+                  ],
+                ),
+              ),
+              const SeparatorAtom(variant: SeparatorVariant.farApart),
+              CardAtom(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const TextAtom(
+                      'famous_methods',
+                      variant: TextVariant.smallTitle,
+                    ),
+                    const SeparatorAtom(),
+                    energyWidget(EnergyType.pomodoro),
                   ],
                 ),
               ),
@@ -87,7 +114,6 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
                       variant: TextVariant.smallTitle,
                     ),
                     const SeparatorAtom(),
-                    energyWidget(EnergyType.max),
                     energyWidget(EnergyType.veryHigh),
                     energyWidget(EnergyType.high),
                     energyWidget(EnergyType.low),

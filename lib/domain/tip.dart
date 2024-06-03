@@ -45,12 +45,14 @@ class Tip {
     required this.timing,
     this.selected = false,
     this.resourceLinks = const [],
+    this.id,
   }) {
-    id = ++totalTipNumber;
+    number = ++totalTipNumber;
   }
 
   static int totalTipNumber = 0;
-  late int id;
+  late int number;
+  String? id;
   String text;
   TipType type;
   TipTiming timing;
@@ -64,6 +66,7 @@ List<Tip> tipsList = [
     'dnd',
     type: TipType.general,
     timing: TipTiming.before,
+    id: 'dnd',
   ),
   Tip(
     'Siting straight up',
@@ -117,6 +120,7 @@ List<Tip> tipsList = [
     'recommended_morning',
     type: TipType.analytical,
     timing: TipTiming.general,
+    id: 'recommended in the morning',
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity',
@@ -148,6 +152,7 @@ List<Tip> tipsList = [
     'recommended_evening',
     type: TipType.creative,
     timing: TipTiming.general,
+    id: 'recommended in the evening',
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity',
@@ -170,6 +175,36 @@ List<Tip> tipsList = [
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
         'You can switch room and environment based on your study work needs.\nThe cathedral effect got observed in the language and words the people in the studies used and also the ideas they came up with.',
         link: Uri.parse('https://youtu.be/Ze2pc6NwsHQ?si=wXUetxQZKNsk4wXT'),
+      ),
+    ],
+  ),
+  Tip(
+    'Study for 90m to maximize concentration efficiency',
+    type: TipType.general,
+    timing: TipTiming.general,
+    id: '90m concentrated',
+    resourceLinks: [
+      Resource(
+        'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
+        'Andrew Huberman recommends studying for 90m to maximize study efficiency',
+        link: Uri.parse(
+          'https://youtu.be/Ze2pc6NwsHQ?si=VVlKkS7f6Fxtu00r&t=2534',
+        ),
+      ),
+    ],
+  ),
+  Tip(
+    'Take a 5m break in panoramic area for every 45m for healthy eyesight',
+    type: TipType.general,
+    timing: TipTiming.inBreak,
+    id: '45m/5m',
+    resourceLinks: [
+      Resource(
+        'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
+        'Take a 5m break for every 45m in which you are focusing on something. The break should be out side and with panoramic/field of view to let your eyes change focus and rest, looking at close objects like phone or book will cancel the health benefits effect. This is important to the health of the eye muscles to keep functioning correctly to reduce the change of requiring a glasses or increasing lens size.',
+        link: Uri.parse(
+          'https://youtu.be/Ze2pc6NwsHQ?si=VVlKkS7f6Fxtu00r&t=2534',
+        ),
       ),
     ],
   ),

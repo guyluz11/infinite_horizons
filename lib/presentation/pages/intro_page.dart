@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
+import 'package:infinite_horizons/domain/timer_states.dart';
 import 'package:infinite_horizons/domain/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
@@ -107,7 +108,8 @@ class _IntroPageState extends State<IntroPage> {
                         TipType.undefined)) {
               showNextButtonTemp = false;
             } else if (state == IntroState.energy &&
-                StudyTypeAbstract.instance!.energy == EnergyType.undefined) {
+                StudyTypeAbstract.instance!.getTimerStates().type ==
+                    EnergyType.undefined) {
               showNextButtonTemp = false;
             }
             setState(() {

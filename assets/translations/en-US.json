@@ -13,8 +13,7 @@
   "very_high": "Very High",
   "max": "Max",
   "minutes_single": "m",
-  "classic_pomodoro": "Classic Pomodoro:",
-  "custom": "Custom:",
+  "custom": "Custom",
   "study_timer": "Study Timer",
   "ready_for_break": "Get Ready For A Break",
   "take_break": "Take A Break",
@@ -46,7 +45,10 @@
   "ready_for_session": "Next Round?",
   "start_session": "Start Session",
   "in_session_tips": "In session tips",
-  "error_pdf": "Some error occured while loading the resource",
+  "error_pdf": "Some error occurred while loading the resource",
   "no_link": "No Link available for the resource",
-  "notes": "Notes"
+  "notes": "Notes",
+  "famous_methods": "Famous methods",
+  "recommended": "Recommended",
+  "maximum_efficiency": "Maximum Efficiency"
 }
