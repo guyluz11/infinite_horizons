@@ -46,12 +46,6 @@ class _TipsOrganismState extends State<TipsOrganism> {
     });
   }
 
-  @override
-  void dispose() {
-    confettiController.dispose();
-    super.dispose();
-  }
-
   void onCheckBox(int id, bool value) =>
       StudyTypeAbstract.instance!.setTipValue(id, value);
 
