@@ -156,7 +156,7 @@ class _TipInformationPageState extends State<TipInformationPage> {
                                                       ),
                                                     );
                                                   },
-                                                  icon: const Icon(Icons.link)),
+                                                  icon: const Icon(Icons.link),),
                                             ],
                                           ),
                                         ),

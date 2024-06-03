@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
+import 'package:infinite_horizons/presentation/atoms/strikethrough_tile_atom.dart';
 
 class CheckBoxTileMolecule extends StatefulWidget {
   const CheckBoxTileMolecule(
@@ -39,7 +40,7 @@ class _CheckBoxTileMolecule extends State<CheckBoxTileMolecule> {
 
   @override
   Widget build(BuildContext context) {
-    return ListTileAtom(
+    return StrikethroughTileAtom(
       widget.text,
       trailing: (widget.onIconPressed != null)
           ? IconButton(
@@ -53,6 +54,7 @@ class _CheckBoxTileMolecule extends State<CheckBoxTileMolecule> {
         controlByParent: true,
       ),
       onTap: onChange,
+      isCrossed: isChecked,
     );
   }
 }
