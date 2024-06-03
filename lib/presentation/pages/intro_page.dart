@@ -26,6 +26,8 @@ class _IntroPageState extends State<IntroPage> {
   void onDone(BuildContext context) => Navigator.of(context)
       .push(MaterialPageRoute(builder: (context) => HomePage()));
 
+  void previousPage(bool didPop) => _introKey.currentState?.previous();
+
   PageDecoration emptyPageDecoration() => const PageDecoration(
         pageMargin: EdgeInsets.zero,
         footerPadding: EdgeInsets.zero,
@@ -36,79 +38,84 @@ class _IntroPageState extends State<IntroPage> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: IntroductionScreen(
-        isProgressTap: false,
-        key: _introKey,
-        overrideNext: Center(
-          child: ButtonAtom(
-            variant: ButtonVariant.highEmphasisFilled,
-            onPressed: showNextButton ? nextPage : () {},
-            text: 'next',
-            disabled: !showNextButton,
+      body: PopScope(
+        canPop: state == IntroState.welcome,
+        onPopInvoked: previousPage,
+        child: IntroductionScreen(
+          isProgressTap: false,
+          key: _introKey,
+          overrideNext: Center(
+            child: ButtonAtom(
+              variant: ButtonVariant.highEmphasisFilled,
+              onPressed: showNextButton ? nextPage : () {},
+              text: 'next',
+              disabled: !showNextButton,
+            ),
           ),
-        ),
-        pages: [
-          PageViewModel(
-            useScrollView: false,
-            decoration: emptyPageDecoration(),
-            bodyWidget: WelcomeOrganism(),
-            titleWidget: const SizedBox(),
-          ),
-          PageViewModel(
-            titleWidget: const SizedBox(),
-            useScrollView: false,
-            decoration: emptyPageDecoration(),
-            bodyWidget: StudyTypeSelectionMolecule(() async {
-              setState(() {
-                studyType = StudyTypeAbstract.instance!.studyType.name;
-              });
-              await Future.delayed(selectionTransitionDelay);
-              nextPage();
-            }),
-          ),
-          PageViewModel(
-            titleWidget: const SizedBox(),
-            useScrollView: false,
-            decoration: emptyPageDecoration(),
-            bodyWidget: TipsOrganism(studyType),
-          ),
-          PageViewModel(
-            titleWidget: const SizedBox(),
-            useScrollView: false,
-            decoration: emptyPageDecoration(),
-            bodyWidget: EnergySelectionMolecule(() async {
-              await Future.delayed(selectionTransitionDelay);
-              nextPage();
-            }),
-          ),
-          PageViewModel(
-            titleWidget: const SizedBox(),
-            useScrollView: false,
-            decoration: emptyPageDecoration(),
-            bodyWidget: ReadyForSessionPage(() => onDone(context)),
-          ),
-        ],
-        showBackButton: true,
-        back: const Icon(Icons.arrow_back),
-        next: const Icon(Icons.arrow_forward),
-        scrollPhysics: const NeverScrollableScrollPhysics(),
-        onChange: (int n) {
-          state = IntroState.getStateByPageNumber(n);
-          bool showNextButtonTemp = true;
+          pages: [
+            PageViewModel(
+              useScrollView: false,
+              decoration: emptyPageDecoration(),
+              bodyWidget: WelcomeOrganism(),
+              titleWidget: const SizedBox(),
+            ),
+            PageViewModel(
+              titleWidget: const SizedBox(),
+              useScrollView: false,
+              decoration: emptyPageDecoration(),
+              bodyWidget: StudyTypeSelectionMolecule(() async {
+                setState(() {
+                  studyType = StudyTypeAbstract.instance!.studyType.name;
+                });
+                await Future.delayed(selectionTransitionDelay);
+                nextPage();
+              }),
+            ),
+            PageViewModel(
+              titleWidget: const SizedBox(),
+              useScrollView: false,
+              decoration: emptyPageDecoration(),
+              bodyWidget: TipsOrganism(studyType),
+            ),
+            PageViewModel(
+              titleWidget: const SizedBox(),
+              useScrollView: false,
+              decoration: emptyPageDecoration(),
+              bodyWidget: EnergySelectionMolecule(() async {
+                await Future.delayed(selectionTransitionDelay);
+                nextPage();
+              }),
+            ),
+            PageViewModel(
+              titleWidget: const SizedBox(),
+              useScrollView: false,
+              decoration: emptyPageDecoration(),
+              bodyWidget: ReadyForSessionPage(() => onDone(context)),
+            ),
+          ],
+          showBackButton: true,
+          back: const Icon(Icons.arrow_back),
+          next: const Icon(Icons.arrow_forward),
+          scrollPhysics: const NeverScrollableScrollPhysics(),
+          onChange: (int n) {
+            state = IntroState.getStateByPageNumber(n);
+            bool showNextButtonTemp = true;
 
-          if (state == IntroState.studyType &&
-              (StudyTypeAbstract.instance?.studyType == null ||
-                  StudyTypeAbstract.instance!.studyType == TipType.undefined)) {
-            showNextButtonTemp = false;
-          } else if (state == IntroState.energy &&
-              StudyTypeAbstract.instance!.energy == EnergyType.undefined) {
-            showNextButtonTemp = false;
-          }
-          setState(() {
-            showNextButton = showNextButtonTemp;
-          });
-        },
-        showDoneButton: false,
+            if (state == IntroState.studyType &&
+                (StudyTypeAbstract.instance?.studyType == null ||
+                    StudyTypeAbstract.instance!.studyType ==
+                        TipType.undefined)) {
+              showNextButtonTemp = false;
+            } else if (state == IntroState.energy &&
+                StudyTypeAbstract.instance!.energy == EnergyType.undefined) {
+              showNextButtonTemp = false;
+            }
+            setState(() {
+              showNextButton = showNextButtonTemp;
+            });
+          },
+          showDoneButton: false,
+        ),
       ),
     );
   }
