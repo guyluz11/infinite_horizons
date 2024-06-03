@@ -113,7 +113,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
                                             Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                TipInformationPage(dndTip),
+                                                TipInformationPage(tip: dndTip),
                                           ),
                                         ),
                                         icon: const Icon(Icons.arrow_forward),
@@ -156,7 +156,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
                                 onIconPressed: () => Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        TipInformationPage(tip),
+                                        TipInformationPage(tip: tip),
                                   ),
                                 ),
                               ),

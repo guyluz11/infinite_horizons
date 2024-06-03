@@ -27,7 +27,7 @@ class AllTipsPage extends StatelessWidget {
               trailing: const Icon(Icons.arrow_forward),
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => TipInformationPage(tip),
+                  builder: (context) => TipInformationPage(tip: tip),
                 ),
               ),
             );
