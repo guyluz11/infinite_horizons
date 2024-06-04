@@ -1,10 +1,20 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/presentation/core/global_variables.dart';
+import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
 
 class ProgressIndicatorAtom extends StatefulWidget {
-  const ProgressIndicatorAtom(this.totalDuration, this.callback);
-
+  const ProgressIndicatorAtom({
+    required this.totalDuration,
+    required this.callback,
+    this.inputController,
+    this.isPdfLoader = false,
+    this.centerWidget,
+  });
   final Duration totalDuration;
   final VoidCallback callback;
+  final AnimationController? inputController;
+  final bool isPdfLoader;
+  final Widget? centerWidget;
 
   @override
   State<ProgressIndicatorAtom> createState() => _ProgressIndicatorAtomState();
@@ -13,7 +23,6 @@ class ProgressIndicatorAtom extends StatefulWidget {
 class _ProgressIndicatorAtomState extends State<ProgressIndicatorAtom>
     with TickerProviderStateMixin {
   late AnimationController controller;
-
   @override
   void initState() {
     updateProgress();
@@ -21,19 +30,23 @@ class _ProgressIndicatorAtomState extends State<ProgressIndicatorAtom>
   }
 
   void updateProgress() {
-    controller = AnimationController(
-      vsync: this,
-      duration: widget.totalDuration,
-    );
+    controller = widget.inputController ??
+        AnimationController(
+          vsync: this,
+          duration: widget.totalDuration,
+        );
     controller.addListener(() {
       setState(() {});
     });
+
     controller.addStatusListener((status) {
       if (status == AnimationStatus.completed) {
         widget.callback();
       }
     });
-    controller.forward();
+    if (!widget.isPdfLoader) {
+      controller.forward();
+    }
   }
 
   @override
@@ -44,8 +57,20 @@ class _ProgressIndicatorAtomState extends State<ProgressIndicatorAtom>
 
   @override
   Widget build(BuildContext context) {
-    return LinearProgressIndicator(
-      value: controller.value,
+    final ThemeData themeData = Theme.of(context);
+    final ColorScheme colorScheme = themeData.colorScheme;
+    return SizedBox(
+      width: double.infinity,
+      height: 35,
+      child: LiquidLinearProgressIndicator(
+        value: controller.value,
+        backgroundColor: colorScheme.secondaryContainer,
+        valueColor: AlwaysStoppedAnimation<Color>(colorScheme.primary),
+        borderColor: colorScheme.outline,
+        borderRadius: GlobalVariables.defaultRadius,
+        borderWidth: GlobalVariables.defaultBorderWidth,
+        center: widget.centerWidget,
+      ),
     );
   }
 }

@@ -42,17 +42,23 @@ class _StudyTypeSelectionMoleculeState
 
   @override
   Widget build(BuildContext context) {
-    return MarginedExpandedAtom(
+    return PageEnclosureMolecule(
+      scaffold: false,
+      title: 'study_type',
       child: Column(
         children: [
-          const TopBarMolecule(
-            title: 'study_type',
-            topBarType: TopBarType.none,
-            margin: false,
+          CardAtom(
+            child: Column(
+              children: [
+                studyTypeRadioButton(
+                  onChanged,
+                  selectedType,
+                  TipType.analytical,
+                ),
+                studyTypeRadioButton(onChanged, selectedType, TipType.creative),
+              ],
+            ),
           ),
-          const SeparatorAtom(variant: SeparatorVariant.farApart),
-          studyTypeRadioButton(onChanged, selectedType, TipType.analytical),
-          studyTypeRadioButton(onChanged, selectedType, TipType.creative),
         ],
       ),
     );
@@ -83,7 +89,7 @@ class _StudyTypeSelectionMoleculeState
         leading: Radio<TipType>(
           value: buttonType,
           groupValue: selectedType,
-          onChanged: (tipType) => onChanged(tipType ?? TipType.undefined),
+          onChanged: (value) => onChanged(value ?? TipType.undefined),
         ),
         subtitle: subtitle,
       ),

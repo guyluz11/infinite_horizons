@@ -39,11 +39,11 @@ class ButtonAtom extends StatelessWidget {
         child: child,
       );
 
-  Widget label(TextTheme textTheme) => TextAtom(
+  Widget label(TextTheme textTheme, {Color? color}) => TextAtom(
         text ?? '',
         translate: translate,
         maxLines: 1,
-        style: textTheme.bodyLarge,
+        style: textTheme.bodyLarge!.copyWith(color: color),
       );
 
   @override
@@ -52,100 +52,84 @@ class ButtonAtom extends StatelessWidget {
     final TextTheme textTheme = themeData.textTheme;
     final ColorScheme colorScheme = themeData.colorScheme;
 
-    if (variant == ButtonVariant.primary) {
-      if (icon == null) {
-        return buttonConstraints(
-          child: FilledButton(
-            onPressed: onPressVibrate,
-            style: FilledButton.styleFrom().copyWith(
-              alignment: Alignment.center,
-              backgroundColor: disabled
-                  ? MaterialStateProperty.all(colorScheme.outline)
-                  : null,
+    switch (variant) {
+      case ButtonVariant.highEmphasisFilled:
+        if (icon == null) {
+          return buttonConstraints(
+            child: FilledButton(
+              onPressed: disabled ? null : onPressed,
+              style: disabled
+                  ? null
+                  : FilledButton.styleFrom().copyWith(
+                      alignment: Alignment.center,
+                      backgroundColor: WidgetStateProperty.all(
+                        colorScheme.secondaryContainer,
+                      ),
+                    ),
+              child: label(textTheme, color: colorScheme.onPrimaryContainer),
             ),
-            child: label(textTheme),
+          );
+        }
+        return buttonConstraints(
+          child: FilledButton.icon(
+            onPressed: disabled ? null : onPressed,
+            style: disabled
+                ? null
+                : FilledButton.styleFrom().copyWith(
+                    alignment: Alignment.center,
+                    backgroundColor:
+                        WidgetStateProperty.all(colorScheme.secondaryContainer),
+                  ),
+            icon: Icon(icon, color: colorScheme.onPrimaryContainer),
+            label: label(textTheme, color: colorScheme.onPrimaryContainer),
           ),
         );
-      }
-      return buttonConstraints(
-        child: FilledButton.icon(
-          onPressed: onPressVibrate,
-          style: FilledButton.styleFrom().copyWith(
-            alignment: Alignment.center,
-            backgroundColor: disabled
-                ? MaterialStateProperty.all(colorScheme.outline)
-                : null,
-          ),
-          icon: Icon(icon),
-          label: label(textTheme),
-        ),
-      );
-    } else if (variant == ButtonVariant.secondary) {
-      if (icon == null) {
-        return buttonConstraints(
-          child: FilledButton.tonal(
-            onPressed: onPressed,
-            style: FilledButton.styleFrom().copyWith(
-              alignment: Alignment.center,
-              backgroundColor: disabled
-                  ? MaterialStateProperty.all(colorScheme.outline)
-                  : null,
+      case ButtonVariant.mediumEmphasisOutlined:
+        if (icon == null) {
+          return buttonConstraints(
+            child: OutlinedButton(
+              onPressed: disabled ? null : onPressed,
+              child: label(textTheme, color: colorScheme.primary),
             ),
-            child: label(textTheme),
+          );
+        }
+        return buttonConstraints(
+          child: OutlinedButton.icon(
+            onPressed: disabled ? null : onPressed,
+            icon: Icon(icon, color: colorScheme.primary),
+            label: label(textTheme, color: colorScheme.primary),
           ),
         );
-      }
-      return buttonConstraints(
-        child: FilledButton.icon(
+      case ButtonVariant.lowEmphasisText:
+        if (icon == null) {
+          return buttonConstraints(
+            child: TextButton(
+              onPressed: disabled ? null : onPressed,
+              child: label(textTheme, color: colorScheme.primary),
+            ),
+          );
+        }
+        return buttonConstraints(
+          child: TextButton.icon(
+            onPressed: disabled ? null : onPressed,
+            icon: Icon(icon, color: colorScheme.primary),
+            label: label(textTheme, color: colorScheme.primary),
+          ),
+        );
+      case ButtonVariant.lowEmphasisIcon:
+        return IconButton(
           onPressed: onPressed,
-          style: FilledButton.styleFrom().copyWith(
-            alignment: Alignment.center,
-            backgroundColor: disabled
-                ? MaterialStateProperty.all(colorScheme.outline)
-                : null,
-          ),
+          color: colorScheme.primary,
           icon: Icon(icon),
-          label: label(textTheme),
-        ),
-      );
-    } else if (variant == ButtonVariant.tertiary) {
-      if (icon == null) {
-        return buttonConstraints(
-          child: FilledButton(
-            onPressed: onPressed,
-            style: FilledButton.styleFrom().copyWith(
-              alignment: Alignment.center,
-              backgroundColor: disabled
-                  ? MaterialStateProperty.all(colorScheme.outline)
-                  : MaterialStateProperty.all(colorScheme.tertiaryContainer),
-            ),
-            child: label(textTheme),
-          ),
         );
-      }
-      return buttonConstraints(
-        child: FilledButton.icon(
-          onPressed: onPressed,
-          style: FilledButton.styleFrom().copyWith(
-            alignment: Alignment.center,
-            backgroundColor: disabled
-                ? MaterialStateProperty.all(colorScheme.outline)
-                : MaterialStateProperty.all(colorScheme.tertiaryContainer),
-          ),
-          icon: Icon(icon),
-          label: label(textTheme),
-        ),
-      );
     }
-    return const Text('Type is not supported yet');
   }
 }
 
+/// See "Choosing buttons" section https://m3.material.io/components/all-buttons
 enum ButtonVariant {
-  primary,
-  secondary,
-  tertiary,
-  action,
-  actionToggled,
-  back,
+  highEmphasisFilled,
+  mediumEmphasisOutlined,
+  lowEmphasisText,
+  lowEmphasisIcon,
 }

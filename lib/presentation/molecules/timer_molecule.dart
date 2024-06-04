@@ -42,11 +42,13 @@ class _TimerMoleculeState extends State<TimerMolecule>
   Widget build(BuildContext context) {
     return Column(
       children: [
-        Center(
-          child: TimerAtom(
-            controller,
-            widget.duration,
-            widget.onComplete,
+        Expanded(
+          child: Center(
+            child: TimerAtom(
+              controller,
+              widget.duration,
+              widget.onComplete,
+            ),
           ),
         ),
         const SeparatorAtom(),

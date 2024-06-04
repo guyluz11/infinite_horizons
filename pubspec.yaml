@@ -7,29 +7,36 @@ environment:
   sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
-  # Make an animated circular countdown
-  custom_timer: ^0.2.3
+  animated_toggle_switch: ^0.8.2
+  audioplayers: ^6.0.0
+  collection: ^1.18.0
+  # Blast confetti
+  confetti: ^0.7.0
   # Cupertino Icons font to your application
   cupertino_icons: ^1.0.8
+  # Make an animated circular countdown
+  custom_timer: ^0.2.3
   # Internationalization (Easy translations)
   easy_localization: ^3.0.6
   flutter:
     sdk: flutter
+  flutter_cached_pdfview: ^0.4.2
+  flutter_dnd: ^0.1.4+1
+  flutter_inappwebview: ^6.0.0
+  flutter_vibrate: ^1.3.0
   # Font Awesome Icon pack available as Flutter Icons.
   font_awesome_flutter: ^10.7.0
   introduction_screen: ^3.1.14
   # Small, easy to use and extensible logger which prints beautiful logs.
+  liquid_progress_indicator_v2: ^0.5.0
   logger: ^2.2.0
+  shared_preferences: ^2.2.3
   url_launcher: ^6.2.6
-  wakelock_plus: ^1.2.5
-  collection: ^1.18.0
-  audioplayers: ^6.0.0
   vibration: ^1.8.4
-  flutter_vibrate: ^1.3.0
-
+  wakelock_plus: ^1.2.5
+  youtube_player_flutter: ^9.0.1
 
 dev_dependencies:
-
   # Simplifies the task of updating your Flutter app's launcher icon
   flutter_launcher_icons: "^0.13.1"
   flutter_test:
