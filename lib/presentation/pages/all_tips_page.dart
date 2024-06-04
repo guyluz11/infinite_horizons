@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_horizons/domain/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
@@ -24,10 +25,10 @@ class AllTipsPage extends StatelessWidget {
 
             return ListTileAtom(
               tip.text,
-              trailing: const Icon(Icons.arrow_forward),
+              trailing: const FaIcon(FontAwesomeIcons.circleQuestion),
               onTap: () => Navigator.of(context).push(
                 MaterialPageRoute(
-                  builder: (context) => TipInformationPage(tip),
+                  builder: (context) => TipInformationPage(tip: tip),
                 ),
               ),
             );

@@ -19,26 +19,23 @@ class ReadyForSessionOrganism extends StatefulWidget {
 }
 
 class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
-  late ConfettiController controllerCenter;
+  late ConfettiController confetti;
   bool nextPressed = false;
+  bool confettiGotPlayed = false;
 
   @override
   void initState() {
     super.initState();
-    controllerCenter = ConfettiController(duration: const Duration(seconds: 2));
-    controllerCenter.addListener(() {
+    confetti = ConfettiController(duration: const Duration(seconds: 2));
+    confetti.addListener(() {
       if (!nextPressed ||
-          controllerCenter.state == ConfettiControllerState.playing) {
+          confetti.state == ConfettiControllerState.playing ||
+          confettiGotPlayed) {
         return;
       }
+      confettiGotPlayed = true;
       widget.onComplete();
     });
-  }
-
-  @override
-  void dispose() {
-    controllerCenter.dispose();
-    super.dispose();
   }
 
   @override
@@ -102,7 +99,7 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
           child: Stack(
             children: [
               Align(
-                child: ConfettiAtom(controllerCenter),
+                child: ConfettiAtom(confetti),
               ),
               Align(
                 child: ButtonAtom(
@@ -115,7 +112,7 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
                     setState(() {
                       nextPressed = true;
                     });
-                    controllerCenter.play();
+                    confetti.play();
                   },
                   text: 'ready',
                 ),

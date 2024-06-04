@@ -46,12 +46,6 @@ class _TipsOrganismState extends State<TipsOrganism> {
     });
   }
 
-  @override
-  void dispose() {
-    confettiController.dispose();
-    super.dispose();
-  }
-
   void onCheckBox(int id, bool value) =>
       StudyTypeAbstract.instance!.setTipValue(id, value);
 
@@ -64,14 +58,14 @@ class _TipsOrganismState extends State<TipsOrganism> {
               (element.timing == TipTiming.before &&
                   (element.type == TipType.general ||
                       element.type == StudyTypeAbstract.instance!.studyType)) &&
-              // Because we can toggle dnd only on android
-              !(element.text == 'dnd' && Platform.isAndroid),
+              // We can toggle dnd only on android
+              !(element.id == 'dnd' && Platform.isAndroid),
         )
         .toList();
 
     final Tip dndTip = StudyTypeAbstract.instance!
         .getTips()
-        .firstWhere((element) => element.text == 'dnd');
+        .firstWhere((element) => element.id == 'dnd');
 
     return PageEnclosureMolecule(
       scaffold: false,
@@ -113,7 +107,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
                                             Navigator.of(context).push(
                                           MaterialPageRoute(
                                             builder: (context) =>
-                                                TipInformationPage(dndTip),
+                                                TipInformationPage(tip: dndTip),
                                           ),
                                         ),
                                         icon: const Icon(Icons.arrow_forward),
@@ -151,12 +145,13 @@ class _TipsOrganismState extends State<TipsOrganism> {
                               margin: const EdgeInsets.only(bottom: 5),
                               child: CheckBoxTileMolecule(
                                 tip.text,
-                                callback: (value) => onCheckBox(tip.id, value),
+                                callback: (value) =>
+                                    onCheckBox(tip.itemCountNumber, value),
                                 initialValue: tip.selected,
                                 onIconPressed: () => Navigator.of(context).push(
                                   MaterialPageRoute(
                                     builder: (context) =>
-                                        TipInformationPage(tip),
+                                        TipInformationPage(tip: tip),
                                   ),
                                 ),
                               ),
