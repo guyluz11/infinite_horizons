@@ -47,11 +47,11 @@ class Tip {
     this.resourceLinks = const [],
     this.id,
   }) {
-    number = ++totalTipNumber;
+    itemCountNumber = ++totalTipNumber;
   }
 
   static int totalTipNumber = 0;
-  late int number;
+  late int itemCountNumber;
   String? id;
   String text;
   TipType type;

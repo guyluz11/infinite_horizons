@@ -63,7 +63,6 @@ class _TimerOrganismState extends State<TimerOrganism>
         VibrationController.instance.vibrate(VibrationType.heavy);
         nextState = HomeState.study;
     }
-
     setState(() {
       state = nextState;
     });

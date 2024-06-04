@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
@@ -44,7 +45,7 @@ class _CheckBoxTileMolecule extends State<CheckBoxTileMolecule> {
       trailing: (widget.onIconPressed != null)
           ? IconButton(
               onPressed: widget.onIconPressed,
-              icon: const Icon(Icons.arrow_forward),
+              icon: const FaIcon(FontAwesomeIcons.circleQuestion),
             )
           : const SizedBox(),
       leading: CheckBoxAtom(

@@ -15,15 +15,16 @@ class TimerMolecule extends StatefulWidget {
 
 class _TimerMoleculeState extends State<TimerMolecule>
     with SingleTickerProviderStateMixin {
-  late final CustomTimerController controller = CustomTimerController(
-    vsync: this,
-    begin: widget.duration,
-    end: Duration.zero,
-  );
+  late CustomTimerController controller;
 
   @override
   void initState() {
     super.initState();
+    controller = CustomTimerController(
+      vsync: this,
+      begin: widget.duration,
+      end: Duration.zero,
+    );
     controller.start();
     controller.addListener(() {
       if (controller.state.value == CustomTimerState.finished) {

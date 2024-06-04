@@ -24,19 +24,12 @@ class TimerStates {
       case EnergyType.efficient:
         states = [
           TimerSession(
-            // const Duration(minutes: 45),
-            // const Duration(minutes: 5),
-            // TODO: Uncomment after tests
-            const Duration(seconds: 10),
-            const Duration(seconds: 5),
+            const Duration(minutes: 45),
+            const Duration(minutes: 5),
           ),
           TimerSession(
-            // TODO: Uncomment after tests
-            const Duration(seconds: 20),
-            const Duration(seconds: 15),
-
-            // const Duration(minutes: 45),
-            // const Duration(minutes: 20),
+            const Duration(minutes: 45),
+            const Duration(minutes: 20),
           ),
         ];
     }

@@ -58,7 +58,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
               (element.timing == TipTiming.before &&
                   (element.type == TipType.general ||
                       element.type == StudyTypeAbstract.instance!.studyType)) &&
-              // Because we can toggle dnd only on android
+              // We can toggle dnd only on android
               !(element.id == 'dnd' && Platform.isAndroid),
         )
         .toList();
@@ -146,7 +146,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
                               child: CheckBoxTileMolecule(
                                 tip.text,
                                 callback: (value) =>
-                                    onCheckBox(tip.number, value),
+                                    onCheckBox(tip.itemCountNumber, value),
                                 initialValue: tip.selected,
                                 onIconPressed: () => Navigator.of(context).push(
                                   MaterialPageRoute(

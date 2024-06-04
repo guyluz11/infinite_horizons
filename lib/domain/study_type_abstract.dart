@@ -22,10 +22,11 @@ abstract class StudyTypeAbstract {
   List<Tip> tips = [];
 
   void setTipValue(int id, bool value) {
-    final Tip? tip = tips.firstWhereOrNull((element) => element.number == id);
+    final Tip? tip =
+        tips.firstWhereOrNull((element) => element.itemCountNumber == id);
     if (tip == null) {
       tips.add(
-        tipsList.firstWhere((element) => element.number == id)
+        tipsList.firstWhere((element) => element.itemCountNumber == id)
           ..selected = value,
       );
       return;
@@ -36,5 +37,6 @@ abstract class StudyTypeAbstract {
   List<Tip> getTips() =>
       tipsList.where((element) => element.type == TipType.general).toList();
 
-  Tip getTipById(int id) => tips.firstWhere((element) => element.number == id);
+  Tip getTipById(int id) =>
+      tips.firstWhere((element) => element.itemCountNumber == id);
 }
