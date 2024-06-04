@@ -71,10 +71,10 @@ class _StudyTypeSelectionMoleculeState
   ) {
     final String subtitle = (buttonType == TipType.analytical
                 ? tipsList.firstWhereOrNull(
-                    (element) => element.text == 'recommended_morning',
+                    (element) => element.id == 'recommended in the morning',
                   )
                 : tipsList.firstWhereOrNull(
-                    (element) => element.text == 'recommended_evening',
+                    (element) => element.id == 'recommended in the evening',
                   ))
             ?.text ??
         '';

@@ -58,14 +58,14 @@ class _TipsOrganismState extends State<TipsOrganism> {
               (element.timing == TipTiming.before &&
                   (element.type == TipType.general ||
                       element.type == StudyTypeAbstract.instance!.studyType)) &&
-              // Because we can toggle dnd only on android
-              !(element.text == 'dnd' && Platform.isAndroid),
+              // We can toggle dnd only on android
+              !(element.id == 'dnd' && Platform.isAndroid),
         )
         .toList();
 
     final Tip dndTip = StudyTypeAbstract.instance!
         .getTips()
-        .firstWhere((element) => element.text == 'dnd');
+        .firstWhere((element) => element.id == 'dnd');
 
     return PageEnclosureMolecule(
       scaffold: false,
@@ -145,7 +145,8 @@ class _TipsOrganismState extends State<TipsOrganism> {
                               margin: const EdgeInsets.only(bottom: 5),
                               child: CheckBoxTileMolecule(
                                 tip.text,
-                                callback: (value) => onCheckBox(tip.id, value),
+                                callback: (value) =>
+                                    onCheckBox(tip.itemCountNumber, value),
                                 initialValue: tip.selected,
                                 onIconPressed: () => Navigator.of(context).push(
                                   MaterialPageRoute(

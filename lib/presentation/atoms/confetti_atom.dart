@@ -18,6 +18,7 @@ class _ConfettiAtomState extends State<ConfettiAtom> {
     widget.controllerCenter.dispose();
     super.dispose();
   }
+
   /// A custom Path to paint stars.
   Path drawStar(Size size) {
     // Method to convert degree to radians
