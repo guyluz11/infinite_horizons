@@ -5,7 +5,6 @@ class TopBarMolecule extends StatelessWidget {
   const TopBarMolecule({
     required this.topBarType,
     this.title,
-    this.iconColor,
     this.leftOnTap,
     this.rightOnTap,
     this.translate = true,
@@ -14,7 +13,6 @@ class TopBarMolecule extends StatelessWidget {
 
   final TopBarType topBarType;
   final String? title;
-  final Color? iconColor;
   final VoidCallback? leftOnTap;
   final VoidCallback? rightOnTap;
   final bool translate;
