@@ -21,31 +21,37 @@ class EnergyTipsPage extends StatelessWidget {
       topBarType: TopBarType.back,
       expendChild: false,
       child: Column(
-        crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          const TextAtom(
-            'Tips',
-            variant: TextVariant.smallTitle,
-          ),
-          const SeparatorAtom(),
-          ListView.separated(
-            physics: const NeverScrollableScrollPhysics(),
-            shrinkWrap: true,
-            itemBuilder: (context, n) {
-              final Tip tip = tips[n];
-
-              return ListTileAtom(
-                tip.text,
-                trailing: const FaIcon(FontAwesomeIcons.circleQuestion),
-                onTap: () => Navigator.of(context).push(
-                  MaterialPageRoute(
-                    builder: (context) => TipInformationPage(tip: tip),
-                  ),
+          CardAtom(
+            child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
+              children: [
+                const TextAtom(
+                  'Tips',
+                  variant: TextVariant.smallTitle,
                 ),
-              );
-            },
-            separatorBuilder: (context, i) => const SeparatorAtom(),
-            itemCount: tips.length,
+                const SeparatorAtom(),
+                ListView.separated(
+                  physics: const NeverScrollableScrollPhysics(),
+                  shrinkWrap: true,
+                  itemBuilder: (context, n) {
+                    final Tip tip = tips[n];
+
+                    return ListTileAtom(
+                      tip.text,
+                      trailing: const FaIcon(FontAwesomeIcons.circleQuestion),
+                      onTap: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => TipInformationPage(tip: tip),
+                        ),
+                      ),
+                    );
+                  },
+                  separatorBuilder: (context, i) => const SeparatorAtom(),
+                  itemCount: tips.length,
+                ),
+              ],
+            ),
           ),
         ],
       ),
