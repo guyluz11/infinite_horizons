@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/domain/background_service_controller.dart';
 import 'package:infinite_horizons/domain/player_controller.dart';
 import 'package:infinite_horizons/domain/preferences_controller.dart';
 import 'package:infinite_horizons/domain/vibration_controller.dart';
@@ -12,6 +13,7 @@ void main() async {
   PlayerController.instance.initialize();
   await VibrationController.instance.init();
   await EasyLocalization.ensureInitialized();
+  BackgroundServiceController.instance.init();
 
   runApp(
     EasyLocalization(

@@ -20,6 +20,7 @@ dependencies:
   easy_localization: ^3.0.6
   flutter:
     sdk: flutter
+  flutter_background_service: ^5.0.5
   flutter_cached_pdfview: ^0.4.2
   flutter_dnd: ^0.1.4+1
   flutter_inappwebview: ^6.0.0
