@@ -5,9 +5,9 @@ import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/timer_states.dart';
 import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/domain/wake_lock_controller.dart';
-import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
+import 'package:infinite_horizons/presentation/pages/pages.dart';
 
 class TimerOrganism extends StatefulWidget {
   @override
@@ -17,19 +17,18 @@ class TimerOrganism extends StatefulWidget {
 class _TimerOrganismState extends State<TimerOrganism>
     with AutomaticKeepAliveClientMixin<TimerOrganism> {
   HomeState state = HomeState.study;
-  final PreferencesController _prefs = PreferencesController.instance;
   late TimerStates timerStates;
 
   @override
   bool get wantKeepAlive => true;
-  bool lockScreen = true;
 
   @override
   void initState() {
     super.initState();
-    lockScreen = _prefs.getBool("isLockScreen") ?? lockScreen;
+    final PreferencesController prefs = PreferencesController.instance;
+    final bool lockScreen = prefs.getBool("isLockScreen") ?? true;
     WakeLockController.instance.setWakeLock(lockScreen);
-    PlayerController.instance.setIsSound(_prefs.getBool("isSound") ?? true);
+    PlayerController.instance.setIsSound(prefs.getBool("isSound") ?? true);
     timerStates = StudyTypeAbstract.instance!.getTimerStates();
 
     if (lockScreen) {
@@ -87,45 +86,7 @@ class _TimerOrganismState extends State<TimerOrganism>
     }
   }
 
-  void settingsPopup(BuildContext context) {
-    final Widget body = PageEnclosureMolecule(
-      title: 'settings',
-      child: Column(
-        children: [
-          CardAtom(
-            child: ToggleSwitchMolecule(
-              text: 'sound',
-              offIcon: Icons.music_off_rounded,
-              onIcon: Icons.music_note_rounded,
-              onChange: (bool value) {
-                PlayerController.instance.setIsSound(value);
-                _prefs.setBool("isSound", value);
-              },
-              initialValue: PlayerController.instance.isSound(),
-            ),
-          ),
-          const SeparatorAtom(),
-          CardAtom(
-            child: ToggleSwitchMolecule(
-              text: 'screen_lock',
-              offIcon: Icons.lock_clock,
-              onIcon: Icons.lock_open,
-              onChange: (bool value) {
-                lockScreen = value;
-                _prefs.setBool("isLockScreen", lockScreen);
-                WakeLockController.instance.setWakeLock(lockScreen);
-              },
-              initialValue: lockScreen,
-            ),
-          ),
-          const SeparatorAtom(
-            variant: SeparatorVariant.farApart,
-          ),
-        ],
-      ),
-    );
-    openAlertDialog(context, body);
-  }
+  void settingsOnComplete() {}
 
   @override
   Widget build(BuildContext context) {
@@ -147,7 +108,7 @@ class _TimerOrganismState extends State<TimerOrganism>
       title: title,
       scaffold: false,
       expendChild: false,
-      topBarRightOnTap: () => settingsPopup(context),
+      topBarRightOnTap: () => openAlertDialog(context, SettingsPage()),
       child: stateWidget(),
     );
   }

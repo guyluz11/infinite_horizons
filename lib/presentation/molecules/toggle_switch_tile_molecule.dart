@@ -54,8 +54,8 @@ class _ToggleSwitchMoleculeState extends State<ToggleSwitchMolecule> {
   @override
   Widget build(BuildContext context) {
     return ListTileAtom(
-      onTap: onChange,
       widget.text,
+      onTap: onChange,
       trailing: widget.trailing ?? switchWidget(),
       leading: widget.trailing != null ? switchWidget() : const SizedBox(),
       enable: !(widget.lockOnToggleOn && isToggled),
