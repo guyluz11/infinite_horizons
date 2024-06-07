@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/presentation/core/theme_data.dart';
 
 class CardAtom extends StatelessWidget {
   const CardAtom({required this.child, this.image, this.imageColor});
@@ -22,7 +23,7 @@ class CardAtom extends StatelessWidget {
               child: image,
             ),
           Padding(
-            padding: const EdgeInsets.all(8.0),
+            padding: const EdgeInsets.all(AppThemeData.generalSpacing),
             child: child,
           ),
         ],
