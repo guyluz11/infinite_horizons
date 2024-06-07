@@ -82,20 +82,17 @@ class TopBarMolecule extends StatelessWidget {
             const SizedBox(height: 15),
             Row(
               children: [
-                IconButton(
+                ButtonAtom(
                   onPressed: () {
                     if (leftOnTap != null) {
                       return leftOnTap!();
                     }
                     Navigator.of(context).pop();
                   },
-                  icon: Icon(
-                    topBarType == TopBarType.close
-                        ? Icons.close_rounded
-                        : Icons.arrow_back_ios_rounded,
-                    color: iconColor,
-                    size: textTheme.titleMedium!.decorationThickness,
-                  ),
+                  icon: topBarType == TopBarType.close
+                      ? Icons.close_rounded
+                      : Icons.arrow_back_ios_rounded,
+                  variant: ButtonVariant.lowEmphasisIcon,
                 ),
                 const SeparatorAtom(
                   variant: SeparatorVariant.relatedElements,
