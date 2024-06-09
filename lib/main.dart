@@ -10,7 +10,7 @@ import 'package:infinite_horizons/presentation/pages/pages.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PreferencesController.instance.init();
-  PlayerController.instance.initialize();
+  PlayerController.instance.init();
   await VibrationController.instance.init();
   await EasyLocalization.ensureInitialized();
   BackgroundServiceController.instance.init();

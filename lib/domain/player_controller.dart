@@ -7,11 +7,11 @@ abstract class PlayerController {
 
   static PlayerController get instance => _instance ??= _PlayerRepository();
 
+  void init();
+
   void setIsSound(bool value);
 
   bool isSound();
-
-  void initialize();
 
   Future play(String fileName);
 }

@@ -26,6 +26,7 @@ class _TimerMoleculeState extends State<TimerMolecule>
       end: Duration.zero,
     );
     controller.start();
+    // TODO: Send selected time and timer start to background process
     controller.addListener(() {
       if (controller.state.value == CustomTimerState.finished) {
         widget.onComplete();

@@ -6,7 +6,7 @@ class _PlayerRepository extends PlayerController {
   bool _isSound = true;
 
   @override
-  void initialize() {
+  void init() {
     player = AudioPlayer();
   }
 
