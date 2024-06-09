@@ -40,6 +40,9 @@ class _HomePageState extends State<HomePage> {
       body: PageView(
         onPageChanged: (index) {
           setState(() {
+            if (index == 0){
+              FocusScope.of(context).unfocus();
+            }
             _currentTabNum = index;
           });
         },
