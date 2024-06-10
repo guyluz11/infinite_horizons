@@ -4,10 +4,11 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class TimerMolecule extends StatefulWidget {
-  const TimerMolecule(this.onComplete, this.duration);
+  const TimerMolecule(this.onComplete, this.duration, {this.initialValue});
 
   final Duration duration;
   final VoidCallback onComplete;
+  final Duration? initialValue;
 
   @override
   State<TimerMolecule> createState() => _TimerMoleculeState();
@@ -22,7 +23,7 @@ class _TimerMoleculeState extends State<TimerMolecule>
     super.initState();
     controller = CustomTimerController(
       vsync: this,
-      begin: widget.duration,
+      begin: widget.initialValue ?? widget.duration,
       end: Duration.zero,
     );
     controller.start();

@@ -2,69 +2,78 @@ import 'dart:async';
 
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/background_service_controller.dart';
+import 'package:infinite_horizons/domain/energy_level.dart';
 import 'package:infinite_horizons/domain/player_controller.dart';
 import 'package:infinite_horizons/domain/preferences_controller.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
-import 'package:infinite_horizons/domain/timer_states.dart';
 import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/domain/wake_lock_controller.dart';
+import 'package:infinite_horizons/infrastructure/core/logger.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 import 'package:infinite_horizons/presentation/pages/pages.dart';
 
 class TimerStateManager {
-  static HomeState state = HomeState.study;
-  static TimerStates timerStates = StudyTypeAbstract.instance!.getTimerStates();
+  static TimerState state = TimerState.study;
+  static EnergyLevel timerStates = StudyTypeAbstract.instance!.getTimerStates();
   static Duration getReadyDuration = const Duration(seconds: 10);
   static Timer? _timer;
   static VoidCallback? callback;
+  static Duration _remainingTime = Duration.zero;
 
   static void incrementState() {
     switch (state) {
-      case HomeState.study:
-        state = HomeState.getReadyForBreak;
+      case TimerState.study:
+        state = TimerState.getReadyForBreak;
         PlayerController.instance.play('session_completed.wav');
         VibrationController.instance.vibrate(VibrationType.medium);
-      case HomeState.getReadyForBreak:
-        state = HomeState.breakTime;
-      case HomeState.breakTime:
-        state = HomeState.readyToStart;
+      case TimerState.getReadyForBreak:
+        state = TimerState.breakTime;
+      case TimerState.breakTime:
+        state = TimerState.readyToStart;
         PlayerController.instance.play('break_ended.wav');
-      case HomeState.readyToStart:
+      case TimerState.readyToStart:
         timerStates.promoteSession();
         PlayerController.instance.play('start_session.wav');
         VibrationController.instance.vibrate(VibrationType.heavy);
-        state = HomeState.study;
+        state = TimerState.study;
     }
   }
 
   static Duration getTimerDuration() {
     switch (state) {
-      case HomeState.study:
+      case TimerState.study:
         return timerStates.getCurrentSession().study;
-      case HomeState.getReadyForBreak:
+      case TimerState.getReadyForBreak:
         return getReadyDuration;
-      case HomeState.breakTime:
+      case TimerState.breakTime:
         return timerStates.getCurrentSession().breakDuration;
-      case HomeState.readyToStart:
+      case TimerState.readyToStart:
         return Duration.zero;
     }
   }
 
-  int? getTime() => _timer?.tick;
+  static Duration getRemainingTime() => _remainingTime;
+  static void pauseTimer() => _timer?.cancel();
 
-  static Future iterateOverTimerStates() async {
-    final Duration stateDuration = getTimerDuration();
+  static Future iterateOverTimerStates({Duration? remainingTime}) async {
+    final Duration stateDuration = remainingTime ?? getTimerDuration();
     if (stateDuration == Duration.zero) {
       return;
     }
 
-    _timer = Timer(
-      stateDuration,
-      () {
-        incrementState();
-        callback?.call();
-        TimerStateManager.iterateOverTimerStates();
+    _remainingTime = stateDuration;
+    _timer = Timer.periodic(
+      const Duration(seconds: 1),
+      (Timer timer) {
+        if (_remainingTime <= const Duration(seconds: 1)) {
+          _timer?.cancel();
+          incrementState();
+          callback?.call();
+          iterateOverTimerStates();
+          return;
+        }
+        _remainingTime = _remainingTime - const Duration(seconds: 1);
       },
     );
   }
@@ -77,7 +86,7 @@ class TimerOrganism extends StatefulWidget {
 
 class _TimerOrganismState extends State<TimerOrganism>
     with WidgetsBindingObserver {
-  HomeState state = TimerStateManager.state;
+  TimerState state = TimerStateManager.state;
 
   @override
   void initState() {
@@ -105,15 +114,44 @@ class _TimerOrganismState extends State<TimerOrganism>
   }
 
   @override
-  void didChangeAppLifecycleState(AppLifecycleState state) {
-    switch (state) {
+  Future didChangeAppLifecycleState(AppLifecycleState appState) async {
+    switch (appState) {
       case AppLifecycleState.detached:
-      case AppLifecycleState.resumed:
       case AppLifecycleState.inactive:
       case AppLifecycleState.hidden:
         return;
+      case AppLifecycleState.resumed:
+        BackgroundServiceController.instance.stopService();
+        await PreferencesController.instance.reload();
+        final TimerState state = TimerStateExtension.fromString(
+          PreferencesController.instance.getString('timerState') ?? '',
+        );
+        logger.i('App resumed with timerState $state');
+        TimerStateManager.state = state;
+
+        final Duration remainingTime =
+            PreferencesController.instance.getDuration('remainingTimerTime') ??
+                Duration.zero;
+        TimerStateManager.iterateOverTimerStates(remainingTime: remainingTime);
+        setCurrentState();
+        return;
       case AppLifecycleState.paused:
-        BackgroundServiceController.instance.startIterateTimerStates();
+        TimerStateManager.pauseTimer();
+        await BackgroundServiceController.instance.startService();
+        PreferencesController.instance.setDuration(
+          'remainingTimerTime',
+          TimerStateManager.getRemainingTime(),
+        );
+
+        PreferencesController.instance
+            .setString('tipType', StudyTypeAbstract.instance!.tipType.name);
+
+        BackgroundServiceController.instance.startIterateTimerStates(
+          StudyTypeAbstract.instance!.tipType,
+          StudyTypeAbstract.instance!.getTimerStates().type,
+          state,
+          TimerStateManager.getRemainingTime(),
+        );
         return;
     }
   }
@@ -126,15 +164,15 @@ class _TimerOrganismState extends State<TimerOrganism>
 
   Widget stateWidget() {
     switch (state) {
-      case HomeState.study:
-      case HomeState.breakTime:
+      case TimerState.study:
+      case TimerState.breakTime:
         return TimerMolecule(
           () {},
           TimerStateManager.getTimerDuration(),
         );
-      case HomeState.getReadyForBreak:
+      case TimerState.getReadyForBreak:
         return ProgressIndicatorMolecule(onComplete: () {});
-      case HomeState.readyToStart:
+      case TimerState.readyToStart:
         return ReadyForSessionOrganism(() {
           TimerStateManager.incrementState();
           TimerStateManager.iterateOverTimerStates();
@@ -147,13 +185,13 @@ class _TimerOrganismState extends State<TimerOrganism>
   Widget build(BuildContext context) {
     String title;
     switch (state) {
-      case HomeState.study:
+      case TimerState.study:
         title = 'study_timer';
-      case HomeState.getReadyForBreak:
+      case TimerState.getReadyForBreak:
         title = 'ready_for_break';
-      case HomeState.breakTime:
+      case TimerState.breakTime:
         title = 'take_break';
-      case HomeState.readyToStart:
+      case TimerState.readyToStart:
         title = 'ready_for_session';
     }
 
@@ -167,10 +205,19 @@ class _TimerOrganismState extends State<TimerOrganism>
   }
 }
 
-enum HomeState {
+enum TimerState {
   study,
   getReadyForBreak,
   breakTime,
   readyToStart,
   ;
+}
+
+extension TimerStateExtension on TimerState {
+  static TimerState fromString(String typeAsString) {
+    return TimerState.values.firstWhere(
+      (element) => element.toString().split('.').last == typeAsString,
+      orElse: () => TimerState.values.first,
+    );
+  }
 }

@@ -1,7 +1,7 @@
-class TimerStates {
-  TimerStates(this.type, this.sessions);
+class EnergyLevel {
+  EnergyLevel(this.type, this.sessions);
 
-  factory TimerStates.fromEnergyType(EnergyType type) {
+  factory EnergyLevel.fromEnergyType(EnergyType type) {
     List<TimerSession> states;
 
     switch (type) {
@@ -34,7 +34,7 @@ class TimerStates {
         ];
     }
 
-    return TimerStates(type, states);
+    return EnergyLevel(type, states);
   }
 
   EnergyType type;
@@ -86,4 +86,13 @@ enum EnergyType {
   final Duration duration;
   final String previewName;
   final List<String>? tipsId;
+}
+
+extension EnergyTypeExtension on EnergyType {
+  static EnergyType fromString(String typeAsString) {
+    return EnergyType.values.firstWhere(
+      (element) => element.toString().split('.').last == typeAsString,
+      orElse: () => EnergyType.undefined,
+    );
+  }
 }

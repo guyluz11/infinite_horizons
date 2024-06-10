@@ -57,7 +57,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
           (element) =>
               (element.timing == TipTiming.before &&
                   (element.type == TipType.general ||
-                      element.type == StudyTypeAbstract.instance!.studyType)) &&
+                      element.type == StudyTypeAbstract.instance!.tipType)) &&
               // We can toggle dnd only on android
               !(element.id == 'dnd' && Platform.isAndroid),
         )

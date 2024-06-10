@@ -9,10 +9,13 @@ abstract class PreferencesController {
       _instance ??= _PreferencesRepository();
 
   Future init();
+  Future reload();
 
   String? getString(String key);
 
   bool? getBool(String key);
+
+  Duration? getDuration(String key);
 
   void remove(String key);
 
@@ -20,4 +23,5 @@ abstract class PreferencesController {
 
   void setBool(String key, bool value);
 
+  void setDuration(String key, Duration value);
 }
