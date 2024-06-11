@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/background_service_controller.dart';
 import 'package:infinite_horizons/domain/player_controller.dart';
 import 'package:infinite_horizons/domain/preferences_controller.dart';
 import 'package:infinite_horizons/domain/vibration_controller.dart';
@@ -30,6 +29,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
+    PlayerController.instance
+        .setIsSound(PreferencesController.instance.getBool("isSound") ?? true);
     PlayerController.instance.play('start_session.wav');
     VibrationController.instance.vibrate(VibrationType.heavy);
     TimerStateManager.iterateOverTimerStates();
@@ -45,7 +46,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       case AppLifecycleState.resumed:
         // TODO: Check for ios
         if (Platform.isAndroid) {
-          BackgroundServiceController.instance.stopService();
+          // BackgroundServiceController.instance.stopService();
           await Future.delayed(const Duration(milliseconds: 200));
         }
         await PreferencesController.instance.reload();
@@ -77,8 +78,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         if (!Platform.isAndroid) {
           return;
         }
-        await BackgroundServiceController.instance.startService();
-        BackgroundServiceController.instance.startIterateTimerStates();
+        // await BackgroundServiceController.instance.startService();
+        // BackgroundServiceController.instance.startIterateTimerStates();
         return;
     }
   }

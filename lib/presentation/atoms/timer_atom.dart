@@ -5,11 +5,10 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class TimerAtom extends StatelessWidget {
-  const TimerAtom(this.controller, this.timer, this.callback);
+  const TimerAtom(this.controller, this.timer);
 
   final CustomTimerController controller;
   final Duration timer;
-  final VoidCallback callback;
 
   @override
   Widget build(BuildContext context) {

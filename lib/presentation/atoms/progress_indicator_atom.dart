@@ -5,7 +5,6 @@ import 'package:liquid_progress_indicator_v2/liquid_progress_indicator.dart';
 class ProgressIndicatorAtom extends StatefulWidget {
   const ProgressIndicatorAtom({
     required this.totalDuration,
-    required this.callback,
     this.inputController,
     this.isPdfLoader = false,
     this.centerWidget,
@@ -13,7 +12,6 @@ class ProgressIndicatorAtom extends StatefulWidget {
   });
 
   final Duration totalDuration;
-  final VoidCallback callback;
   final AnimationController? inputController;
   final bool isPdfLoader;
   final Widget? centerWidget;
@@ -47,11 +45,6 @@ class _ProgressIndicatorAtomState extends State<ProgressIndicatorAtom>
       setState(() {});
     });
 
-    controller.addStatusListener((status) {
-      if (status == AnimationStatus.completed) {
-        widget.callback();
-      }
-    });
     if (!widget.isPdfLoader) {
       controller.forward();
     }

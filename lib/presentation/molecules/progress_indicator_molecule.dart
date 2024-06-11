@@ -7,12 +7,10 @@ import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 class ProgressIndicatorMolecule extends StatelessWidget {
   const ProgressIndicatorMolecule({
     required this.duration,
-    required this.onComplete,
     this.initialValue,
   });
 
   final Duration duration;
-  final VoidCallback onComplete;
   final Duration? initialValue;
 
   @override
@@ -52,7 +50,6 @@ class ProgressIndicatorMolecule extends StatelessWidget {
           ),
         ProgressIndicatorAtom(
           totalDuration: duration,
-          callback: onComplete,
           initialValue: initialValue,
         ),
       ],

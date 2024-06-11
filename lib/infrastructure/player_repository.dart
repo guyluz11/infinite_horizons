@@ -6,9 +6,7 @@ class _PlayerRepository extends PlayerController {
   bool _isSound = true;
 
   @override
-  void init() {
-    player = AudioPlayer();
-  }
+  void init() => player = AudioPlayer();
 
   @override
   Future play(String fileName) async {

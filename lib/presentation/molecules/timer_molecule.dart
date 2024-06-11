@@ -4,10 +4,9 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class TimerMolecule extends StatefulWidget {
-  const TimerMolecule(this.onComplete, this.duration, {this.initialValue});
+  const TimerMolecule(this.duration, {this.initialValue});
 
   final Duration duration;
-  final VoidCallback onComplete;
   final Duration? initialValue;
 
   @override
@@ -27,12 +26,6 @@ class _TimerMoleculeState extends State<TimerMolecule>
       end: Duration.zero,
     );
     controller.start();
-    // TODO: Send selected time and timer start to background process
-    controller.addListener(() {
-      if (controller.state.value == CustomTimerState.finished) {
-        widget.onComplete();
-      }
-    });
   }
 
   @override
@@ -50,7 +43,6 @@ class _TimerMoleculeState extends State<TimerMolecule>
             child: TimerAtom(
               controller,
               widget.duration,
-              widget.onComplete,
             ),
           ),
         ),

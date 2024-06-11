@@ -93,10 +93,9 @@ class TimerOrganismState extends State<TimerOrganism> {
   @override
   void initState() {
     super.initState();
-    final PreferencesController prefs = PreferencesController.instance;
-    final bool lockScreen = prefs.getBool("isLockScreen") ?? true;
+    final bool lockScreen =
+        PreferencesController.instance.getBool("isLockScreen") ?? true;
     WakeLockController.instance.setWakeLock(lockScreen);
-    PlayerController.instance.setIsSound(prefs.getBool("isSound") ?? true);
 
     if (lockScreen) {
       WakeLockController.instance.setWakeLock(true);
@@ -121,7 +120,6 @@ class TimerOrganismState extends State<TimerOrganism> {
       case TimerState.study:
       case TimerState.breakTime:
         return TimerMolecule(
-          () {},
           TimerStateManager.getTimerDuration(),
           initialValue: TimerStateManager.getRemainingTime(),
         );
@@ -131,7 +129,6 @@ class TimerOrganismState extends State<TimerOrganism> {
             totalTime - (TimerStateManager.getRemainingTime() ?? totalTime);
         return ProgressIndicatorMolecule(
           duration: totalTime,
-          onComplete: () {},
           initialValue: timePassed,
         );
       case TimerState.readyToStart:
