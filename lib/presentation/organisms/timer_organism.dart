@@ -1,14 +1,12 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/background_service_controller.dart';
 import 'package:infinite_horizons/domain/energy_level.dart';
 import 'package:infinite_horizons/domain/player_controller.dart';
 import 'package:infinite_horizons/domain/preferences_controller.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/domain/wake_lock_controller.dart';
-import 'package:infinite_horizons/infrastructure/core/logger.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 import 'package:infinite_horizons/presentation/pages/pages.dart';
@@ -83,18 +81,18 @@ class TimerStateManager {
 }
 
 class TimerOrganism extends StatefulWidget {
+  const TimerOrganism({super.key});
+
   @override
-  State<TimerOrganism> createState() => _TimerOrganismState();
+  State<TimerOrganism> createState() => TimerOrganismState();
 }
 
-class _TimerOrganismState extends State<TimerOrganism>
-    with WidgetsBindingObserver {
+class TimerOrganismState extends State<TimerOrganism> {
   TimerState state = TimerStateManager.state;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
     final PreferencesController prefs = PreferencesController.instance;
     final bool lockScreen = prefs.getBool("isLockScreen") ?? true;
     WakeLockController.instance.setWakeLock(lockScreen);
@@ -103,60 +101,13 @@ class _TimerOrganismState extends State<TimerOrganism>
     if (lockScreen) {
       WakeLockController.instance.setWakeLock(true);
     }
-    PlayerController.instance.play('start_session.wav');
-    VibrationController.instance.vibrate(VibrationType.heavy);
     TimerStateManager.callback = setCurrentState;
-    TimerStateManager.iterateOverTimerStates();
   }
 
   @override
   void dispose() {
-    TimerStateManager.pauseTimer();
     WakeLockController.instance.setWakeLock(false);
-    WidgetsBinding.instance.removeObserver(this);
     super.dispose();
-  }
-
-  @override
-  Future didChangeAppLifecycleState(AppLifecycleState appState) async {
-    switch (appState) {
-      case AppLifecycleState.detached:
-      case AppLifecycleState.inactive:
-      case AppLifecycleState.hidden:
-        return;
-      case AppLifecycleState.resumed:
-        BackgroundServiceController.instance.stopService();
-        await Future.delayed(const Duration(milliseconds: 200));
-        await PreferencesController.instance.reload();
-        final TimerState state = TimerStateExtension.fromString(
-          PreferencesController.instance.getString('timerState') ?? '',
-        );
-        TimerStateManager.state = state;
-
-        final Duration remainingTime =
-            PreferencesController.instance.getDuration('remainingTimerTime') ??
-                Duration.zero;
-        logger.i('remainingTimerTime from background $remainingTime');
-        TimerStateManager.iterateOverTimerStates(remainingTime: remainingTime);
-        setCurrentState();
-        return;
-      case AppLifecycleState.paused:
-        if (TimerStateManager.state == TimerState.readyToStart) {
-          return;
-        }
-
-        TimerStateManager.pauseTimer();
-        await BackgroundServiceController.instance.startService();
-        PreferencesController.instance.setDuration(
-          'remainingTimerTime',
-          TimerStateManager.getRemainingTime() ?? Duration.zero,
-        );
-
-        PreferencesController.instance
-            .setString('timerState', TimerStateManager.state.name);
-        BackgroundServiceController.instance.startIterateTimerStates();
-        return;
-    }
   }
 
   void setCurrentState() {
@@ -175,7 +126,14 @@ class _TimerOrganismState extends State<TimerOrganism>
           initialValue: TimerStateManager.getRemainingTime(),
         );
       case TimerState.getReadyForBreak:
-        return ProgressIndicatorMolecule(onComplete: () {});
+        final Duration totalTime = TimerStateManager.getReadyDuration;
+        final Duration timePassed =
+            totalTime - (TimerStateManager.getRemainingTime() ?? totalTime);
+        return ProgressIndicatorMolecule(
+          duration: totalTime,
+          onComplete: () {},
+          initialValue: timePassed,
+        );
       case TimerState.readyToStart:
         return ReadyForSessionOrganism(() {
           TimerStateManager.incrementState();

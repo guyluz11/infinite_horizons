@@ -3,19 +3,20 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
-import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 
 class ProgressIndicatorMolecule extends StatelessWidget {
   const ProgressIndicatorMolecule({
+    required this.duration,
     required this.onComplete,
+    this.initialValue,
   });
 
+  final Duration duration;
   final VoidCallback onComplete;
+  final Duration? initialValue;
 
   @override
   Widget build(BuildContext context) {
-    final Duration getReadyDuration = TimerStateManager.getReadyDuration;
-
     final List<Tip> tips = tipsList
         .where(
           (element) =>
@@ -50,8 +51,9 @@ class ProgressIndicatorMolecule extends StatelessWidget {
             ],
           ),
         ProgressIndicatorAtom(
-          totalDuration: getReadyDuration,
+          totalDuration: duration,
           callback: onComplete,
+          initialValue: initialValue,
         ),
       ],
     );

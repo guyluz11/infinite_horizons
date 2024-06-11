@@ -9,12 +9,15 @@ class ProgressIndicatorAtom extends StatefulWidget {
     this.inputController,
     this.isPdfLoader = false,
     this.centerWidget,
+    this.initialValue,
   });
+
   final Duration totalDuration;
   final VoidCallback callback;
   final AnimationController? inputController;
   final bool isPdfLoader;
   final Widget? centerWidget;
+  final Duration? initialValue;
 
   @override
   State<ProgressIndicatorAtom> createState() => _ProgressIndicatorAtomState();
@@ -25,15 +28,20 @@ class _ProgressIndicatorAtomState extends State<ProgressIndicatorAtom>
   late AnimationController controller;
   @override
   void initState() {
-    updateProgress();
+    initiateController();
     super.initState();
   }
 
-  void updateProgress() {
+  void initiateController() {
+    final double initialValueRatio =
+        (widget.initialValue?.inMilliseconds ?? 0) /
+            widget.totalDuration.inMilliseconds;
+
     controller = widget.inputController ??
         AnimationController(
           vsync: this,
           duration: widget.totalDuration,
+          value: initialValueRatio,
         );
     controller.addListener(() {
       setState(() {});
