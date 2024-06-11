@@ -29,12 +29,7 @@ abstract class BackgroundServiceController {
   Future<bool> startService();
   void stopService();
 
-  void startIterateTimerStates(
-    TipType tipType,
-    EnergyType energyType,
-    TimerState timerState,
-    Duration remainingTime,
-  );
+  void startIterateTimerStates();
 
   void stopIterateTimerStates();
 }

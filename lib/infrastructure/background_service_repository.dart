@@ -32,13 +32,7 @@ class _BackgroundServiceRepository extends BackgroundServiceController {
   void stopService() => service.invoke('stopService');
 
   @override
-  void startIterateTimerStates(
-    TipType tipType,
-    EnergyType energyType,
-    TimerState timerState,
-    Duration remainingTime,
-  ) =>
-      service.invoke(
+  void startIterateTimerStates() => service.invoke(
         'startIterateTimerStates',
         //     {
         //   'tipType': tipType.name,
@@ -69,13 +63,17 @@ class _BackgroundServiceRepository extends BackgroundServiceController {
     WidgetsFlutterBinding.ensureInitialized();
     DartPluginRegistrant.ensureInitialized();
     PlayerController.instance.init();
-
     service.on('stopService').listen((event) {
-      PreferencesController.instance
-          .setString('timerState', TimerStateManager.state.name);
+      // PreferencesController.instance
+      //     .setString('timerState', TimerStateManager.state.name);
+      // PreferencesController.instance.setDuration(
+      //   'remainingTimerTime',
+      //   TimerStateManager.getRemainingTime(),
+      // );
+
       PreferencesController.instance.setDuration(
         'remainingTimerTime',
-        TimerStateManager.getRemainingTime(),
+        TimerStateManager.getRemainingTime() ?? Duration.zero,
       );
       service.stopSelf();
     });
@@ -85,11 +83,6 @@ class _BackgroundServiceRepository extends BackgroundServiceController {
       await PreferencesController.instance.reload();
       await VibrationController.instance.init();
       PlayerController.instance.init();
-
-      // final TipType tipType= event!['tipType'] as TipType;
-      //     final EnergyType energyType = event['energyType'] as EnergyType;
-      // final TimerState timerState= event['timerState'] as TimerState;
-      // final Duration remainingTime= event['remainingTime'] as Duration;
 
       final TimerState state = TimerStateExtension.fromString(
         PreferencesController.instance.getString('timerState') ?? '',
@@ -116,14 +109,13 @@ class _BackgroundServiceRepository extends BackgroundServiceController {
         final TimerState currentState = TimerStateManager.state;
         PreferencesController.instance
             .setString('timerState', currentState.name);
-        logger.i('Service saved timerState $currentState');
 
         if (currentState != TimerState.readyToStart) {
           return;
         }
         PreferencesController.instance.setDuration(
           'remainingTimerTime',
-          TimerStateManager.getRemainingTime(),
+          TimerStateManager.getRemainingTime() ?? Duration.zero,
         );
         await Future.delayed(const Duration(seconds: 5));
         logger.i('Kill process');

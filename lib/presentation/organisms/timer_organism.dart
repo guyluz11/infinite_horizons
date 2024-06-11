@@ -53,7 +53,9 @@ class TimerStateManager {
     }
   }
 
-  static Duration getRemainingTime() => _remainingTime;
+  static Duration? getRemainingTime() =>
+      _remainingTime == Duration.zero ? null : _remainingTime;
+
   static void pauseTimer() => _timer?.cancel();
 
   static Future iterateOverTimerStates({Duration? remainingTime}) async {
@@ -67,6 +69,7 @@ class TimerStateManager {
       const Duration(seconds: 1),
       (Timer timer) {
         if (_remainingTime <= const Duration(seconds: 1)) {
+          _remainingTime = Duration.zero;
           _timer?.cancel();
           incrementState();
           callback?.call();
@@ -108,6 +111,7 @@ class _TimerOrganismState extends State<TimerOrganism>
 
   @override
   void dispose() {
+    TimerStateManager.pauseTimer();
     WakeLockController.instance.setWakeLock(false);
     WidgetsBinding.instance.removeObserver(this);
     super.dispose();
@@ -122,36 +126,35 @@ class _TimerOrganismState extends State<TimerOrganism>
         return;
       case AppLifecycleState.resumed:
         BackgroundServiceController.instance.stopService();
+        await Future.delayed(const Duration(milliseconds: 200));
         await PreferencesController.instance.reload();
         final TimerState state = TimerStateExtension.fromString(
           PreferencesController.instance.getString('timerState') ?? '',
         );
-        logger.i('App resumed with timerState $state');
         TimerStateManager.state = state;
 
         final Duration remainingTime =
             PreferencesController.instance.getDuration('remainingTimerTime') ??
                 Duration.zero;
+        logger.i('remainingTimerTime from background $remainingTime');
         TimerStateManager.iterateOverTimerStates(remainingTime: remainingTime);
         setCurrentState();
         return;
       case AppLifecycleState.paused:
+        if (TimerStateManager.state == TimerState.readyToStart) {
+          return;
+        }
+
         TimerStateManager.pauseTimer();
         await BackgroundServiceController.instance.startService();
         PreferencesController.instance.setDuration(
           'remainingTimerTime',
-          TimerStateManager.getRemainingTime(),
+          TimerStateManager.getRemainingTime() ?? Duration.zero,
         );
 
         PreferencesController.instance
-            .setString('tipType', StudyTypeAbstract.instance!.tipType.name);
-
-        BackgroundServiceController.instance.startIterateTimerStates(
-          StudyTypeAbstract.instance!.tipType,
-          StudyTypeAbstract.instance!.getTimerStates().type,
-          state,
-          TimerStateManager.getRemainingTime(),
-        );
+            .setString('timerState', TimerStateManager.state.name);
+        BackgroundServiceController.instance.startIterateTimerStates();
         return;
     }
   }
@@ -169,6 +172,7 @@ class _TimerOrganismState extends State<TimerOrganism>
         return TimerMolecule(
           () {},
           TimerStateManager.getTimerDuration(),
+          initialValue: TimerStateManager.getRemainingTime(),
         );
       case TimerState.getReadyForBreak:
         return ProgressIndicatorMolecule(onComplete: () {});
