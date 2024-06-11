@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/background_service_controller.dart';
 import 'package:infinite_horizons/domain/player_controller.dart';
@@ -41,8 +43,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       case AppLifecycleState.hidden:
         return;
       case AppLifecycleState.resumed:
-        BackgroundServiceController.instance.stopService();
-        await Future.delayed(const Duration(milliseconds: 200));
+        // TODO: Check for ios
+        if (Platform.isAndroid) {
+          BackgroundServiceController.instance.stopService();
+          await Future.delayed(const Duration(milliseconds: 200));
+        }
         await PreferencesController.instance.reload();
         final TimerState state = TimerStateExtension.fromString(
           PreferencesController.instance.getString('timerState') ?? '',
@@ -61,7 +66,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         }
 
         TimerStateManager.pauseTimer();
-        await BackgroundServiceController.instance.startService();
         PreferencesController.instance.setDuration(
           'remainingTimerTime',
           TimerStateManager.getRemainingTime() ?? Duration.zero,
@@ -69,6 +73,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
         PreferencesController.instance
             .setString('timerState', TimerStateManager.state.name);
+        // TODO: Check how it react
+        if (!Platform.isAndroid) {
+          return;
+        }
+        await BackgroundServiceController.instance.startService();
         BackgroundServiceController.instance.startIterateTimerStates();
         return;
     }
