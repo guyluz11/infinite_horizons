@@ -1,5 +1,6 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/domain/notifications_controller.dart';
 import 'package:infinite_horizons/domain/preferences_controller.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/study_type_analytical.dart';
@@ -27,6 +28,14 @@ class _StudyTypeSelectionMoleculeState
   void initState() {
     super.initState();
     selectedType = StudyTypeAbstract.instance?.tipType ?? TipType.undefined;
+    if (PreferencesController.instance.getInt('loginCounter')! <= 1) {
+      requestNotificationPermissions();
+    }
+  }
+
+  Future requestNotificationPermissions() async {
+    await NotificationsController.instance.generalPermission();
+    await NotificationsController.instance.preciseAlarmPermission();
   }
 
   void onChanged(TipType? type) {

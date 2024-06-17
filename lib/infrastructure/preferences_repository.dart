@@ -13,6 +13,9 @@ class _PreferencesRepository extends PreferencesController {
   String? getString(String key) => preferences.getString(key);
 
   @override
+  int? getInt(String key) => preferences.getInt(key);
+
+  @override
   bool? getBool(String key) => preferences.getBool(key);
 
   @override
@@ -26,6 +29,9 @@ class _PreferencesRepository extends PreferencesController {
 
   @override
   void setString(String key, String value) => preferences.setString(key, value);
+
+  @override
+  void setInt(String key, int value) => preferences.setInt(key, value);
 
   @override
   void setBool(String key, bool value) => preferences.setBool(key, value);

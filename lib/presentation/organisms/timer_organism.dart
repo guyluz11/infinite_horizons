@@ -20,25 +20,35 @@ class TimerStateManager {
   static Duration _remainingTime = Duration.zero;
 
   static void incrementState() {
+    state = getNextState(state);
     switch (state) {
       case TimerState.study:
-        state = TimerState.getReadyForBreak;
-        PlayerController.instance.play('session_completed.wav');
-        VibrationController.instance.vibrate(VibrationType.medium);
-      case TimerState.getReadyForBreak:
-        state = TimerState.breakTime;
-      case TimerState.breakTime:
-        state = TimerState.readyToStart;
-        PlayerController.instance.play('break_ended.wav');
-      case TimerState.readyToStart:
         timerStates.promoteSession();
         PlayerController.instance.play('start_session.wav');
         VibrationController.instance.vibrate(VibrationType.heavy);
-        state = TimerState.study;
+      case TimerState.getReadyForBreak:
+        PlayerController.instance.play('session_completed.wav');
+        VibrationController.instance.vibrate(VibrationType.medium);
+      case TimerState.breakTime:
+      case TimerState.readyToStart:
+        PlayerController.instance.play('break_ended.wav');
     }
   }
 
-  static Duration getTimerDuration() {
+  static TimerState getNextState(TimerState state) {
+    switch (state) {
+      case TimerState.study:
+        return TimerState.getReadyForBreak;
+      case TimerState.getReadyForBreak:
+        return TimerState.breakTime;
+      case TimerState.breakTime:
+        return TimerState.readyToStart;
+      case TimerState.readyToStart:
+        return TimerState.study;
+    }
+  }
+
+  static Duration getTimerDuration(TimerState state) {
     switch (state) {
       case TimerState.study:
         return timerStates.getCurrentSession().study;
@@ -56,8 +66,10 @@ class TimerStateManager {
 
   static void pauseTimer() => _timer?.cancel();
 
+  static bool isTimerRunning() => _timer != null && _timer!.isActive;
+
   static Future iterateOverTimerStates({Duration? remainingTime}) async {
-    final Duration stateDuration = remainingTime ?? getTimerDuration();
+    final Duration stateDuration = remainingTime ?? getTimerDuration(state);
     if (stateDuration == Duration.zero) {
       return;
     }
@@ -120,7 +132,7 @@ class TimerOrganismState extends State<TimerOrganism> {
       case TimerState.study:
       case TimerState.breakTime:
         return TimerMolecule(
-          TimerStateManager.getTimerDuration(),
+          TimerStateManager.getTimerDuration(state),
           initialValue: TimerStateManager.getRemainingTime(),
         );
       case TimerState.getReadyForBreak:

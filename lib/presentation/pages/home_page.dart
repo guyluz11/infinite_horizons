@@ -1,9 +1,9 @@
-import 'dart:io';
-
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/domain/notifications_controller.dart';
 import 'package:infinite_horizons/domain/player_controller.dart';
 import 'package:infinite_horizons/domain/preferences_controller.dart';
 import 'package:infinite_horizons/domain/vibration_controller.dart';
+import 'package:infinite_horizons/infrastructure/core/logger.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 
@@ -44,43 +44,52 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       case AppLifecycleState.hidden:
         return;
       case AppLifecycleState.resumed:
-        // TODO: Check for ios
-        if (Platform.isAndroid) {
-          // BackgroundServiceController.instance.stopService();
-          await Future.delayed(const Duration(milliseconds: 200));
-        }
-        await PreferencesController.instance.reload();
-        final TimerState state = TimerStateExtension.fromString(
-          PreferencesController.instance.getString('timerState') ?? '',
-        );
-        TimerStateManager.state = state;
-
-        final Duration remainingTime =
-            PreferencesController.instance.getDuration('remainingTimerTime') ??
-                Duration.zero;
-        TimerStateManager.iterateOverTimerStates(remainingTime: remainingTime);
-        timerKey.currentState?.setCurrentState();
+        //
+        // await PreferencesController.instance.reload();
+        // final TimerState state = TimerStateExtension.fromString(
+        //   PreferencesController.instance.getString('timerState') ?? '',
+        // );
+        // TimerStateManager.state = state;
+        //
+        // final Duration remainingTime =
+        //     PreferencesController.instance.getDuration('remainingTimerTime') ??
+        //         Duration.zero;
+        // TimerStateManager.iterateOverTimerStates(remainingTime: remainingTime);
+        // timerKey.currentState?.setCurrentState();
         return;
       case AppLifecycleState.paused:
-        if (TimerStateManager.state == TimerState.readyToStart) {
+        if (!TimerStateManager.isTimerRunning()) {
           return;
         }
-
         TimerStateManager.pauseTimer();
         PreferencesController.instance.setDuration(
           'remainingTimerTime',
           TimerStateManager.getRemainingTime() ?? Duration.zero,
         );
-
         PreferencesController.instance
             .setString('timerState', TimerStateManager.state.name);
-        // TODO: Check how it react
-        if (!Platform.isAndroid) {
-          return;
-        }
-        // await BackgroundServiceController.instance.startService();
-        // BackgroundServiceController.instance.startIterateTimerStates();
+
+        createNotificationsForStates();
         return;
+    }
+  }
+
+  Future createNotificationsForStates() async {
+    Duration durationForState =
+        TimerStateManager.getRemainingTime() ?? Duration.zero;
+
+    DateTime time = DateTime.now();
+    TimerState tempState = TimerStateManager.state;
+
+    while (durationForState != Duration.zero) {
+      time = time.add(durationForState);
+      if (tempState != TimerState.getReadyForBreak) {
+        await NotificationsController.instance
+            .send(date: time, title: 'State: $tempState', body: 'asd');
+        logger.i('Time for notification $tempState is $time');
+      }
+      tempState = TimerStateManager.getNextState(tempState);
+      durationForState = TimerStateManager.getTimerDuration(tempState);
     }
   }
 
