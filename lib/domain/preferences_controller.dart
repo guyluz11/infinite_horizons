@@ -19,6 +19,8 @@ abstract class PreferencesController {
 
   Duration? getDuration(String key);
 
+  DateTime? getDateTime(String key);
+
   void remove(String key);
 
   void setString(String key, String value);
@@ -28,4 +30,6 @@ abstract class PreferencesController {
   void setBool(String key, bool value);
 
   void setDuration(String key, Duration value);
+
+  void setDateTime(String key, DateTime value);
 }

@@ -14,7 +14,7 @@ import 'package:infinite_horizons/presentation/pages/pages.dart';
 class TimerStateManager {
   static TimerState state = TimerState.study;
   static EnergyLevel timerStates = StudyTypeAbstract.instance!.getTimerStates();
-  static Duration getReadyDuration = const Duration(seconds: 10);
+
   static Timer? _timer;
   static VoidCallback? callback;
   static Duration _remainingTime = Duration.zero;
@@ -53,7 +53,7 @@ class TimerStateManager {
       case TimerState.study:
         return timerStates.getCurrentSession().study;
       case TimerState.getReadyForBreak:
-        return getReadyDuration;
+        return timerStates.getCurrentSession().getReadyForBreak;
       case TimerState.breakTime:
         return timerStates.getCurrentSession().breakDuration;
       case TimerState.readyToStart:
@@ -61,8 +61,11 @@ class TimerStateManager {
     }
   }
 
-  static Duration? getRemainingTime() =>
-      _remainingTime == Duration.zero ? null : _remainingTime;
+  static Duration? get remainingTime =>
+      _remainingTime <= Duration.zero ? null : _remainingTime;
+
+  static set remainingTime(Duration? value) =>
+      _remainingTime = value ?? Duration.zero;
 
   static void pauseTimer() => _timer?.cancel();
 
@@ -90,6 +93,41 @@ class TimerStateManager {
       },
     );
   }
+
+  static List<UpcomingState> upcomingStates(
+    TimerState fromState,
+    Duration? remainingTimeForState, {
+    DateTime? calculateFromDate,
+  }) {
+    final List<UpcomingState> statesWithTime = [];
+
+    Duration durationForState = remainingTimeForState ?? Duration.zero;
+
+    DateTime endTime = calculateFromDate ?? DateTime.now();
+    TimerState tempState = fromState;
+
+    while (durationForState != Duration.zero) {
+      endTime = endTime.add(durationForState);
+      statesWithTime.add(UpcomingState(tempState, endTime, durationForState));
+      tempState = getNextState(tempState);
+      durationForState = getTimerDuration(tempState);
+    }
+    endTime = endTime.add(durationForState);
+    statesWithTime.add(UpcomingState(tempState, endTime, durationForState));
+
+    return statesWithTime;
+  }
+}
+
+/// Class representing an upcoming timer state with its corresponding time.
+class UpcomingState {
+  UpcomingState(this.state, this.endTime, this.duration);
+
+  final TimerState state;
+  final DateTime endTime;
+  final Duration duration;
+
+  DateTime startTime() => endTime.subtract(duration);
 }
 
 class TimerOrganism extends StatefulWidget {
@@ -101,7 +139,7 @@ class TimerOrganism extends StatefulWidget {
 
 class TimerOrganismState extends State<TimerOrganism> {
   TimerState state = TimerStateManager.state;
-
+  bool renderSizedBox = false;
   @override
   void initState() {
     super.initState();
@@ -121,8 +159,23 @@ class TimerOrganismState extends State<TimerOrganism> {
     super.dispose();
   }
 
-  void setCurrentState() {
+  Future setCurrentState() async {
+    if (state == TimerState.study &&
+        TimerStateManager.state == TimerState.breakTime) {
+      setState(() {
+        renderSizedBox = true;
+      });
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {
+          renderSizedBox = false;
+          state = TimerStateManager.state;
+        });
+      });
+      return;
+    }
+
     setState(() {
+      renderSizedBox = false;
       state = TimerStateManager.state;
     });
   }
@@ -133,12 +186,12 @@ class TimerOrganismState extends State<TimerOrganism> {
       case TimerState.breakTime:
         return TimerMolecule(
           TimerStateManager.getTimerDuration(state),
-          initialValue: TimerStateManager.getRemainingTime(),
+          initialValue: TimerStateManager.remainingTime,
         );
       case TimerState.getReadyForBreak:
-        final Duration totalTime = TimerStateManager.getReadyDuration;
+        final Duration totalTime = TimerStateManager.getTimerDuration(state);
         final Duration timePassed =
-            totalTime - (TimerStateManager.getRemainingTime() ?? totalTime);
+            totalTime - (TimerStateManager.remainingTime ?? totalTime);
         return ProgressIndicatorMolecule(
           duration: totalTime,
           initialValue: timePassed,
@@ -171,7 +224,7 @@ class TimerOrganismState extends State<TimerOrganism> {
       scaffold: false,
       expendChild: false,
       topBarRightOnTap: () => openAlertDialog(context, SettingsPage()),
-      child: stateWidget(),
+      child: renderSizedBox ? const SizedBox() : stateWidget(),
     );
   }
 }

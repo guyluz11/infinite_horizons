@@ -58,6 +58,7 @@ class TimerSession {
 
   Duration study;
   Duration breakDuration;
+  final Duration getReadyForBreak = const Duration(seconds: 10);
 }
 
 enum EnergyType {
@@ -65,7 +66,7 @@ enum EnergyType {
     'undefined',
     Duration.zero,
   ),
-  veryLow('very_low', Duration(minutes: 5)),
+  veryLow('very_low', Duration(seconds: 30)),
   low('low', Duration(minutes: 10)),
   pomodoro('Pomodoro', Duration(minutes: 25)),
   high('high', Duration(minutes: 45), tipsId: ['45m/5m']),

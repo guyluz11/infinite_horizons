@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/notifications_controller.dart';
 import 'package:infinite_horizons/domain/player_controller.dart';
 import 'package:infinite_horizons/domain/preferences_controller.dart';
+import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/vibration_controller.dart';
-import 'package:infinite_horizons/infrastructure/core/logger.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 
@@ -44,53 +44,74 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       case AppLifecycleState.hidden:
         return;
       case AppLifecycleState.resumed:
-        //
-        // await PreferencesController.instance.reload();
-        // final TimerState state = TimerStateExtension.fromString(
-        //   PreferencesController.instance.getString('timerState') ?? '',
-        // );
-        // TimerStateManager.state = state;
-        //
-        // final Duration remainingTime =
-        //     PreferencesController.instance.getDuration('remainingTimerTime') ??
-        //         Duration.zero;
-        // TimerStateManager.iterateOverTimerStates(remainingTime: remainingTime);
-        // timerKey.currentState?.setCurrentState();
+        NotificationsController.instance.cancelAllNotifications();
+
+        final DateTime preferencePausedTime =
+            PreferencesController.instance.getDateTime('pausedTime')!;
+        final TimerState preferenceTimerState = TimerStateExtension.fromString(
+          PreferencesController.instance.getString('timerState') ?? '',
+        );
+        final Duration preferenceRemainingTimerTime =
+            PreferencesController.instance.getDuration('remainingTimerTime') ??
+                Duration.zero;
+
+        setCurrentStateAndRemainingTime(
+          preferencePausedTime,
+          preferenceTimerState,
+          preferenceRemainingTimerTime,
+        );
+        TimerStateManager.callback?.call();
+        TimerStateManager.iterateOverTimerStates(
+          remainingTime: TimerStateManager.remainingTime,
+        );
         return;
       case AppLifecycleState.paused:
+        PreferencesController.instance
+            .setDateTime('pausedTime', DateTime.now());
+        PreferencesController.instance
+            .setString('timerState', TimerStateManager.state.name);
+        PreferencesController.instance.setDuration(
+          'remainingTimerTime',
+          TimerStateManager.remainingTime ?? Duration.zero,
+        );
+
         if (!TimerStateManager.isTimerRunning()) {
           return;
         }
-        TimerStateManager.pauseTimer();
-        PreferencesController.instance.setDuration(
-          'remainingTimerTime',
-          TimerStateManager.getRemainingTime() ?? Duration.zero,
-        );
-        PreferencesController.instance
-            .setString('timerState', TimerStateManager.state.name);
 
-        createNotificationsForStates();
+        TimerStateManager.pauseTimer();
+        final upcomingStates = TimerStateManager.upcomingStates(
+          TimerStateManager.state,
+          TimerStateManager.remainingTime,
+        );
+        for (final UpcomingState stateWithTime in upcomingStates) {
+          if (stateWithTime.state != TimerState.getReadyForBreak &&
+              stateWithTime.state != TimerState.readyToStart) {
+            await NotificationsController.instance.send(
+              date: stateWithTime.endTime,
+              title: 'State: ${stateWithTime.state}',
+            );
+          }
+        }
         return;
     }
   }
 
-  Future createNotificationsForStates() async {
-    Duration durationForState =
-        TimerStateManager.getRemainingTime() ?? Duration.zero;
+  UpcomingState findLastUpcomingStateBeforeNow(
+    List<UpcomingState> upcomingStates,
+  ) {
+    final DateTime currentTime = DateTime.now();
+    UpcomingState? lastStateBeforeNow;
 
-    DateTime time = DateTime.now();
-    TimerState tempState = TimerStateManager.state;
-
-    while (durationForState != Duration.zero) {
-      time = time.add(durationForState);
-      if (tempState != TimerState.getReadyForBreak) {
-        await NotificationsController.instance
-            .send(date: time, title: 'State: $tempState', body: 'asd');
-        logger.i('Time for notification $tempState is $time');
+    for (final UpcomingState state in upcomingStates) {
+      if (state.endTime.isBefore(currentTime)) {
+        lastStateBeforeNow = state;
+      } else {
+        break;
       }
-      tempState = TimerStateManager.getNextState(tempState);
-      durationForState = TimerStateManager.getTimerDuration(tempState);
     }
+
+    return lastStateBeforeNow ?? upcomingStates.first;
   }
 
   @override
@@ -127,5 +148,48 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       bottomNavigationBar:
           BottomNavigationBarHomePage(callback, _currentTabNum),
     );
+  }
+
+  Duration getStateDuration(TimerState state) {
+    // TODO: Fix app not taking into account session number
+    return StudyTypeAbstract.instance!.getTimerStates().sessions.map((session) {
+      if (state == TimerState.study) {
+        return session.study;
+      } else if (state == TimerState.breakTime) {
+        return session.breakDuration;
+      }
+      return session.getReadyForBreak;
+    }).first;
+  }
+
+  /// Set the current state and the remaining time by calculating how much time passed
+  void setCurrentStateAndRemainingTime(
+    DateTime pausedTime,
+    TimerState previousTimerState,
+    Duration previousRemainingTimerTime,
+  ) {
+    final List<UpcomingState> upcomingStates = TimerStateManager.upcomingStates(
+      previousTimerState,
+      previousRemainingTimerTime,
+      calculateFromDate: pausedTime,
+    );
+    final DateTime timeNow = DateTime.now();
+
+    UpcomingState upcomingState = upcomingStates.first;
+
+    for (final UpcomingState tempUpcomingState in upcomingStates) {
+      if (tempUpcomingState.startTime().isBefore(timeNow)) {
+        upcomingState = tempUpcomingState;
+      } else {
+        break;
+      }
+    }
+
+    Duration remainingDuration = Duration.zero;
+    if (upcomingStates.last.state != upcomingState.state) {
+      remainingDuration = upcomingState.endTime.difference(timeNow);
+    }
+    TimerStateManager.state = upcomingState.state;
+    TimerStateManager.remainingTime = remainingDuration;
   }
 }

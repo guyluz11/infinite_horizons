@@ -20,6 +20,10 @@ class _TimerMoleculeState extends State<TimerMolecule>
   @override
   void initState() {
     super.initState();
+    setController();
+  }
+
+  void setController() {
     controller = CustomTimerController(
       vsync: this,
       begin: widget.initialValue ?? widget.duration,

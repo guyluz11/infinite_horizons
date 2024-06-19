@@ -25,6 +25,14 @@ class _PreferencesRepository extends PreferencesController {
   }
 
   @override
+  DateTime? getDateTime(String key) {
+    final int? milliseconds = preferences.getInt(key);
+    return milliseconds != null
+        ? DateTime.fromMillisecondsSinceEpoch(milliseconds)
+        : null;
+  }
+
+  @override
   void remove(String key) => preferences.remove(key);
 
   @override
@@ -39,4 +47,8 @@ class _PreferencesRepository extends PreferencesController {
   @override
   void setDuration(String key, Duration value) =>
       preferences.setInt(key, value.inMilliseconds);
+
+  @override
+  void setDateTime(String key, DateTime value) =>
+      preferences.setInt(key, value.millisecondsSinceEpoch);
 }

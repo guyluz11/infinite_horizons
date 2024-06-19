@@ -54,20 +54,14 @@ class _NotificationsRepository extends NotificationsController {
       );
 
   @override
-  Future getNotifications() async {
-    final List<NotificationModel> a =
-        await controller.listScheduledNotifications();
-
-    logger.i('All notifications $a');
-  }
-
-  @override
-  Future generalPermission() async =>
+  Future generalPermission() =>
       controller.requestPermissionToSendNotifications();
 
   @override
-  Future preciseAlarmPermission() async =>
-      await AwesomeNotifications().showAlarmPage();
+  Future preciseAlarmPermission() => controller.showAlarmPage();
+
+  @override
+  Future cancelAllNotifications() => controller.cancelAll();
 
   /// Use this method to detect when the user taps on a notification or action button
   /// Also capture when there is a message from firebase messaging
