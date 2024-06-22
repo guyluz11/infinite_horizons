@@ -1,14 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/timer_states.dart';
 import 'package:infinite_horizons/domain/tip.dart';
+import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 import 'package:infinite_horizons/presentation/pages/pages.dart';
 import 'package:introduction_screen/introduction_screen.dart';
-
 
 class IntroPage extends StatefulWidget {
   @override
@@ -24,19 +23,16 @@ class _IntroPageState extends State<IntroPage> {
   IntroState state = IntroState.welcome;
   final Duration selectionTransitionDelay = const Duration(milliseconds: 200);
 
-   Future<void> _vibrateDevice() async {
-    if (await Vibrate.canVibrate) {
-      Vibrate.vibrate();
-    }
-  }
-
-    void nextPage() async {
-    await _vibrateDevice(); // Vibrate the device
+  void nextPage() {
+    VibrationController.instance.vibrate(VibrationType.light);
     _introKey.currentState?.next();
   }
 
-  void onDone(BuildContext context) => Navigator.of(context)
-      .push(MaterialPageRoute(builder: (context) => HomePage()));
+  void onDone(BuildContext context) {
+    VibrationController.instance.vibrate(VibrationType.light);
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => HomePage()));
+  }
 
   void previousPage(bool didPop) => _introKey.currentState?.previous();
 

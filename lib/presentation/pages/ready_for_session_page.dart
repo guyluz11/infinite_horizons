@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
-import 'package:flutter_vibrate/flutter_vibrate.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/timer_states.dart';
+import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 
@@ -9,12 +9,6 @@ class ReadyForSessionPage extends StatelessWidget {
   const ReadyForSessionPage(this.callback);
 
   final VoidCallback callback;
-
-  Future<void> _vibrateDevice() async {
-    if (await Vibrate.canVibrate) {
-      Vibrate.vibrate();
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,8 +36,8 @@ class ReadyForSessionPage extends StatelessWidget {
       scaffold: false,
       title: 'start_session',
       child: ReadyForSessionOrganism(
-        () async {
-          await _vibrateDevice(); 
+        () {
+          VibrationController.instance.vibrate(VibrationType.light);
           callback();
         },
         response: text,
