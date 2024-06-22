@@ -67,7 +67,22 @@ class _NotificationsRepository extends NotificationsController {
       controller.requestPermissionToSendNotifications();
 
   @override
-  Future preciseAlarmPermission() => controller.showAlarmPage();
+  Future preciseAlarmPermission() async {
+    if (await isAndroid12OrAbove()) {
+      controller.showAlarmPage();
+    }
+  }
+
+  Future<bool> isAndroid12OrAbove() async {
+    if (Platform.isAndroid) {
+      final deviceInfo = DeviceInfoPlugin();
+      final androidInfo = await deviceInfo.androidInfo;
+      final sdkInt = androidInfo.version.sdkInt;
+      // Android 12 is API level 31
+      return sdkInt >= 31;
+    }
+    return false;
+  }
 
   @override
   Future cancelAllNotifications() => controller.cancelAll();
@@ -104,5 +119,6 @@ enum NotificationVariant {
   ;
 
   const NotificationVariant(this.channelKey);
+
   final String channelKey;
 }
