@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/notifications_controller.dart';
 import 'package:infinite_horizons/domain/player_controller.dart';
 import 'package:infinite_horizons/domain/preferences_controller.dart';
-import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
@@ -87,31 +86,30 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         for (final UpcomingState stateWithTime in upcomingStates) {
           if (stateWithTime.state != TimerState.getReadyForBreak &&
               stateWithTime.state != TimerState.readyToStart) {
+            String title;
+            String body;
+            NotificationVariant notificationVariant;
+            if (stateWithTime.state == TimerState.study) {
+              title = 'Take a break';
+              body = 'You have completed the Study session, take a break';
+              notificationVariant = NotificationVariant.studyEnded;
+            } else {
+              title = 'Press to start a new session';
+              body =
+                  'Break ended, enter the app to continue to the next session';
+              notificationVariant = NotificationVariant.breakEnded;
+            }
+
             await NotificationsController.instance.send(
               date: stateWithTime.endTime,
-              title: 'State: ${stateWithTime.state}',
+              title: title,
+              body: body,
+              variant: notificationVariant,
             );
           }
         }
         return;
     }
-  }
-
-  UpcomingState findLastUpcomingStateBeforeNow(
-    List<UpcomingState> upcomingStates,
-  ) {
-    final DateTime currentTime = DateTime.now();
-    UpcomingState? lastStateBeforeNow;
-
-    for (final UpcomingState state in upcomingStates) {
-      if (state.endTime.isBefore(currentTime)) {
-        lastStateBeforeNow = state;
-      } else {
-        break;
-      }
-    }
-
-    return lastStateBeforeNow ?? upcomingStates.first;
   }
 
   @override
@@ -148,18 +146,6 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       bottomNavigationBar:
           BottomNavigationBarHomePage(callback, _currentTabNum),
     );
-  }
-
-  Duration getStateDuration(TimerState state) {
-    // TODO: Fix app not taking into account session number
-    return StudyTypeAbstract.instance!.getTimerStates().sessions.map((session) {
-      if (state == TimerState.study) {
-        return session.study;
-      } else if (state == TimerState.breakTime) {
-        return session.breakDuration;
-      }
-      return session.getReadyForBreak;
-    }).first;
   }
 
   /// Set the current state and the remaining time by calculating how much time passed

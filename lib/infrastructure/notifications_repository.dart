@@ -8,16 +8,24 @@ class _NotificationsRepository extends NotificationsController {
   void init() {
     controller = AwesomeNotifications();
     controller.initialize(
-      // set the icon to null if you want to use the default app icon
-      // 'resource://drawable/res_app_icon',
-      null,
+      'resource://drawable/res_app_icon',
       [
         NotificationChannel(
-          channelKey: 'basic_channel',
-          channelName: 'Basic notifications',
-          channelDescription: 'Notification channel for basic tests',
-          defaultColor: const Color(0xFF9D50DD),
-          ledColor: Colors.white,
+          channelKey: NotificationVariant.studyEnded.channelKey,
+          channelName: 'Study Ended',
+          channelDescription: 'Study time ended',
+          soundSource: 'resource://raw/session_completed',
+          defaultColor: AppThemeData.logoBackgroundColor,
+          ledColor: AppThemeData.logoBackgroundColor,
+          criticalAlerts: true,
+        ),
+        NotificationChannel(
+          channelKey: NotificationVariant.breakEnded.channelKey,
+          channelName: 'Break Ended',
+          channelDescription: 'Break time ended',
+          soundSource: 'resource://raw/break_ended',
+          defaultColor: AppThemeData.logoBackgroundColor,
+          ledColor: AppThemeData.logoBackgroundColor,
           criticalAlerts: true,
         ),
       ],
@@ -35,6 +43,7 @@ class _NotificationsRepository extends NotificationsController {
   Future send({
     required DateTime date,
     required String title,
+    required NotificationVariant variant,
     String? body,
   }) async =>
       controller.createNotification(
@@ -45,7 +54,7 @@ class _NotificationsRepository extends NotificationsController {
         ),
         content: NotificationContent(
           id: notificationIdCounter++,
-          channelKey: 'basic_channel',
+          channelKey: variant.channelKey,
           title: title,
           body: body,
           criticalAlert: true,
@@ -87,4 +96,13 @@ class _NotificationsRepository extends NotificationsController {
   static Future<void> onDismissActionReceivedMethod(
     ReceivedAction receivedAction,
   ) async {}
+}
+
+enum NotificationVariant {
+  studyEnded('study_ended'),
+  breakEnded('break_ended'),
+  ;
+
+  const NotificationVariant(this.channelKey);
+  final String channelKey;
 }

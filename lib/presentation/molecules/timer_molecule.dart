@@ -4,7 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class TimerMolecule extends StatefulWidget {
-  const TimerMolecule(this.duration, {this.initialValue});
+  const TimerMolecule({required this.duration, required this.initialValue});
 
   final Duration duration;
   final Duration? initialValue;

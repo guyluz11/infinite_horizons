@@ -185,7 +185,7 @@ class TimerOrganismState extends State<TimerOrganism> {
       case TimerState.study:
       case TimerState.breakTime:
         return TimerMolecule(
-          TimerStateManager.getTimerDuration(state),
+          duration: TimerStateManager.getTimerDuration(state),
           initialValue: TimerStateManager.remainingTime,
         );
       case TimerState.getReadyForBreak:

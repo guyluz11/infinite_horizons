@@ -1,5 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:flutter/material.dart';
+import 'package:infinite_horizons/presentation/core/theme_data.dart';
 
 part 'package:infinite_horizons/infrastructure/notifications_repository.dart';
 
@@ -14,6 +14,7 @@ abstract class NotificationsController {
   Future send({
     required DateTime date,
     required String title,
+    required NotificationVariant variant,
     String? body,
   });
 
