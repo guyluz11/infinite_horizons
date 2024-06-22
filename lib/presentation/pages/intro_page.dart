@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/timer_states.dart';
 import 'package:infinite_horizons/domain/tip.dart';
+import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
@@ -22,10 +23,16 @@ class _IntroPageState extends State<IntroPage> {
   IntroState state = IntroState.welcome;
   final Duration selectionTransitionDelay = const Duration(milliseconds: 200);
 
-  void nextPage() => _introKey.currentState?.next();
+  void nextPage() {
+    VibrationController.instance.vibrate(VibrationType.light);
+    _introKey.currentState?.next();
+  }
 
-  void onDone(BuildContext context) => Navigator.of(context)
-      .push(MaterialPageRoute(builder: (context) => HomePage()));
+  void onDone(BuildContext context) {
+    VibrationController.instance.vibrate(VibrationType.light);
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => HomePage()));
+  }
 
   void previousPage(bool didPop) => _introKey.currentState?.previous();
 

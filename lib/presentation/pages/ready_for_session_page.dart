@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/timer_states.dart';
+import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 
@@ -35,7 +36,10 @@ class ReadyForSessionPage extends StatelessWidget {
       scaffold: false,
       title: 'start_session',
       child: ReadyForSessionOrganism(
-        callback,
+        () {
+          VibrationController.instance.vibrate(VibrationType.light);
+          callback();
+        },
         response: text,
       ),
     );
