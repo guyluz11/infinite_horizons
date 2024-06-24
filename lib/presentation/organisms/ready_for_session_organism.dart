@@ -44,7 +44,7 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
         .where(
           (element) =>
               element.timing == TipTiming.inSession &&
-              (element.type == StudyTypeAbstract.instance!.studyType ||
+              (element.type == StudyTypeAbstract.instance!.tipType ||
                   element.type == TipType.general),
         )
         .toList();

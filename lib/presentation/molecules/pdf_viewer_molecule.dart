@@ -36,7 +36,6 @@ class _PdfViewerMoleculeState extends State<PdfViewerMolecule>
           child: Center(
             child: ProgressIndicatorAtom(
               totalDuration: const Duration(seconds: 100),
-              callback: () {},
               inputController: controller,
               isPdfLoader: true,
               centerWidget: TextAtom(

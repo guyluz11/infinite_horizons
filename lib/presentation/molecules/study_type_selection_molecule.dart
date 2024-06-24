@@ -1,5 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/domain/notifications_controller.dart';
+import 'package:infinite_horizons/domain/preferences_controller.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/study_type_analytical.dart';
 import 'package:infinite_horizons/domain/study_type_creatively.dart';
@@ -25,18 +27,27 @@ class _StudyTypeSelectionMoleculeState
   @override
   void initState() {
     super.initState();
-    selectedType = StudyTypeAbstract.instance?.studyType ?? TipType.undefined;
+    selectedType = StudyTypeAbstract.instance?.tipType ?? TipType.undefined;
+    if (PreferencesController.instance.getInt('loginCounter')! <= 1) {
+      requestNotificationPermissions();
+    }
+  }
+
+  Future requestNotificationPermissions() async {
+    await NotificationsController.instance.generalPermission();
+    await NotificationsController.instance.preciseAlarmPermission();
   }
 
   void onChanged(TipType? type) {
     setState(() {
       selectedType = type ?? TipType.undefined;
     });
-    if (selectedType == TipType.analytical) {
-      StudyTypeAbstract.instance = StudyTypeAnalytical();
-    } else {
-      StudyTypeAbstract.instance = StudyTypeCreatively();
-    }
+    StudyTypeAbstract.instance = selectedType == TipType.analytical
+        ? StudyTypeAnalytical()
+        : StudyTypeCreatively();
+
+    PreferencesController.instance.setString('tipType', selectedType.name);
+
     widget.onSelected();
   }
 

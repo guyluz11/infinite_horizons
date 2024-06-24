@@ -1,8 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:infinite_horizons/domain/energy_level.dart';
+import 'package:infinite_horizons/domain/preferences_controller.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
-import 'package:infinite_horizons/domain/timer_states.dart';
 import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
@@ -19,7 +20,7 @@ class EnergySelectionMolecule extends StatefulWidget {
 }
 
 class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
-  late TimerStates timerStates;
+  late EnergyLevel timerStates;
 
   @override
   void initState() {
@@ -28,7 +29,10 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
   }
 
   void onChanged(EnergyType? type) {
-    StudyTypeAbstract.instance!.setTimerStates(type ?? EnergyType.undefined);
+    final EnergyType energy = type ?? EnergyType.undefined;
+    StudyTypeAbstract.instance!.setTimerStates(energy);
+    PreferencesController.instance.setString('energyType', energy.name);
+
     setState(() {
       timerStates = StudyTypeAbstract.instance!.getTimerStates();
     });
@@ -36,7 +40,7 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
   }
 
   Widget energyWidget(EnergyType type) {
-    final TimerStates timerStatesTemp = TimerStates.fromEnergyType(type);
+    final EnergyLevel timerStatesTemp = EnergyLevel.fromEnergyType(type);
     String subtitle = '';
 
     final TimerSession firstTimerState = timerStatesTemp.sessions.first;
