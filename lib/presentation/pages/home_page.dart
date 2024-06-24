@@ -1,3 +1,4 @@
+import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/notifications_controller.dart';
 import 'package:infinite_horizons/domain/player_controller.dart';
@@ -65,6 +66,9 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         );
         return;
       case AppLifecycleState.paused:
+        final bool isTimerRunning = TimerStateManager.isTimerRunning();
+
+        TimerStateManager.pauseTimer();
         PreferencesController.instance
             .setDateTime('pausedTime', DateTime.now());
         PreferencesController.instance
@@ -74,11 +78,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
           TimerStateManager.remainingTime ?? Duration.zero,
         );
 
-        if (!TimerStateManager.isTimerRunning()) {
+        if (!isTimerRunning) {
           return;
         }
 
-        TimerStateManager.pauseTimer();
         final upcomingStates = TimerStateManager.upcomingStates(
           TimerStateManager.state,
           TimerStateManager.remainingTime,
@@ -90,13 +93,12 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             String body;
             NotificationVariant notificationVariant;
             if (stateWithTime.state == TimerState.study) {
-              title = 'Take a break';
-              body = 'You have completed the Study session, take a break';
+              title = 'break'.tr();
+              body = 'study_ended'.tr();
               notificationVariant = NotificationVariant.studyEnded;
             } else {
-              title = 'Press to start a new session';
-              body =
-                  'Break ended, enter the app to continue to the next session';
+              title = 'new_session'.tr();
+              body = 'break_ended'.tr();
               notificationVariant = NotificationVariant.breakEnded;
             }
 

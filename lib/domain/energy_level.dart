@@ -67,6 +67,7 @@ enum EnergyType {
     Duration.zero,
   ),
   veryLow('very_low', Duration(seconds: 30)),
+  // veryLow('very_low', Duration(minutes: 5)),
   low('low', Duration(minutes: 10)),
   pomodoro('Pomodoro', Duration(minutes: 25)),
   high('high', Duration(minutes: 45), tipsId: ['45m/5m']),

@@ -78,10 +78,13 @@ class TimerStateManager {
     }
 
     _remainingTime = stateDuration;
+
+    const Duration interval = Duration(seconds: 1);
+
     _timer = Timer.periodic(
-      const Duration(seconds: 1),
+      interval,
       (Timer timer) {
-        if (_remainingTime <= const Duration(seconds: 1)) {
+        if (_remainingTime <= interval) {
           _remainingTime = Duration.zero;
           _timer?.cancel();
           incrementState();
@@ -89,7 +92,7 @@ class TimerStateManager {
           iterateOverTimerStates();
           return;
         }
-        _remainingTime = _remainingTime - const Duration(seconds: 1);
+        _remainingTime = _remainingTime - interval;
       },
     );
   }

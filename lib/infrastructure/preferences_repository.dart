@@ -7,9 +7,6 @@ class _PreferencesRepository extends PreferencesController {
   Future init() async => preferences = await SharedPreferences.getInstance();
 
   @override
-  Future reload() => preferences.reload();
-
-  @override
   String? getString(String key) => preferences.getString(key);
 
   @override
@@ -21,15 +18,15 @@ class _PreferencesRepository extends PreferencesController {
   @override
   Duration? getDuration(String key) {
     final int? milliseconds = preferences.getInt(key);
-    return milliseconds != null ? Duration(milliseconds: milliseconds) : null;
+    return milliseconds == null ? null : Duration(milliseconds: milliseconds);
   }
 
   @override
   DateTime? getDateTime(String key) {
     final int? milliseconds = preferences.getInt(key);
-    return milliseconds != null
-        ? DateTime.fromMillisecondsSinceEpoch(milliseconds)
-        : null;
+    return milliseconds == null
+        ? null
+        : DateTime.fromMillisecondsSinceEpoch(milliseconds);
   }
 
   @override

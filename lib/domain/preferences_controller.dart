@@ -9,7 +9,6 @@ abstract class PreferencesController {
       _instance ??= _PreferencesRepository();
 
   Future init();
-  Future reload();
 
   String? getString(String key);
 
