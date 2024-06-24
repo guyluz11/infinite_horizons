@@ -6,20 +6,20 @@ import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class ProgressIndicatorMolecule extends StatelessWidget {
   const ProgressIndicatorMolecule({
-    required this.onComplete,
+    required this.duration,
+    this.initialValue,
   });
 
-  final VoidCallback onComplete;
+  final Duration duration;
+  final Duration? initialValue;
 
   @override
   Widget build(BuildContext context) {
-    const Duration getReadyDuration = Duration(seconds: 10);
-
     final List<Tip> tips = tipsList
         .where(
           (element) =>
               element.timing == TipTiming.inBreak &&
-              (element.type == StudyTypeAbstract.instance!.studyType ||
+              (element.type == StudyTypeAbstract.instance!.tipType ||
                   element.type == TipType.general),
         )
         .toList();
@@ -49,8 +49,8 @@ class ProgressIndicatorMolecule extends StatelessWidget {
             ],
           ),
         ProgressIndicatorAtom(
-          totalDuration: getReadyDuration,
-          callback: onComplete,
+          totalDuration: duration,
+          initialValue: initialValue,
         ),
       ],
     );

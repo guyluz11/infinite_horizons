@@ -9,6 +9,8 @@ environment:
 dependencies:
   animated_toggle_switch: ^0.8.2
   audioplayers: ^6.0.0
+  awesome_notifications: ^0.9.3+1
+  awesome_notifications_core: ^0.9.3
   collection: ^1.18.0
   # Blast confetti
   confetti: ^0.7.0
@@ -17,6 +19,7 @@ dependencies:
   # Make an animated circular countdown
   custom_timer: ^0.2.3
   # Internationalization (Easy translations)
+  device_info_plus: ^10.1.0
   easy_localization: ^3.0.6
   flutter:
     sdk: flutter

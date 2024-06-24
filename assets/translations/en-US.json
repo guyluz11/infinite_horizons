@@ -34,12 +34,12 @@
   "tip:": "Tip:",
   "next": "Next",
   "tip_description": "Tip Description",
-  "resource" : "Linked Resource",
+  "resource": "Linked Resource",
   "resources": "Resources:",
-  "dnd":"Do Not Disturb mode",
+  "dnd": "Do Not Disturb mode",
   "close": "Close",
-  "settings" : "Settings",
-  "sound" : "Sound",
+  "settings": "Settings",
+  "sound": "Sound",
   "screen_lock": "Screen Lock",
   "ready": "I am ready",
   "ready_for_session": "Next Round?",
@@ -50,5 +50,9 @@
   "notes": "Notes",
   "famous_methods": "Famous methods",
   "recommended": "Recommended",
-  "maximum_efficiency": "Maximum Efficiency"
+  "maximum_efficiency": "Maximum Efficiency",
+  "break": "Take a break",
+  "new_session": "Press to start a new session",
+  "study_ended": "You have completed the Study session, take a break",
+  "break_ended": "Break ended, enter the app to continue to the next session"
 }

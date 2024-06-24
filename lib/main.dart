@@ -1,5 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/domain/notifications_controller.dart';
 import 'package:infinite_horizons/domain/player_controller.dart';
 import 'package:infinite_horizons/domain/preferences_controller.dart';
 import 'package:infinite_horizons/domain/vibration_controller.dart';
@@ -9,9 +10,13 @@ import 'package:infinite_horizons/presentation/pages/pages.dart';
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PreferencesController.instance.init();
-  PlayerController.instance.initialize();
+  PlayerController.instance.init();
   await VibrationController.instance.init();
   await EasyLocalization.ensureInitialized();
+  NotificationsController.instance.init();
+  final int loginCounter =
+      PreferencesController.instance.getInt('loginCounter') ?? 0;
+  PreferencesController.instance.setInt('loginCounter', loginCounter + 1);
 
   runApp(
     EasyLocalization(

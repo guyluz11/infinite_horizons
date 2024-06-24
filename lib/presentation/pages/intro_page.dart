@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/domain/energy_level.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
-import 'package:infinite_horizons/domain/timer_states.dart';
 import 'package:infinite_horizons/domain/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
@@ -66,7 +66,7 @@ class _IntroPageState extends State<IntroPage> {
               decoration: emptyPageDecoration(),
               bodyWidget: StudyTypeSelectionMolecule(() async {
                 setState(() {
-                  studyType = StudyTypeAbstract.instance!.studyType.name;
+                  studyType = StudyTypeAbstract.instance!.tipType.name;
                 });
                 await Future.delayed(selectionTransitionDelay);
                 nextPage();
@@ -103,9 +103,8 @@ class _IntroPageState extends State<IntroPage> {
             bool showNextButtonTemp = true;
 
             if (state == IntroState.studyType &&
-                (StudyTypeAbstract.instance?.studyType == null ||
-                    StudyTypeAbstract.instance!.studyType ==
-                        TipType.undefined)) {
+                (StudyTypeAbstract.instance?.tipType == null ||
+                    StudyTypeAbstract.instance!.tipType == TipType.undefined)) {
               showNextButtonTemp = false;
             } else if (state == IntroState.energy &&
                 StudyTypeAbstract.instance!.getTimerStates().type ==

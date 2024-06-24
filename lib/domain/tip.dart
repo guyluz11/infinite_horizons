@@ -86,7 +86,7 @@ List<Tip> tipsList = [
     timing: TipTiming.inSession,
   ),
   Tip(
-    'Screen/book is being hold in eye level',
+    'Screen/book is being held at eye level',
     type: TipType.general,
     timing: TipTiming.before,
     resourceLinks: [

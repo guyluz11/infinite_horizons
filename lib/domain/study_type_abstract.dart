@@ -1,22 +1,22 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:infinite_horizons/domain/timer_states.dart';
+import 'package:infinite_horizons/domain/energy_level.dart';
 import 'package:infinite_horizons/domain/tip.dart';
 
 abstract class StudyTypeAbstract {
-  StudyTypeAbstract(this.studyType);
+  StudyTypeAbstract(this.tipType);
 
   static StudyTypeAbstract? instance;
 
-  TipType studyType;
+  TipType tipType;
 
-  TimerStates? _timerStates;
+  EnergyLevel? _timerStates;
 
   void setTimerStates(EnergyType energy) =>
-      _timerStates = TimerStates.fromEnergyType(energy);
+      _timerStates = EnergyLevel.fromEnergyType(energy);
 
-  TimerStates getTimerStates() =>
-      _timerStates ?? TimerStates.fromEnergyType(EnergyType.undefined);
+  EnergyLevel getTimerStates() =>
+      _timerStates ?? EnergyLevel.fromEnergyType(EnergyType.undefined);
 
   @protected
   List<Tip> tips = [];
