@@ -36,14 +36,29 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     TimerStateManager.iterateOverTimerStates();
   }
 
+  AppLifecycleState currentAppState = AppLifecycleState.resumed;
+
+  void setAppState(AppLifecycleState val) {
+    if (val == AppLifecycleState.paused || val == AppLifecycleState.resumed) {
+      currentAppState = val;
+    }
+  }
+
   @override
   Future didChangeAppLifecycleState(AppLifecycleState appState) async {
     switch (appState) {
       case AppLifecycleState.detached:
       case AppLifecycleState.inactive:
       case AppLifecycleState.hidden:
+        setAppState(appState);
         return;
       case AppLifecycleState.resumed:
+        if (currentAppState == AppLifecycleState.resumed) {
+          return;
+        }
+
+        setAppState(appState);
+
         NotificationsController.instance.cancelAllNotifications();
 
         final DateTime preferencePausedTime =
@@ -66,6 +81,8 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         );
         return;
       case AppLifecycleState.paused:
+        setAppState(appState);
+
         final bool isTimerRunning = TimerStateManager.isTimerRunning();
 
         TimerStateManager.pauseTimer();
@@ -139,7 +156,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       body: PageView(
         onPageChanged: (index) {
           setState(() {
-            if (index == 0){
+            if (index == 0) {
               FocusScope.of(context).unfocus();
             }
             _currentTabNum = index;
