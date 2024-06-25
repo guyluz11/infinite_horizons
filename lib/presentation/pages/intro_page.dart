@@ -29,7 +29,6 @@ class _IntroPageState extends State<IntroPage> {
   }
 
   void onDone(BuildContext context) {
-    VibrationController.instance.vibrate(VibrationType.light);
     Navigator.of(context)
         .push(MaterialPageRoute(builder: (context) => HomePage()));
   }

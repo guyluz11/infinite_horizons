@@ -32,16 +32,20 @@ class ReadyForSessionPage extends StatelessWidget {
         text = "So much energy 🔋⚡🔋⚡🔋⚡🔋\nLet's begin";
     }
 
-    return PageEnclosureMolecule(
+     return PageEnclosureMolecule(
       scaffold: false,
       title: 'start_session',
       child: ReadyForSessionOrganism(
-        () {
-          VibrationController.instance.vibrate(VibrationType.light);
-          callback();
-        },
+        () => handleCallback(),
         response: text,
       ),
     );
+  }
+
+  void handleCallback() => _handleCallback();
+
+  void _handleCallback() {
+    VibrationController.instance.vibrate(VibrationType.light);
+    callback();
   }
 }
