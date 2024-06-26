@@ -39,16 +39,17 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
 
   Widget energyWidget(EnergyType type) {
     final EnergyLevel timerStatesTemp = EnergyLevel.fromEnergyType(type);
-    String subtitle = '';
+    final StringBuffer subtitleBuffer = StringBuffer();
 
     final TimerSession firstTimerState = timerStatesTemp.sessions.first;
 
     for (final TimerSession timerState in timerStatesTemp.sessions) {
       if (timerState != firstTimerState) {
-        subtitle += ' -> ';
+        subtitleBuffer.write(' -> ');
       }
-      subtitle =
-          '$subtitle${timerState.study.inMinutes}m study -> ${timerState.breakDuration.inMinutes}m break';
+      subtitleBuffer.write(
+        '${timerState.study.inMinutes}m study -> ${timerState.breakDuration.inMinutes}m break',
+      );
     }
 
     final bool showTipButton = timerStatesTemp.type.tipsId != null &&
@@ -61,7 +62,7 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
       },
       child: ListTileAtom(
         '${type.previewName.tr()} - ${type.duration.inMinutes}${'minutes_single'.tr()}',
-        subtitle: subtitle,
+        subtitle: subtitleBuffer.toString(),
         leading: Radio<EnergyType>(
           value: type,
           groupValue: timerStates.type,
