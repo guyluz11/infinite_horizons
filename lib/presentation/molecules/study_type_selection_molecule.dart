@@ -28,7 +28,9 @@ class _StudyTypeSelectionMoleculeState
   void initState() {
     super.initState();
     selectedType = StudyTypeAbstract.instance?.tipType ?? TipType.undefined;
-    if (PreferencesController.instance.getInt('loginCounter')! <= 1) {
+    if (PreferencesController.instance
+            .getInt(PreferenceKeys.loginCounter.name)! <=
+        1) {
       requestNotificationPermissions();
     }
   }
@@ -46,7 +48,8 @@ class _StudyTypeSelectionMoleculeState
         ? StudyTypeAnalytical()
         : StudyTypeCreatively();
 
-    PreferencesController.instance.setString('tipType', selectedType.name);
+    PreferencesController.instance
+        .setString(PreferenceKeys.tipType.name, selectedType.name);
 
     widget.onSelected();
   }

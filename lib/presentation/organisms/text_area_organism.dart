@@ -12,13 +12,15 @@ class _TextAreaOrganismState extends State<TextAreaOrganism> {
   @override
   void initState() {
     super.initState();
-    freeText = PreferencesController.instance.getString('freeText') ?? '';
+    freeText = PreferencesController.instance
+            .getString(PreferenceKeys.freeText.name) ??
+        '';
   }
 
   late String freeText;
 
-  void onChanged(String text) =>
-      PreferencesController.instance.setString('freeText', text);
+  void onChanged(String text) => PreferencesController.instance
+      .setString(PreferenceKeys.freeText.name, text);
 
   @override
   Widget build(BuildContext context) {

@@ -15,8 +15,10 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   NotificationsController.instance.init();
   final int loginCounter =
-      PreferencesController.instance.getInt('loginCounter') ?? 0;
-  PreferencesController.instance.setInt('loginCounter', loginCounter + 1);
+      PreferencesController.instance.getInt(PreferenceKeys.loginCounter.name) ??
+          0;
+  PreferencesController.instance
+      .setInt(PreferenceKeys.loginCounter.name, loginCounter + 1);
 
   runApp(
     EasyLocalization(

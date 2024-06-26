@@ -32,3 +32,14 @@ abstract class PreferencesController {
 
   void setDateTime(String key, DateTime value);
 }
+
+enum PreferenceKeys {
+  loginCounter,
+  isLockScreen,
+  isSound,
+  pausedTime,
+  timerState,
+  remainingTimerTime,
+  freeText,
+  tipType,
+}

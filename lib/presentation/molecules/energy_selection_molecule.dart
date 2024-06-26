@@ -2,7 +2,6 @@ import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_horizons/domain/energy_level.dart';
-import 'package:infinite_horizons/domain/preferences_controller.dart';
 import 'package:infinite_horizons/domain/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/vibration_controller.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
@@ -31,7 +30,6 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
   void onChanged(EnergyType? type) {
     final EnergyType energy = type ?? EnergyType.undefined;
     StudyTypeAbstract.instance!.setTimerStates(energy);
-    PreferencesController.instance.setString('energyType', energy.name);
 
     setState(() {
       timerStates = StudyTypeAbstract.instance!.getTimerStates();

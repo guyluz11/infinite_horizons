@@ -146,8 +146,9 @@ class TimerOrganismState extends State<TimerOrganism> {
   @override
   void initState() {
     super.initState();
-    final bool lockScreen =
-        PreferencesController.instance.getBool("isLockScreen") ?? true;
+    final bool lockScreen = PreferencesController.instance
+            .getBool(PreferenceKeys.isLockScreen.name) ??
+        true;
     WakeLockController.instance.setWakeLock(lockScreen);
 
     if (lockScreen) {
