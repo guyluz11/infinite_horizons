@@ -63,7 +63,7 @@ class _TipInformationPageState extends State<TipInformationPage> {
                           ],
                         ),
                         Row(
-                          crossAxisAlignment: CrossAxisAlignment.start, 
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const TextAtom('tip:'),
                             const SeparatorAtom(

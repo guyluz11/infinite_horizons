@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_horizons/domain/player_controller.dart';
 import 'package:infinite_horizons/domain/preferences_controller.dart';
 import 'package:infinite_horizons/domain/wake_lock_controller.dart';
+import 'package:infinite_horizons/domain/web_browser_controller.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 
@@ -52,9 +54,26 @@ class _SettingsPageState extends State<SettingsPage> {
               initialValue: lockScreen,
             ),
           ),
-          const SeparatorAtom(
-            variant: SeparatorVariant.farApart,
+          const SeparatorAtom(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ButtonAtom(
+                variant: ButtonVariant.lowEmphasisIcon,
+                onPressed: () => WebBrowserController.instance.lunchLink(
+                  'https://github.com/guyluz11/infinite_horizons/issues',
+                ),
+                icon: FontAwesomeIcons.circleDot,
+              ),
+              ButtonAtom(
+                variant: ButtonVariant.lowEmphasisIcon,
+                onPressed: () => WebBrowserController.instance
+                    .lunchLink('https://github.com/guyluz11/infinite_horizons'),
+                icon: FontAwesomeIcons.github,
+              ),
+            ],
           ),
+          const SeparatorAtom(variant: SeparatorVariant.farApart),
         ],
       ),
     );

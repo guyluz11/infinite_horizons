@@ -5,9 +5,7 @@ part 'package:infinite_horizons/infrastructure/wake_lock_repository.dart';
 abstract class WakeLockController {
   static WakeLockController? _instance;
 
-  static WakeLockController get instance {
-    return _instance ??= _WakeLockRepository();
-  }
+  static WakeLockController get instance => _instance ??= _WakeLockRepository();
 
   Future<bool> getWakeLock();
 
