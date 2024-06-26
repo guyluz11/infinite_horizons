@@ -7,6 +7,7 @@ environment:
   sdk: '>=3.3.0 <4.0.0'
 
 dependencies:
+  animated_line_through: ^1.0.4
   animated_toggle_switch: ^0.8.2
   audioplayers: ^6.0.0
   awesome_notifications: ^0.9.3+1

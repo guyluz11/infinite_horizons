@@ -154,6 +154,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
                                         TipInformationPage(tip: tip),
                                   ),
                                 ),
+                                variant: ListTileSubtitleVariant.strikethrough,
                               ),
                             );
                           },

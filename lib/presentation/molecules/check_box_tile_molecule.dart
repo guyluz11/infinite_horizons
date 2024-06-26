@@ -9,12 +9,14 @@ class CheckBoxTileMolecule extends StatefulWidget {
     required this.callback,
     this.initialValue = false,
     this.onIconPressed,
+    this.variant = ListTileSubtitleVariant.text,
   });
 
   final String text;
   final bool initialValue;
   final Function(bool) callback;
   final VoidCallback? onIconPressed;
+  final ListTileSubtitleVariant variant;
 
   @override
   State<CheckBoxTileMolecule> createState() => _CheckBoxTileMolecule();
@@ -54,6 +56,8 @@ class _CheckBoxTileMolecule extends State<CheckBoxTileMolecule> {
         controlByParent: true,
       ),
       onTap: onChange,
+      variant: ListTileSubtitleVariant.strikethrough,
+      isCrossed: isChecked,
     );
   }
 }
