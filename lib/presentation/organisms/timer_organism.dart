@@ -21,14 +21,14 @@ class TimerStateManager {
     switch (state) {
       case TimerState.study:
         timerStates.promoteSession();
-        PlayerController.instance.play('start_session.wav');
+        PlayerController.instance.play(SoundType.startSession);
         VibrationController.instance.vibrate(VibrationType.heavy);
       case TimerState.getReadyForBreak:
-        PlayerController.instance.play('session_completed.wav');
+        PlayerController.instance.play(SoundType.sessionCompleted);
         VibrationController.instance.vibrate(VibrationType.medium);
       case TimerState.breakTime:
       case TimerState.readyToStart:
-        PlayerController.instance.play('break_ended.wav');
+        PlayerController.instance.play(SoundType.breakEnded);
     }
   }
 

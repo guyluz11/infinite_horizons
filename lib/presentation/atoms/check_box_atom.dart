@@ -6,11 +6,13 @@ class CheckBoxAtom extends StatefulWidget {
     required this.callback,
     this.initialValue = false,
     this.controlByParent = false,
+    this.isSound = true,
   });
 
   final bool initialValue;
   final Function(bool) callback;
   final bool controlByParent;
+  final bool isSound;
 
   @override
   State<CheckBoxAtom> createState() => _CheckBoxAtomState();
@@ -30,6 +32,10 @@ class _CheckBoxAtomState extends State<CheckBoxAtom> {
       isChecked = value!;
     });
     VibrationController.instance.vibrate(VibrationType.light);
+
+    if (widget.isSound && isChecked) {
+      PlayerController.instance.play(SoundType.checkBoxChecked);
+    }
 
     widget.callback(isChecked);
   }

@@ -35,6 +35,7 @@ class ListTileAtom extends StatelessWidget {
       case ListTileSubtitleVariant.strikethrough:
         titleWidget = AnimatedLineThroughAtom(
           isCrossed: isCrossed,
+          isSound: false,
           child: TextAtom(title, translate: translateTitle),
         );
     }

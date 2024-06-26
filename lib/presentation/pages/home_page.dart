@@ -30,7 +30,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
       PreferencesController.instance.getBool(PreferenceKeys.isSound.name) ??
           true,
     );
-    PlayerController.instance.play('start_session.wav');
+    PlayerController.instance.play(SoundType.startSession);
     VibrationController.instance.vibrate(VibrationType.heavy);
     TimerStateManager.iterateOverTimerStates();
   }

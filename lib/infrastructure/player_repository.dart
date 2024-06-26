@@ -9,9 +9,9 @@ class _PlayerRepository extends PlayerController {
   void init() => player = AudioPlayer();
 
   @override
-  Future play(String fileName) async {
+  Future play(SoundType type) async {
     if (_isSound) {
-      player.play(AssetSource('sound_effects/$fileName'));
+      player.play(AssetSource('sound_effects/${type.fileName}'));
     }
   }
 
