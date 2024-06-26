@@ -1,4 +1,4 @@
-part of 'package:infinite_horizons/domain/preferences_controller.dart';
+part of 'package:infinite_horizons/domain/controllers/preferences_controller.dart';
 
 class _PreferencesRepository extends PreferencesController {
   late SharedPreferences preferences;

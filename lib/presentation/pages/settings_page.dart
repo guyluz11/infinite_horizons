@@ -1,9 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:infinite_horizons/domain/player_controller.dart';
-import 'package:infinite_horizons/domain/preferences_controller.dart';
-import 'package:infinite_horizons/domain/wake_lock_controller.dart';
-import 'package:infinite_horizons/domain/web_browser_controller.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/vibration_controller.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
 
 class CheckBoxAtom extends StatefulWidget {
   const CheckBoxAtom({

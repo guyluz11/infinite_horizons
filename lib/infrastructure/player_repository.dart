@@ -1,4 +1,4 @@
-part of 'package:infinite_horizons/domain/player_controller.dart';
+part of 'package:infinite_horizons/domain/controllers/player_controller.dart';
 
 class _PlayerRepository extends PlayerController {
   late AudioPlayer player;

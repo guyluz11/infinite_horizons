@@ -1,4 +1,4 @@
-part of 'package:infinite_horizons/domain/notifications_controller.dart';
+part of 'package:infinite_horizons/domain/controllers/notifications_controller.dart';
 
 class _NotificationsRepository extends NotificationsController {
   late AwesomeNotifications controller;

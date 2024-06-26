@@ -1,12 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/energy_level.dart';
-import 'package:infinite_horizons/domain/player_controller.dart';
-import 'package:infinite_horizons/domain/preferences_controller.dart';
-import 'package:infinite_horizons/domain/study_type_abstract.dart';
-import 'package:infinite_horizons/domain/vibration_controller.dart';
-import 'package:infinite_horizons/domain/wake_lock_controller.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
+import 'package:infinite_horizons/domain/objects/energy_level.dart';
+import 'package:infinite_horizons/domain/objects/study_type_abstract.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 import 'package:infinite_horizons/presentation/pages/pages.dart';

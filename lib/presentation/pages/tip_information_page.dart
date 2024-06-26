@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/tip.dart';
+import 'package:infinite_horizons/domain/objects/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:infinite_horizons/presentation/core/snack_bar_service.dart';
