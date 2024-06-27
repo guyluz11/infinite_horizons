@@ -35,6 +35,7 @@ dependencies:
   # Small, easy to use and extensible logger which prints beautiful logs.
   liquid_progress_indicator_v2: ^0.5.0
   logger: ^2.2.0
+  permission_handler: ^11.3.1
   shared_preferences: ^2.2.3
   url_launcher: ^6.2.6
   vibration: ^1.8.4

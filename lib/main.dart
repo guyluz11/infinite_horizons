@@ -11,6 +11,7 @@ void main() async {
   await VibrationController.instance.init();
   await EasyLocalization.ensureInitialized();
   NotificationsController.instance.init();
+  HealthController.instance.init();
   final int loginCounter =
       PreferencesController.instance.getInt(PreferenceKeys.loginCounter.name) ??
           0;
