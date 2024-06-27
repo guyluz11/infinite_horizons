@@ -1,12 +1,9 @@
 import 'dart:async';
 
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/energy_level.dart';
-import 'package:infinite_horizons/domain/player_controller.dart';
-import 'package:infinite_horizons/domain/preferences_controller.dart';
-import 'package:infinite_horizons/domain/study_type_abstract.dart';
-import 'package:infinite_horizons/domain/vibration_controller.dart';
-import 'package:infinite_horizons/domain/wake_lock_controller.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
+import 'package:infinite_horizons/domain/objects/energy_level.dart';
+import 'package:infinite_horizons/domain/objects/study_type_abstract.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 import 'package:infinite_horizons/presentation/pages/pages.dart';
@@ -24,14 +21,14 @@ class TimerStateManager {
     switch (state) {
       case TimerState.study:
         timerStates.promoteSession();
-        PlayerController.instance.play('start_session.wav');
+        PlayerController.instance.play(SoundType.startSession);
         VibrationController.instance.vibrate(VibrationType.heavy);
       case TimerState.getReadyForBreak:
-        PlayerController.instance.play('session_completed.wav');
+        PlayerController.instance.play(SoundType.sessionCompleted);
         VibrationController.instance.vibrate(VibrationType.medium);
       case TimerState.breakTime:
       case TimerState.readyToStart:
-        PlayerController.instance.play('break_ended.wav');
+        PlayerController.instance.play(SoundType.breakEnded);
     }
   }
 
@@ -146,8 +143,9 @@ class TimerOrganismState extends State<TimerOrganism> {
   @override
   void initState() {
     super.initState();
-    final bool lockScreen =
-        PreferencesController.instance.getBool("isLockScreen") ?? true;
+    final bool lockScreen = PreferencesController.instance
+            .getBool(PreferenceKeys.isLockScreen.name) ??
+        true;
     WakeLockController.instance.setWakeLock(lockScreen);
 
     if (lockScreen) {

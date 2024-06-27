@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/player_controller.dart';
-import 'package:infinite_horizons/domain/preferences_controller.dart';
-import 'package:infinite_horizons/domain/wake_lock_controller.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 
@@ -17,7 +16,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
-    lockScreen = _prefs.getBool("isLockScreen") ?? lockScreen;
+    lockScreen = _prefs.getBool(PreferenceKeys.isLockScreen.name) ?? lockScreen;
   }
 
   @override
@@ -33,7 +32,7 @@ class _SettingsPageState extends State<SettingsPage> {
               onIcon: Icons.music_note_rounded,
               onChange: (bool value) {
                 PlayerController.instance.setIsSound(value);
-                _prefs.setBool("isSound", value);
+                _prefs.setBool(PreferenceKeys.isSound.name, value);
               },
               initialValue: PlayerController.instance.isSound(),
             ),
@@ -46,15 +45,32 @@ class _SettingsPageState extends State<SettingsPage> {
               onIcon: Icons.lock_open,
               onChange: (bool value) {
                 lockScreen = value;
-                _prefs.setBool("isLockScreen", lockScreen);
+                _prefs.setBool(PreferenceKeys.isLockScreen.name, lockScreen);
                 WakeLockController.instance.setWakeLock(lockScreen);
               },
               initialValue: lockScreen,
             ),
           ),
-          const SeparatorAtom(
-            variant: SeparatorVariant.farApart,
+          const SeparatorAtom(),
+          Row(
+            mainAxisAlignment: MainAxisAlignment.end,
+            children: [
+              ButtonAtom(
+                variant: ButtonVariant.lowEmphasisIcon,
+                onPressed: () => WebBrowserController.instance.lunchLink(
+                  'https://github.com/guyluz11/infinite_horizons/issues',
+                ),
+                icon: FontAwesomeIcons.circleDot,
+              ),
+              ButtonAtom(
+                variant: ButtonVariant.lowEmphasisIcon,
+                onPressed: () => WebBrowserController.instance
+                    .lunchLink('https://github.com/guyluz11/infinite_horizons'),
+                icon: FontAwesomeIcons.github,
+              ),
+            ],
           ),
+          const SeparatorAtom(variant: SeparatorVariant.farApart),
         ],
       ),
     );

@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/preferences_controller.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 
@@ -12,13 +12,15 @@ class _TextAreaOrganismState extends State<TextAreaOrganism> {
   @override
   void initState() {
     super.initState();
-    freeText = PreferencesController.instance.getString('freeText') ?? '';
+    freeText = PreferencesController.instance
+            .getString(PreferenceKeys.freeText.name) ??
+        '';
   }
 
   late String freeText;
 
-  void onChanged(String text) =>
-      PreferencesController.instance.setString('freeText', text);
+  void onChanged(String text) => PreferencesController.instance
+      .setString(PreferenceKeys.freeText.name, text);
 
   @override
   Widget build(BuildContext context) {

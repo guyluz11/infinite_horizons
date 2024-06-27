@@ -69,7 +69,7 @@ List<Tip> tipsList = [
     id: 'dnd',
   ),
   Tip(
-    'Siting straight up',
+    'Sitting straight up',
     type: TipType.general,
     timing: TipTiming.before,
     resourceLinks: [

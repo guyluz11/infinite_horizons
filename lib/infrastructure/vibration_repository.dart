@@ -1,4 +1,4 @@
-part of 'package:infinite_horizons/domain/vibration_controller.dart';
+part of 'package:infinite_horizons/domain/controllers/vibration_controller.dart';
 
 class _VibrationRepository extends VibrationController {
   @override

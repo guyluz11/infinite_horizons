@@ -1,5 +1,5 @@
-import 'package:infinite_horizons/domain/study_type_abstract.dart';
-import 'package:infinite_horizons/domain/tip.dart';
+import 'package:infinite_horizons/domain/objects/study_type_abstract.dart';
+import 'package:infinite_horizons/domain/objects/tip.dart';
 
 class StudyTypeCreatively extends StudyTypeAbstract {
   StudyTypeCreatively() : super(TipType.creative);

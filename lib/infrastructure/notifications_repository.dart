@@ -1,4 +1,4 @@
-part of 'package:infinite_horizons/domain/notifications_controller.dart';
+part of 'package:infinite_horizons/domain/controllers/notifications_controller.dart';
 
 class _NotificationsRepository extends NotificationsController {
   late AwesomeNotifications controller;
@@ -68,8 +68,12 @@ class _NotificationsRepository extends NotificationsController {
 
   @override
   Future preciseAlarmPermission() async {
+    // TODO: Fix when we ca check the permission. issue:
+    // https://discord.com/channels/888523488376279050/1254751072682119208
+    // final List<NotificationPermission> permissions =
+    //     await AwesomeNotifications().checkPermissionList();
     if (await isAndroid12OrAbove()) {
-      controller.showAlarmPage();
+      AwesomeNotifications().showAlarmPage();
     }
   }
 

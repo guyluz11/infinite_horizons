@@ -1,9 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/notifications_controller.dart';
-import 'package:infinite_horizons/domain/player_controller.dart';
-import 'package:infinite_horizons/domain/preferences_controller.dart';
-import 'package:infinite_horizons/domain/vibration_controller.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/presentation/core/color_schemes.dart';
 import 'package:infinite_horizons/presentation/pages/pages.dart';
 
@@ -15,8 +12,10 @@ void main() async {
   await EasyLocalization.ensureInitialized();
   NotificationsController.instance.init();
   final int loginCounter =
-      PreferencesController.instance.getInt('loginCounter') ?? 0;
-  PreferencesController.instance.setInt('loginCounter', loginCounter + 1);
+      PreferencesController.instance.getInt(PreferenceKeys.loginCounter.name) ??
+          0;
+  PreferencesController.instance
+      .setInt(PreferenceKeys.loginCounter.name, loginCounter + 1);
 
   runApp(
     EasyLocalization(

@@ -1,10 +1,9 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:infinite_horizons/domain/energy_level.dart';
-import 'package:infinite_horizons/domain/preferences_controller.dart';
-import 'package:infinite_horizons/domain/study_type_abstract.dart';
-import 'package:infinite_horizons/domain/vibration_controller.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
+import 'package:infinite_horizons/domain/objects/energy_level.dart';
+import 'package:infinite_horizons/domain/objects/study_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/pages/pages.dart';
@@ -31,7 +30,6 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
   void onChanged(EnergyType? type) {
     final EnergyType energy = type ?? EnergyType.undefined;
     StudyTypeAbstract.instance!.setTimerStates(energy);
-    PreferencesController.instance.setString('energyType', energy.name);
 
     setState(() {
       timerStates = StudyTypeAbstract.instance!.getTimerStates();
@@ -41,16 +39,17 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
 
   Widget energyWidget(EnergyType type) {
     final EnergyLevel timerStatesTemp = EnergyLevel.fromEnergyType(type);
-    String subtitle = '';
+    final StringBuffer subtitleBuffer = StringBuffer();
 
     final TimerSession firstTimerState = timerStatesTemp.sessions.first;
 
     for (final TimerSession timerState in timerStatesTemp.sessions) {
       if (timerState != firstTimerState) {
-        subtitle += ' -> ';
+        subtitleBuffer.write(' -> ');
       }
-      subtitle =
-          '$subtitle${timerState.study.inMinutes}m study -> ${timerState.breakDuration.inMinutes}m break';
+      subtitleBuffer.write(
+        '${timerState.study.inMinutes}m study -> ${timerState.breakDuration.inMinutes}m break',
+      );
     }
 
     final bool showTipButton = timerStatesTemp.type.tipsId != null &&
@@ -63,7 +62,7 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
       },
       child: ListTileAtom(
         '${type.previewName.tr()} - ${type.duration.inMinutes}${'minutes_single'.tr()}',
-        subtitle: subtitle,
+        subtitle: subtitleBuffer.toString(),
         leading: Radio<EnergyType>(
           value: type,
           groupValue: timerStates.type,

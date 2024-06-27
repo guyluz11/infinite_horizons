@@ -1,9 +1,6 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/notifications_controller.dart';
-import 'package:infinite_horizons/domain/player_controller.dart';
-import 'package:infinite_horizons/domain/preferences_controller.dart';
-import 'package:infinite_horizons/domain/vibration_controller.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 
@@ -29,9 +26,11 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
   void initState() {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
-    PlayerController.instance
-        .setIsSound(PreferencesController.instance.getBool("isSound") ?? true);
-    PlayerController.instance.play('start_session.wav');
+    PlayerController.instance.setIsSound(
+      PreferencesController.instance.getBool(PreferenceKeys.isSound.name) ??
+          true,
+    );
+    PlayerController.instance.play(SoundType.startSession);
     VibrationController.instance.vibrate(VibrationType.heavy);
     TimerStateManager.iterateOverTimerStates();
   }
@@ -61,14 +60,17 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
         NotificationsController.instance.cancelAllNotifications();
 
-        final DateTime preferencePausedTime =
-            PreferencesController.instance.getDateTime('pausedTime')!;
+        final DateTime preferencePausedTime = PreferencesController.instance
+            .getDateTime(PreferenceKeys.pausedTime.name)!;
         final TimerState preferenceTimerState = TimerStateExtension.fromString(
-          PreferencesController.instance.getString('timerState') ?? '',
+          PreferencesController.instance
+                  .getString(PreferenceKeys.timerState.name) ??
+              '',
         );
-        final Duration preferenceRemainingTimerTime =
-            PreferencesController.instance.getDuration('remainingTimerTime') ??
-                Duration.zero;
+        final Duration preferenceRemainingTimerTime = PreferencesController
+                .instance
+                .getDuration(PreferenceKeys.remainingTimerTime.name) ??
+            Duration.zero;
 
         setCurrentStateAndRemainingTime(
           preferencePausedTime,
@@ -87,11 +89,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
         TimerStateManager.pauseTimer();
         PreferencesController.instance
-            .setDateTime('pausedTime', DateTime.now());
-        PreferencesController.instance
-            .setString('timerState', TimerStateManager.state.name);
+            .setDateTime(PreferenceKeys.pausedTime.name, DateTime.now());
+        PreferencesController.instance.setString(
+          PreferenceKeys.timerState.name,
+          TimerStateManager.state.name,
+        );
         PreferencesController.instance.setDuration(
-          'remainingTimerTime',
+          PreferenceKeys.remainingTimerTime.name,
           TimerStateManager.remainingTime ?? Duration.zero,
         );
 

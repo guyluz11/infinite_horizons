@@ -1,12 +1,10 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/notifications_controller.dart';
-import 'package:infinite_horizons/domain/preferences_controller.dart';
-import 'package:infinite_horizons/domain/study_type_abstract.dart';
-import 'package:infinite_horizons/domain/study_type_analytical.dart';
-import 'package:infinite_horizons/domain/study_type_creatively.dart';
-import 'package:infinite_horizons/domain/tip.dart';
-import 'package:infinite_horizons/domain/vibration_controller.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
+import 'package:infinite_horizons/domain/objects/study_type_abstract.dart';
+import 'package:infinite_horizons/domain/objects/study_type_analytical.dart';
+import 'package:infinite_horizons/domain/objects/study_type_creatively.dart';
+import 'package:infinite_horizons/domain/objects/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 
@@ -28,7 +26,9 @@ class _StudyTypeSelectionMoleculeState
   void initState() {
     super.initState();
     selectedType = StudyTypeAbstract.instance?.tipType ?? TipType.undefined;
-    if (PreferencesController.instance.getInt('loginCounter')! <= 1) {
+    if (PreferencesController.instance
+            .getInt(PreferenceKeys.loginCounter.name)! <=
+        1) {
       requestNotificationPermissions();
     }
   }
@@ -46,7 +46,8 @@ class _StudyTypeSelectionMoleculeState
         ? StudyTypeAnalytical()
         : StudyTypeCreatively();
 
-    PreferencesController.instance.setString('tipType', selectedType.name);
+    PreferencesController.instance
+        .setString(PreferenceKeys.tipType.name, selectedType.name);
 
     widget.onSelected();
   }

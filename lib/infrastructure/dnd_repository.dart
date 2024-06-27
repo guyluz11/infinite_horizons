@@ -1,4 +1,4 @@
-part of 'package:infinite_horizons/domain/dnd_controller.dart';
+part of 'package:infinite_horizons/domain/controllers/dnd_controller.dart';
 
 class _DndRepository extends DndController {
   @override

@@ -1,7 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/cupertino.dart';
-import 'package:infinite_horizons/domain/energy_level.dart';
-import 'package:infinite_horizons/domain/tip.dart';
+import 'package:infinite_horizons/domain/objects/energy_level.dart';
+import 'package:infinite_horizons/domain/objects/tip.dart';
 
 abstract class StudyTypeAbstract {
   StudyTypeAbstract(this.tipType);
