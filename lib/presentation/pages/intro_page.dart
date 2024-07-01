@@ -36,6 +36,14 @@ class _IntroPageState extends State<IntroPage> {
         contentMargin: EdgeInsets.zero,
       );
 
+  PageViewModel customPageViewModel({required Widget bodyWidget}) =>
+      PageViewModel(
+        useScrollView: false,
+        decoration: emptyPageDecoration(),
+        bodyWidget: bodyWidget,
+        titleWidget: const SizedBox(),
+      );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -54,16 +62,10 @@ class _IntroPageState extends State<IntroPage> {
             ),
           ),
           pages: [
-            PageViewModel(
-              useScrollView: false,
-              decoration: emptyPageDecoration(),
+            customPageViewModel(
               bodyWidget: WelcomeOrganism(),
-              titleWidget: const SizedBox(),
             ),
-            PageViewModel(
-              titleWidget: const SizedBox(),
-              useScrollView: false,
-              decoration: emptyPageDecoration(),
+            customPageViewModel(
               bodyWidget: StudyTypeSelectionMolecule(() async {
                 setState(() {
                   studyType = StudyTypeAbstract.instance!.tipType.name;
@@ -72,25 +74,16 @@ class _IntroPageState extends State<IntroPage> {
                 nextPage();
               }),
             ),
-            PageViewModel(
-              titleWidget: const SizedBox(),
-              useScrollView: false,
-              decoration: emptyPageDecoration(),
+            customPageViewModel(
               bodyWidget: TipsOrganism(studyType),
             ),
-            PageViewModel(
-              titleWidget: const SizedBox(),
-              useScrollView: false,
-              decoration: emptyPageDecoration(),
+            customPageViewModel(
               bodyWidget: EnergySelectionMolecule(() async {
                 await Future.delayed(selectionTransitionDelay);
                 nextPage();
               }),
             ),
-            PageViewModel(
-              titleWidget: const SizedBox(),
-              useScrollView: false,
-              decoration: emptyPageDecoration(),
+            customPageViewModel(
               bodyWidget: ReadyForSessionPage(() => onDone(context)),
             ),
           ],

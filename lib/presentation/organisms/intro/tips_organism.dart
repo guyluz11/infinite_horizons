@@ -6,6 +6,7 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/domain/objects/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/objects/tip.dart';
+import 'package:infinite_horizons/infrastructure/core/logger.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/check_box_tile_molecule.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
@@ -31,6 +32,16 @@ class _TipsOrganismState extends State<TipsOrganism> {
     confettiController =
         ConfettiController(duration: const Duration(seconds: 2));
     checkIsDnd();
+    getWakeTime();
+  }
+
+  Future getWakeTime() async {
+    final DateTime? wakeUpTime =
+        await HealthController.instance.getWakeUpTime();
+    // TODO: Create new tips that are time based, add new category display.
+    // Filter the correct tips from there
+    // Add tips about the intensity of the light, the direction, or if the user should go to sleep!.
+    logger.i('Wake up time $wakeUpTime');
   }
 
   Future checkIsDnd() async {
