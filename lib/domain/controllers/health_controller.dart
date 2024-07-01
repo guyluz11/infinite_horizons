@@ -16,5 +16,5 @@ abstract class HealthController {
   Future<bool> requestSleepDataPermission() =>
       PermissionsController.instance.requestSleepDataPermission();
 
-  Future<DateTime> getWakeUpTime();
+  Future<DateTime?> getWakeUpTime();
 }

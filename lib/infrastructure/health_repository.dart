@@ -10,15 +10,22 @@ class _HealthRepository extends HealthController {
   }
 
   @override
-  Future<DateTime> getWakeUpTime() async {
-    await PermissionsController.instance.requestSleepDataPermission();
+  Future<DateTime?> getWakeUpTime() async {
+    final bool permissionsGranted = await requestSleepDataPermission();
+    if (!permissionsGranted) {
+      return null;
+    }
+
     final DateTime now = DateTime.now();
-    final HealthDataPoint data = (await health.getHealthAggregateDataFromTypes(
-      startDate: now.copyWith(hour: 0, minute: 0, second: 0),
-      endDate: now.copyWith(hour: 23, minute: 59, second: 59),
-      types: [HealthDataType.SLEEP_AWAKE],
-    ))
-        .first;
-    return data.dateFrom;
+
+    final List<HealthDataPoint> data = await health.getHealthDataFromTypes(
+      startTime: now.subtract(const Duration(days: 1)),
+      endTime: now,
+      types: [HealthDataType.SLEEP_IN_BED],
+    );
+
+    data.sort((a, b) => b.dateTo.compareTo(a.dateTo));
+
+    return data.isNotEmpty ? data.first.dateTo : null;
   }
 }

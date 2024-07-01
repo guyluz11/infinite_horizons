@@ -36,6 +36,9 @@ class _StudyTypeSelectionMoleculeState
   Future requestNotificationPermissions() async {
     await NotificationsController.instance.generalPermission();
     await NotificationsController.instance.preciseAlarmPermission();
+
+    await HealthController.instance.requestGeneralPermissions();
+    await HealthController.instance.requestSleepDataPermission();
   }
 
   void onChanged(TipType? type) {
