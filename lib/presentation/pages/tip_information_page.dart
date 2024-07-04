@@ -11,6 +11,7 @@ class TipInformationPage extends StatefulWidget {
     required this.tip,
     super.key,
   });
+
   final Tip tip;
 
   @override
@@ -19,6 +20,7 @@ class TipInformationPage extends StatefulWidget {
 
 class _TipInformationPageState extends State<TipInformationPage> {
   late Map<String, bool> isExpanded;
+
   @override
   void initState() {
     super.initState();
@@ -71,7 +73,7 @@ class _TipInformationPageState extends State<TipInformationPage> {
                             ),
                             Flexible(
                               child: TextAtom(
-                                widget.tip.text,
+                                widget.tip.actionText,
                                 overflow: TextOverflow.clip,
                               ),
                             ),

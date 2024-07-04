@@ -6,7 +6,6 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/domain/objects/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/objects/tip.dart';
-import 'package:infinite_horizons/infrastructure/core/logger.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/check_box_tile_molecule.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
@@ -35,13 +34,18 @@ class _TipsOrganismState extends State<TipsOrganism> {
     getWakeTime();
   }
 
+  Duration? timeFromWake;
+  bool didPulledWakeTime = false;
+
   Future getWakeTime() async {
     final DateTime? wakeUpTime =
         await HealthController.instance.getWakeUpTime();
-    // TODO: Create new tips that are time based, add new category display.
-    // Filter the correct tips from there
-    // Add tips about the intensity of the light, the direction, or if the user should go to sleep!.
-    logger.i('Wake up time $wakeUpTime');
+    if (wakeUpTime != null) {
+      timeFromWake = DateTime.now().difference(wakeUpTime);
+    }
+    setState(() {
+      didPulledWakeTime = true;
+    });
   }
 
   Future checkIsDnd() async {
@@ -62,17 +66,30 @@ class _TipsOrganismState extends State<TipsOrganism> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Tip> beforeStudyTips = StudyTypeAbstract.instance!
-        .getTips()
-        .where(
-          (element) =>
-              (element.timing == TipTiming.before &&
-                  (element.type == TipType.general ||
-                      element.type == StudyTypeAbstract.instance!.tipType)) &&
-              // We can toggle dnd only on android
-              !(element.id == 'dnd' && Platform.isAndroid),
-        )
-        .toList();
+    final List<Tip> beforeStudyTips =
+        StudyTypeAbstract.instance!.getTips().where(
+      (element) {
+        if (!element.isCheckbox) {
+          return false;
+        }
+        if (element.timing != TipTiming.before ||
+            !(element.type == TipType.general ||
+                element.type == StudyTypeAbstract.instance!.tipType)) {
+          return false;
+        }
+
+        if (element.startTimeFromWake != null &&
+            element.endTimeFromWake != null) {
+          if (timeFromWake == null ||
+              element.startTimeFromWake! > timeFromWake! ||
+              element.endTimeFromWake! < timeFromWake!) {
+            return false;
+          }
+        }
+
+        return true;
+      },
+    ).toList();
 
     final Tip dndTip = StudyTypeAbstract.instance!
         .getTips()
@@ -82,7 +99,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
       scaffold: false,
       title: 'efficient_tips'.tr(args: [widget.studyType.tr()]),
       topBarTranslate: false,
-      child: isDnd == null
+      child: isDnd == null || !didPulledWakeTime
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               child: Column(
@@ -104,7 +121,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
                                     ),
                                     const SeparatorAtom(),
                                     ToggleSwitchMolecule(
-                                      text: dndTip.text,
+                                      text: dndTip.actionText,
                                       offIcon:
                                           Icons.do_not_disturb_off_outlined,
                                       onIcon: Icons.do_not_disturb_on_outlined,
@@ -149,13 +166,15 @@ class _TipsOrganismState extends State<TipsOrganism> {
                         ListView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) {
                             final Tip tip = beforeStudyTips[index];
 
                             return Container(
                               margin: const EdgeInsets.only(bottom: 5),
                               child: CheckBoxTileMolecule(
-                                tip.text,
+                                tip.actionText,
+                                subtitle: tip.reason,
                                 callback: (value) =>
                                     onCheckBox(tip.itemCountNumber, value),
                                 initialValue: tip.selected,

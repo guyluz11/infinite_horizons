@@ -2,15 +2,24 @@ part of 'package:infinite_horizons/domain/controllers/health_controller.dart';
 
 class _HealthRepository extends HealthController {
   late Health health;
+  late bool supported;
 
   @override
   void init() {
+    supported = Platform.isAndroid || Platform.isIOS;
+    if (!supported) {
+      return;
+    }
     health = Health();
     health.configure(useHealthConnectIfAvailable: true);
   }
 
   @override
   Future<DateTime?> getWakeUpTime() async {
+    if (!supported) {
+      return null;
+    }
+
     final bool permissionsGranted = await requestSleepDataPermission();
     if (!permissionsGranted) {
       return null;

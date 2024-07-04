@@ -91,7 +91,7 @@ class _StudyTypeSelectionMoleculeState
                 : tipsList.firstWhereOrNull(
                     (element) => element.id == 'recommended in the evening',
                   ))
-            ?.text ??
+            ?.actionText ??
         '';
 
     return InkWell(
