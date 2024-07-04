@@ -93,6 +93,8 @@ List<Tip> tipsList = [
     timing: TipTiming.before,
     startTimeFromWake: const Duration(hours: 17),
     endTimeFromWake: const Duration(hours: 24),
+    startHour: GlobalVariables.datTimeTodayOnlyHour(23),
+    endHour: GlobalVariables.datTimeTodayOnlyHour(29),
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
@@ -184,6 +186,8 @@ List<Tip> tipsList = [
     timing: TipTiming.before,
     startTimeFromWake: Duration.zero,
     endTimeFromWake: const Duration(hours: 9),
+    startHour: GlobalVariables.datTimeTodayOnlyHour(5),
+    endHour: GlobalVariables.datTimeTodayOnlyHour(12),
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
@@ -200,6 +204,8 @@ List<Tip> tipsList = [
     timing: TipTiming.before,
     startTimeFromWake: const Duration(hours: 9),
     endTimeFromWake: const Duration(hours: 16),
+    startHour: GlobalVariables.datTimeTodayOnlyHour(2),
+    endHour: GlobalVariables.datTimeTodayOnlyHour(22),
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
@@ -215,8 +221,8 @@ List<Tip> tipsList = [
         'To reduce severely depleting your melatonin and shifting your circadian clock',
     type: TipType.general,
     timing: TipTiming.before,
-    startTimeFromWake: const Duration(hours: 16),
-    endTimeFromWake: const Duration(hours: 24),
+    startTimeFromWake: const Duration(hours: 22),
+    endTimeFromWake: const Duration(hours: 29),
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
@@ -228,24 +234,6 @@ List<Tip> tipsList = [
 
   /// Analytical tips
 
-  Tip(
-    'recommended_morning',
-    reason: 'We think more analytically in the morning',
-    type: TipType.analytical,
-    timing: TipTiming.before,
-    id: 'recommended in the morning',
-    startTimeFromWake: Duration.zero,
-    endTimeFromWake: const Duration(hours: 9),
-    startHour: GlobalVariables.datTimeTodayOnlyHour(8),
-    endHour: GlobalVariables.datTimeTodayOnlyHour(12),
-    resourceLinks: [
-      Resource(
-        'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
-        "In the first 9 hours after waking the brain is in high alertness state, which is good for working on analytical and accurate tasks.",
-        link: Uri.parse('https://www.youtube.com/watch?v=Ze2pc6NwsHQ'),
-      ),
-    ],
-  ),
   Tip(
     'Room with low ceiling or wearing a hat/hoodie',
     reason: 'Raises analytical thinking',
@@ -265,18 +253,42 @@ List<Tip> tipsList = [
     ],
   ),
 
+  Tip(
+    'Analytical task',
+    reason:
+        'Good in the morning as our brain is in a state of high alertness, accurate thinking, enhanced focus and cognitive functions',
+    type: TipType.analytical,
+    timing: TipTiming.before,
+    isCheckbox: false,
+    id: 'recommended in the morning',
+    startTimeFromWake: Duration.zero,
+    endTimeFromWake: const Duration(hours: 9),
+    startHour: GlobalVariables.datTimeTodayOnlyHour(8),
+    endHour: GlobalVariables.datTimeTodayOnlyHour(12),
+    resourceLinks: [
+      Resource(
+        'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
+        "In the first 9 hours after waking (around 8am-12pm) our brain enters state of high alertness and accurate thinking, which is good for working on analytical and accurate tasks.",
+        link: Uri.parse('https://www.youtube.com/watch?v=Ze2pc6NwsHQ'),
+      ),
+    ],
+  ),
+
   // Creatively tips
   Tip(
-    'recommended_evening',
+    'Creative tasks',
+    reason:
+        'Good in the evening as our brain is in a state of divergent thinking and creativity',
     type: TipType.creative,
     timing: TipTiming.general,
+    isCheckbox: false,
     id: 'recommended in the evening',
     startHour: GlobalVariables.datTimeTodayOnlyHour(14),
     endHour: GlobalVariables.datTimeTodayOnlyHour(23),
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity',
-        'We think more analytically in the morning and creative in the evening',
+        'In the evening (around 14pm onward) our brain thinks in a creative way',
         link: Uri.parse('https://www.youtube.com/watch?v=Ze2pc6NwsHQ'),
       ),
     ],

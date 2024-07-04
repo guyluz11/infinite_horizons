@@ -11,11 +11,13 @@ class GlobalVariables {
   static double defaultBorderWidth = 2.0;
   static DateTime dateTimeToday = DateTime.now();
 
-  static DateTime datTimeTodayOnlyHour(int hour) => dateTimeToday.copyWith(
-        hour: hour,
+  static DateTime datTimeTodayOnlyHour(int hour) => dateTimeToday
+      .copyWith(
+        hour: 0,
         minute: 0,
         second: 0,
         millisecond: 0,
         microsecond: 0,
-      );
+      )
+      .add(Duration(hours: hour));
 }

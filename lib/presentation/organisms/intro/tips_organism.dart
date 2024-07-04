@@ -66,6 +66,8 @@ class _TipsOrganismState extends State<TipsOrganism> {
 
   @override
   Widget build(BuildContext context) {
+    final DateTime now = DateTime.now();
+
     final List<Tip> beforeStudyTips =
         StudyTypeAbstract.instance!.getTips().where(
       (element) {
@@ -78,13 +80,24 @@ class _TipsOrganismState extends State<TipsOrganism> {
           return false;
         }
 
-        if (element.startTimeFromWake != null &&
-            element.endTimeFromWake != null) {
-          if (timeFromWake == null ||
-              element.startTimeFromWake! > timeFromWake! ||
-              element.endTimeFromWake! < timeFromWake!) {
+        if (timeFromWake != null) {
+          if (element.startTimeFromWake != null &&
+              element.endTimeFromWake != null) {
+            if (element.startTimeFromWake! <= timeFromWake! &&
+                element.endTimeFromWake! >= timeFromWake!) {
+              return true;
+            }
             return false;
           }
+        } else if (element.startTimeFromWake != null &&
+            element.endTimeFromWake != null) {
+          if (element.startHour != null &&
+              element.endHour != null &&
+              now.isAfter(element.startHour!) &&
+              now.isBefore(element.endHour!)) {
+            return true;
+          }
+          return false;
         }
 
         return true;
