@@ -190,6 +190,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
                               margin: const EdgeInsets.only(bottom: 5),
                               child: CheckBoxTileMolecule(
                                 tip.actionText,
+                                textIcon: tip.icon,
                                 subtitle: tip.reason,
                                 callback: (value) =>
                                     onCheckBox(tip.itemCountNumber, value),

@@ -103,6 +103,7 @@ class _StudyTypeSelectionMoleculeState
       // No      Yes
       child: ListTileAtom(
         tip.actionText,
+        titleIcon: tip.icon,
         leading: Radio<TipType>(
           value: buttonType,
           groupValue: isSelected,

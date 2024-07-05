@@ -1,3 +1,6 @@
+import 'package:flutter/cupertino.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+
 class EnergyLevel {
   EnergyLevel(this.type, this.sessions);
 
@@ -75,6 +78,7 @@ enum EnergyType {
     'maximum_efficiency',
     Duration(minutes: 90),
     tipsId: ['45m/5m', '90m concentrated'],
+    icon: FontAwesomeIcons.medal,
   ),
   ;
 
@@ -82,9 +86,11 @@ enum EnergyType {
     this.previewName,
     this.duration, {
     this.tipsId,
+    this.icon,
   });
 
   final Duration duration;
+  final IconData? icon;
   final String previewName;
   final List<String>? tipsId;
 }

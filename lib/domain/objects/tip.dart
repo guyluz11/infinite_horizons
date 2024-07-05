@@ -1,5 +1,8 @@
 import 'dart:io';
 
+import 'package:flutter/cupertino.dart';
+import 'package:flutter/widgets.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_horizons/presentation/core/global_variables.dart';
 
 class Resource {
@@ -49,6 +52,7 @@ class Tip {
     this.actionText, {
     required this.type,
     required this.timing,
+    required this.icon,
     this.reason,
     this.selected = false,
     this.resourceLinks = const [],
@@ -84,6 +88,8 @@ class Tip {
 
   /// Default end time to use if use does not grant or have wake times.
   DateTime? endHour;
+
+  IconData icon;
 }
 
 List<Tip> tipsList = [
@@ -93,6 +99,7 @@ List<Tip> tipsList = [
         'Keeping awake at night will reduce your memory and thinking performance.',
     type: TipType.general,
     timing: TipTiming.before,
+    icon: FontAwesomeIcons.phoneSlash,
     startTimeFromWake: const Duration(hours: 17),
     endTimeFromWake: const Duration(hours: 24),
     startHour: GlobalVariables.datTimeTodayOnlyHour(23),
@@ -112,6 +119,7 @@ List<Tip> tipsList = [
     reason: 'Increase focus',
     type: TipType.general,
     timing: TipTiming.before,
+    icon: FontAwesomeIcons.circleMinus,
     id: 'dnd',
     isCheckbox:
         // We can toggle dnd on android so it is not always checkbox
@@ -122,6 +130,7 @@ List<Tip> tipsList = [
     reason: 'Increase alertness',
     type: TipType.general,
     timing: TipTiming.before,
+    icon: FontAwesomeIcons.userLarge,
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
@@ -134,12 +143,14 @@ List<Tip> tipsList = [
     'start_by',
     type: TipType.general,
     timing: TipTiming.inSession,
+    icon: FontAwesomeIcons.backwardStep,
   ),
   Tip(
     'Screen/book is being held at eye level',
     reason: 'Increase focus and alertness',
     type: TipType.general,
     timing: TipTiming.before,
+    icon: FontAwesomeIcons.handPointRight,
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
@@ -152,6 +163,7 @@ List<Tip> tipsList = [
     'Alternate back and forth siting and standing 50/50',
     type: TipType.general,
     timing: TipTiming.inSession,
+    icon: FontAwesomeIcons.person,
     resourceLinks: [
       Resource(
         'Scientific paper: "Effects of a Workplace Sit–Stand Desk Intervention on Health and Productivity"',
@@ -170,6 +182,7 @@ List<Tip> tipsList = [
     reason: 'Facilitate focus',
     type: TipType.general,
     timing: TipTiming.before,
+    icon: FontAwesomeIcons.sun,
     startTimeFromWake: Duration.zero,
     endTimeFromWake: const Duration(hours: 1),
     resourceLinks: [
@@ -186,6 +199,7 @@ List<Tip> tipsList = [
         'Increase focus, good for healthy brain productivity, reduce depression and insomnia',
     type: TipType.general,
     timing: TipTiming.before,
+    icon: FontAwesomeIcons.solidLightbulb,
     startTimeFromWake: Duration.zero,
     endTimeFromWake: const Duration(hours: 9),
     startHour: GlobalVariables.datTimeTodayOnlyHour(5),
@@ -200,10 +214,11 @@ List<Tip> tipsList = [
   ),
 
   Tip(
-    'Reduce amount of exposure to light and especially over head light',
+    '🕶️ Reduce amount of exposure to light and especially over head light',
     reason: 'Improve sleep quality and overall health',
     type: TipType.general,
     timing: TipTiming.before,
+    icon: FontAwesomeIcons.lightbulb,
     startTimeFromWake: const Duration(hours: 9),
     endTimeFromWake: const Duration(hours: 16),
     startHour: GlobalVariables.datTimeTodayOnlyHour(2),
@@ -223,6 +238,7 @@ List<Tip> tipsList = [
         'To reduce severely depleting your melatonin and shifting your circadian clock',
     type: TipType.general,
     timing: TipTiming.before,
+    icon: FontAwesomeIcons.moon,
     startTimeFromWake: const Duration(hours: 22),
     endTimeFromWake: const Duration(hours: 29),
     resourceLinks: [
@@ -241,6 +257,7 @@ List<Tip> tipsList = [
     reason: 'Raises analytical thinking',
     type: TipType.analytical,
     timing: TipTiming.before,
+    icon: FontAwesomeIcons.redhat,
     resourceLinks: [
       Resource(
         'Scientific paper: "The Influence of Ceiling Height: The Effect of Priming on the Type of Processing That People Use"',
@@ -261,6 +278,7 @@ List<Tip> tipsList = [
         'Good in the morning as our brain is in a state of high alertness, accurate thinking, enhanced focus and cognitive functions',
     type: TipType.analytical,
     timing: TipTiming.before,
+    icon: FontAwesomeIcons.magnifyingGlassChart,
     isCheckbox: false,
     id: 'recommended in the morning',
     startTimeFromWake: Duration.zero,
@@ -278,11 +296,12 @@ List<Tip> tipsList = [
 
   // Creatively tips
   Tip(
-    'Creative tasks',
+    'Creative task',
     reason:
         'Good in the evening as our brain is in a state of divergent thinking and creativity',
     type: TipType.creative,
     timing: TipTiming.general,
+    icon: FontAwesomeIcons.paintbrush,
     isCheckbox: false,
     id: 'recommended in the evening',
     startHour: GlobalVariables.datTimeTodayOnlyHour(14),
@@ -301,6 +320,7 @@ List<Tip> tipsList = [
         'Raises abstract thinking, creative thinking, and increase aspirations',
     type: TipType.creative,
     timing: TipTiming.before,
+    icon: FontAwesomeIcons.landmark,
     resourceLinks: [
       Resource(
         'Scientific paper: "The Influence of Ceiling Height: The Effect of Priming on the Type of Processing That People Use"',
@@ -318,6 +338,7 @@ List<Tip> tipsList = [
     'Study for 90m to maximize concentration efficiency',
     type: TipType.general,
     timing: TipTiming.general,
+    icon: FontAwesomeIcons.graduationCap,
     id: '90m concentrated',
     resourceLinks: [
       Resource(
@@ -333,6 +354,7 @@ List<Tip> tipsList = [
     'Take a 5m break in panoramic area for every 45m for healthy eyesight',
     type: TipType.general,
     timing: TipTiming.inBreak,
+    icon: FontAwesomeIcons.glasses,
     id: '45m/5m',
     resourceLinks: [
       Resource(

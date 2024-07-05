@@ -1,9 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class ListTileAtom extends StatelessWidget {
   const ListTileAtom(
     this.title, {
+    this.titleIcon,
     this.trailing,
     this.leading,
     this.subtitle,
@@ -16,6 +18,7 @@ class ListTileAtom extends StatelessWidget {
   });
 
   final String title;
+  final IconData? titleIcon;
   final String? subtitle;
   final Widget? leading;
   final Widget? trailing;
@@ -40,10 +43,21 @@ class ListTileAtom extends StatelessWidget {
         );
     }
 
+    final ThemeData themeData = Theme.of(context);
+    final TextTheme textTheme = themeData.textTheme;
+
     return ListTile(
       enabled: enable,
       contentPadding: EdgeInsets.zero,
-      title: titleWidget,
+      title: titleIcon == null
+          ? titleWidget
+          : Row(
+              children: [
+                FaIcon(titleIcon, size: textTheme.bodyMedium!.fontSize),
+                const SeparatorAtom(variant: SeparatorVariant.relatedElements),
+                Flexible(child: titleWidget),
+              ],
+            ),
       subtitle: subtitle == null
           ? null
           : TextAtom(subtitle!, translate: translateSubtitle),

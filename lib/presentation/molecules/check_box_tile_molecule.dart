@@ -7,6 +7,7 @@ class CheckBoxTileMolecule extends StatefulWidget {
   const CheckBoxTileMolecule(
     this.text, {
     required this.callback,
+    this.textIcon,
     this.initialValue = false,
     this.onIconPressed,
     this.subtitle,
@@ -14,6 +15,7 @@ class CheckBoxTileMolecule extends StatefulWidget {
   });
 
   final String text;
+  final IconData? textIcon;
   final String? subtitle;
   final bool initialValue;
   final Function(bool) callback;
@@ -63,6 +65,7 @@ class _CheckBoxTileMolecule extends State<CheckBoxTileMolecule> {
   Widget build(BuildContext context) {
     return ListTileAtom(
       widget.text,
+      titleIcon: widget.textIcon,
       subtitle: widget.subtitle,
       trailing: (widget.onIconPressed != null)
           ? IconButton(

@@ -31,7 +31,7 @@ class TextAtom extends StatelessWidget {
 
     switch (variant) {
       case TextVariant.regular:
-        // tempStyle = textTheme.bodySmall;
+        // tempStyle = textTheme.bodyMedium;
         break;
       case TextVariant.smallTitle:
         tempStyle = textTheme.titleMedium;

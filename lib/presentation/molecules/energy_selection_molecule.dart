@@ -62,6 +62,7 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
       },
       child: ListTileAtom(
         '${type.previewName.tr()} - ${type.duration.inMinutes}${'minutes_single'.tr()}',
+        titleIcon: type.icon,
         subtitle: subtitleBuffer.toString(),
         leading: Radio<EnergyType>(
           value: type,
@@ -113,11 +114,14 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const TextAtom(
-                      'famous_methods',
+                      'custom',
                       variant: TextVariant.smallTitle,
                     ),
                     const SeparatorAtom(),
-                    energyWidget(EnergyType.pomodoro),
+                    energyWidget(EnergyType.veryHigh),
+                    energyWidget(EnergyType.high),
+                    energyWidget(EnergyType.low),
+                    energyWidget(EnergyType.veryLow),
                   ],
                 ),
               ),
@@ -127,14 +131,11 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     const TextAtom(
-                      'custom',
+                      'famous_methods',
                       variant: TextVariant.smallTitle,
                     ),
                     const SeparatorAtom(),
-                    energyWidget(EnergyType.veryHigh),
-                    energyWidget(EnergyType.high),
-                    energyWidget(EnergyType.low),
-                    energyWidget(EnergyType.veryLow),
+                    energyWidget(EnergyType.pomodoro),
                   ],
                 ),
               ),
