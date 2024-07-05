@@ -79,8 +79,10 @@ class Tip {
   /// What time after the user woke up this tip should stop getting shown
   Duration? endTimeFromWake;
 
-  /// Default time to use if use does not grant of have wake times.
+  /// Default start time to use if use does not grant or have wake times.
   DateTime? startHour;
+
+  /// Default end time to use if use does not grant or have wake times.
   DateTime? endHour;
 }
 

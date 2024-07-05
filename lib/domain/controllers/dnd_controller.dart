@@ -9,5 +9,6 @@ abstract class DndController {
   static DndController get instance => _instance ??= _DndRepository();
 
   Future<void> enableDnd();
+
   Future<bool> isDnd();
 }
