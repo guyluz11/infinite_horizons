@@ -36,6 +36,9 @@ class _StudyTypeSelectionMoleculeState
   Future requestNotificationPermissions() async {
     await NotificationsController.instance.generalPermission();
     await NotificationsController.instance.preciseAlarmPermission();
+
+    await HealthController.instance.requestGeneralPermissions();
+    await HealthController.instance.requestSleepDataPermission();
   }
 
   void onChanged(TipType? type) {
@@ -78,32 +81,34 @@ class _StudyTypeSelectionMoleculeState
 
   Widget studyTypeRadioButton(
     void Function(TipType) onChanged,
-    TipType selectedType,
+    TipType isSelected,
     TipType buttonType,
   ) {
-    final String subtitle = (buttonType == TipType.analytical
-                ? tipsList.firstWhereOrNull(
-                    (element) => element.id == 'recommended in the morning',
-                  )
-                : tipsList.firstWhereOrNull(
-                    (element) => element.id == 'recommended in the evening',
-                  ))
-            ?.text ??
-        '';
+    final Tip tip = (buttonType == TipType.analytical
+        ? tipsList.firstWhereOrNull(
+            (element) => element.id == 'recommended in the morning',
+          )
+        : tipsList.firstWhereOrNull(
+            (element) => element.id == 'recommended in the evening',
+          ))!;
 
     return InkWell(
       onTap: () {
         VibrationController.instance.vibrate(VibrationType.light);
         onChanged(buttonType);
       },
+      // TODO: change to text based yes/no question
+      // We recommend you to work on ___ task because our brain .
+      // Is that the task you are going to work on?
+      // No      Yes
       child: ListTileAtom(
-        buttonType.name,
+        tip.actionText,
         leading: Radio<TipType>(
           value: buttonType,
-          groupValue: selectedType,
+          groupValue: isSelected,
           onChanged: (value) => onChanged(value ?? TipType.undefined),
         ),
-        subtitle: subtitle,
+        subtitle: tip.reason,
       ),
     );
   }

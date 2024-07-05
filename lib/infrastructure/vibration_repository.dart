@@ -2,13 +2,13 @@ part of 'package:infinite_horizons/domain/controllers/vibration_controller.dart'
 
 class _VibrationRepository extends VibrationController {
   @override
-  Future init() async => canVibrate = Platform.isAndroid || Platform.isIOS;
+  Future init() async => supported = Platform.isAndroid || Platform.isIOS;
 
-  late bool canVibrate;
+  late bool supported;
 
   @override
   Future vibrate(VibrationType type) async {
-    if (!canVibrate) {
+    if (!supported) {
       return;
     }
 

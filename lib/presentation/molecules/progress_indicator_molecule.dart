@@ -39,7 +39,7 @@ class ProgressIndicatorMolecule extends StatelessWidget {
                 itemBuilder: (context, item) {
                   final Tip tip = tips[item];
 
-                  return TextAtom(tip.text);
+                  return TextAtom(tip.actionText);
                 },
                 itemCount: tips.length,
                 separatorBuilder: (BuildContext context, int index) =>
