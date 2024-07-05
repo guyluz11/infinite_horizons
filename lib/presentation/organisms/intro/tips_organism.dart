@@ -38,9 +38,12 @@ class _TipsOrganismState extends State<TipsOrganism> {
   bool didPulledWakeTime = false;
 
   Future getWakeTime() async {
-    final DateTime? wakeUpTime =
-        await HealthController.instance.getWakeUpTime();
+    DateTime? wakeUpTime = await HealthController.instance.getWakeUpTime();
+
     if (wakeUpTime != null) {
+      if (wakeUpTime.hour > 10) {
+        wakeUpTime = wakeUpTime.copyWith(hour: 10);
+      }
       timeFromWake = DateTime.now().difference(wakeUpTime);
     }
     setState(() {
