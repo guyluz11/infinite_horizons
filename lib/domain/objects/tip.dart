@@ -1,3 +1,7 @@
+import 'dart:io';
+
+import 'package:infinite_horizons/presentation/core/global_variables.dart';
+
 class Resource {
   Resource(this.title, this.resourceExplanation, {this.link});
 
@@ -14,6 +18,7 @@ enum TipType {
   ;
 
   const TipType(this.name);
+
   final String name;
 }
 
@@ -35,17 +40,24 @@ enum TipTiming {
   ;
 
   const TipTiming(this.name);
+
   final String name;
 }
 
 class Tip {
   Tip(
-    this.text, {
+    this.actionText, {
     required this.type,
     required this.timing,
+    this.reason,
     this.selected = false,
     this.resourceLinks = const [],
     this.id,
+    this.isCheckbox = true,
+    this.startTimeFromWake,
+    this.endTimeFromWake,
+    this.startHour,
+    this.endHour,
   }) {
     itemCountNumber = ++totalTipNumber;
   }
@@ -53,23 +65,61 @@ class Tip {
   static int totalTipNumber = 0;
   late int itemCountNumber;
   String? id;
-  String text;
+  String actionText;
+  String? reason;
   TipType type;
   TipTiming timing;
   bool selected;
   final List<Resource> resourceLinks;
+  final bool isCheckbox;
+
+  /// What time after the user woke up this tip should get shown
+  Duration? startTimeFromWake;
+
+  /// What time after the user woke up this tip should stop getting shown
+  Duration? endTimeFromWake;
+
+  /// Default start time to use if use does not grant or have wake times.
+  DateTime? startHour;
+
+  /// Default end time to use if use does not grant or have wake times.
+  DateTime? endHour;
 }
 
 List<Tip> tipsList = [
+  Tip(
+    'Preferably close the app and go to sleep',
+    reason:
+        'Keeping awake at night will reduce your memory and thinking performance.',
+    type: TipType.general,
+    timing: TipTiming.before,
+    startTimeFromWake: const Duration(hours: 17),
+    endTimeFromWake: const Duration(hours: 24),
+    startHour: GlobalVariables.datTimeTodayOnlyHour(23),
+    endHour: GlobalVariables.datTimeTodayOnlyHour(29),
+    resourceLinks: [
+      Resource(
+        'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
+        "Go to Sleep to keep your sleep circle and brain in good state",
+        link: Uri.parse('https://youtu.be/Ze2pc6NwsHQ?si=wXUetxQZKNsk4wXT'),
+      ),
+    ],
+  ),
+
   /// General tips
   Tip(
     'dnd',
+    reason: 'Increase focus',
     type: TipType.general,
     timing: TipTiming.before,
     id: 'dnd',
+    isCheckbox:
+        // We can toggle dnd on android so it is not always checkbox
+        !Platform.isAndroid,
   ),
   Tip(
     'Sitting straight up',
+    reason: 'Increase alertness',
     type: TipType.general,
     timing: TipTiming.before,
     resourceLinks: [
@@ -87,6 +137,7 @@ List<Tip> tipsList = [
   ),
   Tip(
     'Screen/book is being held at eye level',
+    reason: 'Increase focus and alertness',
     type: TipType.general,
     timing: TipTiming.before,
     resourceLinks: [
@@ -114,23 +165,80 @@ List<Tip> tipsList = [
       ),
     ],
   ),
-
-  /// Analytical tips
   Tip(
-    'recommended_morning',
-    type: TipType.analytical,
-    timing: TipTiming.general,
-    id: 'recommended in the morning',
+    'Get expose to the sun or as much light as you can in the first 30m-60m of the day',
+    reason: 'Facilitate focus',
+    type: TipType.general,
+    timing: TipTiming.before,
+    startTimeFromWake: Duration.zero,
+    endTimeFromWake: const Duration(hours: 1),
     resourceLinks: [
       Resource(
-        'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity',
-        'We think more analytically in the morning and creative in the evening',
-        link: Uri.parse('https://www.youtube.com/watch?v=Ze2pc6NwsHQ'),
+        'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
+        "Getting expose to sun in the first 30m-60m of the day going to facilitate focus, further release of dopamine and norepinephrine and healthy amounts of cortisol.",
+        link: Uri.parse('https://youtu.be/Ze2pc6NwsHQ?si=wXUetxQZKNsk4wXT'),
       ),
     ],
   ),
   Tip(
+    'Sit in a sun lit environment and turn on as much lights as possible',
+    reason:
+        'Increase focus, good for healthy brain productivity, reduce depression and insomnia',
+    type: TipType.general,
+    timing: TipTiming.before,
+    startTimeFromWake: Duration.zero,
+    endTimeFromWake: const Duration(hours: 9),
+    startHour: GlobalVariables.datTimeTodayOnlyHour(5),
+    endHour: GlobalVariables.datTimeTodayOnlyHour(12),
+    resourceLinks: [
+      Resource(
+        'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
+        "Work environment with strong light without hurting your eyes in the first 9 hours of wake to increase focus and for releasing dopamine, norepinephrine, and healthy amounts of cortisol",
+        link: Uri.parse('https://youtu.be/Ze2pc6NwsHQ?si=wXUetxQZKNsk4wXT'),
+      ),
+    ],
+  ),
+
+  Tip(
+    'Reduce amount of exposure to light and especially over head light',
+    reason: 'Improve sleep quality and overall health',
+    type: TipType.general,
+    timing: TipTiming.before,
+    startTimeFromWake: const Duration(hours: 9),
+    endTimeFromWake: const Duration(hours: 16),
+    startHour: GlobalVariables.datTimeTodayOnlyHour(2),
+    endHour: GlobalVariables.datTimeTodayOnlyHour(22),
+    resourceLinks: [
+      Resource(
+        'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
+        "After 9 hours of being awake your should reducing over the head light inorder to shift body production from dopamine and norepinephrine to serotonin and other neuromodulators.",
+        link: Uri.parse('https://youtu.be/Ze2pc6NwsHQ?si=wXUetxQZKNsk4wXT'),
+      ),
+    ],
+  ),
+
+  Tip(
+    'Leave just the amount of light that allows you to do the work',
+    reason:
+        'To reduce severely depleting your melatonin and shifting your circadian clock',
+    type: TipType.general,
+    timing: TipTiming.before,
+    startTimeFromWake: const Duration(hours: 22),
+    endTimeFromWake: const Duration(hours: 29),
+    resourceLinks: [
+      Resource(
+        'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
+        "After 16 hours of being awake you should keep only the necessary light for the work, more than that will severely deplete your melatonin levels, going to severally shift your circadian clock like traveling to different time zone.",
+        link: Uri.parse('https://youtu.be/Ze2pc6NwsHQ?si=wXUetxQZKNsk4wXT'),
+      ),
+    ],
+  ),
+
+  /// Analytical tips
+
+  Tip(
     'Room with low ceiling or wearing a hat/hoodie',
+    reason: 'Raises analytical thinking',
     type: TipType.analytical,
     timing: TipTiming.before,
     resourceLinks: [
@@ -147,22 +255,50 @@ List<Tip> tipsList = [
     ],
   ),
 
+  Tip(
+    'Analytical task',
+    reason:
+        'Good in the morning as our brain is in a state of high alertness, accurate thinking, enhanced focus and cognitive functions',
+    type: TipType.analytical,
+    timing: TipTiming.before,
+    isCheckbox: false,
+    id: 'recommended in the morning',
+    startTimeFromWake: Duration.zero,
+    endTimeFromWake: const Duration(hours: 9),
+    startHour: GlobalVariables.datTimeTodayOnlyHour(8),
+    endHour: GlobalVariables.datTimeTodayOnlyHour(12),
+    resourceLinks: [
+      Resource(
+        'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
+        "In the first 9 hours after waking (around 8am-12pm) our brain enters state of high alertness and accurate thinking, which is good for working on analytical and accurate tasks.",
+        link: Uri.parse('https://www.youtube.com/watch?v=Ze2pc6NwsHQ'),
+      ),
+    ],
+  ),
+
   // Creatively tips
   Tip(
-    'recommended_evening',
+    'Creative tasks',
+    reason:
+        'Good in the evening as our brain is in a state of divergent thinking and creativity',
     type: TipType.creative,
     timing: TipTiming.general,
+    isCheckbox: false,
     id: 'recommended in the evening',
+    startHour: GlobalVariables.datTimeTodayOnlyHour(14),
+    endHour: GlobalVariables.datTimeTodayOnlyHour(23),
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity',
-        'We think more analytically in the morning and creative in the evening',
+        'In the evening (around 14pm onward) our brain thinks in a creative way',
         link: Uri.parse('https://www.youtube.com/watch?v=Ze2pc6NwsHQ'),
       ),
     ],
   ),
   Tip(
     'Environment with high ceiling or outside',
+    reason:
+        'Raises abstract thinking, creative thinking, and increase aspirations',
     type: TipType.creative,
     timing: TipTiming.before,
     resourceLinks: [

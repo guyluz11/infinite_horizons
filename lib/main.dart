@@ -11,6 +11,7 @@ void main() async {
   await VibrationController.instance.init();
   await EasyLocalization.ensureInitialized();
   NotificationsController.instance.init();
+  HealthController.instance.init();
   final int loginCounter =
       PreferencesController.instance.getInt(PreferenceKeys.loginCounter.name) ??
           0;
@@ -42,7 +43,7 @@ class MyApp extends StatelessWidget {
       supportedLocales: context.supportedLocales,
       locale: context.locale,
       theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
-      darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
+      // darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
       home: IntroPage(),
     );
   }

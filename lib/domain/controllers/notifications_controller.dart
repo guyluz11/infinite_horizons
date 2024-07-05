@@ -1,7 +1,5 @@
-import 'dart:io';
-
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:device_info_plus/device_info_plus.dart';
+import 'package:infinite_horizons/domain/controllers/permissions_controller.dart';
 import 'package:infinite_horizons/presentation/core/theme_data.dart';
 
 part 'package:infinite_horizons/infrastructure/notifications_repository.dart';
@@ -21,9 +19,11 @@ abstract class NotificationsController {
     String? body,
   });
 
-  Future generalPermission();
+  Future generalPermission() =>
+      PermissionsController.instance.generalNotificationPermission();
 
-  Future preciseAlarmPermission();
+  Future preciseAlarmPermission() =>
+      PermissionsController.instance.preciseAlarmPermission();
 
   Future cancelAllNotifications();
 }

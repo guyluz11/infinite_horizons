@@ -1,4 +1,5 @@
 import 'package:flutter/cupertino.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/domain/objects/energy_level.dart';
 import 'package:infinite_horizons/domain/objects/study_type_abstract.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
@@ -8,6 +9,11 @@ class ReadyForSessionPage extends StatelessWidget {
   const ReadyForSessionPage(this.callback);
 
   final VoidCallback callback;
+
+  void handleCallback() {
+    VibrationController.instance.vibrate(VibrationType.light);
+    callback();
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -35,7 +41,7 @@ class ReadyForSessionPage extends StatelessWidget {
       scaffold: false,
       title: 'start_session',
       child: ReadyForSessionOrganism(
-        callback,
+        handleCallback,
         response: text,
       ),
     );

@@ -32,7 +32,7 @@ class WelcomeOrganism extends StatelessWidget {
                     TextAtom('Instructions', variant: TextVariant.smallTitle),
                     SeparatorAtom(variant: SeparatorVariant.relatedElements),
                     TextAtom(
-                      "Each time you sit to study a new material or work in your office we recommend opening the app and let it guid you for efficient and productive session.\n"
+                      "Each time you sit to study a new material or work in your office we recommend opening the app and let it guide you for efficient and productive session.\n"
                       "The app use your responses to tailor the tips and session timer to your specific needs, so make sure to follow it as best as you can.\n\n"
                       "Enjoy",
                     ),

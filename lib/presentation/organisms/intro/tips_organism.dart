@@ -31,6 +31,24 @@ class _TipsOrganismState extends State<TipsOrganism> {
     confettiController =
         ConfettiController(duration: const Duration(seconds: 2));
     checkIsDnd();
+    getWakeTime();
+  }
+
+  Duration? timeFromWake;
+  bool didPulledWakeTime = false;
+
+  Future getWakeTime() async {
+    DateTime? wakeUpTime = await HealthController.instance.getWakeUpTime();
+
+    if (wakeUpTime != null) {
+      if (wakeUpTime.hour > 10) {
+        wakeUpTime = wakeUpTime.copyWith(hour: 10);
+      }
+      timeFromWake = DateTime.now().difference(wakeUpTime);
+    }
+    setState(() {
+      didPulledWakeTime = true;
+    });
   }
 
   Future checkIsDnd() async {
@@ -51,17 +69,43 @@ class _TipsOrganismState extends State<TipsOrganism> {
 
   @override
   Widget build(BuildContext context) {
-    final List<Tip> beforeStudyTips = StudyTypeAbstract.instance!
-        .getTips()
-        .where(
-          (element) =>
-              (element.timing == TipTiming.before &&
-                  (element.type == TipType.general ||
-                      element.type == StudyTypeAbstract.instance!.tipType)) &&
-              // We can toggle dnd only on android
-              !(element.id == 'dnd' && Platform.isAndroid),
-        )
-        .toList();
+    final DateTime now = DateTime.now();
+
+    final List<Tip> beforeStudyTips =
+        StudyTypeAbstract.instance!.getTips().where(
+      (element) {
+        if (!element.isCheckbox) {
+          return false;
+        }
+        if (element.timing != TipTiming.before ||
+            !(element.type == TipType.general ||
+                element.type == StudyTypeAbstract.instance!.tipType)) {
+          return false;
+        }
+
+        if (timeFromWake != null) {
+          if (element.startTimeFromWake != null &&
+              element.endTimeFromWake != null) {
+            if (element.startTimeFromWake! <= timeFromWake! &&
+                element.endTimeFromWake! >= timeFromWake!) {
+              return true;
+            }
+            return false;
+          }
+        } else if (element.startTimeFromWake != null &&
+            element.endTimeFromWake != null) {
+          if (element.startHour != null &&
+              element.endHour != null &&
+              now.isAfter(element.startHour!) &&
+              now.isBefore(element.endHour!)) {
+            return true;
+          }
+          return false;
+        }
+
+        return true;
+      },
+    ).toList();
 
     final Tip dndTip = StudyTypeAbstract.instance!
         .getTips()
@@ -71,7 +115,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
       scaffold: false,
       title: 'efficient_tips'.tr(args: [widget.studyType.tr()]),
       topBarTranslate: false,
-      child: isDnd == null
+      child: isDnd == null || !didPulledWakeTime
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               child: Column(
@@ -93,7 +137,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
                                     ),
                                     const SeparatorAtom(),
                                     ToggleSwitchMolecule(
-                                      text: dndTip.text,
+                                      text: dndTip.actionText,
                                       offIcon:
                                           Icons.do_not_disturb_off_outlined,
                                       onIcon: Icons.do_not_disturb_on_outlined,
@@ -138,13 +182,15 @@ class _TipsOrganismState extends State<TipsOrganism> {
                         ListView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) {
                             final Tip tip = beforeStudyTips[index];
 
                             return Container(
                               margin: const EdgeInsets.only(bottom: 5),
                               child: CheckBoxTileMolecule(
-                                tip.text,
+                                tip.actionText,
+                                subtitle: tip.reason,
                                 callback: (value) =>
                                     onCheckBox(tip.itemCountNumber, value),
                                 initialValue: tip.selected,

@@ -72,7 +72,7 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
                         itemBuilder: (context, item) {
                           final Tip tip = tips[item];
 
-                          return TextAtom(tip.text);
+                          return TextAtom(tip.actionText);
                         },
                         itemCount: tips.length,
                         separatorBuilder: (BuildContext context, int index) =>

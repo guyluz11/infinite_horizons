@@ -38,7 +38,7 @@ class EnergyTipsPage extends StatelessWidget {
                     final Tip tip = tips[n];
 
                     return ListTileAtom(
-                      tip.text,
+                      tip.actionText,
                       trailing: const FaIcon(FontAwesomeIcons.circleQuestion),
                       onTap: () => Navigator.of(context).push(
                         MaterialPageRoute(
