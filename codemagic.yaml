@@ -63,7 +63,7 @@ workflows:
           flutter packages pub get
       - name: Flutter build ipa
         script: |
-          BUILD_NUMBER=20
+          BUILD_NUMBER=$(($(app-store-connect get-latest-app-store-build-number 6502440548) + 1))
           flutter build ipa --release \
           --build-number=$BUILD_NUMBER \
           --build-name=1.0.$BUILD_NUMBER \
