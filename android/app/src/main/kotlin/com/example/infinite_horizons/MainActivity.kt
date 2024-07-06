@@ -1,6 +1,7 @@
 package com.haveinfinitehorizons
 
 import io.flutter.embedding.android.FlutterActivity
-import io.flutter.embedding.android.FlutterFragmentActivity
 
-class MainActivity: FlutterFragmentActivity()
+// TODO: Uncomment after google approve health permission
+//class MainActivity: FlutterFragmentActivity()
+class MainActivity : FlutterActivity()

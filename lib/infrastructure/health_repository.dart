@@ -2,11 +2,12 @@ part of 'package:infinite_horizons/domain/controllers/health_controller.dart';
 
 class _HealthRepository extends HealthController {
   late Health health;
-  late bool supported;
 
   @override
   void init() {
-    supported = Platform.isAndroid || Platform.isIOS;
+    // TODO: Uncomment after google approve health permission
+    // supported = Platform.isAndroid || Platform.isIOS;
+    supported = Platform.isIOS;
     if (!supported) {
       return;
     }
