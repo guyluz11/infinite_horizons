@@ -16,6 +16,14 @@ class _HealthRepository extends HealthController {
   }
 
   @override
+  Future<bool> isPermissionsSleepInBedGranted() async =>
+      await health.hasPermissions(
+        [HealthDataType.SLEEP_IN_BED],
+        permissions: [HealthDataAccess.READ],
+      ) ??
+      false;
+
+  @override
   Future<DateTime?> getWakeUpTime() async {
     if (!supported) {
       return null;
@@ -37,5 +45,22 @@ class _HealthRepository extends HealthController {
     data.sort((a, b) => b.dateTo.compareTo(a.dateTo));
 
     return data.isNotEmpty ? data.first.dateTo : null;
+  }
+
+  @override
+  Future<bool> requestSleepDataPermission() async {
+    final PermissionStatus status =
+        await Permission.activityRecognition.request();
+
+    if (status == PermissionStatus.permanentlyDenied) {
+      openAppSettings();
+      return false;
+    }
+
+    return supported &&
+        await health.requestAuthorization(
+          [HealthDataType.SLEEP_AWAKE],
+          permissions: [HealthDataAccess.READ],
+        );
   }
 }

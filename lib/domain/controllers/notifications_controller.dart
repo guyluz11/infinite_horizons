@@ -1,5 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
-import 'package:infinite_horizons/domain/controllers/permissions_controller.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/presentation/core/theme_data.dart';
 
 part 'package:infinite_horizons/infrastructure/notifications_repository.dart';
@@ -18,6 +18,8 @@ abstract class NotificationsController {
     required NotificationVariant variant,
     String? body,
   });
+
+  Future<bool> isPermissionGranted();
 
   Future generalPermission() =>
       PermissionsController.instance.generalNotificationPermission();

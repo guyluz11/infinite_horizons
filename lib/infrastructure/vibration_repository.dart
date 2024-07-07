@@ -4,8 +4,6 @@ class _VibrationRepository extends VibrationController {
   @override
   Future init() async => supported = Platform.isAndroid || Platform.isIOS;
 
-  late bool supported;
-
   @override
   Future vibrate(VibrationType type) async {
     if (!supported) {

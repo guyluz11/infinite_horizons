@@ -1,7 +1,7 @@
 import 'dart:io';
 
 import 'package:health/health.dart';
-import 'package:infinite_horizons/domain/controllers/permissions_controller.dart';
+import 'package:permission_handler/permission_handler.dart';
 
 part 'package:infinite_horizons/infrastructure/health_repository.dart';
 
@@ -9,23 +9,14 @@ abstract class HealthController {
   static HealthController? _instance;
 
   static HealthController get instance => _instance ??= _HealthRepository();
+
   late bool supported;
 
   void init();
 
-  Future<bool> requestGeneralPermissions() async {
-    if (!supported) {
-      return false;
-    }
-    return PermissionsController.instance.activityRecognition();
-  }
+  Future<bool> isPermissionsSleepInBedGranted();
 
-  Future<bool> requestSleepDataPermission() async {
-    if (!supported) {
-      return false;
-    }
-    return PermissionsController.instance.requestSleepDataPermission();
-  }
+  Future<bool> requestSleepDataPermission();
 
   Future<DateTime?> getWakeUpTime();
 }

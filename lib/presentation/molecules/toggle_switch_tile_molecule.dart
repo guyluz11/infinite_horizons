@@ -9,11 +9,13 @@ class ToggleSwitchMolecule extends StatefulWidget {
     required this.onIcon,
     required this.onChange,
     required this.initialValue,
+    this.description,
     this.trailing,
     this.lockOnToggleOn = false,
   });
 
   final String text;
+  final String? description;
 
   final IconData offIcon;
   final IconData onIcon;
@@ -55,6 +57,7 @@ class _ToggleSwitchMoleculeState extends State<ToggleSwitchMolecule> {
   Widget build(BuildContext context) {
     return ListTileAtom(
       widget.text,
+      subtitle: widget.description,
       onTap: onChange,
       trailing: widget.trailing ?? switchWidget(),
       leading: widget.trailing != null ? switchWidget() : const SizedBox(),
