@@ -30,13 +30,32 @@ class _NotificationsRepository extends NotificationsController {
         ),
       ],
     );
-
     controller.setListeners(
       onActionReceivedMethod: onActionReceivedMethod,
       onNotificationCreatedMethod: onNotificationCreatedMethod,
       onNotificationDisplayedMethod: onNotificationDisplayedMethod,
       onDismissActionReceivedMethod: onDismissActionReceivedMethod,
     );
+  }
+
+  @override
+  Future<bool> isPermissionGranted() async {
+    final List<NotificationPermission> permissionsExpected = [
+      NotificationPermission.Badge,
+      NotificationPermission.Alert,
+      NotificationPermission.Sound,
+      NotificationPermission.Vibration,
+      NotificationPermission.Light
+    ];
+
+    final List<NotificationPermission> grantedPermissions =
+        await controller.checkPermissionList(permissions: permissionsExpected);
+    for (final NotificationPermission permission in permissionsExpected) {
+      if (!grantedPermissions.contains(permission)) {
+        return false;
+      }
+    }
+    return true;
   }
 
   @override

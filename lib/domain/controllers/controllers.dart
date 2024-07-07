@@ -1,6 +1,7 @@
 export 'package:infinite_horizons/domain/controllers/dnd_controller.dart';
 export 'package:infinite_horizons/domain/controllers/health_controller.dart';
 export 'package:infinite_horizons/domain/controllers/notifications_controller.dart';
+export 'package:infinite_horizons/domain/controllers/permissions_controller.dart';
 export 'package:infinite_horizons/domain/controllers/player_controller.dart';
 export 'package:infinite_horizons/domain/controllers/preferences_controller.dart';
 export 'package:infinite_horizons/domain/controllers/vibration_controller.dart';

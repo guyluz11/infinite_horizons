@@ -214,7 +214,7 @@ List<Tip> tipsList = [
   ),
 
   Tip(
-    '🕶️ Reduce amount of exposure to light and especially over head light',
+    'Reduce amount of exposure to light and especially over head light',
     reason: 'Improve sleep quality and overall health',
     type: TipType.general,
     timing: TipTiming.before,
