@@ -2,13 +2,9 @@ part of 'package:infinite_horizons/domain/controllers/permissions_controller.dar
 
 class _PermissionsRepository extends PermissionsController {
   @override
-  Future<bool> activityRecognition() async =>
-      await Permission.activityRecognition.request() ==
-      PermissionStatus.granted;
-
-  @override
   Future<bool> isNotificationPolicyAccessGranted() async =>
-      await FlutterDnd.isNotificationPolicyAccessGranted ?? false;
+      Platform.isAndroid &&
+      (await FlutterDnd.isNotificationPolicyAccessGranted ?? false);
 
   @override
   void gotoPolicySettings() => FlutterDnd.gotoPolicySettings();
@@ -38,8 +34,4 @@ class _PermissionsRepository extends PermissionsController {
     }
     return false;
   }
-
-  @override
-  Future<bool> requestSleepDataPermission() =>
-      Health().requestAuthorization([HealthDataType.SLEEP_AWAKE]);
 }

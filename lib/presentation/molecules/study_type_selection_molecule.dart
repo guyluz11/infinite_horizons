@@ -26,19 +26,6 @@ class _StudyTypeSelectionMoleculeState
   void initState() {
     super.initState();
     selectedType = StudyTypeAbstract.instance?.tipType ?? TipType.undefined;
-    if (PreferencesController.instance
-            .getInt(PreferenceKeys.loginCounter.name)! <=
-        1) {
-      requestNotificationPermissions();
-    }
-  }
-
-  Future requestNotificationPermissions() async {
-    await NotificationsController.instance.generalPermission();
-    await NotificationsController.instance.preciseAlarmPermission();
-
-    await HealthController.instance.requestGeneralPermissions();
-    await HealthController.instance.requestSleepDataPermission();
   }
 
   void onChanged(TipType? type) {
@@ -103,6 +90,7 @@ class _StudyTypeSelectionMoleculeState
       // No      Yes
       child: ListTileAtom(
         tip.actionText,
+        titleIcon: tip.icon,
         leading: Radio<TipType>(
           value: buttonType,
           groupValue: isSelected,

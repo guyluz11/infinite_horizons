@@ -10,6 +10,7 @@ void main() async {
   PlayerController.instance.init();
   await VibrationController.instance.init();
   await EasyLocalization.ensureInitialized();
+  DndController.instance.init();
   NotificationsController.instance.init();
   HealthController.instance.init();
   final int loginCounter =

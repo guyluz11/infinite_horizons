@@ -52,12 +52,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
   }
 
   Future checkIsDnd() async {
-    final bool isDndTemp;
-    if (Platform.isAndroid) {
-      isDndTemp = await DndController.instance.isDnd();
-    } else {
-      isDndTemp = false;
-    }
+    final bool isDndTemp = await DndController.instance.isDnd();
 
     setState(() {
       isDnd = isDndTemp;
@@ -190,6 +185,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
                               margin: const EdgeInsets.only(bottom: 5),
                               child: CheckBoxTileMolecule(
                                 tip.actionText,
+                                textIcon: tip.icon,
                                 subtitle: tip.reason,
                                 callback: (value) =>
                                     onCheckBox(tip.itemCountNumber, value),
