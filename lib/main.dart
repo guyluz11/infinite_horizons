@@ -37,13 +37,16 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final TextTheme textTheme = createTextTheme(context, "Arya", "Arya");
+
+    final MaterialTheme theme = MaterialTheme(textTheme);
     return MaterialApp(
+      theme: theme.light(),
+      darkTheme: theme.dark(),
       title: 'Infinite Horizons',
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      theme: ThemeData(useMaterial3: true, colorScheme: lightColorScheme),
-      // darkTheme: ThemeData(useMaterial3: true, colorScheme: darkColorScheme),
       home: IntroPage(),
     );
   }

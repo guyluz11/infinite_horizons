@@ -21,11 +21,12 @@ class _HealthRepository extends HealthController {
 
   @override
   Future<bool> isPermissionsSleepInBedGranted() async =>
-      await health.hasPermissions(
-        [HealthDataType.SLEEP_IN_BED],
-        permissions: [HealthDataAccess.READ],
-      ) ??
-      sleepPermissionGranted;
+      supported &&
+      (await health.hasPermissions(
+            [HealthDataType.SLEEP_IN_BED],
+            permissions: [HealthDataAccess.READ],
+          ) ??
+          sleepPermissionGranted);
 
   @override
   Future<DateTime?> getWakeUpTime() async {
