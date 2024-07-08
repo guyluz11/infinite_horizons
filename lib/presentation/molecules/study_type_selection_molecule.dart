@@ -37,7 +37,7 @@ class _StudyTypeSelectionMoleculeState
         : StudyTypeCreatively();
 
     PreferencesController.instance
-        .setString(PreferenceKeys.tipType.name, selectedType.name);
+        .setString(PreferenceKeys.tipType, selectedType.name);
 
     widget.onSelected();
   }

@@ -87,10 +87,14 @@ class _PermissionsOrganismState extends State<PermissionsOrganism> {
               description: 'For tailored tips based on your wake hour',
               offIcon: FontAwesomeIcons.moon,
               onIcon: FontAwesomeIcons.solidMoon,
-              onChange: (value) =>
-                  HealthController.instance.requestSleepDataPermission(),
+              onChange: (value) {
+                if (value) {
+                  HealthController.instance.requestSleepDataPermission();
+                  return;
+                }
+                HealthController.instance.removeSleepPermission();
+              },
               initialValue: sleepDataPermission,
-              lockOnToggleOn: true,
             ),
           ),
       ],

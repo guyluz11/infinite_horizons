@@ -17,7 +17,7 @@ class _SettingsPageState extends State<SettingsPage> {
   @override
   void initState() {
     super.initState();
-    lockScreen = _prefs.getBool(PreferenceKeys.isLockScreen.name) ?? lockScreen;
+    lockScreen = _prefs.getBool(PreferenceKeys.isLockScreen) ?? lockScreen;
   }
 
   @override
@@ -35,7 +35,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 onIcon: Icons.music_note_rounded,
                 onChange: (bool value) {
                   PlayerController.instance.setIsSound(value);
-                  _prefs.setBool(PreferenceKeys.isSound.name, value);
+                  _prefs.setBool(PreferenceKeys.isSound, value);
                 },
                 initialValue: PlayerController.instance.isSound(),
               ),
@@ -49,7 +49,7 @@ class _SettingsPageState extends State<SettingsPage> {
                 onIcon: Icons.lock_open,
                 onChange: (bool value) {
                   lockScreen = value;
-                  _prefs.setBool(PreferenceKeys.isLockScreen.name, lockScreen);
+                  _prefs.setBool(PreferenceKeys.isLockScreen, lockScreen);
                   WakeLockController.instance.setWakeLock(lockScreen);
                 },
                 initialValue: lockScreen,

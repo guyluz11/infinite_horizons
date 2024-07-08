@@ -10,27 +10,27 @@ abstract class PreferencesController {
 
   Future init();
 
-  String? getString(String key);
+  String? getString(PreferenceKeys key);
 
-  int? getInt(String key);
+  int? getInt(PreferenceKeys key);
 
-  bool? getBool(String key);
+  bool? getBool(PreferenceKeys key);
 
-  Duration? getDuration(String key);
+  Duration? getDuration(PreferenceKeys key);
 
-  DateTime? getDateTime(String key);
+  DateTime? getDateTime(PreferenceKeys key);
 
-  void remove(String key);
+  void remove(PreferenceKeys key);
 
-  void setString(String key, String value);
+  void setString(PreferenceKeys key, String value);
 
-  void setInt(String key, int value);
+  void setInt(PreferenceKeys key, int value);
 
-  void setBool(String key, bool value);
+  void setBool(PreferenceKeys key, bool value);
 
-  void setDuration(String key, Duration value);
+  void setDuration(PreferenceKeys key, Duration value);
 
-  void setDateTime(String key, DateTime value);
+  void setDateTime(PreferenceKeys key, DateTime value);
 }
 
 enum PreferenceKeys {
@@ -42,4 +42,5 @@ enum PreferenceKeys {
   remainingTimerTime,
   freeText,
   tipType,
+  sleepPermissionGranted,
 }
