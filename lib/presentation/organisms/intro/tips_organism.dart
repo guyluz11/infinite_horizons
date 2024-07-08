@@ -38,6 +38,12 @@ class _TipsOrganismState extends State<TipsOrganism> {
   bool didPulledWakeTime = false;
 
   Future getWakeTime() async {
+    if (!await HealthController.instance.isPermissionsSleepInBedGranted()) {
+      setState(() {
+        didPulledWakeTime = true;
+      });
+      return;
+    }
     DateTime? wakeUpTime = await HealthController.instance.getWakeUpTime();
 
     if (wakeUpTime != null) {

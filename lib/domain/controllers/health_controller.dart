@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:health/health.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:permission_handler/permission_handler.dart';
 
 part 'package:infinite_horizons/infrastructure/health_repository.dart';
@@ -19,4 +20,6 @@ abstract class HealthController {
   Future<bool> requestSleepDataPermission();
 
   Future<DateTime?> getWakeUpTime();
+
+  void removeSleepPermission();
 }

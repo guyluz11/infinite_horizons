@@ -7,45 +7,48 @@ class _PreferencesRepository extends PreferencesController {
   Future init() async => preferences = await SharedPreferences.getInstance();
 
   @override
-  String? getString(String key) => preferences.getString(key);
+  String? getString(PreferenceKeys key) => preferences.getString(key.name);
 
   @override
-  int? getInt(String key) => preferences.getInt(key);
+  int? getInt(PreferenceKeys key) => preferences.getInt(key.name);
 
   @override
-  bool? getBool(String key) => preferences.getBool(key);
+  bool? getBool(PreferenceKeys key) => preferences.getBool(key.name);
 
   @override
-  Duration? getDuration(String key) {
-    final int? milliseconds = preferences.getInt(key);
+  Duration? getDuration(PreferenceKeys key) {
+    final int? milliseconds = preferences.getInt(key.name);
     return milliseconds == null ? null : Duration(milliseconds: milliseconds);
   }
 
   @override
-  DateTime? getDateTime(String key) {
-    final int? milliseconds = preferences.getInt(key);
+  DateTime? getDateTime(PreferenceKeys key) {
+    final int? milliseconds = preferences.getInt(key.name);
     return milliseconds == null
         ? null
         : DateTime.fromMillisecondsSinceEpoch(milliseconds);
   }
 
   @override
-  void remove(String key) => preferences.remove(key);
+  void remove(PreferenceKeys key) => preferences.remove(key.name);
 
   @override
-  void setString(String key, String value) => preferences.setString(key, value);
+  void setString(PreferenceKeys key, String value) =>
+      preferences.setString(key.name, value);
 
   @override
-  void setInt(String key, int value) => preferences.setInt(key, value);
+  void setInt(PreferenceKeys key, int value) =>
+      preferences.setInt(key.name, value);
 
   @override
-  void setBool(String key, bool value) => preferences.setBool(key, value);
+  void setBool(PreferenceKeys key, bool value) =>
+      preferences.setBool(key.name, value);
 
   @override
-  void setDuration(String key, Duration value) =>
-      preferences.setInt(key, value.inMilliseconds);
+  void setDuration(PreferenceKeys key, Duration value) =>
+      preferences.setInt(key.name, value.inMilliseconds);
 
   @override
-  void setDateTime(String key, DateTime value) =>
-      preferences.setInt(key, value.millisecondsSinceEpoch);
+  void setDateTime(PreferenceKeys key, DateTime value) =>
+      preferences.setInt(key.name, value.millisecondsSinceEpoch);
 }

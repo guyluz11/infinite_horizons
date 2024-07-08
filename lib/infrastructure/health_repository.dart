@@ -2,6 +2,7 @@ part of 'package:infinite_horizons/domain/controllers/health_controller.dart';
 
 class _HealthRepository extends HealthController {
   late Health health;
+  late bool sleepPermissionGranted;
 
   @override
   void init() {
@@ -13,6 +14,9 @@ class _HealthRepository extends HealthController {
     }
     health = Health();
     health.configure(useHealthConnectIfAvailable: true);
+    sleepPermissionGranted = PreferencesController.instance
+            .getBool(PreferenceKeys.sleepPermissionGranted) ??
+        false;
   }
 
   @override
@@ -21,7 +25,7 @@ class _HealthRepository extends HealthController {
         [HealthDataType.SLEEP_IN_BED],
         permissions: [HealthDataAccess.READ],
       ) ??
-      false;
+      sleepPermissionGranted;
 
   @override
   Future<DateTime?> getWakeUpTime() async {
@@ -49,6 +53,9 @@ class _HealthRepository extends HealthController {
 
   @override
   Future<bool> requestSleepDataPermission() async {
+    PreferencesController.instance
+        .setBool(PreferenceKeys.sleepPermissionGranted, true);
+    sleepPermissionGranted = true;
     final PermissionStatus status =
         await Permission.activityRecognition.request();
 
@@ -62,5 +69,12 @@ class _HealthRepository extends HealthController {
           [HealthDataType.SLEEP_AWAKE],
           permissions: [HealthDataAccess.READ],
         );
+  }
+
+  @override
+  void removeSleepPermission() {
+    PreferencesController.instance
+        .setBool(PreferenceKeys.sleepPermissionGranted, false);
+    sleepPermissionGranted = false;
   }
 }

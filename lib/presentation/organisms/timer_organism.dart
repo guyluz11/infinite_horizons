@@ -140,12 +140,13 @@ class TimerOrganism extends StatefulWidget {
 class TimerOrganismState extends State<TimerOrganism> {
   TimerState state = TimerStateManager.state;
   bool renderSizedBox = false;
+
   @override
   void initState() {
     super.initState();
-    final bool lockScreen = PreferencesController.instance
-            .getBool(PreferenceKeys.isLockScreen.name) ??
-        true;
+    final bool lockScreen =
+        PreferencesController.instance.getBool(PreferenceKeys.isLockScreen) ??
+            true;
     WakeLockController.instance.setWakeLock(lockScreen);
 
     if (lockScreen) {

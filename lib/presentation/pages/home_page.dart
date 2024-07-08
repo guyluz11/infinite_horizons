@@ -27,8 +27,7 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
     super.initState();
     WidgetsBinding.instance.addObserver(this);
     PlayerController.instance.setIsSound(
-      PreferencesController.instance.getBool(PreferenceKeys.isSound.name) ??
-          true,
+      PreferencesController.instance.getBool(PreferenceKeys.isSound) ?? true,
     );
     PlayerController.instance.play(SoundType.startSession);
     VibrationController.instance.vibrate(VibrationType.heavy);
@@ -61,15 +60,14 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
         NotificationsController.instance.cancelAllNotifications();
 
         final DateTime preferencePausedTime = PreferencesController.instance
-            .getDateTime(PreferenceKeys.pausedTime.name)!;
+            .getDateTime(PreferenceKeys.pausedTime)!;
         final TimerState preferenceTimerState = TimerStateExtension.fromString(
-          PreferencesController.instance
-                  .getString(PreferenceKeys.timerState.name) ??
+          PreferencesController.instance.getString(PreferenceKeys.timerState) ??
               '',
         );
         final Duration preferenceRemainingTimerTime = PreferencesController
                 .instance
-                .getDuration(PreferenceKeys.remainingTimerTime.name) ??
+                .getDuration(PreferenceKeys.remainingTimerTime) ??
             Duration.zero;
 
         setCurrentStateAndRemainingTime(
@@ -89,13 +87,13 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
 
         TimerStateManager.pauseTimer();
         PreferencesController.instance
-            .setDateTime(PreferenceKeys.pausedTime.name, DateTime.now());
+            .setDateTime(PreferenceKeys.pausedTime, DateTime.now());
         PreferencesController.instance.setString(
-          PreferenceKeys.timerState.name,
+          PreferenceKeys.timerState,
           TimerStateManager.state.name,
         );
         PreferencesController.instance.setDuration(
-          PreferenceKeys.remainingTimerTime.name,
+          PreferenceKeys.remainingTimerTime,
           TimerStateManager.remainingTime ?? Duration.zero,
         );
 
