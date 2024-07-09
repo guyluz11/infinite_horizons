@@ -1,5 +1,6 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/domain/objects/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/objects/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
@@ -22,6 +23,17 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
   late ConfettiController confetti;
   bool nextPressed = false;
   bool confettiGotPlayed = false;
+
+  void onPressed() {
+    if (nextPressed) {
+      return;
+    }
+    VibrationController.instance.vibrate(VibrationType.light);
+    setState(() {
+      nextPressed = true;
+    });
+    confetti.play();
+  }
 
   @override
   void initState() {
@@ -105,15 +117,7 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
                 child: ButtonAtom(
                   variant: ButtonVariant.highEmphasisFilled,
                   disabled: nextPressed,
-                  onPressed: () {
-                    if (nextPressed) {
-                      return;
-                    }
-                    setState(() {
-                      nextPressed = true;
-                    });
-                    confetti.play();
-                  },
+                  onPressed: onPressed,
                   text: 'ready',
                 ),
               ),
