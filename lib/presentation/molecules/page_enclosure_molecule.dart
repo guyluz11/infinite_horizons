@@ -36,12 +36,11 @@ class PageEnclosureMolecule extends StatelessWidget {
           translate: topBarTranslate,
           rightOnTap: topBarRightOnTap,
         ),
-        if (subTitle != null) ...[
+        if (subTitle != null)
           TextAtom(
             subTitle!,
             variant: TextVariant.smallTitle,
           ),
-        ],
         const SeparatorAtom(variant: SeparatorVariant.farApart),
         Expanded(
           child: child,

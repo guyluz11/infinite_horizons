@@ -299,7 +299,7 @@ List<Tip> tipsList = [
   Tip(
     'Analytical Activity',
     reason:
-        'Analytical is good in the morning as our brain is in a state of high alertness, accurate thinking, enhanced focus and cognitive functions',
+        'We are more Analytical in the morning as our brain is in a state of high alertness, accurate thinking, enhanced focus and cognitive functions',
     type: TipType.analytical,
     timing: TipTiming.before,
     icon: FontAwesomeIcons.magnifyingGlassChart,
@@ -322,7 +322,7 @@ List<Tip> tipsList = [
   Tip(
     'Creative Activity',
     reason:
-        'Creative is good in the evening as our brain is in a state of divergent thinking and creativity',
+        'We are more Creative in the evening as our brain is in a state of divergent thinking and creativity',
     type: TipType.creative,
     timing: TipTiming.general,
     icon: FontAwesomeIcons.paintbrush,
