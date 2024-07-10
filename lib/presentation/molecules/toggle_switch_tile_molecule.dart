@@ -59,8 +59,8 @@ class _ToggleSwitchMoleculeState extends State<ToggleSwitchMolecule> {
       widget.text,
       subtitle: widget.description,
       onTap: onChange,
+      leading: widget.trailing == null ? null : switchWidget(),
       trailing: widget.trailing ?? switchWidget(),
-      leading: widget.trailing != null ? switchWidget() : const SizedBox(),
       enable: !(widget.lockOnToggleOn && isToggled),
     );
   }

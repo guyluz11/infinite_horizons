@@ -61,4 +61,5 @@ enum TextVariant {
   /// define out side, trying to deprecate
   regular,
   medium,
+  ;
 }

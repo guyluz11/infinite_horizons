@@ -47,13 +47,19 @@ class ListTileAtom extends StatelessWidget {
     final TextTheme textTheme = themeData.textTheme;
 
     return ListTile(
+      titleAlignment: ListTileTitleAlignment.top,
       enabled: enable,
       contentPadding: EdgeInsets.zero,
       title: titleIcon == null
           ? titleWidget
           : Row(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                FaIcon(titleIcon, size: textTheme.bodyMedium!.fontSize),
+                Container(
+                  margin: const EdgeInsets.only(top: 10),
+                  child:
+                      FaIcon(titleIcon, size: textTheme.bodyMedium!.fontSize),
+                ),
                 const SeparatorAtom(variant: SeparatorVariant.relatedElements),
                 Flexible(child: titleWidget),
               ],

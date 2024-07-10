@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/domain/objects/energy_level.dart';
 import 'package:infinite_horizons/domain/objects/study_type_abstract.dart';
@@ -31,7 +32,7 @@ class _IntroPageState extends State<IntroPage> {
   void onDone(BuildContext context) => Navigator.of(context)
       .push(MaterialPageRoute(builder: (context) => HomePage()));
 
-  void previousPage(bool didPop) => _introKey.currentState?.previous();
+  void previousPage() => _introKey.currentState?.previous();
 
   PageDecoration emptyPageDecoration() => const PageDecoration(
         pageMargin: EdgeInsets.zero,
@@ -50,18 +51,34 @@ class _IntroPageState extends State<IntroPage> {
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
+    final ColorScheme colorScheme = themeData.colorScheme;
+
     return Scaffold(
       body: PopScope(
         canPop: state == IntroState.welcome,
-        onPopInvoked: previousPage,
+        onPopInvoked: (_) => previousPage(),
         child: IntroductionScreen(
           isProgressTap: false,
           key: _introKey,
+          dotsDecorator: DotsDecorator(
+            color: colorScheme.outlineVariant,
+            activeColor: colorScheme.primary,
+          ),
           overrideNext: Center(
             child: ButtonAtom(
               variant: ButtonVariant.highEmphasisFilled,
               onPressed: showNextButton ? nextPage : () {},
+              icon: FontAwesomeIcons.arrowRight,
               text: 'next',
+              disabled: !showNextButton,
+            ),
+          ),
+          overrideBack: Center(
+            child: ButtonAtom(
+              variant: ButtonVariant.lowEmphasisIcon,
+              onPressed: previousPage,
+              icon: FontAwesomeIcons.arrowLeft,
               disabled: !showNextButton,
             ),
           ),

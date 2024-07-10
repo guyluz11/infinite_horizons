@@ -19,7 +19,7 @@ abstract class HealthController {
 
   Future<bool> requestSleepDataPermission();
 
-  Future<DateTime?> getWakeUpTime();
+  Future<Duration?> getEstimatedDurationFromWake();
 
   void removeSleepPermission();
 }
