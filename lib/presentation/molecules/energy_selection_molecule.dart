@@ -88,6 +88,7 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
   Widget build(BuildContext context) {
     return PageEnclosureMolecule(
       title: 'energy',
+      subTitle: 'Select session length',
       scaffold: false,
       child: Padding(
         padding: const EdgeInsets.only(bottom: 30),
