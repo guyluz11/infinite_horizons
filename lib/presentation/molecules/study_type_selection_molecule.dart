@@ -21,11 +21,19 @@ class StudyTypeSelectionMolecule extends StatefulWidget {
 class _StudyTypeSelectionMoleculeState
     extends State<StudyTypeSelectionMolecule> {
   late TipType selectedType;
+  bool isTextFinished = false;
+  late Tip analyticalTip;
+  late Tip creativeTip;
+  late List<Tip> recommendedTips;
+  Duration? timeFromWake;
+  bool didPulledWakeTime = false;
+  late List<String> recommendedTypeText;
 
   @override
   void initState() {
     super.initState();
     selectedType = StudyTypeAbstract.instance?.tipType ?? TipType.undefined;
+    initializeTips();
   }
 
   void onChanged(TipType? type) {
@@ -42,62 +50,132 @@ class _StudyTypeSelectionMoleculeState
     widget.onSelected();
   }
 
+  Future initializeTips() async {
+    analyticalTip = tipsList.firstWhereOrNull(
+      (element) => element.id == 'recommended in the morning',
+    )!;
+    creativeTip = tipsList.firstWhereOrNull(
+      (element) => element.id == 'recommended in the evening',
+    )!;
+
+    if (await HealthController.instance.isPermissionsSleepInBedGranted()) {
+      timeFromWake =
+          await HealthController.instance.getEstimatedDurationFromWake();
+    }
+    recommendedTypeText = getRecommendedTypeText();
+    setState(() {
+      didPulledWakeTime = true;
+    });
+  }
+
+  List<String> getRecommendedTypeText() {
+    final DateTime now = DateTime.now();
+    recommendedTips = [];
+
+    if (creativeTip.isTipRecommendedNow(timeFromWake: timeFromWake, now: now)) {
+      recommendedTips.add(creativeTip);
+    }
+
+    if (analyticalTip.isTipRecommendedNow(
+      timeFromWake: timeFromWake,
+      now: now,
+    )) {
+      recommendedTips.add(analyticalTip);
+    }
+
+    if (recommendedTips.isEmpty) {
+      recommendedTips.add(creativeTip);
+      recommendedTips.add(analyticalTip);
+    }
+
+    final String recommendedTipText =
+        recommendedTips.map((tip) => tip.actionText).join(', ');
+    return [
+      if (recommendedTips.length == 1)
+        'We recommend you to work on:'
+      else
+        'Pick one:',
+      recommendedTipText,
+    ];
+  }
+
   @override
   Widget build(BuildContext context) {
     return PageEnclosureMolecule(
       scaffold: false,
       title: 'study_type',
-      child: Column(
-        children: [
-          CardAtom(
-            child: Column(
+      subTitle: 'Choose a study type',
+      child: didPulledWakeTime
+          ? Column(
               children: [
-                studyTypeRadioButton(
-                  onChanged,
-                  selectedType,
-                  TipType.analytical,
+                CardAtom(
+                  child: Column(
+                    children: [
+                      SizedBox(
+                        width: double.infinity,
+                        child: isTextFinished
+                            ? TextAtom(
+                                recommendedTypeText.join('\n'),
+                                variant: TextVariant.title,
+                              )
+                            : AnimatedTextAtom(
+                                recommendedTypeText,
+                                onFinished: () {
+                                  WidgetsBinding.instance
+                                      .addPostFrameCallback((_) {
+                                    setState(() {
+                                      isTextFinished = true;
+                                    });
+                                  });
+                                },
+                              ),
+                      ),
+                      if (isTextFinished)
+                        Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            const SeparatorAtom(
+                              variant: SeparatorVariant.closeWidgets,
+                            ),
+                            TextAtom('* ${recommendedTips.first.reason}'),
+                            if (recommendedTips.length > 1)
+                              TextAtom('* ${recommendedTips[1].reason}'),
+                          ],
+                        ),
+                    ],
+                  ),
                 ),
-                studyTypeRadioButton(onChanged, selectedType, TipType.creative),
+                if (isTextFinished) ...[
+                  const SeparatorAtom(),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceAround,
+                    children: [
+                      ButtonAtom(
+                        text: creativeTip.actionText,
+                        icon: creativeTip.icon,
+                        variant: ButtonVariant.mediumHighEmphasisFilledTonal,
+                        onPressed: () {
+                          VibrationController.instance
+                              .vibrate(VibrationType.light);
+                          onChanged(TipType.creative);
+                        },
+                      ),
+                      ButtonAtom(
+                        text: analyticalTip.actionText,
+                        icon: analyticalTip.icon,
+                        variant: ButtonVariant.mediumHighEmphasisFilledTonal,
+                        onPressed: () {
+                          VibrationController.instance
+                              .vibrate(VibrationType.light);
+                          onChanged(TipType.analytical);
+                        },
+                      ),
+                    ],
+                  ),
+                ],
               ],
-            ),
-          ),
-        ],
-      ),
-    );
-  }
-
-  Widget studyTypeRadioButton(
-    void Function(TipType) onChanged,
-    TipType isSelected,
-    TipType buttonType,
-  ) {
-    final Tip tip = (buttonType == TipType.analytical
-        ? tipsList.firstWhereOrNull(
-            (element) => element.id == 'recommended in the morning',
-          )
-        : tipsList.firstWhereOrNull(
-            (element) => element.id == 'recommended in the evening',
-          ))!;
-
-    return InkWell(
-      onTap: () {
-        VibrationController.instance.vibrate(VibrationType.light);
-        onChanged(buttonType);
-      },
-      // TODO: change to text based yes/no question
-      // We recommend you to work on ___ task because our brain .
-      // Is that the task you are going to work on?
-      // No      Yes
-      child: ListTileAtom(
-        tip.actionText,
-        titleIcon: tip.icon,
-        leading: Radio<TipType>(
-          value: buttonType,
-          groupValue: isSelected,
-          onChanged: (value) => onChanged(value ?? TipType.undefined),
-        ),
-        subtitle: tip.reason,
-      ),
+            )
+          : const CircularProgressIndicator(),
     );
   }
 }

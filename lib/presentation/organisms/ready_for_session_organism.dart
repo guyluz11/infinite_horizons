@@ -69,6 +69,15 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                if (widget.response != null)
+                  CardAtom(
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: TextAtom(widget.response!),
+                    ),
+                  ),
+                const SeparatorAtom(),
+                const SeparatorAtom(),
                 CardAtom(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -93,15 +102,6 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
                     ],
                   ),
                 ),
-                const SeparatorAtom(),
-                const SeparatorAtom(),
-                if (widget.response != null)
-                  CardAtom(
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: TextAtom(widget.response!),
-                    ),
-                  ),
                 const SeparatorAtom(variant: SeparatorVariant.farApart),
               ],
             ),

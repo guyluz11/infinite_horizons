@@ -56,7 +56,7 @@ class ListTileAtom extends StatelessWidget {
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Container(
-                  margin: const EdgeInsets.only(top: 4.7),
+                  margin: const EdgeInsets.only(top: 10),
                   child:
                       FaIcon(titleIcon, size: textTheme.bodyMedium!.fontSize),
                 ),

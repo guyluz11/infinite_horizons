@@ -44,14 +44,9 @@ class _TipsOrganismState extends State<TipsOrganism> {
       });
       return;
     }
-    DateTime? wakeUpTime = await HealthController.instance.getWakeUpTime();
+    timeFromWake =
+        await HealthController.instance.getEstimatedDurationFromWake();
 
-    if (wakeUpTime != null) {
-      if (wakeUpTime.hour > 10) {
-        wakeUpTime = wakeUpTime.copyWith(hour: 10);
-      }
-      timeFromWake = DateTime.now().difference(wakeUpTime);
-    }
     setState(() {
       didPulledWakeTime = true;
     });
@@ -84,27 +79,10 @@ class _TipsOrganismState extends State<TipsOrganism> {
           return false;
         }
 
-        if (timeFromWake != null) {
-          if (element.startTimeFromWake != null &&
-              element.endTimeFromWake != null) {
-            if (element.startTimeFromWake! <= timeFromWake! &&
-                element.endTimeFromWake! >= timeFromWake!) {
-              return true;
-            }
-            return false;
-          }
-        } else if (element.startTimeFromWake != null &&
-            element.endTimeFromWake != null) {
-          if (element.startHour != null &&
-              element.endHour != null &&
-              now.isAfter(element.startHour!) &&
-              now.isBefore(element.endHour!)) {
-            return true;
-          }
-          return false;
-        }
-
-        return true;
+        return element.isTipRecommendedNow(
+          timeFromWake: timeFromWake,
+          now: now,
+        );
       },
     ).toList();
 
@@ -115,6 +93,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
     return PageEnclosureMolecule(
       scaffold: false,
       title: 'efficient_tips'.tr(args: [widget.studyType.tr()]),
+      subTitle: 'Select each element when complete',
       topBarTranslate: false,
       child: isDnd == null || !didPulledWakeTime
           ? const Center(child: CircularProgressIndicator())
@@ -211,7 +190,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
                       ],
                     ),
                   ),
-                  const SeparatorAtom(variant: SeparatorVariant.farApart),
+                  const SeparatorAtom(),
                   ButtonAtom(
                     variant: ButtonVariant.lowEmphasisText,
                     onPressed: () => Navigator.of(context).push(

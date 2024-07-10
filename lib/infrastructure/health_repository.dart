@@ -28,7 +28,6 @@ class _HealthRepository extends HealthController {
           ) ??
           sleepPermissionGranted);
 
-  @override
   Future<DateTime?> getWakeUpTime() async {
     if (!supported) {
       return null;
@@ -50,6 +49,21 @@ class _HealthRepository extends HealthController {
     data.sort((a, b) => b.dateTo.compareTo(a.dateTo));
 
     return data.isNotEmpty ? data.first.dateTo : null;
+  }
+
+  @override
+  Future<Duration?> getEstimatedDurationFromWake() async {
+    DateTime? wakeUpTime = await getWakeUpTime();
+    Duration? timeFromWake;
+
+    if (wakeUpTime != null) {
+      if (wakeUpTime.hour > 10) {
+        wakeUpTime = wakeUpTime.copyWith(hour: 10);
+      }
+      timeFromWake = DateTime.now().difference(wakeUpTime);
+    }
+
+    return timeFromWake;
   }
 
   @override

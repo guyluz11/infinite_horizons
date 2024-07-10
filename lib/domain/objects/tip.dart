@@ -90,6 +90,30 @@ class Tip {
   DateTime? endHour;
 
   IconData icon;
+
+  bool isTipRecommendedNow({Duration? timeFromWake, DateTime? now}) {
+    final DateTime nowVar = now ?? DateTime.now();
+
+    if (timeFromWake != null) {
+      if (startTimeFromWake != null && endTimeFromWake != null) {
+        if (startTimeFromWake! <= timeFromWake &&
+            endTimeFromWake! >= timeFromWake) {
+          return true;
+        }
+        return false;
+      }
+    } else if (startTimeFromWake != null && endTimeFromWake != null) {
+      if (startHour != null &&
+          endHour != null &&
+          nowVar.isAfter(startHour!) &&
+          nowVar.isBefore(endHour!)) {
+        return true;
+      }
+      return false;
+    }
+
+    return true;
+  }
 }
 
 List<Tip> tipsList = [
@@ -273,9 +297,9 @@ List<Tip> tipsList = [
   ),
 
   Tip(
-    'Analytical task',
+    'Analytical Activity',
     reason:
-        'Good in the morning as our brain is in a state of high alertness, accurate thinking, enhanced focus and cognitive functions',
+        'Analytical is good in the morning as our brain is in a state of high alertness, accurate thinking, enhanced focus and cognitive functions',
     type: TipType.analytical,
     timing: TipTiming.before,
     icon: FontAwesomeIcons.magnifyingGlassChart,
@@ -296,14 +320,16 @@ List<Tip> tipsList = [
 
   // Creatively tips
   Tip(
-    'Creative task',
+    'Creative Activity',
     reason:
-        'Good in the evening as our brain is in a state of divergent thinking and creativity',
+        'Creative is good in the evening as our brain is in a state of divergent thinking and creativity',
     type: TipType.creative,
     timing: TipTiming.general,
     icon: FontAwesomeIcons.paintbrush,
     isCheckbox: false,
     id: 'recommended in the evening',
+    startTimeFromWake: const Duration(hours: 11),
+    endTimeFromWake: const Duration(hours: 20),
     startHour: GlobalVariables.datTimeTodayOnlyHour(14),
     endHour: GlobalVariables.datTimeTodayOnlyHour(23),
     resourceLinks: [
