@@ -132,6 +132,7 @@ class _IntroPageState extends State<IntroPage> {
           scrollPhysics: const NeverScrollableScrollPhysics(),
           onChange: onIntroPageChange,
           showDoneButton: false,
+          showNextButton: showNextButton,
         ),
       ),
     );
