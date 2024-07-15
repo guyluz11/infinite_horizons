@@ -28,6 +28,7 @@ class TimerStateManager {
         PlayerController.instance.play(SoundType.sessionCompleted);
         VibrationController.instance.vibrate(VibrationType.medium);
       case TimerState.breakTime:
+        break;
       case TimerState.readyToStart:
         PlayerController.instance.play(SoundType.breakEnded);
     }
@@ -244,10 +245,10 @@ class TimerOrganismState extends State<TimerOrganism> {
 }
 
 enum TimerState {
-  study('Study'),
-  getReadyForBreak('Before Break'),
-  breakTime('Break Time'),
-  readyToStart('Complete'),
+  study('study'),
+  getReadyForBreak('transition'),
+  breakTime('break'),
+  readyToStart('done'),
   ;
 
   const TimerState(this.spacedName);

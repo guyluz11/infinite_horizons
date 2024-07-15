@@ -19,6 +19,22 @@ class WelcomeOrganism extends StatelessWidget {
               imageColor: AppThemeData.logoBackgroundColor,
               child: Column(
                 children: [
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                    children: [
+                      const TextAtom(
+                        'Approve all permissions for smooth experience',
+                      ),
+                      ButtonAtom(
+                        variant: ButtonVariant.mediumEmphasisOutlined,
+                        text: 'Permissions',
+                        onPressed: () => openAlertDialog(
+                          context,
+                          const PermissionsOrganism(),
+                        ),
+                      ),
+                    ],
+                  ),
                   const SeparatorAtom(),
                   const TextAtom(
                     'About the app',
@@ -43,19 +59,6 @@ class WelcomeOrganism extends StatelessWidget {
                     "Enjoy",
                   ),
                   const SeparatorAtom(),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.end,
-                    children: [
-                      ButtonAtom(
-                        variant: ButtonVariant.mediumEmphasisOutlined,
-                        text: 'Permissions',
-                        onPressed: () => openAlertDialog(
-                          context,
-                          const PermissionsOrganism(),
-                        ),
-                      ),
-                    ],
-                  ),
                 ],
               ),
             ),

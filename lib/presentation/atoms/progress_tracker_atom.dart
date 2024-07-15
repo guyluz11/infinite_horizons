@@ -15,14 +15,17 @@ class ProgressTrackerAtom extends StatelessWidget {
     bool active = true;
 
     for (final String state in states) {
+      final bool isCurrentState = state == currentState;
       statusList.add(
         Status(
-          name: state,
-          icon: state == currentState ? FontAwesomeIcons.caretDown : null,
+          name: isCurrentState
+              ? state[0].toUpperCase() + state.substring(1)
+              : state,
+          icon: isCurrentState ? FontAwesomeIcons.caretDown : null,
           active: active,
         ),
       );
-      if (state == currentState) {
+      if (isCurrentState) {
         active = false;
       }
     }
@@ -33,8 +36,8 @@ class ProgressTrackerAtom extends StatelessWidget {
     return ProgressTracker(
       currentIndex: currentIndex,
       statusList: statusList,
-      activeColor: colorScheme.onSurface,
-      inActiveColor: colorScheme.outlineVariant,
+      activeColor: colorScheme.primary,
+      inActiveColor: colorScheme.secondaryContainer,
     );
   }
 }
