@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_horizons/presentation/core/global_variables.dart';
+import 'package:universal_io/io.dart';
 
 class Resource {
   Resource(this.title, this.resourceExplanation, {this.link});

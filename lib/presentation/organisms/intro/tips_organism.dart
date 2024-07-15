@@ -1,5 +1,3 @@
-import 'dart:io';
-
 import 'package:confetti/confetti.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
@@ -11,6 +9,7 @@ import 'package:infinite_horizons/presentation/molecules/check_box_tile_molecule
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/pages/all_tips_page.dart';
 import 'package:infinite_horizons/presentation/pages/tip_information_page.dart';
+import 'package:universal_io/io.dart';
 
 class TipsOrganism extends StatefulWidget {
   const TipsOrganism(this.studyType);

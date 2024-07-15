@@ -43,6 +43,7 @@ dependencies:
       url: https://github.com/guyluz11/progress-tracker.git
       ref: main
   shared_preferences: ^2.2.3
+  universal_io: ^2.2.2
   url_launcher: ^6.2.6
   vibration: ^1.8.4
   wakelock_plus: ^1.2.5
