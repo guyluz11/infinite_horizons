@@ -297,7 +297,7 @@ List<Tip> tipsList = [
   ),
 
   Tip(
-    'Analytical Activity',
+    'Analytical',
     reason:
         'We are more Analytical in the morning as our brain is in a state of high alertness, accurate thinking, enhanced focus and cognitive functions',
     type: TipType.analytical,
@@ -320,7 +320,7 @@ List<Tip> tipsList = [
 
   // Creatively tips
   Tip(
-    'Creative Activity',
+    'Creative',
     reason:
         'We are more Creative in the evening as our brain is in a state of divergent thinking and creativity',
     type: TipType.creative,

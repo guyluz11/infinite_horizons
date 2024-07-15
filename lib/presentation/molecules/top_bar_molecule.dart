@@ -47,7 +47,7 @@ class TopBarMolecule extends StatelessWidget {
                 ),
                 TextAtom(
                   title ?? '',
-                  variant: TextVariant.titleLarge,
+                  variant: TextVariant.title,
                 ),
                 Expanded(
                   child: Row(
@@ -98,7 +98,7 @@ class TopBarMolecule extends StatelessWidget {
                 Expanded(
                   child: TextAtom(
                     title ?? '',
-                    variant: TextVariant.titleLarge,
+                    variant: TextVariant.title,
                   ),
                 ),
                 Row(

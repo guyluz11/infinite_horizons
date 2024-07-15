@@ -59,7 +59,7 @@ class TimerAtom extends StatelessWidget {
                             children: [
                               TextAtom(
                                 "${time.hours == '00' ? '' : '${time.hours}:'}${time.minutes}:${time.seconds}",
-                                variant: TextVariant.title,
+                                variant: TextVariant.titleLarge,
                                 textAlign: TextAlign.left,
                                 translate: false,
                               ),
