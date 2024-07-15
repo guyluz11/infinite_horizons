@@ -1,8 +1,7 @@
-import 'dart:io';
-
 import 'package:health/health.dart';
 import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:permission_handler/permission_handler.dart';
+import 'package:universal_io/io.dart';
 
 part 'package:infinite_horizons/infrastructure/health_repository.dart';
 
