@@ -244,7 +244,7 @@ List<Tip> tipsList = [
     icon: FontAwesomeIcons.lightbulb,
     startTimeFromWake: const Duration(hours: 9),
     endTimeFromWake: const Duration(hours: 16),
-    startHour: GlobalVariables.datTimeTodayOnlyHour(2),
+    startHour: GlobalVariables.datTimeTodayOnlyHour(14),
     endHour: GlobalVariables.datTimeTodayOnlyHour(22),
     resourceLinks: [
       Resource(

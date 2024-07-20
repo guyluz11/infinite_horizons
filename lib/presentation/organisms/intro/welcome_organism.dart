@@ -18,6 +18,7 @@ class WelcomeOrganism extends StatelessWidget {
               image: Image.asset('assets/logo.png'),
               imageColor: AppThemeData.logoBackgroundColor,
               child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   Row(
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
