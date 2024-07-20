@@ -45,7 +45,7 @@ class _NotificationsRepository extends NotificationsController {
       NotificationPermission.Alert,
       NotificationPermission.Sound,
       NotificationPermission.Vibration,
-      NotificationPermission.Light
+      NotificationPermission.Light,
     ];
 
     final List<NotificationPermission> grantedPermissions =

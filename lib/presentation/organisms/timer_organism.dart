@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/domain/objects/energy_level.dart';
 import 'package:infinite_horizons/domain/objects/study_type_abstract.dart';
+import 'package:infinite_horizons/presentation/atoms/progress_tracker_atom.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 import 'package:infinite_horizons/presentation/pages/pages.dart';
@@ -27,6 +28,7 @@ class TimerStateManager {
         PlayerController.instance.play(SoundType.sessionCompleted);
         VibrationController.instance.vibrate(VibrationType.medium);
       case TimerState.breakTime:
+        break;
       case TimerState.readyToStart:
         PlayerController.instance.play(SoundType.breakEnded);
     }
@@ -225,18 +227,33 @@ class TimerOrganismState extends State<TimerOrganism> {
       title: title,
       scaffold: false,
       expendChild: false,
+      topMargin: false,
       topBarRightOnTap: () => openAlertDialog(context, SettingsPage()),
-      child: renderSizedBox ? const SizedBox() : stateWidget(),
+      child: Column(
+        children: [
+          ProgressTrackerAtom(
+            TimerState.values.map((e) => e.spacedName).toList(),
+            state.spacedName,
+          ),
+          Expanded(
+            child: renderSizedBox ? const SizedBox() : stateWidget(),
+          ),
+        ],
+      ),
     );
   }
 }
 
 enum TimerState {
-  study,
-  getReadyForBreak,
-  breakTime,
-  readyToStart,
+  study('study'),
+  getReadyForBreak('transition'),
+  breakTime('break'),
+  readyToStart('done'),
   ;
+
+  const TimerState(this.spacedName);
+
+  final String spacedName;
 }
 
 extension TimerStateExtension on TimerState {

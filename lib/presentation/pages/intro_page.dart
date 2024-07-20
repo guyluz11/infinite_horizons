@@ -24,6 +24,24 @@ class _IntroPageState extends State<IntroPage> {
   IntroState state = IntroState.welcome;
   final Duration selectionTransitionDelay = const Duration(milliseconds: 200);
 
+  void onIntroPageChange(int n) {
+    state = IntroState.getStateByPageNumber(n);
+    bool showNextButtonTemp = true;
+
+    if (state == IntroState.studyType &&
+        (StudyTypeAbstract.instance?.tipType == null ||
+            StudyTypeAbstract.instance!.tipType == TipType.undefined)) {
+      showNextButtonTemp = false;
+    } else if (state == IntroState.energy &&
+        StudyTypeAbstract.instance!.getTimerStates().type ==
+            EnergyType.undefined) {
+      showNextButtonTemp = false;
+    }
+    setState(() {
+      showNextButton = showNextButtonTemp;
+    });
+  }
+
   void nextPage() {
     VibrationController.instance.vibrate(VibrationType.light);
     _introKey.currentState?.next();
@@ -38,7 +56,7 @@ class _IntroPageState extends State<IntroPage> {
         pageMargin: EdgeInsets.zero,
         footerPadding: EdgeInsets.zero,
         titlePadding: EdgeInsets.zero,
-        contentMargin: EdgeInsets.zero,
+        contentMargin: EdgeInsets.only(bottom: 30),
       );
 
   PageViewModel customPageViewModel({required Widget bodyWidget}) =>
@@ -112,24 +130,9 @@ class _IntroPageState extends State<IntroPage> {
           back: const Icon(Icons.arrow_back),
           next: const Icon(Icons.arrow_forward),
           scrollPhysics: const NeverScrollableScrollPhysics(),
-          onChange: (int n) {
-            state = IntroState.getStateByPageNumber(n);
-            bool showNextButtonTemp = true;
-
-            if (state == IntroState.studyType &&
-                (StudyTypeAbstract.instance?.tipType == null ||
-                    StudyTypeAbstract.instance!.tipType == TipType.undefined)) {
-              showNextButtonTemp = false;
-            } else if (state == IntroState.energy &&
-                StudyTypeAbstract.instance!.getTimerStates().type ==
-                    EnergyType.undefined) {
-              showNextButtonTemp = false;
-            }
-            setState(() {
-              showNextButton = showNextButtonTemp;
-            });
-          },
+          onChange: onIntroPageChange,
           showDoneButton: false,
+          showNextButton: showNextButton,
         ),
       ),
     );

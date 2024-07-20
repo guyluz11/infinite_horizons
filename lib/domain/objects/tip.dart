@@ -1,9 +1,8 @@
-import 'dart:io';
-
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/widgets.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_horizons/presentation/core/global_variables.dart';
+import 'package:universal_io/io.dart';
 
 class Resource {
   Resource(this.title, this.resourceExplanation, {this.link});
@@ -245,7 +244,7 @@ List<Tip> tipsList = [
     icon: FontAwesomeIcons.lightbulb,
     startTimeFromWake: const Duration(hours: 9),
     endTimeFromWake: const Duration(hours: 16),
-    startHour: GlobalVariables.datTimeTodayOnlyHour(2),
+    startHour: GlobalVariables.datTimeTodayOnlyHour(14),
     endHour: GlobalVariables.datTimeTodayOnlyHour(22),
     resourceLinks: [
       Resource(
@@ -297,7 +296,7 @@ List<Tip> tipsList = [
   ),
 
   Tip(
-    'Analytical Activity',
+    'Analytical',
     reason:
         'We are more Analytical in the morning as our brain is in a state of high alertness, accurate thinking, enhanced focus and cognitive functions',
     type: TipType.analytical,
@@ -320,7 +319,7 @@ List<Tip> tipsList = [
 
   // Creatively tips
   Tip(
-    'Creative Activity',
+    'Creative',
     reason:
         'We are more Creative in the evening as our brain is in a state of divergent thinking and creativity',
     type: TipType.creative,

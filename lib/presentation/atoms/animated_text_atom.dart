@@ -45,7 +45,6 @@ class _AnimatedTextAtomState extends State<AnimatedTextAtom> {
             TypewriterAnimatedText(
               text,
               textStyle: textTheme.headlineMedium,
-              speed: const Duration(milliseconds: 40),
             ),
           ],
           onFinished: () {

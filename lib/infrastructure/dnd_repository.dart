@@ -2,9 +2,7 @@ part of 'package:infinite_horizons/domain/controllers/dnd_controller.dart';
 
 class _DndRepository extends DndController {
   @override
-  void init() {
-    supported = Platform.isAndroid;
-  }
+  void init() => supported = Platform.isAndroid;
 
   @override
   Future<void> enableDnd() async {

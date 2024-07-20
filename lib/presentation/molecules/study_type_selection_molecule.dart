@@ -89,7 +89,7 @@ class _StudyTypeSelectionMoleculeState
     }
 
     final String recommendedTipText =
-        recommendedTips.map((tip) => tip.actionText).join(', ');
+        recommendedTips.map((tip) => '${tip.actionText} Activity').join(', ');
     return [
       if (recommendedTips.length == 1)
         'We recommend you to work on:'

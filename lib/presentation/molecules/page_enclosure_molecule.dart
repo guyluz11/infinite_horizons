@@ -8,6 +8,7 @@ class PageEnclosureMolecule extends StatelessWidget {
     required this.child,
     this.subTitle,
     this.margin = true,
+    this.topMargin = true,
     this.topBarTranslate = true,
     this.topBarType = TopBarType.none,
     this.scaffold = true,
@@ -21,6 +22,7 @@ class PageEnclosureMolecule extends StatelessWidget {
   final String? subTitle;
   final bool topBarTranslate;
   final bool margin;
+  final bool topMargin;
   final bool scaffold;
   final TopBarType topBarType;
   final VoidCallback? topBarRightOnTap;
@@ -41,7 +43,7 @@ class PageEnclosureMolecule extends StatelessWidget {
             subTitle!,
             variant: TextVariant.smallTitle,
           ),
-        const SeparatorAtom(variant: SeparatorVariant.farApart),
+        if (topMargin) const SeparatorAtom(variant: SeparatorVariant.farApart),
         Expanded(
           child: child,
         ),
