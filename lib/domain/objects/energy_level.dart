@@ -57,9 +57,9 @@ class EnergyLevel {
 }
 
 class TimerSession {
-  TimerSession(this.study, this.breakDuration);
+  TimerSession(this.work, this.breakDuration);
 
-  Duration study;
+  Duration work;
   Duration breakDuration;
   final Duration getReadyForBreak = const Duration(seconds: 10);
 }

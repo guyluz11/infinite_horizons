@@ -9,7 +9,7 @@ class WelcomeOrganism extends StatelessWidget {
   Widget build(BuildContext context) {
     return PageEnclosureMolecule(
       scaffold: false,
-      title: 'study_efficiently',
+      title: 'work_efficiently',
       child: SingleChildScrollView(
         child: Column(
           crossAxisAlignment: CrossAxisAlignment.start,

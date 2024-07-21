@@ -1,25 +1,24 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/controllers/controllers.dart';
-import 'package:infinite_horizons/domain/objects/study_type_abstract.dart';
-import 'package:infinite_horizons/domain/objects/study_type_analytical.dart';
-import 'package:infinite_horizons/domain/objects/study_type_creatively.dart';
 import 'package:infinite_horizons/domain/objects/tip.dart';
+import 'package:infinite_horizons/domain/objects/work_type_abstract.dart';
+import 'package:infinite_horizons/domain/objects/work_type_analytical.dart';
+import 'package:infinite_horizons/domain/objects/work_type_creatively.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 
-class StudyTypeSelectionMolecule extends StatefulWidget {
-  const StudyTypeSelectionMolecule(this.onSelected);
+class WorkTypeSelectionMolecule extends StatefulWidget {
+  const WorkTypeSelectionMolecule(this.onSelected);
 
   final VoidCallback onSelected;
 
   @override
-  State<StudyTypeSelectionMolecule> createState() =>
-      _StudyTypeSelectionMoleculeState();
+  State<WorkTypeSelectionMolecule> createState() =>
+      _WorkTypeSelectionMoleculeState();
 }
 
-class _StudyTypeSelectionMoleculeState
-    extends State<StudyTypeSelectionMolecule> {
+class _WorkTypeSelectionMoleculeState extends State<WorkTypeSelectionMolecule> {
   late TipType selectedType;
   bool isTextFinished = false;
   late Tip analyticalTip;
@@ -32,7 +31,7 @@ class _StudyTypeSelectionMoleculeState
   @override
   void initState() {
     super.initState();
-    selectedType = StudyTypeAbstract.instance?.tipType ?? TipType.undefined;
+    selectedType = WorkTypeAbstract.instance?.tipType ?? TipType.undefined;
     initializeTips();
   }
 
@@ -40,9 +39,9 @@ class _StudyTypeSelectionMoleculeState
     setState(() {
       selectedType = type ?? TipType.undefined;
     });
-    StudyTypeAbstract.instance = selectedType == TipType.analytical
-        ? StudyTypeAnalytical()
-        : StudyTypeCreatively();
+    WorkTypeAbstract.instance = selectedType == TipType.analytical
+        ? WorkTypeAnalytical()
+        : WorkTypeCreatively();
 
     PreferencesController.instance
         .setString(PreferenceKeys.tipType, selectedType.name);
@@ -103,8 +102,8 @@ class _StudyTypeSelectionMoleculeState
   Widget build(BuildContext context) {
     return PageEnclosureMolecule(
       scaffold: false,
-      title: 'study_type',
-      subTitle: 'Choose a study type',
+      title: 'work_type',
+      subTitle: 'Choose a work type',
       child: didPulledWakeTime
           ? Column(
               children: [

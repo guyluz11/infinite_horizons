@@ -1,8 +1,8 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/controllers/controllers.dart';
-import 'package:infinite_horizons/domain/objects/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/objects/tip.dart';
+import 'package:infinite_horizons/domain/objects/work_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class ReadyForSessionOrganism extends StatefulWidget {
@@ -56,7 +56,7 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
         .where(
           (element) =>
               element.timing == TipTiming.inSession &&
-              (element.type == StudyTypeAbstract.instance!.tipType ||
+              (element.type == WorkTypeAbstract.instance!.tipType ||
                   element.type == TipType.general),
         )
         .toList();

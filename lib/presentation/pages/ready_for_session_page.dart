@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/domain/objects/energy_level.dart';
-import 'package:infinite_horizons/domain/objects/study_type_abstract.dart';
+import 'package:infinite_horizons/domain/objects/work_type_abstract.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 
@@ -18,7 +18,7 @@ class ReadyForSessionPage extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     String text;
-    switch (StudyTypeAbstract.instance!.getTimerStates().type) {
+    switch (WorkTypeAbstract.instance!.getTimerStates().type) {
       case EnergyType.undefined:
         text = '';
       case EnergyType.veryLow:

@@ -111,10 +111,10 @@ class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
             String title;
             String body;
             NotificationVariant notificationVariant;
-            if (stateWithTime.state == TimerState.study) {
+            if (stateWithTime.state == TimerState.work) {
               title = 'break'.tr();
-              body = 'study_ended'.tr();
-              notificationVariant = NotificationVariant.studyEnded;
+              body = 'work_ended'.tr();
+              notificationVariant = NotificationVariant.workEnded;
             } else {
               title = 'new_session'.tr();
               body = 'break_ended'.tr();

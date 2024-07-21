@@ -3,10 +3,10 @@ import 'package:flutter/cupertino.dart';
 import 'package:infinite_horizons/domain/objects/energy_level.dart';
 import 'package:infinite_horizons/domain/objects/tip.dart';
 
-abstract class StudyTypeAbstract {
-  StudyTypeAbstract(this.tipType);
+abstract class WorkTypeAbstract {
+  WorkTypeAbstract(this.tipType);
 
-  static StudyTypeAbstract? instance;
+  static WorkTypeAbstract? instance;
 
   TipType tipType;
 

@@ -360,7 +360,7 @@ List<Tip> tipsList = [
     ],
   ),
   Tip(
-    'Study for 90m to maximize concentration efficiency',
+    'Work for 90m to maximize concentration efficiency',
     type: TipType.general,
     timing: TipTiming.general,
     icon: FontAwesomeIcons.graduationCap,
@@ -368,7 +368,7 @@ List<Tip> tipsList = [
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
-        'Andrew Huberman recommends studying for 90m to maximize study efficiency',
+        'Andrew Huberman recommends working for 90m to maximize study efficiency',
         link: Uri.parse(
           'https://youtu.be/Ze2pc6NwsHQ?si=VVlKkS7f6Fxtu00r&t=2534',
         ),

@@ -1,7 +1,7 @@
 {
   "start_by": "מומלץ להתחיל בחשיבה על הסאשן האחרון",
-  "study_efficiently": "בוא נלמד ביעילות",
-  "study_type": "סוג לימודים",
+  "work_efficiently": "בוא נעבוד ביעילות",
+  "work_type": "סוג לימודים",
   "efficient_tips": "טיפים {} יעילים",
   "energy": "אנרגיה",
   "very_low": "נמוך מאוד",
@@ -12,7 +12,7 @@
   "max": "מקסימום",
   "minutes_single": "ד",
   "custom": "מותאם אישית",
-  "study_timer": "זמן לימוד",
+  "work_timer": "זמן לימוד",
   "ready_for_break": "התכונן להפסקה",
   "take_break": "קח הפסקה",
   "continue": "המשך",

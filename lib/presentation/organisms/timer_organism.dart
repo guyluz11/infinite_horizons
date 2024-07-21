@@ -3,15 +3,15 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/domain/objects/energy_level.dart';
-import 'package:infinite_horizons/domain/objects/study_type_abstract.dart';
+import 'package:infinite_horizons/domain/objects/work_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/progress_tracker_atom.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 import 'package:infinite_horizons/presentation/pages/pages.dart';
 
 class TimerStateManager {
-  static TimerState state = TimerState.study;
-  static EnergyLevel timerStates = StudyTypeAbstract.instance!.getTimerStates();
+  static TimerState state = TimerState.work;
+  static EnergyLevel timerStates = WorkTypeAbstract.instance!.getTimerStates();
 
   static Timer? _timer;
   static VoidCallback? callback;
@@ -20,7 +20,7 @@ class TimerStateManager {
   static void incrementState() {
     state = getNextState(state);
     switch (state) {
-      case TimerState.study:
+      case TimerState.work:
         timerStates.promoteSession();
         PlayerController.instance.play(SoundType.startSession);
         VibrationController.instance.vibrate(VibrationType.heavy);
@@ -36,21 +36,21 @@ class TimerStateManager {
 
   static TimerState getNextState(TimerState state) {
     switch (state) {
-      case TimerState.study:
+      case TimerState.work:
         return TimerState.getReadyForBreak;
       case TimerState.getReadyForBreak:
         return TimerState.breakTime;
       case TimerState.breakTime:
         return TimerState.readyToStart;
       case TimerState.readyToStart:
-        return TimerState.study;
+        return TimerState.work;
     }
   }
 
   static Duration getTimerDuration(TimerState state) {
     switch (state) {
-      case TimerState.study:
-        return timerStates.getCurrentSession().study;
+      case TimerState.work:
+        return timerStates.getCurrentSession().work;
       case TimerState.getReadyForBreak:
         return timerStates.getCurrentSession().getReadyForBreak;
       case TimerState.breakTime:
@@ -182,7 +182,7 @@ class TimerOrganismState extends State<TimerOrganism> {
   }
 
   Future setCurrentState() async {
-    if (state == TimerState.study &&
+    if (state == TimerState.work &&
         TimerStateManager.state == TimerState.breakTime) {
       setState(() {
         renderSizedBox = true;
@@ -204,7 +204,7 @@ class TimerOrganismState extends State<TimerOrganism> {
 
   Widget stateWidget() {
     switch (state) {
-      case TimerState.study:
+      case TimerState.work:
       case TimerState.breakTime:
         return TimerMolecule(
           duration: TimerStateManager.getTimerDuration(state),
@@ -231,8 +231,8 @@ class TimerOrganismState extends State<TimerOrganism> {
   Widget build(BuildContext context) {
     String title;
     switch (state) {
-      case TimerState.study:
-        title = 'study_timer';
+      case TimerState.work:
+        title = 'work_timer';
       case TimerState.getReadyForBreak:
         title = 'ready_for_break';
       case TimerState.breakTime:
@@ -265,7 +265,7 @@ class TimerOrganismState extends State<TimerOrganism> {
 }
 
 enum TimerState {
-  study('study'),
+  work('work'),
   getReadyForBreak('transition'),
   breakTime('break'),
   readyToStart('done'),

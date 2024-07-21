@@ -1,7 +1,7 @@
 {
   "start_by": "Start by thinking about your last session",
-  "study_efficiently": "Let’s Study Efficiently",
-  "study_type": "Study Type",
+  "work_efficiently": "Let’s Work Efficiently",
+  "work_type": "Work Type",
   "efficient_tips": "Efficient {} Tips",
   "energy": "Energy",
   "very_low": "Very Low",
@@ -12,7 +12,7 @@
   "max": "Max",
   "minutes_single": "m",
   "custom": "Custom",
-  "study_timer": "Study Timer",
+  "work_timer": "Work Timer",
   "ready_for_break": "Get Ready For A Break",
   "take_break": "Take A Break",
   "continue": "Continue",
@@ -51,6 +51,6 @@
   "maximum_efficiency": "Maximum Efficiency",
   "break": "Take a break",
   "new_session": "Press to start a new session",
-  "study_ended": "You have completed the Study session, take a break",
+  "work_ended": "You have completed the Work session, take a break",
   "break_ended": "Break ended, enter the app to continue to the next session"
 }

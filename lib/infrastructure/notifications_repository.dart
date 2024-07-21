@@ -11,9 +11,9 @@ class _NotificationsRepository extends NotificationsController {
       'resource://drawable/res_app_icon',
       [
         NotificationChannel(
-          channelKey: NotificationVariant.studyEnded.channelKey,
-          channelName: 'Study Ended',
-          channelDescription: 'Study time ended',
+          channelKey: NotificationVariant.workEnded.channelKey,
+          channelName: 'Work Ended',
+          channelDescription: 'Work time ended',
           soundSource: 'resource://raw/session_completed',
           defaultColor: AppThemeData.logoBackgroundColor,
           ledColor: AppThemeData.logoBackgroundColor,
@@ -111,7 +111,7 @@ class _NotificationsRepository extends NotificationsController {
 }
 
 enum NotificationVariant {
-  studyEnded('study_ended'),
+  workEnded('work_ended'),
   breakEnded('break_ended'),
   ;
 
