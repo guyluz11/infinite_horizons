@@ -31,6 +31,7 @@ class ProgressIndicatorMolecule extends StatelessWidget {
         // TODO: Remove after we add break tips for analytical and creative
         if (tips.isNotEmpty)
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const TextAtom('Some tips:'),
               ListView.separated(

@@ -20,23 +20,6 @@ class WelcomeOrganism extends StatelessWidget {
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      const TextAtom(
-                        'Approve all permissions for smooth experience',
-                      ),
-                      ButtonAtom(
-                        variant: ButtonVariant.mediumEmphasisOutlined,
-                        text: 'Permissions',
-                        onPressed: () => openAlertDialog(
-                          context,
-                          const PermissionsOrganism(),
-                        ),
-                      ),
-                    ],
-                  ),
-                  const SeparatorAtom(),
                   const TextAtom(
                     'About the app',
                     variant: TextVariant.smallTitle,
@@ -47,6 +30,7 @@ class WelcomeOrganism extends StatelessWidget {
                   const TextAtom(
                     "Sometimes we work but our focus isn't as strong as we know it could be.\nUsing this app your study and work session efficiency can increase dramatically by following methods that got approved by studies and published in research papers.\n",
                   ),
+                  const SeparatorAtom(),
                   const TextAtom(
                     'Instructions',
                     variant: TextVariant.smallTitle,
@@ -58,6 +42,20 @@ class WelcomeOrganism extends StatelessWidget {
                     "Each time you sit to study a new material or work in your office we recommend opening the app and let it guide you for efficient and productive session.\n"
                     "The app use your responses to tailor the tips and session timer to your specific needs, so make sure to follow it as best as you can.\n\n"
                     "Enjoy",
+                  ),
+                  const SeparatorAtom(),
+                  const SeparatorAtom(),
+                  const TextAtom(
+                    'Approve all permissions for smooth experience',
+                  ),
+                  const SeparatorAtom(),
+                  ButtonAtom(
+                    variant: ButtonVariant.mediumEmphasisOutlined,
+                    text: 'Permissions',
+                    onPressed: () => openAlertDialog(
+                      context,
+                      const PermissionsOrganism(),
+                    ),
                   ),
                   const SeparatorAtom(),
                 ],

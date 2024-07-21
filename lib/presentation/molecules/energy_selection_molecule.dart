@@ -130,7 +130,7 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const TextAtom(
-                    'famous_methods',
+                    'known_methods',
                     variant: TextVariant.smallTitle,
                   ),
                   const SeparatorAtom(),

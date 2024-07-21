@@ -96,6 +96,24 @@ class TimerStateManager {
     );
   }
 
+  static List<UpcomingState> getAllStates() {
+    final List<UpcomingState> upcomingStates = [];
+    TimerState tempState = TimerState.values.first;
+    Duration durationForState = getTimerDuration(tempState);
+    final DateTime now = DateTime.now();
+
+    while (durationForState != Duration.zero) {
+      final UpcomingState upcomingState =
+          UpcomingState(tempState, now, durationForState);
+      upcomingStates.add(upcomingState);
+      tempState = getNextState(tempState);
+      durationForState = getTimerDuration(tempState);
+    }
+    upcomingStates.add(UpcomingState(tempState, now, durationForState));
+
+    return upcomingStates;
+  }
+
   static List<UpcomingState> upcomingStates(
     TimerState fromState,
     Duration? remainingTimeForState, {
@@ -232,8 +250,10 @@ class TimerOrganismState extends State<TimerOrganism> {
       child: Column(
         children: [
           ProgressTrackerAtom(
-            TimerState.values.map((e) => e.spacedName).toList(),
-            state.spacedName,
+            TimerStateManager.getAllStates(),
+            state,
+            TimerStateManager.timerStates.sessions.length - 1 ==
+                TimerStateManager.timerStates.currentState,
           ),
           Expanded(
             child: renderSizedBox ? const SizedBox() : stateWidget(),
