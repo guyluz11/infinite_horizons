@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/objects/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/objects/tip.dart';
+import 'package:infinite_horizons/domain/objects/work_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class ProgressIndicatorMolecule extends StatelessWidget {
@@ -19,7 +19,7 @@ class ProgressIndicatorMolecule extends StatelessWidget {
         .where(
           (element) =>
               element.timing == TipTiming.inBreak &&
-              (element.type == StudyTypeAbstract.instance!.tipType ||
+              (element.type == WorkTypeAbstract.instance!.tipType ||
                   element.type == TipType.general),
         )
         .toList();
@@ -31,6 +31,7 @@ class ProgressIndicatorMolecule extends StatelessWidget {
         // TODO: Remove after we add break tips for analytical and creative
         if (tips.isNotEmpty)
           Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               const TextAtom('Some tips:'),
               ListView.separated(

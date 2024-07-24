@@ -3,7 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/domain/objects/energy_level.dart';
-import 'package:infinite_horizons/domain/objects/study_type_abstract.dart';
+import 'package:infinite_horizons/domain/objects/work_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/pages/pages.dart';
@@ -24,15 +24,15 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
   @override
   void initState() {
     super.initState();
-    timerStates = StudyTypeAbstract.instance!.getTimerStates();
+    timerStates = WorkTypeAbstract.instance!.getTimerStates();
   }
 
   void onChanged(EnergyType? type) {
     final EnergyType energy = type ?? EnergyType.undefined;
-    StudyTypeAbstract.instance!.setTimerStates(energy);
+    WorkTypeAbstract.instance!.setTimerStates(energy);
 
     setState(() {
-      timerStates = StudyTypeAbstract.instance!.getTimerStates();
+      timerStates = WorkTypeAbstract.instance!.getTimerStates();
     });
     widget.callback();
   }
@@ -48,7 +48,7 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
         subtitleBuffer.write(' -> ');
       }
       subtitleBuffer.write(
-        '${timerState.study.inMinutes}m study -> ${timerState.breakDuration.inMinutes}m break',
+        '${timerState.work.inMinutes}m work -> ${timerState.breakDuration.inMinutes}m break',
       );
     }
 
@@ -130,7 +130,7 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const TextAtom(
-                    'famous_methods',
+                    'known_methods',
                     variant: TextVariant.smallTitle,
                   ),
                   const SeparatorAtom(),

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/domain/objects/energy_level.dart';
-import 'package:infinite_horizons/domain/objects/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/objects/tip.dart';
+import 'package:infinite_horizons/domain/objects/work_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
@@ -19,7 +19,7 @@ class _IntroPageState extends State<IntroPage> {
   final GlobalKey<IntroductionScreenState> _introKey =
       GlobalKey<IntroductionScreenState>();
 
-  String studyType = '';
+  String workType = '';
   bool showNextButton = true;
   IntroState state = IntroState.welcome;
   final Duration selectionTransitionDelay = const Duration(milliseconds: 200);
@@ -28,12 +28,12 @@ class _IntroPageState extends State<IntroPage> {
     state = IntroState.getStateByPageNumber(n);
     bool showNextButtonTemp = true;
 
-    if (state == IntroState.studyType &&
-        (StudyTypeAbstract.instance?.tipType == null ||
-            StudyTypeAbstract.instance!.tipType == TipType.undefined)) {
+    if (state == IntroState.workType &&
+        (WorkTypeAbstract.instance?.tipType == null ||
+            WorkTypeAbstract.instance!.tipType == TipType.undefined)) {
       showNextButtonTemp = false;
     } else if (state == IntroState.energy &&
-        StudyTypeAbstract.instance!.getTimerStates().type ==
+        WorkTypeAbstract.instance!.getTimerStates().type ==
             EnergyType.undefined) {
       showNextButtonTemp = false;
     }
@@ -105,16 +105,16 @@ class _IntroPageState extends State<IntroPage> {
               bodyWidget: WelcomeOrganism(),
             ),
             customPageViewModel(
-              bodyWidget: StudyTypeSelectionMolecule(() async {
+              bodyWidget: WorkTypeSelectionMolecule(() async {
                 setState(() {
-                  studyType = StudyTypeAbstract.instance!.tipType.name;
+                  workType = WorkTypeAbstract.instance!.tipType.name;
                 });
                 await Future.delayed(selectionTransitionDelay);
                 nextPage();
               }),
             ),
             customPageViewModel(
-              bodyWidget: TipsOrganism(studyType),
+              bodyWidget: TipsOrganism(workType),
             ),
             customPageViewModel(
               bodyWidget: EnergySelectionMolecule(() async {
@@ -141,7 +141,7 @@ class _IntroPageState extends State<IntroPage> {
 
 enum IntroState {
   welcome(0),
-  studyType(1),
+  workType(1),
   tips(2),
   energy(3),
   encouragementSentence(4),

@@ -2,8 +2,8 @@ import 'package:confetti/confetti.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/controllers/controllers.dart';
-import 'package:infinite_horizons/domain/objects/study_type_abstract.dart';
 import 'package:infinite_horizons/domain/objects/tip.dart';
+import 'package:infinite_horizons/domain/objects/work_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/check_box_tile_molecule.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
@@ -12,9 +12,9 @@ import 'package:infinite_horizons/presentation/pages/tip_information_page.dart';
 import 'package:universal_io/io.dart';
 
 class TipsOrganism extends StatefulWidget {
-  const TipsOrganism(this.studyType);
+  const TipsOrganism(this.workType);
 
-  final String studyType;
+  final String workType;
 
   @override
   State<TipsOrganism> createState() => _TipsOrganismState();
@@ -60,21 +60,20 @@ class _TipsOrganismState extends State<TipsOrganism> {
   }
 
   void onCheckBox(int id, bool value) =>
-      StudyTypeAbstract.instance!.setTipValue(id, value);
+      WorkTypeAbstract.instance!.setTipValue(id, value);
 
   @override
   Widget build(BuildContext context) {
     final DateTime now = DateTime.now();
 
-    final List<Tip> beforeStudyTips =
-        StudyTypeAbstract.instance!.getTips().where(
+    final List<Tip> beforeWorkTips = WorkTypeAbstract.instance!.getTips().where(
       (element) {
         if (!element.isCheckbox) {
           return false;
         }
         if (element.timing != TipTiming.before ||
             !(element.type == TipType.general ||
-                element.type == StudyTypeAbstract.instance!.tipType)) {
+                element.type == WorkTypeAbstract.instance!.tipType)) {
           return false;
         }
 
@@ -85,13 +84,13 @@ class _TipsOrganismState extends State<TipsOrganism> {
       },
     ).toList();
 
-    final Tip dndTip = StudyTypeAbstract.instance!
+    final Tip dndTip = WorkTypeAbstract.instance!
         .getTips()
         .firstWhere((element) => element.id == 'dnd');
 
     return PageEnclosureMolecule(
       scaffold: false,
-      title: 'efficient_tips'.tr(args: [widget.studyType.tr()]),
+      title: 'efficient_tips'.tr(args: [widget.workType.tr()]),
       subTitle: 'Select each element when complete',
       topBarTranslate: false,
       child: isDnd == null || !didPulledWakeTime
@@ -163,7 +162,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
                           shrinkWrap: true,
                           physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) {
-                            final Tip tip = beforeStudyTips[index];
+                            final Tip tip = beforeWorkTips[index];
 
                             return Container(
                               margin: const EdgeInsets.only(bottom: 5),
@@ -184,7 +183,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
                               ),
                             );
                           },
-                          itemCount: beforeStudyTips.length,
+                          itemCount: beforeWorkTips.length,
                         ),
                       ],
                     ),
