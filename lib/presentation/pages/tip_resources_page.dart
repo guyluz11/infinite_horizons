@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/domain/controllers/url_launcher_controller.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/pages/pages.dart';
-import 'package:url_launcher/url_launcher.dart';
 
 class TipResourcePage extends StatelessWidget {
   const TipResourcePage({
@@ -17,7 +17,7 @@ class TipResourcePage extends StatelessWidget {
         title: "resource",
         margin: false,
         topBarType: TopBarType.back,
-        topBarRightOnTap: () => openUrl(url),
+        topBarRightOnTap: () => URLLauncherController.instance.openUrl(url),
         expendChild: false,
         topBarRightIcon: Icons.open_in_new,
         child: PdfViewerMolecule(
@@ -35,16 +35,10 @@ class TipResourcePage extends StatelessWidget {
       topBarType: TopBarType.back,
       expendChild: false,
       topBarRightIcon: Icons.open_in_new,
-      topBarRightOnTap: () => openUrl(url),
+      topBarRightOnTap: () => URLLauncherController.instance.openUrl(url),
       child: WebViewMolecule(
         url: url,
       ),
     );
-  }
-
-  Future<void> openUrl(String url) async {
-    if (!await launchUrl(Uri.parse(url))) {
-      throw Exception('Could not launch $url');
-    }
   }
 }
