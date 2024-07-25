@@ -2,11 +2,11 @@ import 'package:url_launcher/url_launcher.dart';
 
 part 'package:infinite_horizons/infrastructure/url_launcher_repository.dart';
 
-abstract class URLLauncherController {
-  static URLLauncherController? _instance;
+abstract class UrlLauncherController {
+  static UrlLauncherController? _instance;
 
-  static URLLauncherController get instance =>
-      _instance ??= _URLLauncherRepository();
+  static UrlLauncherController get instance =>
+      _instance ??= _UrlLauncherRepository();
 
-  Future<void> openUrl(String url);
+  Future<bool> openUrl(String url);
 }

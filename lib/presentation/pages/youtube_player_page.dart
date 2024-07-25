@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/controllers/url_launcher_controller.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
@@ -36,7 +36,7 @@ class _YoutubePlayerPageState extends State<YoutubePlayerPage> {
               title: 'resource',
               rightIcon: Icons.open_in_new,
               rightOnTap: () =>
-                  URLLauncherController.instance.openUrl(widget.url),
+                  UrlLauncherController.instance.openUrl(widget.url),
             ),
           const SeparatorAtom(variant: SeparatorVariant.closeWidgets),
           Expanded(
