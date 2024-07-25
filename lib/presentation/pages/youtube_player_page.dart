@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
@@ -30,9 +31,12 @@ class _YoutubePlayerPageState extends State<YoutubePlayerPage> {
       body: Column(
         children: [
           if (!isFullScreen)
-            const TopBarMolecule(
+            TopBarMolecule(
               topBarType: TopBarType.back,
               title: 'resource',
+              rightIcon: Icons.open_in_new,
+              rightOnTap: () =>
+                  UrlLauncherController.instance.openUrl(widget.url),
             ),
           const SeparatorAtom(variant: SeparatorVariant.closeWidgets),
           Expanded(
