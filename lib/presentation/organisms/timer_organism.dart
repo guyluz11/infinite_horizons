@@ -241,24 +241,27 @@ class TimerOrganismState extends State<TimerOrganism> {
         title = 'ready_for_session';
     }
 
-    return PageEnclosureMolecule(
-      title: title,
-      scaffold: false,
-      expendChild: false,
-      topMargin: false,
-      topBarRightOnTap: () => openAlertDialog(context, SettingsPage()),
-      child: Column(
-        children: [
-          ProgressTrackerAtom(
-            TimerStateManager.getAllStates(),
-            state,
-            TimerStateManager.timerStates.sessions.length - 1 ==
-                TimerStateManager.timerStates.currentState,
-          ),
-          Expanded(
-            child: renderSizedBox ? const SizedBox() : stateWidget(),
-          ),
-        ],
+    return PopScope(
+      canPop: title != "work_timer",
+      child: PageEnclosureMolecule(
+        title: title,
+        scaffold: false,
+        expendChild: false,
+        topMargin: false,
+        topBarRightOnTap: () => openAlertDialog(context, SettingsPage()),
+        child: Column(
+          children: [
+            ProgressTrackerAtom(
+              TimerStateManager.getAllStates(),
+              state,
+              TimerStateManager.timerStates.sessions.length - 1 ==
+                  TimerStateManager.timerStates.currentState,
+            ),
+            Expanded(
+              child: renderSizedBox ? const SizedBox() : stateWidget(),
+            ),
+          ],
+        ),
       ),
     );
   }

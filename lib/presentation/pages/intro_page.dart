@@ -21,6 +21,7 @@ class _IntroPageState extends State<IntroPage> {
 
   String workType = '';
   bool showNextButton = true;
+  bool onTapReadyConfetti = false;
   IntroState state = IntroState.welcome;
   final Duration selectionTransitionDelay = const Duration(milliseconds: 200);
 
@@ -75,7 +76,11 @@ class _IntroPageState extends State<IntroPage> {
     return Scaffold(
       body: PopScope(
         canPop: state == IntroState.welcome,
-        onPopInvoked: (_) => previousPage(),
+        onPopInvoked: (_) {
+          if (!onTapReadyConfetti) {
+            previousPage();
+          }
+        },
         child: IntroductionScreen(
           isProgressTap: false,
           key: _introKey,
@@ -123,7 +128,12 @@ class _IntroPageState extends State<IntroPage> {
               }),
             ),
             customPageViewModel(
-              bodyWidget: ReadyForSessionPage(() => onDone(context)),
+              bodyWidget: ReadyForSessionPage(
+                () => onDone(context),
+                onTapReady: () {
+                  setState(() => onTapReadyConfetti = true);
+                },
+              ),
             ),
           ],
           showBackButton: true,

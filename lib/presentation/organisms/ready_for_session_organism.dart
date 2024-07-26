@@ -9,9 +9,11 @@ class ReadyForSessionOrganism extends StatefulWidget {
   const ReadyForSessionOrganism(
     this.onComplete, {
     this.response,
+    this.onTapReady,
   });
 
   final VoidCallback onComplete;
+  final VoidCallback? onTapReady;
   final String? response;
 
   @override
@@ -25,6 +27,7 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
   bool confettiGotPlayed = false;
 
   void onPressed() {
+    widget.onTapReady?.call();
     if (nextPressed) {
       return;
     }
