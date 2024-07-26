@@ -14,6 +14,7 @@ class PageEnclosureMolecule extends StatelessWidget {
     this.scaffold = true,
     this.topBarRightOnTap,
     this.expendChild = true,
+    this.topBarRightIcon,
     super.key,
   });
 
@@ -27,6 +28,7 @@ class PageEnclosureMolecule extends StatelessWidget {
   final TopBarType topBarType;
   final VoidCallback? topBarRightOnTap;
   final bool expendChild;
+  final IconData? topBarRightIcon;
 
   Widget topBarHelper() {
     return Column(
@@ -37,6 +39,7 @@ class PageEnclosureMolecule extends StatelessWidget {
           margin: false,
           translate: topBarTranslate,
           rightOnTap: topBarRightOnTap,
+          rightIcon: topBarRightIcon,
         ),
         if (subTitle != null)
           TextAtom(
