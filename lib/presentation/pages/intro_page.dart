@@ -52,6 +52,18 @@ class _IntroPageState extends State<IntroPage> {
 
   void previousPage() => _introKey.currentState?.previous();
 
+  void onHorizontalDrag(DragEndDetails details) {
+    if (details.primaryVelocity == 0) {
+      return; // user have just tapped on screen (no dragging)
+    } else if (details.primaryVelocity!.compareTo(0) == -1) {
+      if (showNextButton) {
+        nextPage();
+      }
+      return;
+    }
+    previousPage();
+  }
+
   PageDecoration emptyPageDecoration() => const PageDecoration(
         pageMargin: EdgeInsets.zero,
         footerPadding: EdgeInsets.zero,
@@ -76,63 +88,66 @@ class _IntroPageState extends State<IntroPage> {
       body: PopScope(
         canPop: state == IntroState.welcome,
         onPopInvoked: (_) => previousPage(),
-        child: IntroductionScreen(
-          isProgressTap: false,
-          key: _introKey,
-          dotsDecorator: DotsDecorator(
-            color: colorScheme.outlineVariant,
-            activeColor: colorScheme.primary,
+        child: GestureDetector(
+          onHorizontalDragEnd: onHorizontalDrag,
+          child: IntroductionScreen(
+            isProgressTap: false,
+            key: _introKey,
+            dotsDecorator: DotsDecorator(
+              color: colorScheme.outlineVariant,
+              activeColor: colorScheme.primary,
+            ),
+            overrideNext: Center(
+              child: ButtonAtom(
+                variant: ButtonVariant.highEmphasisFilled,
+                onPressed: showNextButton ? nextPage : () {},
+                icon: FontAwesomeIcons.arrowRight,
+                text: 'next',
+                disabled: !showNextButton,
+              ),
+            ),
+            overrideBack: Center(
+              child: ButtonAtom(
+                variant: ButtonVariant.lowEmphasisIcon,
+                onPressed: previousPage,
+                icon: FontAwesomeIcons.arrowLeft,
+                disabled: !showNextButton,
+              ),
+            ),
+            pages: [
+              customPageViewModel(
+                bodyWidget: WelcomeOrganism(),
+              ),
+              customPageViewModel(
+                bodyWidget: WorkTypeSelectionMolecule(() async {
+                  setState(() {
+                    workType = WorkTypeAbstract.instance!.tipType.name;
+                  });
+                  await Future.delayed(selectionTransitionDelay);
+                  nextPage();
+                }),
+              ),
+              customPageViewModel(
+                bodyWidget: TipsOrganism(workType),
+              ),
+              customPageViewModel(
+                bodyWidget: EnergySelectionMolecule(() async {
+                  await Future.delayed(selectionTransitionDelay);
+                  nextPage();
+                }),
+              ),
+              customPageViewModel(
+                bodyWidget: ReadyForSessionPage(() => onDone(context)),
+              ),
+            ],
+            showBackButton: true,
+            back: const Icon(Icons.arrow_back),
+            next: const Icon(Icons.arrow_forward),
+            scrollPhysics: const NeverScrollableScrollPhysics(),
+            onChange: onIntroPageChange,
+            showDoneButton: false,
+            showNextButton: showNextButton,
           ),
-          overrideNext: Center(
-            child: ButtonAtom(
-              variant: ButtonVariant.highEmphasisFilled,
-              onPressed: showNextButton ? nextPage : () {},
-              icon: FontAwesomeIcons.arrowRight,
-              text: 'next',
-              disabled: !showNextButton,
-            ),
-          ),
-          overrideBack: Center(
-            child: ButtonAtom(
-              variant: ButtonVariant.lowEmphasisIcon,
-              onPressed: previousPage,
-              icon: FontAwesomeIcons.arrowLeft,
-              disabled: !showNextButton,
-            ),
-          ),
-          pages: [
-            customPageViewModel(
-              bodyWidget: WelcomeOrganism(),
-            ),
-            customPageViewModel(
-              bodyWidget: WorkTypeSelectionMolecule(() async {
-                setState(() {
-                  workType = WorkTypeAbstract.instance!.tipType.name;
-                });
-                await Future.delayed(selectionTransitionDelay);
-                nextPage();
-              }),
-            ),
-            customPageViewModel(
-              bodyWidget: TipsOrganism(workType),
-            ),
-            customPageViewModel(
-              bodyWidget: EnergySelectionMolecule(() async {
-                await Future.delayed(selectionTransitionDelay);
-                nextPage();
-              }),
-            ),
-            customPageViewModel(
-              bodyWidget: ReadyForSessionPage(() => onDone(context)),
-            ),
-          ],
-          showBackButton: true,
-          back: const Icon(Icons.arrow_back),
-          next: const Icon(Icons.arrow_forward),
-          scrollPhysics: const NeverScrollableScrollPhysics(),
-          onChange: onIntroPageChange,
-          showDoneButton: false,
-          showNextButton: showNextButton,
         ),
       ),
     );
