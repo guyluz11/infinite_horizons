@@ -55,15 +55,13 @@ class _IntroPageState extends State<IntroPage> {
   void onHorizontalDrag(DragEndDetails details) {
     if (details.primaryVelocity == 0) {
       return; // user have just tapped on screen (no dragging)
-    }
-
-    if (details.primaryVelocity!.compareTo(0) == -1) {
+    } else if (details.primaryVelocity!.compareTo(0) == -1) {
       if (showNextButton) {
         nextPage();
       }
-    } else {
-      previousPage();
+      return;
     }
+    previousPage();
   }
 
   PageDecoration emptyPageDecoration() => const PageDecoration(
@@ -91,8 +89,7 @@ class _IntroPageState extends State<IntroPage> {
         canPop: state == IntroState.welcome,
         onPopInvoked: (_) => previousPage(),
         child: GestureDetector(
-          onHorizontalDragEnd: (DragEndDetails details) =>
-              onHorizontalDrag(details),
+          onHorizontalDragEnd: onHorizontalDrag,
           child: IntroductionScreen(
             isProgressTap: false,
             key: _introKey,
