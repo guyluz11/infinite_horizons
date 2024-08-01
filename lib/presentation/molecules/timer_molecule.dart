@@ -4,10 +4,10 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class TimerMolecule extends StatefulWidget {
-  const TimerMolecule(this.onComplete, this.duration);
+  const TimerMolecule({required this.duration, required this.initialValue});
 
   final Duration duration;
-  final VoidCallback onComplete;
+  final Duration? initialValue;
 
   @override
   State<TimerMolecule> createState() => _TimerMoleculeState();
@@ -15,21 +15,21 @@ class TimerMolecule extends StatefulWidget {
 
 class _TimerMoleculeState extends State<TimerMolecule>
     with SingleTickerProviderStateMixin {
-  late final CustomTimerController controller = CustomTimerController(
-    vsync: this,
-    begin: widget.duration,
-    end: Duration.zero,
-  );
+  late CustomTimerController controller;
 
   @override
   void initState() {
     super.initState();
+    setController();
+  }
+
+  void setController() {
+    controller = CustomTimerController(
+      vsync: this,
+      begin: widget.initialValue ?? widget.duration,
+      end: Duration.zero,
+    );
     controller.start();
-    controller.addListener(() {
-      if (controller.state.value == CustomTimerState.finished) {
-        widget.onComplete();
-      }
-    });
   }
 
   @override
@@ -47,7 +47,6 @@ class _TimerMoleculeState extends State<TimerMolecule>
             child: TimerAtom(
               controller,
               widget.duration,
-              widget.onComplete,
             ),
           ),
         ),

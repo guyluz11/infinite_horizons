@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/tip.dart';
+import 'package:infinite_horizons/domain/objects/tip.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:infinite_horizons/presentation/core/snack_bar_service.dart';
@@ -11,6 +11,7 @@ class TipInformationPage extends StatefulWidget {
     required this.tip,
     super.key,
   });
+
   final Tip tip;
 
   @override
@@ -19,6 +20,7 @@ class TipInformationPage extends StatefulWidget {
 
 class _TipInformationPageState extends State<TipInformationPage> {
   late Map<String, bool> isExpanded;
+
   @override
   void initState() {
     super.initState();
@@ -63,6 +65,7 @@ class _TipInformationPageState extends State<TipInformationPage> {
                           ],
                         ),
                         Row(
+                          crossAxisAlignment: CrossAxisAlignment.start,
                           children: [
                             const TextAtom('tip:'),
                             const SeparatorAtom(
@@ -70,7 +73,7 @@ class _TipInformationPageState extends State<TipInformationPage> {
                             ),
                             Flexible(
                               child: TextAtom(
-                                widget.tip.text,
+                                widget.tip.actionText,
                                 overflow: TextOverflow.clip,
                               ),
                             ),
@@ -139,24 +142,25 @@ class _TipInformationPageState extends State<TipInformationPage> {
                                                 ),
                                               ),
                                               IconButton(
-                                                  onPressed: () {
-                                                    if (link == null) {
-                                                      SnackBarService().show(
-                                                        context,
-                                                        "no_link",
-                                                      );
-                                                      return;
-                                                    }
-                                                    Navigator.of(context).push(
-                                                      MaterialPageRoute(
-                                                        builder: (context) =>
-                                                            TipResourcePage(
-                                                          url: link.toString(),
-                                                        ),
-                                                      ),
+                                                onPressed: () {
+                                                  if (link == null) {
+                                                    SnackBarService().show(
+                                                      context,
+                                                      "no_link",
                                                     );
-                                                  },
-                                                  icon: const Icon(Icons.link)),
+                                                    return;
+                                                  }
+                                                  Navigator.of(context).push(
+                                                    MaterialPageRoute(
+                                                      builder: (context) =>
+                                                          TipResourcePage(
+                                                        url: link.toString(),
+                                                      ),
+                                                    ),
+                                                  );
+                                                },
+                                                icon: const Icon(Icons.link),
+                                              ),
                                             ],
                                           ),
                                         ),

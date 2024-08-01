@@ -31,14 +31,14 @@ class TextAtom extends StatelessWidget {
 
     switch (variant) {
       case TextVariant.regular:
-        // tempStyle = textTheme.bodySmall;
+        // tempStyle = textTheme.bodyMedium;
         break;
       case TextVariant.smallTitle:
         tempStyle = textTheme.titleMedium;
       case TextVariant.title:
-        tempStyle = textTheme.headlineMedium;
-      case TextVariant.titleLarge:
         tempStyle = textTheme.titleLarge;
+      case TextVariant.titleLarge:
+        tempStyle = textTheme.headlineMedium;
       case TextVariant.medium:
         tempStyle = textTheme.bodyMedium;
     }
@@ -54,11 +54,12 @@ class TextAtom extends StatelessWidget {
 }
 
 enum TextVariant {
-  smallTitle,
-  title,
   titleLarge,
+  title,
+  smallTitle,
 
   /// define out side, trying to deprecate
   regular,
   medium,
+  ;
 }

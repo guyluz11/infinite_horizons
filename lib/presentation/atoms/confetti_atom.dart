@@ -18,6 +18,7 @@ class _ConfettiAtomState extends State<ConfettiAtom> {
     widget.controllerCenter.dispose();
     super.dispose();
   }
+
   /// A custom Path to paint stars.
   Path drawStar(Size size) {
     // Method to convert degree to radians
@@ -55,6 +56,8 @@ class _ConfettiAtomState extends State<ConfettiAtom> {
     return ConfettiWidget(
       confettiController: widget.controllerCenter,
       blastDirectionality: BlastDirectionality.explosive,
+      createParticlePath: drawStar,
+      numberOfParticles: 50,
       colors: [
         /// Primary
         colorScheme.primary,
@@ -88,7 +91,6 @@ class _ConfettiAtomState extends State<ConfettiAtom> {
         colorScheme.onSurface,
         colorScheme.onSurfaceVariant,
       ],
-      createParticlePath: drawStar,
     );
   }
 }

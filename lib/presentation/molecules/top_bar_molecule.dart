@@ -5,7 +5,6 @@ class TopBarMolecule extends StatelessWidget {
   const TopBarMolecule({
     required this.topBarType,
     this.title,
-    this.iconColor,
     this.leftOnTap,
     this.rightOnTap,
     this.translate = true,
@@ -14,7 +13,6 @@ class TopBarMolecule extends StatelessWidget {
 
   final TopBarType topBarType;
   final String? title;
-  final Color? iconColor;
   final VoidCallback? leftOnTap;
   final VoidCallback? rightOnTap;
   final bool translate;
@@ -49,7 +47,7 @@ class TopBarMolecule extends StatelessWidget {
                 ),
                 TextAtom(
                   title ?? '',
-                  variant: TextVariant.titleLarge,
+                  variant: TextVariant.title,
                 ),
                 Expanded(
                   child: Row(
@@ -82,20 +80,17 @@ class TopBarMolecule extends StatelessWidget {
             const SizedBox(height: 15),
             Row(
               children: [
-                GestureDetector(
-                  onTap: () {
+                ButtonAtom(
+                  onPressed: () {
                     if (leftOnTap != null) {
                       return leftOnTap!();
                     }
                     Navigator.of(context).pop();
                   },
-                  child: Icon(
-                    topBarType == TopBarType.close
-                        ? Icons.close_rounded
-                        : Icons.arrow_back_ios_rounded,
-                    color: iconColor,
-                    size: textTheme.titleMedium!.fontSize,
-                  ),
+                  icon: topBarType == TopBarType.close
+                      ? Icons.close_rounded
+                      : Icons.arrow_back_ios_rounded,
+                  variant: ButtonVariant.lowEmphasisIcon,
                 ),
                 const SeparatorAtom(
                   variant: SeparatorVariant.relatedElements,
@@ -103,7 +98,7 @@ class TopBarMolecule extends StatelessWidget {
                 Expanded(
                   child: TextAtom(
                     title ?? '',
-                    variant: TextVariant.titleLarge,
+                    variant: TextVariant.title,
                   ),
                 ),
                 Row(

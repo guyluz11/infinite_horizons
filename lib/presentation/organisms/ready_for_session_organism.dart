@@ -1,7 +1,8 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/study_type_abstract.dart';
-import 'package:infinite_horizons/domain/tip.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
+import 'package:infinite_horizons/domain/objects/tip.dart';
+import 'package:infinite_horizons/domain/objects/work_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class ReadyForSessionOrganism extends StatefulWidget {
@@ -19,18 +20,32 @@ class ReadyForSessionOrganism extends StatefulWidget {
 }
 
 class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
-  late ConfettiController controllerCenter;
+  late ConfettiController confetti;
   bool nextPressed = false;
+  bool confettiGotPlayed = false;
+
+  void onPressed() {
+    if (nextPressed) {
+      return;
+    }
+    VibrationController.instance.vibrate(VibrationType.light);
+    setState(() {
+      nextPressed = true;
+    });
+    confetti.play();
+  }
 
   @override
   void initState() {
     super.initState();
-    controllerCenter = ConfettiController(duration: const Duration(seconds: 2));
-    controllerCenter.addListener(() {
+    confetti = ConfettiController(duration: const Duration(seconds: 2));
+    confetti.addListener(() {
       if (!nextPressed ||
-          controllerCenter.state == ConfettiControllerState.playing) {
+          confetti.state == ConfettiControllerState.playing ||
+          confettiGotPlayed) {
         return;
       }
+      confettiGotPlayed = true;
       widget.onComplete();
     });
   }
@@ -41,7 +56,7 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
         .where(
           (element) =>
               element.timing == TipTiming.inSession &&
-              (element.type == StudyTypeAbstract.instance!.studyType ||
+              (element.type == WorkTypeAbstract.instance!.tipType ||
                   element.type == TipType.general),
         )
         .toList();
@@ -54,6 +69,15 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
+                if (widget.response != null)
+                  CardAtom(
+                    child: SizedBox(
+                      width: double.infinity,
+                      child: TextAtom(widget.response!),
+                    ),
+                  ),
+                const SeparatorAtom(),
+                const SeparatorAtom(),
                 CardAtom(
                   child: Column(
                     crossAxisAlignment: CrossAxisAlignment.start,
@@ -69,7 +93,7 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
                         itemBuilder: (context, item) {
                           final Tip tip = tips[item];
 
-                          return TextAtom(tip.text);
+                          return TextAtom(tip.actionText);
                         },
                         itemCount: tips.length,
                         separatorBuilder: (BuildContext context, int index) =>
@@ -78,15 +102,6 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
                     ],
                   ),
                 ),
-                const SeparatorAtom(),
-                const SeparatorAtom(),
-                if (widget.response != null)
-                  CardAtom(
-                    child: SizedBox(
-                      width: double.infinity,
-                      child: TextAtom(widget.response!),
-                    ),
-                  ),
                 const SeparatorAtom(variant: SeparatorVariant.farApart),
               ],
             ),
@@ -96,21 +111,13 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
           child: Stack(
             children: [
               Align(
-                child: ConfettiAtom(controllerCenter),
+                child: ConfettiAtom(confetti),
               ),
               Align(
                 child: ButtonAtom(
                   variant: ButtonVariant.highEmphasisFilled,
                   disabled: nextPressed,
-                  onPressed: () {
-                    if (nextPressed) {
-                      return;
-                    }
-                    setState(() {
-                      nextPressed = true;
-                    });
-                    controllerCenter.play();
-                  },
+                  onPressed: onPressed,
                   text: 'ready',
                 ),
               ),

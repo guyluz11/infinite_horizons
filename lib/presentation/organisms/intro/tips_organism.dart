@@ -1,21 +1,20 @@
-import 'dart:io';
-
 import 'package:confetti/confetti.dart';
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/dnd_controller.dart';
-import 'package:infinite_horizons/domain/study_type_abstract.dart';
-import 'package:infinite_horizons/domain/tip.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
+import 'package:infinite_horizons/domain/objects/tip.dart';
+import 'package:infinite_horizons/domain/objects/work_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/check_box_tile_molecule.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/pages/all_tips_page.dart';
 import 'package:infinite_horizons/presentation/pages/tip_information_page.dart';
+import 'package:universal_io/io.dart';
 
 class TipsOrganism extends StatefulWidget {
-  const TipsOrganism(this.studyType);
+  const TipsOrganism(this.workType);
 
-  final String studyType;
+  final String workType;
 
   @override
   State<TipsOrganism> createState() => _TipsOrganismState();
@@ -31,15 +30,29 @@ class _TipsOrganismState extends State<TipsOrganism> {
     confettiController =
         ConfettiController(duration: const Duration(seconds: 2));
     checkIsDnd();
+    getWakeTime();
+  }
+
+  Duration? timeFromWake;
+  bool didPulledWakeTime = false;
+
+  Future getWakeTime() async {
+    if (!await HealthController.instance.isPermissionsSleepInBedGranted()) {
+      setState(() {
+        didPulledWakeTime = true;
+      });
+      return;
+    }
+    timeFromWake =
+        await HealthController.instance.getEstimatedDurationFromWake();
+
+    setState(() {
+      didPulledWakeTime = true;
+    });
   }
 
   Future checkIsDnd() async {
-    final bool isDndTemp;
-    if (Platform.isAndroid) {
-      isDndTemp = await DndController.instance.isDnd();
-    } else {
-      isDndTemp = false;
-    }
+    final bool isDndTemp = await DndController.instance.isDnd();
 
     setState(() {
       isDnd = isDndTemp;
@@ -47,31 +60,40 @@ class _TipsOrganismState extends State<TipsOrganism> {
   }
 
   void onCheckBox(int id, bool value) =>
-      StudyTypeAbstract.instance!.setTipValue(id, value);
+      WorkTypeAbstract.instance!.setTipValue(id, value);
 
   @override
   Widget build(BuildContext context) {
-    final List<Tip> beforeStudyTips = StudyTypeAbstract.instance!
-        .getTips()
-        .where(
-          (element) =>
-              (element.timing == TipTiming.before &&
-                  (element.type == TipType.general ||
-                      element.type == StudyTypeAbstract.instance!.studyType)) &&
-              // Because we can toggle dnd only on android
-              !(element.text == 'dnd' && Platform.isAndroid),
-        )
-        .toList();
+    final DateTime now = DateTime.now();
 
-    final Tip dndTip = StudyTypeAbstract.instance!
+    final List<Tip> beforeWorkTips = WorkTypeAbstract.instance!.getTips().where(
+      (element) {
+        if (!element.isCheckbox) {
+          return false;
+        }
+        if (element.timing != TipTiming.before ||
+            !(element.type == TipType.general ||
+                element.type == WorkTypeAbstract.instance!.tipType)) {
+          return false;
+        }
+
+        return element.isTipRecommendedNow(
+          timeFromWake: timeFromWake,
+          now: now,
+        );
+      },
+    ).toList();
+
+    final Tip dndTip = WorkTypeAbstract.instance!
         .getTips()
-        .firstWhere((element) => element.text == 'dnd');
+        .firstWhere((element) => element.id == 'dnd');
 
     return PageEnclosureMolecule(
       scaffold: false,
-      title: 'efficient_tips'.tr(args: [widget.studyType.tr()]),
+      title: 'efficient_tips'.tr(args: [widget.workType.tr()]),
+      subTitle: 'Select each element when complete',
       topBarTranslate: false,
-      child: isDnd == null
+      child: isDnd == null || !didPulledWakeTime
           ? const Center(child: CircularProgressIndicator())
           : SingleChildScrollView(
               child: Column(
@@ -93,7 +115,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
                                     ),
                                     const SeparatorAtom(),
                                     ToggleSwitchMolecule(
-                                      text: dndTip.text,
+                                      text: dndTip.actionText,
                                       offIcon:
                                           Icons.do_not_disturb_off_outlined,
                                       onIcon: Icons.do_not_disturb_on_outlined,
@@ -138,14 +160,18 @@ class _TipsOrganismState extends State<TipsOrganism> {
                         ListView.builder(
                           padding: EdgeInsets.zero,
                           shrinkWrap: true,
+                          physics: const NeverScrollableScrollPhysics(),
                           itemBuilder: (BuildContext context, int index) {
-                            final Tip tip = beforeStudyTips[index];
+                            final Tip tip = beforeWorkTips[index];
 
                             return Container(
                               margin: const EdgeInsets.only(bottom: 5),
                               child: CheckBoxTileMolecule(
-                                tip.text,
-                                callback: (value) => onCheckBox(tip.id, value),
+                                tip.actionText,
+                                textIcon: tip.icon,
+                                subtitle: tip.reason,
+                                callback: (value) =>
+                                    onCheckBox(tip.itemCountNumber, value),
                                 initialValue: tip.selected,
                                 onIconPressed: () => Navigator.of(context).push(
                                   MaterialPageRoute(
@@ -153,15 +179,16 @@ class _TipsOrganismState extends State<TipsOrganism> {
                                         TipInformationPage(tip: tip),
                                   ),
                                 ),
+                                variant: ListTileSubtitleVariant.strikethrough,
                               ),
                             );
                           },
-                          itemCount: beforeStudyTips.length,
+                          itemCount: beforeWorkTips.length,
                         ),
                       ],
                     ),
                   ),
-                  const SeparatorAtom(variant: SeparatorVariant.farApart),
+                  const SeparatorAtom(),
                   ButtonAtom(
                     variant: ButtonVariant.lowEmphasisText,
                     onPressed: () => Navigator.of(context).push(

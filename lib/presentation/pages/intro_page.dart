@@ -1,6 +1,9 @@
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/study_type_abstract.dart';
-import 'package:infinite_horizons/domain/tip.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
+import 'package:infinite_horizons/domain/objects/energy_level.dart';
+import 'package:infinite_horizons/domain/objects/tip.dart';
+import 'package:infinite_horizons/domain/objects/work_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
@@ -16,17 +19,38 @@ class _IntroPageState extends State<IntroPage> {
   final GlobalKey<IntroductionScreenState> _introKey =
       GlobalKey<IntroductionScreenState>();
 
-  String studyType = '';
+  String workType = '';
   bool showNextButton = true;
   IntroState state = IntroState.welcome;
   final Duration selectionTransitionDelay = const Duration(milliseconds: 200);
 
-  void nextPage() => _introKey.currentState?.next();
+  void onIntroPageChange(int n) {
+    state = IntroState.getStateByPageNumber(n);
+    bool showNextButtonTemp = true;
+
+    if (state == IntroState.workType &&
+        (WorkTypeAbstract.instance?.tipType == null ||
+            WorkTypeAbstract.instance!.tipType == TipType.undefined)) {
+      showNextButtonTemp = false;
+    } else if (state == IntroState.energy &&
+        WorkTypeAbstract.instance!.getTimerStates().type ==
+            EnergyType.undefined) {
+      showNextButtonTemp = false;
+    }
+    setState(() {
+      showNextButton = showNextButtonTemp;
+    });
+  }
+
+  void nextPage() {
+    VibrationController.instance.vibrate(VibrationType.light);
+    _introKey.currentState?.next();
+  }
 
   void onDone(BuildContext context) => Navigator.of(context)
       .push(MaterialPageRoute(builder: (context) => HomePage()));
 
-  void previousPage(bool didPop) => _introKey.currentState?.previous();
+  void previousPage() => _introKey.currentState?.previous();
 
   void onHorizontalDrag(DragEndDetails details) {
     if (details.primaryVelocity == 0) {
@@ -38,7 +62,7 @@ class _IntroPageState extends State<IntroPage> {
         nextPage();
       }
     } else {
-      previousPage(true);
+      previousPage();
     }
   }
 
@@ -46,67 +70,76 @@ class _IntroPageState extends State<IntroPage> {
         pageMargin: EdgeInsets.zero,
         footerPadding: EdgeInsets.zero,
         titlePadding: EdgeInsets.zero,
-        contentMargin: EdgeInsets.zero,
+        contentMargin: EdgeInsets.only(bottom: 30),
+      );
+
+  PageViewModel customPageViewModel({required Widget bodyWidget}) =>
+      PageViewModel(
+        useScrollView: false,
+        decoration: emptyPageDecoration(),
+        bodyWidget: bodyWidget,
+        titleWidget: const SizedBox(),
       );
 
   @override
   Widget build(BuildContext context) {
+    final ThemeData themeData = Theme.of(context);
+    final ColorScheme colorScheme = themeData.colorScheme;
+
     return Scaffold(
       body: PopScope(
         canPop: state == IntroState.welcome,
-        onPopInvoked: previousPage,
+        onPopInvoked: (_) => previousPage(),
         child: GestureDetector(
           onHorizontalDragEnd: (DragEndDetails details) =>
               onHorizontalDrag(details),
           child: IntroductionScreen(
             isProgressTap: false,
             key: _introKey,
+            dotsDecorator: DotsDecorator(
+              color: colorScheme.outlineVariant,
+              activeColor: colorScheme.primary,
+            ),
             overrideNext: Center(
               child: ButtonAtom(
                 variant: ButtonVariant.highEmphasisFilled,
                 onPressed: showNextButton ? nextPage : () {},
+                icon: FontAwesomeIcons.arrowRight,
                 text: 'next',
                 disabled: !showNextButton,
               ),
             ),
-            pages: [
-              PageViewModel(
-                useScrollView: false,
-                decoration: emptyPageDecoration(),
-                bodyWidget: WelcomeOrganism(),
-                titleWidget: const SizedBox(),
+            overrideBack: Center(
+              child: ButtonAtom(
+                variant: ButtonVariant.lowEmphasisIcon,
+                onPressed: previousPage,
+                icon: FontAwesomeIcons.arrowLeft,
+                disabled: !showNextButton,
               ),
-              PageViewModel(
-                titleWidget: const SizedBox(),
-                useScrollView: false,
-                decoration: emptyPageDecoration(),
-                bodyWidget: StudyTypeSelectionMolecule(() async {
+            ),
+            pages: [
+              customPageViewModel(
+                bodyWidget: WelcomeOrganism(),
+              ),
+              customPageViewModel(
+                bodyWidget: WorkTypeSelectionMolecule(() async {
                   setState(() {
-                    studyType = StudyTypeAbstract.instance!.studyType.name;
+                    workType = WorkTypeAbstract.instance!.tipType.name;
                   });
                   await Future.delayed(selectionTransitionDelay);
                   nextPage();
                 }),
               ),
-              PageViewModel(
-                titleWidget: const SizedBox(),
-                useScrollView: false,
-                decoration: emptyPageDecoration(),
-                bodyWidget: TipsOrganism(studyType),
+              customPageViewModel(
+                bodyWidget: TipsOrganism(workType),
               ),
-              PageViewModel(
-                titleWidget: const SizedBox(),
-                useScrollView: false,
-                decoration: emptyPageDecoration(),
+              customPageViewModel(
                 bodyWidget: EnergySelectionMolecule(() async {
                   await Future.delayed(selectionTransitionDelay);
                   nextPage();
                 }),
               ),
-              PageViewModel(
-                titleWidget: const SizedBox(),
-                useScrollView: false,
-                decoration: emptyPageDecoration(),
+              customPageViewModel(
                 bodyWidget: ReadyForSessionPage(() => onDone(context)),
               ),
             ],
@@ -114,24 +147,9 @@ class _IntroPageState extends State<IntroPage> {
             back: const Icon(Icons.arrow_back),
             next: const Icon(Icons.arrow_forward),
             scrollPhysics: const NeverScrollableScrollPhysics(),
-            onChange: (int n) {
-              state = IntroState.getStateByPageNumber(n);
-              bool showNextButtonTemp = true;
-
-              if (state == IntroState.studyType &&
-                  (StudyTypeAbstract.instance?.studyType == null ||
-                      StudyTypeAbstract.instance!.studyType ==
-                          TipType.undefined)) {
-                showNextButtonTemp = false;
-              } else if (state == IntroState.energy &&
-                  StudyTypeAbstract.instance!.energy == EnergyType.undefined) {
-                showNextButtonTemp = false;
-              }
-              setState(() {
-                showNextButton = showNextButtonTemp;
-              });
-            },
+            onChange: onIntroPageChange,
             showDoneButton: false,
+            showNextButton: showNextButton,
           ),
         ),
       ),
@@ -141,7 +159,7 @@ class _IntroPageState extends State<IntroPage> {
 
 enum IntroState {
   welcome(0),
-  studyType(1),
+  workType(1),
   tips(2),
   energy(3),
   encouragementSentence(4),

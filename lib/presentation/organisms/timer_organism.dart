@@ -1,38 +1,178 @@
+import 'dart:async';
+
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/player_controller.dart';
-import 'package:infinite_horizons/domain/preferences_controller.dart';
-import 'package:infinite_horizons/domain/study_type_abstract.dart';
-import 'package:infinite_horizons/domain/vibration_controller.dart';
-import 'package:infinite_horizons/domain/wake_lock_controller.dart';
-import 'package:infinite_horizons/presentation/atoms/atoms.dart';
-import 'package:infinite_horizons/presentation/core/global_variables.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
+import 'package:infinite_horizons/domain/objects/energy_level.dart';
+import 'package:infinite_horizons/domain/objects/work_type_abstract.dart';
+import 'package:infinite_horizons/presentation/atoms/progress_tracker_atom.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
+import 'package:infinite_horizons/presentation/pages/pages.dart';
 
-class TimerOrganism extends StatefulWidget {
-  @override
-  State<TimerOrganism> createState() => _TimerOrganismState();
+class TimerStateManager {
+  static TimerState state = TimerState.work;
+  static EnergyLevel timerStates = WorkTypeAbstract.instance!.getTimerStates();
+
+  static Timer? _timer;
+  static VoidCallback? callback;
+  static Duration _remainingTime = Duration.zero;
+
+  static void incrementState() {
+    state = getNextState(state);
+    switch (state) {
+      case TimerState.work:
+        timerStates.promoteSession();
+        PlayerController.instance.play(SoundType.startSession);
+        VibrationController.instance.vibrate(VibrationType.heavy);
+      case TimerState.getReadyForBreak:
+        PlayerController.instance.play(SoundType.sessionCompleted);
+        VibrationController.instance.vibrate(VibrationType.medium);
+      case TimerState.breakTime:
+        break;
+      case TimerState.readyToStart:
+        PlayerController.instance.play(SoundType.breakEnded);
+    }
+  }
+
+  static TimerState getNextState(TimerState state) {
+    switch (state) {
+      case TimerState.work:
+        return TimerState.getReadyForBreak;
+      case TimerState.getReadyForBreak:
+        return TimerState.breakTime;
+      case TimerState.breakTime:
+        return TimerState.readyToStart;
+      case TimerState.readyToStart:
+        return TimerState.work;
+    }
+  }
+
+  static Duration getTimerDuration(TimerState state) {
+    switch (state) {
+      case TimerState.work:
+        return timerStates.getCurrentSession().work;
+      case TimerState.getReadyForBreak:
+        return timerStates.getCurrentSession().getReadyForBreak;
+      case TimerState.breakTime:
+        return timerStates.getCurrentSession().breakDuration;
+      case TimerState.readyToStart:
+        return Duration.zero;
+    }
+  }
+
+  static Duration? get remainingTime =>
+      _remainingTime <= Duration.zero ? null : _remainingTime;
+
+  static set remainingTime(Duration? value) =>
+      _remainingTime = value ?? Duration.zero;
+
+  static void pauseTimer() => _timer?.cancel();
+
+  static bool isTimerRunning() => _timer != null && _timer!.isActive;
+
+  static Future iterateOverTimerStates({Duration? remainingTime}) async {
+    final Duration stateDuration = remainingTime ?? getTimerDuration(state);
+    if (stateDuration == Duration.zero) {
+      return;
+    }
+
+    _remainingTime = stateDuration;
+
+    const Duration interval = Duration(seconds: 1);
+
+    _timer = Timer.periodic(
+      interval,
+      (Timer timer) {
+        if (_remainingTime <= interval) {
+          _remainingTime = Duration.zero;
+          _timer?.cancel();
+          incrementState();
+          callback?.call();
+          iterateOverTimerStates();
+          return;
+        }
+        _remainingTime = _remainingTime - interval;
+      },
+    );
+  }
+
+  static List<UpcomingState> getAllStates() {
+    final List<UpcomingState> upcomingStates = [];
+    TimerState tempState = TimerState.values.first;
+    Duration durationForState = getTimerDuration(tempState);
+    final DateTime now = DateTime.now();
+
+    while (durationForState != Duration.zero) {
+      final UpcomingState upcomingState =
+          UpcomingState(tempState, now, durationForState);
+      upcomingStates.add(upcomingState);
+      tempState = getNextState(tempState);
+      durationForState = getTimerDuration(tempState);
+    }
+    upcomingStates.add(UpcomingState(tempState, now, durationForState));
+
+    return upcomingStates;
+  }
+
+  static List<UpcomingState> upcomingStates(
+    TimerState fromState,
+    Duration? remainingTimeForState, {
+    DateTime? calculateFromDate,
+  }) {
+    final List<UpcomingState> statesWithTime = [];
+
+    Duration durationForState = remainingTimeForState ?? Duration.zero;
+
+    DateTime endTime = calculateFromDate ?? DateTime.now();
+    TimerState tempState = fromState;
+
+    while (durationForState != Duration.zero) {
+      endTime = endTime.add(durationForState);
+      statesWithTime.add(UpcomingState(tempState, endTime, durationForState));
+      tempState = getNextState(tempState);
+      durationForState = getTimerDuration(tempState);
+    }
+    endTime = endTime.add(durationForState);
+    statesWithTime.add(UpcomingState(tempState, endTime, durationForState));
+
+    return statesWithTime;
+  }
 }
 
-class _TimerOrganismState extends State<TimerOrganism>
-    with AutomaticKeepAliveClientMixin<TimerOrganism> {
-  HomeState state = HomeState.study;
-  final PreferencesController _prefs = PreferencesController.instance;
+/// Class representing an upcoming timer state with its corresponding time.
+class UpcomingState {
+  UpcomingState(this.state, this.endTime, this.duration);
+
+  final TimerState state;
+  final DateTime endTime;
+  final Duration duration;
+
+  DateTime startTime() => endTime.subtract(duration);
+}
+
+class TimerOrganism extends StatefulWidget {
+  const TimerOrganism({super.key});
 
   @override
-  bool get wantKeepAlive => true;
-  bool lockScreen = true;
+  State<TimerOrganism> createState() => TimerOrganismState();
+}
+
+class TimerOrganismState extends State<TimerOrganism> {
+  TimerState state = TimerStateManager.state;
+  bool renderSizedBox = false;
 
   @override
   void initState() {
     super.initState();
-    lockScreen = _prefs.getBool("isLockScreen") ?? lockScreen;
+    final bool lockScreen =
+        PreferencesController.instance.getBool(PreferenceKeys.isLockScreen) ??
+            true;
     WakeLockController.instance.setWakeLock(lockScreen);
-    PlayerController.instance.setIsSound(_prefs.getBool("isSound") ?? true);
 
     if (lockScreen) {
       WakeLockController.instance.setWakeLock(true);
     }
+    TimerStateManager.callback = setCurrentState;
   }
 
   @override
@@ -41,105 +181,63 @@ class _TimerOrganismState extends State<TimerOrganism>
     super.dispose();
   }
 
-  void setNextState() {
-    HomeState nextState;
-    switch (state) {
-      case HomeState.study:
-        nextState = HomeState.getReadyForBreak;
-      case HomeState.getReadyForBreak:
-        nextState = HomeState.breakTime;
-      case HomeState.breakTime:
-        nextState = HomeState.readyToStart;
-      case HomeState.readyToStart:
-        nextState = HomeState.study;
+  Future setCurrentState() async {
+    if (state == TimerState.work &&
+        TimerStateManager.state == TimerState.breakTime) {
+      setState(() {
+        renderSizedBox = true;
+      });
+      WidgetsBinding.instance.addPostFrameCallback((_) {
+        setState(() {
+          renderSizedBox = false;
+          state = TimerStateManager.state;
+        });
+      });
+      return;
     }
 
     setState(() {
-      state = nextState;
+      renderSizedBox = false;
+      state = TimerStateManager.state;
     });
   }
 
   Widget stateWidget() {
     switch (state) {
-      case HomeState.study:
-        PlayerController.instance.play('start_session.wav');
-        VibrationController.instance.vibrate(VibrationType.heavy);
+      case TimerState.work:
+      case TimerState.breakTime:
         return TimerMolecule(
-          setNextState,
-          StudyTypeAbstract.instance!.energy.duration,
+          duration: TimerStateManager.getTimerDuration(state),
+          initialValue: TimerStateManager.remainingTime,
         );
-
-      case HomeState.getReadyForBreak:
-        PlayerController.instance.play('session_completed.wav');
-        VibrationController.instance.vibrate(VibrationType.medium);
-        return ProgressIndicatorMolecule(onComplete: setNextState);
-      case HomeState.breakTime:
-        return TimerMolecule(
-          setNextState,
-          GlobalVariables.breakTime(
-            StudyTypeAbstract.instance!.energy.duration,
-          ),
+      case TimerState.getReadyForBreak:
+        final Duration totalTime = TimerStateManager.getTimerDuration(state);
+        final Duration timePassed =
+            totalTime - (TimerStateManager.remainingTime ?? totalTime);
+        return ProgressIndicatorMolecule(
+          duration: totalTime,
+          initialValue: timePassed,
         );
-      case HomeState.readyToStart:
-        PlayerController.instance.play('break_ended.wav');
-
-        return ReadyForSessionOrganism(setNextState);
+      case TimerState.readyToStart:
+        return ReadyForSessionOrganism(() {
+          TimerStateManager.incrementState();
+          TimerStateManager.iterateOverTimerStates();
+          setCurrentState();
+        });
     }
-  }
-
-  void settingsPopup(BuildContext context) {
-    final Widget body = PageEnclosureMolecule(
-      title: 'settings',
-      child: Column(
-        children: [
-          CardAtom(
-            child: ToggleSwitchMolecule(
-              text: 'sound',
-              offIcon: Icons.music_off_rounded,
-              onIcon: Icons.music_note_rounded,
-              onChange: (bool value) {
-                PlayerController.instance.setIsSound(value);
-                _prefs.setBool("isSound", value);
-              },
-              initialValue: PlayerController.instance.isSound(),
-            ),
-          ),
-          const SeparatorAtom(),
-          CardAtom(
-            child: ToggleSwitchMolecule(
-              text: 'screen_lock',
-              offIcon: Icons.lock_clock,
-              onIcon: Icons.lock_open,
-              onChange: (bool value) {
-                lockScreen = value;
-                _prefs.setBool("isLockScreen", lockScreen);
-                WakeLockController.instance.setWakeLock(lockScreen);
-              },
-              initialValue: lockScreen,
-            ),
-          ),
-          const SeparatorAtom(
-            variant: SeparatorVariant.farApart,
-          ),
-        ],
-      ),
-    );
-    openAlertDialog(context, body);
   }
 
   @override
   Widget build(BuildContext context) {
-    super.build(context);
-
     String title;
     switch (state) {
-      case HomeState.study:
-        title = 'study_timer';
-      case HomeState.getReadyForBreak:
+      case TimerState.work:
+        title = 'work_timer';
+      case TimerState.getReadyForBreak:
         title = 'ready_for_break';
-      case HomeState.breakTime:
+      case TimerState.breakTime:
         title = 'take_break';
-      case HomeState.readyToStart:
+      case TimerState.readyToStart:
         title = 'ready_for_session';
     }
 
@@ -147,16 +245,42 @@ class _TimerOrganismState extends State<TimerOrganism>
       title: title,
       scaffold: false,
       expendChild: false,
-      topBarRightOnTap: () => settingsPopup(context),
-      child: stateWidget(),
+      topMargin: false,
+      topBarRightOnTap: () => openAlertDialog(context, SettingsPage()),
+      child: Column(
+        children: [
+          ProgressTrackerAtom(
+            TimerStateManager.getAllStates(),
+            state,
+            TimerStateManager.timerStates.sessions.length - 1 ==
+                TimerStateManager.timerStates.currentState,
+          ),
+          Expanded(
+            child: renderSizedBox ? const SizedBox() : stateWidget(),
+          ),
+        ],
+      ),
     );
   }
 }
 
-enum HomeState {
-  study,
-  getReadyForBreak,
-  breakTime,
-  readyToStart,
+enum TimerState {
+  work('work'),
+  getReadyForBreak('transition'),
+  breakTime('break'),
+  readyToStart('done'),
   ;
+
+  const TimerState(this.spacedName);
+
+  final String spacedName;
+}
+
+extension TimerStateExtension on TimerState {
+  static TimerState fromString(String typeAsString) {
+    return TimerState.values.firstWhere(
+      (element) => element.toString().split('.').last == typeAsString,
+      orElse: () => TimerState.values.first,
+    );
+  }
 }

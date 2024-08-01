@@ -28,6 +28,10 @@
 	<false/>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSHealthShareUsageDescription</key>
+    <string>Using health data the app will personalize tips based on your wake time</string>
+    <key>NSHealthUpdateUsageDescription</key>
+    <string>Using health data the app will personalize tips based on your wake time</string>
 	<key>UIApplicationSupportsIndirectInputEvents</key>
 	<true/>
 	<key>UILaunchStoryboardName</key>

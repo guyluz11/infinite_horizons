@@ -1,19 +1,26 @@
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/vibration_controller.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class CheckBoxTileMolecule extends StatefulWidget {
   const CheckBoxTileMolecule(
     this.text, {
     required this.callback,
+    this.textIcon,
     this.initialValue = false,
     this.onIconPressed,
+    this.subtitle,
+    this.variant = ListTileSubtitleVariant.text,
   });
 
   final String text;
+  final IconData? textIcon;
+  final String? subtitle;
   final bool initialValue;
   final Function(bool) callback;
   final VoidCallback? onIconPressed;
+  final ListTileSubtitleVariant variant;
 
   @override
   State<CheckBoxTileMolecule> createState() => _CheckBoxTileMolecule();
@@ -21,17 +28,34 @@ class CheckBoxTileMolecule extends StatefulWidget {
 
 class _CheckBoxTileMolecule extends State<CheckBoxTileMolecule> {
   late bool isChecked;
+  late bool isCrossed;
 
   @override
   void initState() {
     super.initState();
     isChecked = widget.initialValue;
+    isCrossed = isChecked;
   }
 
-  void onChange() {
-    setState(() {
-      isChecked = !isChecked;
-    });
+  Future onChange() async {
+    if (!isChecked) {
+      PlayerController.instance.play(SoundType.checkBoxChecked);
+      setState(() {
+        isChecked = !isChecked;
+      });
+      await Future.delayed(const Duration(milliseconds: 800));
+
+      PlayerController.instance.play(SoundType.strikethrough);
+      setState(() {
+        isCrossed = isChecked;
+      });
+    } else {
+      setState(() {
+        isChecked = !isChecked;
+        isCrossed = isChecked;
+      });
+    }
+
     VibrationController.instance.vibrate(VibrationType.light);
 
     widget.callback(isChecked);
@@ -41,18 +65,23 @@ class _CheckBoxTileMolecule extends State<CheckBoxTileMolecule> {
   Widget build(BuildContext context) {
     return ListTileAtom(
       widget.text,
+      titleIcon: widget.textIcon,
+      subtitle: widget.subtitle,
       trailing: (widget.onIconPressed != null)
           ? IconButton(
               onPressed: widget.onIconPressed,
-              icon: const Icon(Icons.arrow_forward),
+              icon: const FaIcon(FontAwesomeIcons.circleQuestion),
             )
           : const SizedBox(),
       leading: CheckBoxAtom(
         callback: (value) => onChange(),
         initialValue: isChecked,
         controlByParent: true,
+        isSound: false,
       ),
       onTap: onChange,
+      variant: ListTileSubtitleVariant.strikethrough,
+      isCrossed: isCrossed,
     );
   }
 }

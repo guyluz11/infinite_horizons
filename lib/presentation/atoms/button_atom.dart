@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/vibration_controller.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class ButtonAtom extends StatelessWidget {
@@ -84,6 +84,38 @@ class ButtonAtom extends StatelessWidget {
             label: label(textTheme, color: colorScheme.onPrimaryContainer),
           ),
         );
+
+      case ButtonVariant.mediumHighEmphasisFilledTonal:
+        if (icon == null) {
+          return buttonConstraints(
+            child: FilledButton.tonal(
+              onPressed: disabled ? null : onPressed,
+              style: disabled
+                  ? null
+                  : FilledButton.styleFrom().copyWith(
+                      alignment: Alignment.center,
+                      backgroundColor: WidgetStateProperty.all(
+                        colorScheme.secondaryContainer,
+                      ),
+                    ),
+              child: label(textTheme, color: colorScheme.onSecondaryContainer),
+            ),
+          );
+        }
+        return buttonConstraints(
+          child: FilledButton.tonalIcon(
+            onPressed: disabled ? null : onPressed,
+            style: disabled
+                ? null
+                : FilledButton.styleFrom().copyWith(
+                    alignment: Alignment.center,
+                    backgroundColor:
+                        WidgetStateProperty.all(colorScheme.secondaryContainer),
+                  ),
+            icon: Icon(icon, color: colorScheme.onSecondaryContainer),
+            label: label(textTheme, color: colorScheme.onSecondaryContainer),
+          ),
+        );
       case ButtonVariant.mediumEmphasisOutlined:
         if (icon == null) {
           return buttonConstraints(
@@ -129,6 +161,7 @@ class ButtonAtom extends StatelessWidget {
 /// See "Choosing buttons" section https://m3.material.io/components/all-buttons
 enum ButtonVariant {
   highEmphasisFilled,
+  mediumHighEmphasisFilledTonal,
   mediumEmphasisOutlined,
   lowEmphasisText,
   lowEmphasisIcon,

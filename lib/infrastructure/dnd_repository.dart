@@ -1,20 +1,33 @@
-part of 'package:infinite_horizons/domain/dnd_controller.dart';
+part of 'package:infinite_horizons/domain/controllers/dnd_controller.dart';
 
 class _DndRepository extends DndController {
   @override
+  void init() => supported = Platform.isAndroid;
+
+  @override
   Future<void> enableDnd() async {
-    if (await FlutterDnd.isNotificationPolicyAccessGranted ?? false) {
+    if (!supported) {
+      return;
+    }
+
+    if (await PermissionsController.instance
+        .isNotificationPolicyAccessGranted()) {
       // Turn on DND - All notifications are suppressed except priority.
       await FlutterDnd.setInterruptionFilter(
         FlutterDnd.INTERRUPTION_FILTER_PRIORITY,
       );
     } else {
-      FlutterDnd.gotoPolicySettings();
+      PermissionsController.instance.gotoPolicySettings();
     }
   }
 
   @override
-  Future<bool> isDnd() async =>
-      await FlutterDnd.getCurrentInterruptionFilter() ==
-      FlutterDnd.INTERRUPTION_FILTER_PRIORITY;
+  Future<bool> isDnd() async {
+    if (!supported) {
+      return false;
+    }
+
+    return await FlutterDnd.getCurrentInterruptionFilter() ==
+        FlutterDnd.INTERRUPTION_FILTER_PRIORITY;
+  }
 }

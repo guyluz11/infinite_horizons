@@ -1,4 +1,4 @@
-part of 'package:infinite_horizons/domain/wake_lock_controller.dart';
+part of 'package:infinite_horizons/domain/controllers/wake_lock_controller.dart';
 
 class _WakeLockRepository extends WakeLockController {
   @override

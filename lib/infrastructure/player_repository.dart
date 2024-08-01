@@ -1,4 +1,4 @@
-part of 'package:infinite_horizons/domain/player_controller.dart';
+part of 'package:infinite_horizons/domain/controllers/player_controller.dart';
 
 class _PlayerRepository extends PlayerController {
   late AudioPlayer player;
@@ -6,14 +6,12 @@ class _PlayerRepository extends PlayerController {
   bool _isSound = true;
 
   @override
-  void initialize() {
-    player = AudioPlayer();
-  }
+  void init() => player = AudioPlayer();
 
   @override
-  Future play(String fileName) async {
+  Future play(SoundType type) async {
     if (_isSound) {
-      player.play(AssetSource('sound_effects/$fileName'));
+      player.play(AssetSource('sound_effects/${type.fileName}'));
     }
   }
 
