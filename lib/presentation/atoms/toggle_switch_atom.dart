@@ -76,7 +76,7 @@ class _ToggleSwitchAtomState extends State<ToggleSwitchAtom> {
               ? colorScheme.surfaceContainerHighest.withOpacity(0.38)
               : colorScheme.surfaceContainerHighest,
         ),
-        Icon(
+        FaIcon(
           widget.onIcon,
           color: widget.disable
               ? colorScheme.onSurface.withOpacity(0.38)
