@@ -112,22 +112,16 @@ class _WorkTypeSelectionMoleculeState extends State<WorkTypeSelectionMolecule> {
                     children: [
                       SizedBox(
                         width: double.infinity,
-                        child: isTextFinished
-                            ? TextAtom(
-                                recommendedTypeText.join('\n'),
-                                variant: TextVariant.title,
-                              )
-                            : AnimatedTextAtom(
-                                recommendedTypeText,
-                                onFinished: () {
-                                  WidgetsBinding.instance
-                                      .addPostFrameCallback((_) {
-                                    setState(() {
-                                      isTextFinished = true;
-                                    });
-                                  });
-                                },
-                              ),
+                        child: AnimatedTextAtom(
+                          text: recommendedTypeText.join('\n'),
+                          onDone: () {
+                            WidgetsBinding.instance.addPostFrameCallback((_) {
+                              setState(() {
+                                isTextFinished = true;
+                              });
+                            });
+                          },
+                        ),
                       ),
                       if (isTextFinished)
                         Column(

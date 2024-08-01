@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/pages/pages.dart';
 
@@ -16,7 +17,9 @@ class TipResourcePage extends StatelessWidget {
         title: "resource",
         margin: false,
         topBarType: TopBarType.back,
+        topBarRightOnTap: () => UrlLauncherController.instance.openUrl(url),
         expendChild: false,
+        topBarRightIcon: Icons.open_in_new,
         child: PdfViewerMolecule(
           url: url,
         ),
@@ -31,6 +34,8 @@ class TipResourcePage extends StatelessWidget {
       margin: false,
       topBarType: TopBarType.back,
       expendChild: false,
+      topBarRightIcon: Icons.open_in_new,
+      topBarRightOnTap: () => UrlLauncherController.instance.openUrl(url),
       child: WebViewMolecule(
         url: url,
       ),
