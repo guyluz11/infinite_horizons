@@ -1,5 +1,6 @@
 import 'package:animated_toggle_switch/animated_toggle_switch.dart';
 import 'package:flutter/material.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 
 class ToggleSwitchAtom extends StatefulWidget {
   const ToggleSwitchAtom({
@@ -69,13 +70,13 @@ class _ToggleSwitchAtomState extends State<ToggleSwitchAtom> {
       values: const [false, true],
       onChanged: widget.disable ? null : onChange,
       iconList: [
-        Icon(
+        FaIcon(
           widget.offIcon,
           color: widget.disable
               ? colorScheme.surfaceContainerHighest.withOpacity(0.38)
               : colorScheme.surfaceContainerHighest,
         ),
-        Icon(
+        FaIcon(
           widget.onIcon,
           color: widget.disable
               ? colorScheme.onSurface.withOpacity(0.38)

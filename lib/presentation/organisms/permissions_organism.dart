@@ -50,8 +50,8 @@ class _PermissionsOrganismState extends State<PermissionsOrganism> {
               text: 'Notification Permission',
               description:
                   'Get notify about timer status when the app is in the background',
-              offIcon: FontAwesomeIcons.bell,
-              onIcon: FontAwesomeIcons.solidBell,
+              offIcon: Icons.notifications_off_outlined,
+              onIcon: Icons.notifications_outlined,
               onChange: (value) async {
                 await NotificationsController.instance.generalPermission();
                 await NotificationsController.instance.preciseAlarmPermission();
