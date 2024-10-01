@@ -87,7 +87,9 @@ class _IntroPageState extends State<IntroPage> {
     return Scaffold(
       body: PopScope(
         canPop: state == IntroState.welcome,
-        onPopInvoked: (_) => previousPage(),
+        onPopInvokedWithResult: (didPop, result) =>
+            didPop ? previousPage() : null,
+        // onPopInvoked: (_) => previousPage(),
         child: GestureDetector(
           onHorizontalDragEnd: onHorizontalDrag,
           child: IntroductionScreen(

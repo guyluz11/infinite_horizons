@@ -20,7 +20,7 @@ class WorkTypeSelectionMolecule extends StatefulWidget {
 
 class _WorkTypeSelectionMoleculeState extends State<WorkTypeSelectionMolecule> {
   late TipType selectedType;
-  bool isTextFinished = false;
+  bool isTextFinished = true;
   late Tip analyticalTip;
   late Tip creativeTip;
   late List<Tip> recommendedTips;
@@ -50,6 +50,10 @@ class _WorkTypeSelectionMoleculeState extends State<WorkTypeSelectionMolecule> {
   }
 
   Future initializeTips() async {
+    await Future.delayed(const Duration(milliseconds: 100));
+    setState(() {
+      isTextFinished = false;
+    });
     analyticalTip = tipsList.firstWhereOrNull(
       (element) => element.id == 'recommended in the morning',
     )!;
@@ -168,7 +172,7 @@ class _WorkTypeSelectionMoleculeState extends State<WorkTypeSelectionMolecule> {
                 ],
               ],
             )
-          : const CircularProgressIndicator(),
+          : const Center(child: CircularProgressIndicator()),
     );
   }
 }
