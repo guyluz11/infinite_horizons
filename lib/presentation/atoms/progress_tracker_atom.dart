@@ -39,7 +39,7 @@ class ProgressTrackerAtom extends StatelessWidget {
       final bool isCurrentState = upcomingState.state == currentState;
       final String stateName;
       if (!isLastSession && upcomingState.state == TimerState.readyToStart) {
-        stateName = 'next session';
+        stateName = 'next';
       } else {
         stateName = upcomingState.state.spacedName;
       }
