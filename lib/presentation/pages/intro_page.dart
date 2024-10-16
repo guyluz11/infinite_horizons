@@ -11,6 +11,10 @@ import 'package:infinite_horizons/presentation/pages/pages.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 class IntroPage extends StatefulWidget {
+  const IntroPage(this.tipType);
+
+  final TipType tipType;
+
   @override
   State<IntroPage> createState() => _IntroPageState();
 }
@@ -19,7 +23,6 @@ class _IntroPageState extends State<IntroPage> {
   final GlobalKey<IntroductionScreenState> _introKey =
       GlobalKey<IntroductionScreenState>();
 
-  String workType = '';
   bool showNextButton = true;
   IntroState state = IntroState.welcome;
   final Duration selectionTransitionDelay = const Duration(milliseconds: 200);
@@ -48,7 +51,7 @@ class _IntroPageState extends State<IntroPage> {
   }
 
   void onDone(BuildContext context) => Navigator.of(context)
-      .push(MaterialPageRoute(builder: (context) => HomePage()));
+      .push(MaterialPageRoute(builder: (context) => ActivityPage()));
 
   void previousPage() => _introKey.currentState?.previous();
 
@@ -87,7 +90,7 @@ class _IntroPageState extends State<IntroPage> {
     return Scaffold(
       body: PopScope(
         canPop: state == IntroState.welcome,
-        onPopInvoked: (_) => previousPage(),
+        onPopInvokedWithResult: (bool a, b) => previousPage(),
         child: GestureDetector(
           onHorizontalDragEnd: onHorizontalDrag,
           child: IntroductionScreen(
@@ -116,19 +119,7 @@ class _IntroPageState extends State<IntroPage> {
             ),
             pages: [
               customPageViewModel(
-                bodyWidget: WelcomeOrganism(),
-              ),
-              customPageViewModel(
-                bodyWidget: WorkTypeSelectionMolecule(() async {
-                  setState(() {
-                    workType = WorkTypeAbstract.instance!.tipType.name;
-                  });
-                  await Future.delayed(selectionTransitionDelay);
-                  nextPage();
-                }),
-              ),
-              customPageViewModel(
-                bodyWidget: TipsOrganism(workType),
+                bodyWidget: TipsOrganism(widget.tipType),
               ),
               customPageViewModel(
                 bodyWidget: EnergySelectionMolecule(() async {

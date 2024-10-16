@@ -32,6 +32,7 @@ class PageEnclosureMolecule extends StatelessWidget {
 
   Widget topBarHelper() {
     return Column(
+      crossAxisAlignment: CrossAxisAlignment.start,
       children: [
         TopBarMolecule(
           topBarType: topBarType,
@@ -46,7 +47,7 @@ class PageEnclosureMolecule extends StatelessWidget {
             subTitle!,
             variant: TextVariant.smallTitle,
           ),
-        if (topMargin) const SeparatorAtom(variant: SeparatorVariant.farApart),
+        if (topMargin) const SeparatorAtom(),
         Expanded(
           child: child,
         ),

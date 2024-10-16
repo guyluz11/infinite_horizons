@@ -1,205 +1,160 @@
-import 'package:easy_localization/easy_localization.dart';
+import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/controllers/controllers.dart';
+import 'package:infinite_horizons/domain/objects/tip.dart';
+import 'package:infinite_horizons/domain/objects/work_type_abstract.dart';
+import 'package:infinite_horizons/domain/objects/work_type_analytical.dart';
+import 'package:infinite_horizons/domain/objects/work_type_creatively.dart';
+import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
-import 'package:infinite_horizons/presentation/organisms/organisms.dart';
+import 'package:infinite_horizons/presentation/pages/intro_page.dart';
 
 class HomePage extends StatefulWidget {
   @override
-  State<HomePage> createState() => _HomePageState();
+  State<HomePage> createState() => HomePageState();
 }
 
-class _HomePageState extends State<HomePage> with WidgetsBindingObserver {
-  int _currentTabNum = 0;
-
-  final GlobalKey<TimerOrganismState> timerKey =
-      GlobalKey<TimerOrganismState>();
-
-  List<Widget> _tabs() => [
-        TimerOrganism(key: timerKey),
-        TextAreaOrganism(),
-      ];
-
-  final _pageController = PageController();
+class HomePageState extends State<HomePage> {
+  late Tip analyticalTip;
+  late Tip creativeTip;
+  late List<Tip> recommendedTips;
+  Duration? timeFromWake;
+  bool didPulledWakeTime = false;
+  String? recommendedTypeText;
 
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addObserver(this);
-    PlayerController.instance.setIsSound(
-      PreferencesController.instance.getBool(PreferenceKeys.isSound) ?? true,
-    );
-    PlayerController.instance.play(SoundType.startSession);
-    VibrationController.instance.vibrate(VibrationType.heavy);
-    TimerStateManager.iterateOverTimerStates();
+    initializeTips();
   }
 
-  AppLifecycleState currentAppState = AppLifecycleState.resumed;
+  void onSelectedType(TipType type) {
+    WorkTypeAbstract.instance = type == TipType.analytical
+        ? WorkTypeAnalytical()
+        : WorkTypeCreatively();
 
-  void setAppState(AppLifecycleState val) {
-    if (val == AppLifecycleState.paused || val == AppLifecycleState.resumed) {
-      currentAppState = val;
+    PreferencesController.instance.setString(PreferenceKeys.tipType, type.name);
+    Navigator.of(context)
+        .push(MaterialPageRoute(builder: (context) => IntroPage(type)));
+  }
+
+  Future initializeTips() async {
+    analyticalTip = tipsList.firstWhereOrNull(
+      (element) => element.id == 'recommended in the morning',
+    )!;
+    creativeTip = tipsList.firstWhereOrNull(
+      (element) => element.id == 'recommended in the evening',
+    )!;
+
+    if (await HealthController.instance.isPermissionsSleepInBedGranted()) {
+      timeFromWake =
+          await HealthController.instance.getEstimatedDurationFromWake();
     }
-  }
-
-  @override
-  Future didChangeAppLifecycleState(AppLifecycleState appState) async {
-    switch (appState) {
-      case AppLifecycleState.detached:
-      case AppLifecycleState.inactive:
-      case AppLifecycleState.hidden:
-        setAppState(appState);
-        return;
-      case AppLifecycleState.resumed:
-        if (currentAppState == AppLifecycleState.resumed) {
-          return;
-        }
-
-        setAppState(appState);
-
-        NotificationsController.instance.cancelAllNotifications();
-
-        final DateTime preferencePausedTime = PreferencesController.instance
-            .getDateTime(PreferenceKeys.pausedTime)!;
-        final TimerState preferenceTimerState = TimerStateExtension.fromString(
-          PreferencesController.instance.getString(PreferenceKeys.timerState) ??
-              '',
-        );
-        final Duration preferenceRemainingTimerTime = PreferencesController
-                .instance
-                .getDuration(PreferenceKeys.remainingTimerTime) ??
-            Duration.zero;
-
-        setCurrentStateAndRemainingTime(
-          preferencePausedTime,
-          preferenceTimerState,
-          preferenceRemainingTimerTime,
-        );
-        TimerStateManager.callback?.call();
-        TimerStateManager.iterateOverTimerStates(
-          remainingTime: TimerStateManager.remainingTime,
-        );
-        return;
-      case AppLifecycleState.paused:
-        setAppState(appState);
-
-        final bool isTimerRunning = TimerStateManager.isTimerRunning();
-
-        TimerStateManager.pauseTimer();
-        PreferencesController.instance
-            .setDateTime(PreferenceKeys.pausedTime, DateTime.now());
-        PreferencesController.instance.setString(
-          PreferenceKeys.timerState,
-          TimerStateManager.state.name,
-        );
-        PreferencesController.instance.setDuration(
-          PreferenceKeys.remainingTimerTime,
-          TimerStateManager.remainingTime ?? Duration.zero,
-        );
-
-        if (!isTimerRunning) {
-          return;
-        }
-
-        final upcomingStates = TimerStateManager.upcomingStates(
-          TimerStateManager.state,
-          TimerStateManager.remainingTime,
-        );
-        for (final UpcomingState stateWithTime in upcomingStates) {
-          if (stateWithTime.state != TimerState.getReadyForBreak &&
-              stateWithTime.state != TimerState.readyToStart) {
-            String title;
-            String body;
-            NotificationVariant notificationVariant;
-            if (stateWithTime.state == TimerState.work) {
-              title = 'break'.tr();
-              body = 'work_ended'.tr();
-              notificationVariant = NotificationVariant.workEnded;
-            } else {
-              title = 'new_session'.tr();
-              body = 'break_ended'.tr();
-              notificationVariant = NotificationVariant.breakEnded;
-            }
-
-            await NotificationsController.instance.send(
-              date: stateWithTime.endTime,
-              title: title,
-              body: body,
-              variant: notificationVariant,
-            );
-          }
-        }
-        return;
-    }
-  }
-
-  @override
-  void dispose() {
-    TimerStateManager.pauseTimer();
-    _pageController.dispose();
-    WidgetsBinding.instance.removeObserver(this);
-    super.dispose();
-  }
-
-  void callback(int index) {
+    recommendedTypeText = getRecommendedTypeText();
     setState(() {
-      _currentTabNum = index;
-      _pageController.animateToPage(
-        _currentTabNum,
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.linear,
-      );
+      didPulledWakeTime = true;
     });
+  }
+
+  String? getRecommendedTypeText() {
+    final DateTime now = DateTime.now();
+    recommendedTips = [];
+
+    if (creativeTip.isTipRecommendedNow(timeFromWake: timeFromWake, now: now)) {
+      recommendedTips.add(creativeTip);
+    }
+
+    if (analyticalTip.isTipRecommendedNow(
+      timeFromWake: timeFromWake,
+      now: now,
+    )) {
+      recommendedTips.add(analyticalTip);
+    }
+
+    if (recommendedTips.isEmpty || recommendedTips.length >= 2) {
+      return null;
+    }
+
+    final String recommendedTipText =
+        recommendedTips.map((tip) => '${tip.actionText} Activity').join(', ');
+
+    return recommendedTipText;
+  }
+
+  Widget activityTypeCard({
+    required String titleText,
+    required String subTitle,
+    required VoidCallback onClick,
+  }) {
+    return CardAtom(
+      // TODO: Change the image
+      image: Image.asset('assets/logo.png'),
+      child: SizedBox(
+        width: double.infinity,
+        child: Column(
+          crossAxisAlignment: CrossAxisAlignment.start,
+          children: [
+            TextAtom(
+              titleText,
+              variant: TextVariant.titleLarge,
+            ),
+            TextAtom(
+              subTitle,
+            ),
+            const SeparatorAtom(),
+            ButtonAtom(
+              text: 'Start',
+              variant: ButtonVariant.mediumEmphasisOutlined,
+              onPressed: () {
+                VibrationController.instance.vibrate(VibrationType.light);
+                onClick();
+              },
+            ),
+          ],
+        ),
+      ),
+    );
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView(
-        onPageChanged: (index) {
-          setState(() {
-            if (index == 0) {
-              FocusScope.of(context).unfocus();
-            }
-            _currentTabNum = index;
-          });
-        },
-        controller: _pageController,
-        children: _tabs(),
-      ),
-      bottomNavigationBar:
-          BottomNavigationBarHomePage(callback, _currentTabNum),
+    return PageEnclosureMolecule(
+      title: 'home_page',
+      subTitle: 'Choose an activity type to start',
+      expendChild: false,
+      child: didPulledWakeTime
+          ? SingleChildScrollView(
+              child: Column(
+                crossAxisAlignment: CrossAxisAlignment.start,
+                children: [
+                  if (recommendedTypeText != null) ...[
+                    SizedBox(
+                      width: double.infinity,
+                      child: TextAtom(
+                        'We recommend you:${recommendedTypeText!}',
+                        variant: TextVariant.smallTitle,
+                      ),
+                    ),
+                    const SeparatorAtom(),
+                  ],
+                  // TODO: Add question mark to explain why using recommendedTips.first.
+                  activityTypeCard(
+                    titleText: analyticalTip.actionText,
+                    subTitle: 'Structured processes'
+                        '\nExamples: Engineering, Analyzing',
+                    onClick: () => onSelectedType(TipType.analytical),
+                  ),
+                  const SeparatorAtom(),
+                  activityTypeCard(
+                    titleText: creativeTip.actionText,
+                    subTitle: 'Abstract thinking'
+                        '\nExamples: painting, writing fiction',
+                    onClick: () => onSelectedType(TipType.creative),
+                  ),
+                ],
+              ),
+            )
+          : const CircularProgressIndicator(),
     );
-  }
-
-  /// Set the current state and the remaining time by calculating how much time passed
-  void setCurrentStateAndRemainingTime(
-    DateTime pausedTime,
-    TimerState previousTimerState,
-    Duration previousRemainingTimerTime,
-  ) {
-    final List<UpcomingState> upcomingStates = TimerStateManager.upcomingStates(
-      previousTimerState,
-      previousRemainingTimerTime,
-      calculateFromDate: pausedTime,
-    );
-    final DateTime timeNow = DateTime.now();
-
-    UpcomingState upcomingState = upcomingStates.first;
-
-    for (final UpcomingState tempUpcomingState in upcomingStates) {
-      if (tempUpcomingState.startTime().isBefore(timeNow)) {
-        upcomingState = tempUpcomingState;
-      } else {
-        break;
-      }
-    }
-
-    Duration remainingDuration = Duration.zero;
-    if (upcomingStates.last.state != upcomingState.state) {
-      remainingDuration = upcomingState.endTime.difference(timeNow);
-    }
-    TimerStateManager.state = upcomingState.state;
-    TimerStateManager.remainingTime = remainingDuration;
   }
 }

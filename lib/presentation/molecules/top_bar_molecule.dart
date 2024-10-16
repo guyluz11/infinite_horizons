@@ -44,9 +44,6 @@ class TopBarMolecule extends StatelessWidget {
             const SizedBox(height: 15),
             Row(
               children: [
-                const Expanded(
-                  child: SizedBox(),
-                ),
                 TextAtom(
                   title ?? '',
                   variant: TextVariant.title,
