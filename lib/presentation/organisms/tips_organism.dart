@@ -14,7 +14,7 @@ import 'package:universal_io/io.dart';
 class TipsOrganism extends StatefulWidget {
   const TipsOrganism(this.workType);
 
-  final String workType;
+  final TipType workType;
 
   @override
   State<TipsOrganism> createState() => _TipsOrganismState();
@@ -90,7 +90,7 @@ class _TipsOrganismState extends State<TipsOrganism> {
 
     return PageEnclosureMolecule(
       scaffold: false,
-      title: 'efficient_tips'.tr(args: [widget.workType.tr()]),
+      title: 'efficient_tips'.tr(args: [widget.workType.name.tr()]),
       subTitle: 'Select each element when complete',
       topBarTranslate: false,
       child: isDnd == null || !didPulledWakeTime

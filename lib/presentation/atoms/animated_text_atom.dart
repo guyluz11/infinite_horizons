@@ -1,70 +1,74 @@
-import 'package:animated_text_kit/animated_text_kit.dart';
-import 'package:flutter/material.dart';
+import 'package:flutter/widgets.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
+import 'package:vibration/vibration.dart';
 
 class AnimatedTextAtom extends StatefulWidget {
-  const AnimatedTextAtom(this.animatedTexts, {this.onFinished});
+  const AnimatedTextAtom({
+    required this.text,
+    required this.onDone,
+  });
 
-  final List<String> animatedTexts;
-  final VoidCallback? onFinished;
+  final String text;
+  final VoidCallback onDone;
 
   @override
-  State<AnimatedTextAtom> createState() => _AnimatedTextAtomState();
+  _AnimatedTextAtomState createState() => _AnimatedTextAtomState();
 }
 
-class _AnimatedTextAtomState extends State<AnimatedTextAtom> {
-  int textRendered = 0;
+class _AnimatedTextAtomState extends State<AnimatedTextAtom>
+    with SingleTickerProviderStateMixin {
+  late AnimationController _controller;
+  late Animation<int> _charCount;
+  bool isOnDone = false;
 
-  Widget animatedWidgets() {
-    final List<Widget> widgets = [];
+  @override
+  void initState() {
+    super.initState();
+    _controller = AnimationController(
+      duration: const Duration(seconds: 2),
+      vsync: this,
+    )..addListener(() {
+        setState(() {});
+      });
 
-    for (int i = 0; i < widget.animatedTexts.length; i++) {
-      final String text = widget.animatedTexts[i];
-      if (i < textRendered) {
-        widgets.add(
-          TextAtom(
-            text,
-            variant: TextVariant.title,
-          ),
-        );
-        if (i == widget.animatedTexts.length - 1) {
-          widget.onFinished?.call();
-        }
-        continue;
-      }
-      final ThemeData themeData = Theme.of(context);
+    _charCount =
+        StepTween(begin: 0, end: widget.text.length).animate(_controller);
 
-      final TextTheme textTheme = themeData.textTheme;
+    _controller.forward();
+  }
 
-      widgets.add(
-        AnimatedTextKit(
-          key: GlobalKey(),
-          displayFullTextOnTap: true,
-          isRepeatingAnimation: false,
-          animatedTexts: [
-            TypewriterAnimatedText(
-              text,
-              textStyle: textTheme.headlineMedium,
-            ),
-          ],
-          onFinished: () {
-            setState(() {
-              textRendered++;
-            });
-          },
-        ),
-      );
-      break;
+  @override
+  void dispose() {
+    _controller.dispose();
+    super.dispose();
+  }
+
+  void onDoneOnce() {
+    if (isOnDone) {
+      return;
     }
-
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: widgets,
-    );
+    isOnDone = true;
+    widget.onDone();
   }
 
   @override
   Widget build(BuildContext context) {
-    return animatedWidgets();
+    String currentText = widget.text.substring(0, _charCount.value);
+
+    // Trigger vibration for each letter
+    if (_charCount.value > 0 && _charCount.value <= widget.text.length) {
+      Vibration.vibrate(duration: 1); // Vibrate for 50ms
+    }
+
+    if (_charCount.value == widget.text.length) {
+      onDoneOnce();
+    } else {
+      currentText += '_';
+    }
+
+    return TextAtom(
+      currentText,
+      variant: TextVariant.title,
+    );
   }
 }

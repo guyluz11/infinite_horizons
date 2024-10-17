@@ -8,5 +8,4 @@ export 'package:infinite_horizons/presentation/molecules/timer_molecule.dart';
 export 'package:infinite_horizons/presentation/molecules/toggle_switch_tile_molecule.dart';
 export 'package:infinite_horizons/presentation/molecules/top_bar_molecule.dart';
 export 'package:infinite_horizons/presentation/molecules/web_view_molecule.dart';
-export 'package:infinite_horizons/presentation/molecules/work_type_selection_molecule.dart';
 export 'package:infinite_horizons/presentation/molecules/youtube_player_molecule.dart';

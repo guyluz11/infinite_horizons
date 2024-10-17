@@ -42,61 +42,63 @@ class _PermissionsOrganismState extends State<PermissionsOrganism> {
   }
 
   Widget body() {
-    return Column(
-      children: [
-        CardAtom(
-          child: ToggleSwitchMolecule(
-            text: 'Notification Permission',
-            description:
-                'Get notify about timer status when the app is in the background',
-            offIcon: FontAwesomeIcons.bell,
-            onIcon: FontAwesomeIcons.solidBell,
-            onChange: (value) async {
-              await NotificationsController.instance.generalPermission();
-              await NotificationsController.instance.preciseAlarmPermission();
-            },
-            initialValue: generalNotifications,
-            lockOnToggleOn: true,
-          ),
-        ),
-        if (Platform.isAndroid)
-          Column(
-            children: [
-              const SeparatorAtom(),
-              CardAtom(
-                child: ToggleSwitchMolecule(
-                  text: 'Do Not Disturb Mode',
-                  description:
-                      'Will add button for one click Do Not Disturb Mode',
-                  offIcon: Icons.do_not_disturb_off_outlined,
-                  onIcon: Icons.do_not_disturb_on_outlined,
-                  onChange: (value) =>
-                      PermissionsController.instance.gotoPolicySettings(),
-                  initialValue: dndPermission,
-                  lockOnToggleOn: true,
-                ),
-              ),
-            ],
-          ),
-        const SeparatorAtom(),
-        if (HealthController.instance.supported)
+    return SingleChildScrollView(
+      child: Column(
+        children: [
           CardAtom(
             child: ToggleSwitchMolecule(
-              text: 'Sleep Data',
-              description: 'For tailored tips based on your wake hour',
-              offIcon: FontAwesomeIcons.moon,
-              onIcon: FontAwesomeIcons.solidMoon,
-              onChange: (value) {
-                if (value) {
-                  HealthController.instance.requestSleepDataPermission();
-                  return;
-                }
-                HealthController.instance.removeSleepPermission();
+              text: 'Notification Permission',
+              description:
+                  'Get notify about timer status when the app is in the background',
+              offIcon: Icons.notifications_off_outlined,
+              onIcon: Icons.notifications_outlined,
+              onChange: (value) async {
+                await NotificationsController.instance.generalPermission();
+                await NotificationsController.instance.preciseAlarmPermission();
               },
-              initialValue: sleepDataPermission,
+              initialValue: generalNotifications,
+              lockOnToggleOn: true,
             ),
           ),
-      ],
+          if (Platform.isAndroid)
+            Column(
+              children: [
+                const SeparatorAtom(),
+                CardAtom(
+                  child: ToggleSwitchMolecule(
+                    text: 'Do Not Disturb Mode',
+                    description:
+                        'Will add button for one click Do Not Disturb Mode',
+                    offIcon: Icons.do_not_disturb_off_outlined,
+                    onIcon: Icons.do_not_disturb_on_outlined,
+                    onChange: (value) =>
+                        PermissionsController.instance.gotoPolicySettings(),
+                    initialValue: dndPermission,
+                    lockOnToggleOn: true,
+                  ),
+                ),
+              ],
+            ),
+          const SeparatorAtom(),
+          if (HealthController.instance.supported)
+            CardAtom(
+              child: ToggleSwitchMolecule(
+                text: 'Sleep Data',
+                description: 'For tailored tips based on your wake hour',
+                offIcon: FontAwesomeIcons.moon,
+                onIcon: FontAwesomeIcons.solidMoon,
+                onChange: (value) {
+                  if (value) {
+                    HealthController.instance.requestSleepDataPermission();
+                    return;
+                  }
+                  HealthController.instance.removeSleepPermission();
+                },
+                initialValue: sleepDataPermission,
+              ),
+            ),
+        ],
+      ),
     );
   }
 

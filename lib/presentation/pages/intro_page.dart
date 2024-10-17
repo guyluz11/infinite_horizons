@@ -11,6 +11,10 @@ import 'package:infinite_horizons/presentation/pages/pages.dart';
 import 'package:introduction_screen/introduction_screen.dart';
 
 class IntroPage extends StatefulWidget {
+  const IntroPage(this.tipType);
+
+  final TipType tipType;
+
   @override
   State<IntroPage> createState() => _IntroPageState();
 }
@@ -19,7 +23,6 @@ class _IntroPageState extends State<IntroPage> {
   final GlobalKey<IntroductionScreenState> _introKey =
       GlobalKey<IntroductionScreenState>();
 
-  String workType = '';
   bool showNextButton = true;
   IntroState state = IntroState.welcome;
   final Duration selectionTransitionDelay = const Duration(milliseconds: 200);
@@ -48,9 +51,21 @@ class _IntroPageState extends State<IntroPage> {
   }
 
   void onDone(BuildContext context) => Navigator.of(context)
-      .push(MaterialPageRoute(builder: (context) => HomePage()));
+      .push(MaterialPageRoute(builder: (context) => ActivityPage()));
 
   void previousPage() => _introKey.currentState?.previous();
+
+  void onHorizontalDrag(DragEndDetails details) {
+    if (details.primaryVelocity == 0) {
+      return; // user have just tapped on screen (no dragging)
+    } else if (details.primaryVelocity!.compareTo(0) == -1) {
+      if (showNextButton) {
+        nextPage();
+      }
+      return;
+    }
+    previousPage();
+  }
 
   PageDecoration emptyPageDecoration() => const PageDecoration(
         pageMargin: EdgeInsets.zero,
@@ -75,64 +90,55 @@ class _IntroPageState extends State<IntroPage> {
     return Scaffold(
       body: PopScope(
         canPop: state == IntroState.welcome,
-        onPopInvoked: (_) => previousPage(),
-        child: IntroductionScreen(
-          isProgressTap: false,
-          key: _introKey,
-          dotsDecorator: DotsDecorator(
-            color: colorScheme.outlineVariant,
-            activeColor: colorScheme.primary,
+        onPopInvokedWithResult: (bool a, b) => previousPage(),
+        child: GestureDetector(
+          onHorizontalDragEnd: onHorizontalDrag,
+          child: IntroductionScreen(
+            isProgressTap: false,
+            key: _introKey,
+            dotsDecorator: DotsDecorator(
+              color: colorScheme.outlineVariant,
+              activeColor: colorScheme.primary,
+            ),
+            overrideNext: Center(
+              child: ButtonAtom(
+                variant: ButtonVariant.highEmphasisFilled,
+                onPressed: showNextButton ? nextPage : () {},
+                icon: FontAwesomeIcons.arrowRight,
+                text: 'next',
+                disabled: !showNextButton,
+              ),
+            ),
+            overrideBack: Center(
+              child: ButtonAtom(
+                variant: ButtonVariant.lowEmphasisIcon,
+                onPressed: previousPage,
+                icon: FontAwesomeIcons.arrowLeft,
+                disabled: !showNextButton,
+              ),
+            ),
+            pages: [
+              customPageViewModel(
+                bodyWidget: TipsOrganism(widget.tipType),
+              ),
+              customPageViewModel(
+                bodyWidget: EnergySelectionMolecule(() async {
+                  await Future.delayed(selectionTransitionDelay);
+                  nextPage();
+                }),
+              ),
+              customPageViewModel(
+                bodyWidget: ReadyForSessionPage(() => onDone(context)),
+              ),
+            ],
+            showBackButton: true,
+            back: const Icon(Icons.arrow_back),
+            next: const Icon(Icons.arrow_forward),
+            scrollPhysics: const NeverScrollableScrollPhysics(),
+            onChange: onIntroPageChange,
+            showDoneButton: false,
+            showNextButton: showNextButton,
           ),
-          overrideNext: Center(
-            child: ButtonAtom(
-              variant: ButtonVariant.highEmphasisFilled,
-              onPressed: showNextButton ? nextPage : () {},
-              icon: FontAwesomeIcons.arrowRight,
-              text: 'next',
-              disabled: !showNextButton,
-            ),
-          ),
-          overrideBack: Center(
-            child: ButtonAtom(
-              variant: ButtonVariant.lowEmphasisIcon,
-              onPressed: previousPage,
-              icon: FontAwesomeIcons.arrowLeft,
-              disabled: !showNextButton,
-            ),
-          ),
-          pages: [
-            customPageViewModel(
-              bodyWidget: WelcomeOrganism(),
-            ),
-            customPageViewModel(
-              bodyWidget: WorkTypeSelectionMolecule(() async {
-                setState(() {
-                  workType = WorkTypeAbstract.instance!.tipType.name;
-                });
-                await Future.delayed(selectionTransitionDelay);
-                nextPage();
-              }),
-            ),
-            customPageViewModel(
-              bodyWidget: TipsOrganism(workType),
-            ),
-            customPageViewModel(
-              bodyWidget: EnergySelectionMolecule(() async {
-                await Future.delayed(selectionTransitionDelay);
-                nextPage();
-              }),
-            ),
-            customPageViewModel(
-              bodyWidget: ReadyForSessionPage(() => onDone(context)),
-            ),
-          ],
-          showBackButton: true,
-          back: const Icon(Icons.arrow_back),
-          next: const Icon(Icons.arrow_forward),
-          scrollPhysics: const NeverScrollableScrollPhysics(),
-          onChange: onIntroPageChange,
-          showDoneButton: false,
-          showNextButton: showNextButton,
         ),
       ),
     );

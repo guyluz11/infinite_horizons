@@ -9,12 +9,14 @@ class TopBarMolecule extends StatelessWidget {
     this.rightOnTap,
     this.translate = true,
     this.margin = true,
+    this.rightIcon,
   });
 
   final TopBarType topBarType;
   final String? title;
   final VoidCallback? leftOnTap;
   final VoidCallback? rightOnTap;
+  final IconData? rightIcon;
   final bool translate;
   final bool margin;
 
@@ -42,9 +44,6 @@ class TopBarMolecule extends StatelessWidget {
             const SizedBox(height: 15),
             Row(
               children: [
-                const Expanded(
-                  child: SizedBox(),
-                ),
                 TextAtom(
                   title ?? '',
                   variant: TextVariant.title,
@@ -108,7 +107,7 @@ class TopBarMolecule extends StatelessWidget {
                         variant: ButtonVariant.lowEmphasisIcon,
                         onPressed: rightOnTap!,
                         translate: translate,
-                        icon: Icons.more_vert,
+                        icon: rightIcon ?? Icons.more_vert,
                       )
                     else
                       TextAtom(
