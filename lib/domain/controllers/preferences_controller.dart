@@ -43,4 +43,5 @@ enum PreferenceKeys {
   freeText,
   tipType,
   sleepPermissionGranted,
+  finishedIntroduction,
 }

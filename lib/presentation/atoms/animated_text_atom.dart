@@ -1,4 +1,4 @@
-import 'package:flutter/widgets.dart';
+import 'package:flutter/material.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:vibration/vibration.dart';
 
@@ -6,10 +6,12 @@ class AnimatedTextAtom extends StatefulWidget {
   const AnimatedTextAtom({
     required this.text,
     required this.onDone,
+    this.textColorWhite = false,
   });
 
   final String text;
   final VoidCallback onDone;
+  final bool textColorWhite;
 
   @override
   _AnimatedTextAtomState createState() => _AnimatedTextAtomState();
@@ -25,7 +27,7 @@ class _AnimatedTextAtomState extends State<AnimatedTextAtom>
   void initState() {
     super.initState();
     _controller = AnimationController(
-      duration: const Duration(seconds: 2),
+      duration: const Duration(seconds: 3),
       vsync: this,
     )..addListener(() {
         setState(() {});
@@ -69,6 +71,7 @@ class _AnimatedTextAtomState extends State<AnimatedTextAtom>
     return TextAtom(
       currentText,
       variant: TextVariant.title,
+      style: const TextStyle(color: Colors.white),
     );
   }
 }
