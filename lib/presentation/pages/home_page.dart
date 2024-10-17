@@ -1,5 +1,7 @@
 import 'package:collection/collection.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/svg.dart';
+import 'package:font_awesome_flutter/font_awesome_flutter.dart';
 import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/domain/objects/tip.dart';
 import 'package:infinite_horizons/domain/objects/work_type_abstract.dart';
@@ -85,10 +87,11 @@ class HomePageState extends State<HomePage> {
     required String titleText,
     required String subTitle,
     required VoidCallback onClick,
+    required SvgPicture background,
   }) {
     return CardAtom(
-      // TODO: Change the image
-      image: Image.asset('assets/logo.png'),
+      image: background,
+      onClick: onClick,
       child: SizedBox(
         width: double.infinity,
         child: Column(
@@ -128,20 +131,43 @@ class HomePageState extends State<HomePage> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   if (recommendedTypeText != null) ...[
-                    SizedBox(
-                      width: double.infinity,
-                      child: TextAtom(
-                        'We recommend you:${recommendedTypeText!}',
-                        variant: TextVariant.smallTitle,
-                      ),
+                    Row(
+                      children: [
+                        TextAtom(
+                          'We recommend you: ${recommendedTypeText!}',
+                          variant: TextVariant.smallTitle,
+                        ),
+                        const Expanded(child: Text('')),
+                        IconButton(
+                          onPressed: () {
+                            openAlertDialog(
+                              context,
+                              SizedBox(
+                                height: 150,
+                                child: PageEnclosureMolecule(
+                                  title: 'Recommended type',
+                                  subTitle: recommendedTips.first.actionText,
+                                  expendChild: false,
+                                  child:
+                                      TextAtom(recommendedTips.first.reason!),
+                                ),
+                              ),
+                            );
+                          },
+                          icon: const FaIcon(FontAwesomeIcons.circleQuestion),
+                        ),
+                      ],
                     ),
                     const SeparatorAtom(),
                   ],
-                  // TODO: Add question mark to explain why using recommendedTips.first.
                   activityTypeCard(
                     titleText: analyticalTip.actionText,
                     subTitle: 'Structured processes'
                         '\nExamples: Engineering, Analyzing',
+                    background: SvgPicture.asset(
+                      'assets/images/brain.svg',
+                      fit: BoxFit.cover,
+                    ),
                     onClick: () => onSelectedType(TipType.analytical),
                   ),
                   const SeparatorAtom(),
@@ -149,8 +175,13 @@ class HomePageState extends State<HomePage> {
                     titleText: creativeTip.actionText,
                     subTitle: 'Abstract thinking'
                         '\nExamples: painting, writing fiction',
+                    background: SvgPicture.asset(
+                      'assets/images/light_bulb.svg',
+                      fit: BoxFit.cover,
+                    ),
                     onClick: () => onSelectedType(TipType.creative),
                   ),
+                  const SeparatorAtom(variant: SeparatorVariant.farApart),
                 ],
               ),
             )
