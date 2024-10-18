@@ -52,6 +52,7 @@ class _WelcomePageState extends State<WelcomePage> {
             if (showSubTitle)
               AnimatedTextAtom(
                 text: 'Improves productivity',
+                variant: AnimatedTextVariant.typewriter,
                 onDone: animatedTextFinish,
                 textColorWhite: true,
               )
@@ -70,6 +71,8 @@ class _WelcomePageState extends State<WelcomePage> {
                 child: ButtonAtom(
                   variant: ButtonVariant.highEmphasisFilled,
                   onPressed: () {
+                    Navigator.of(context).pop();
+
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => ConvincingPage(),

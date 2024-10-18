@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/core/theme_data.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
@@ -17,18 +18,16 @@ class ConvincingPage extends StatelessWidget {
               child: Expanded(
                 child: Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  // mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     const SizedBox(width: double.infinity),
-                    TextAtom(
-                      'The app will',
-                      style: Theme.of(context)
-                          .textTheme
-                          .displayMedium!
-                          .copyWith(color: Colors.white),
+                    AnimatedTextAtom(
+                      text: 'The app will',
+                      variant: AnimatedTextVariant.flicker,
+                      onDone: () {},
+                      textColorWhite: true,
                     ),
-                    SeparatorAtom(),
-                    SeparatorAtom(),
+                    const SeparatorAtom(),
+                    const SeparatorAtom(),
                     TextAtom(
                       '* Organize your breaks',
                       style: Theme.of(context)
@@ -36,7 +35,7 @@ class ConvincingPage extends StatelessWidget {
                           .titleLarge!
                           .copyWith(color: Colors.white),
                     ),
-                    SeparatorAtom(),
+                    const SeparatorAtom(),
                     TextAtom(
                       '* Enrich you with efficiency tips',
                       style: Theme.of(context)
@@ -44,7 +43,7 @@ class ConvincingPage extends StatelessWidget {
                           .titleLarge!
                           .copyWith(color: Colors.white),
                     ),
-                    SeparatorAtom(),
+                    const SeparatorAtom(),
                     TextAtom(
                       '* Encourage healthy habits',
                       style: Theme.of(context)
@@ -56,7 +55,7 @@ class ConvincingPage extends StatelessWidget {
                 ),
               ),
             ),
-            Expanded(child: Text('')),
+            const Expanded(child: Text('')),
             SafeArea(
               child: AnimatedOpacity(
                 opacity: 1.0,
@@ -64,13 +63,18 @@ class ConvincingPage extends StatelessWidget {
                 child: ButtonAtom(
                   variant: ButtonVariant.highEmphasisFilled,
                   onPressed: () {
+                    PreferencesController.instance
+                        .setBool(PreferenceKeys.finishedIntroduction, true);
+
+                    Navigator.of(context).pop();
+
                     Navigator.of(context).push(
                       MaterialPageRoute(
                         builder: (context) => HomePage(),
                       ),
                     );
                   },
-                  text: 'Next',
+                  text: 'Home Page',
                 ),
               ),
             ),

@@ -37,6 +37,8 @@ class _SplashPageState extends State<SplashPage> {
             .getBool(PreferenceKeys.finishedIntroduction) ??
         false;
 
+    Navigator.of(context).pop();
+
     if (finishedIntroduction) {
       Navigator.of(context).push(
         MaterialPageRoute(
@@ -45,6 +47,7 @@ class _SplashPageState extends State<SplashPage> {
       );
       return;
     }
+
     Navigator.of(context).push(
       MaterialPageRoute(
         builder: (context) => WelcomePage(),
