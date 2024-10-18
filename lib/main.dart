@@ -1,22 +1,12 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/presentation/core/color_schemes.dart';
+import 'package:infinite_horizons/presentation/core/theme_data.dart';
 import 'package:infinite_horizons/presentation/pages/pages.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await PreferencesController.instance.init();
-  PlayerController.instance.init();
-  await VibrationController.instance.init();
   await EasyLocalization.ensureInitialized();
-  DndController.instance.init();
-  NotificationsController.instance.init();
-  HealthController.instance.init();
-  final int loginCounter =
-      PreferencesController.instance.getInt(PreferenceKeys.loginCounter) ?? 0;
-  PreferencesController.instance
-      .setInt(PreferenceKeys.loginCounter, loginCounter + 1);
 
   runApp(
     EasyLocalization(
@@ -43,11 +33,11 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: theme.light(),
       darkTheme: theme.dark(),
-      title: 'Infinite Horizons',
+      title: AppThemeData.appName,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,
-      home: HomePage(),
+      home: SplashPage(),
     );
   }
 }

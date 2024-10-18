@@ -2,6 +2,8 @@ import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
 import 'package:infinite_horizons/presentation/core/theme_data.dart';
 
+import '../../domain/controllers/vibration_controller.dart';
+
 class CardAtom extends StatelessWidget {
   const CardAtom({required this.child, this.onClick, this.image});
 
@@ -12,7 +14,12 @@ class CardAtom extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
-      onTap: onClick,
+      onTap: onClick != null
+          ? () {
+              VibrationController.instance.vibrate(VibrationType.light);
+              onClick!();
+            }
+          : null,
       child: Card.filled(
         margin: EdgeInsets.zero,
         clipBehavior: Clip.hardEdge,
@@ -23,7 +30,7 @@ class CardAtom extends StatelessWidget {
                 borderRadius:
                     const BorderRadius.vertical(bottom: Radius.circular(15)),
                 child: SizedBox(
-                  height: 170,
+                  height: 150,
                   width: double.infinity,
                   child: image,
                 ),

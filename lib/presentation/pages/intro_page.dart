@@ -24,18 +24,14 @@ class _IntroPageState extends State<IntroPage> {
       GlobalKey<IntroductionScreenState>();
 
   bool showNextButton = true;
-  IntroState state = IntroState.welcome;
+  IntroState state = IntroState.tips;
   final Duration selectionTransitionDelay = const Duration(milliseconds: 200);
 
   void onIntroPageChange(int n) {
     state = IntroState.getStateByPageNumber(n);
     bool showNextButtonTemp = true;
 
-    if (state == IntroState.workType &&
-        (WorkTypeAbstract.instance?.tipType == null ||
-            WorkTypeAbstract.instance!.tipType == TipType.undefined)) {
-      showNextButtonTemp = false;
-    } else if (state == IntroState.energy &&
+    if (state == IntroState.energy &&
         WorkTypeAbstract.instance!.getTimerStates().type ==
             EnergyType.undefined) {
       showNextButtonTemp = false;
@@ -89,7 +85,7 @@ class _IntroPageState extends State<IntroPage> {
 
     return Scaffold(
       body: PopScope(
-        canPop: state == IntroState.welcome,
+        canPop: state == IntroState.tips,
         onPopInvokedWithResult: (bool a, b) => previousPage(),
         child: GestureDetector(
           onHorizontalDragEnd: onHorizontalDrag,
@@ -146,11 +142,9 @@ class _IntroPageState extends State<IntroPage> {
 }
 
 enum IntroState {
-  welcome(0),
-  workType(1),
-  tips(2),
-  energy(3),
-  encouragementSentence(4),
+  tips(0),
+  energy(1),
+  encouragementSentence(2),
   ;
 
   const IntroState(this.pageNumber);
@@ -163,6 +157,6 @@ enum IntroState {
         return state;
       }
     }
-    return IntroState.welcome;
+    return IntroState.tips;
   }
 }

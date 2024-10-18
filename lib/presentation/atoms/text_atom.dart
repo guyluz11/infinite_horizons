@@ -42,6 +42,9 @@ class TextAtom extends StatelessWidget {
       case TextVariant.medium:
         tempStyle = textTheme.bodyMedium;
     }
+    if (style != null) {
+      tempStyle = tempStyle?.copyWith(color: style!.color);
+    }
 
     return Text(
       translate && text.isNotEmpty ? text.tr(args: translationArgs) : text,

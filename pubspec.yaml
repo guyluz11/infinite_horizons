@@ -8,6 +8,10 @@ environment:
 
 dependencies:
   animated_line_through: ^1.0.4
+  animated_text_kit:
+    git:
+      url: https://github.com/guyluz11/Animated-Text-Kit.git
+      ref: master
   animated_toggle_switch: ^0.8.2
   audioplayers: ^6.0.0
   awesome_notifications: ^0.9.3+1
