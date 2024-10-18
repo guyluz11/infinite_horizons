@@ -1,9 +1,11 @@
 export 'package:infinite_horizons/presentation/pages/activity_page.dart';
+export 'package:infinite_horizons/presentation/pages/convincing_page.dart';
 export 'package:infinite_horizons/presentation/pages/energy_tips_page.dart';
 export 'package:infinite_horizons/presentation/pages/home_page.dart';
 export 'package:infinite_horizons/presentation/pages/intro_page.dart';
 export 'package:infinite_horizons/presentation/pages/ready_for_session_page.dart';
 export 'package:infinite_horizons/presentation/pages/settings_page.dart';
+export 'package:infinite_horizons/presentation/pages/splash_screen_page.dart';
 export 'package:infinite_horizons/presentation/pages/tip_information_page.dart';
 export 'package:infinite_horizons/presentation/pages/tip_resources_page.dart';
 export 'package:infinite_horizons/presentation/pages/youtube_player_page.dart';
