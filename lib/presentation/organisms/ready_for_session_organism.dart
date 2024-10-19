@@ -1,6 +1,5 @@
 import 'package:confetti/confetti.dart';
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/domain/objects/tip.dart';
 import 'package:infinite_horizons/domain/objects/work_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
@@ -25,10 +24,6 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
   bool confettiGotPlayed = false;
 
   void onPressed() {
-    if (nextPressed) {
-      return;
-    }
-    VibrationController.instance.vibrate(VibrationType.light);
     setState(() {
       nextPressed = true;
     });

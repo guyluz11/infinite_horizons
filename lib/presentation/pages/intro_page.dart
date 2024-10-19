@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:font_awesome_flutter/font_awesome_flutter.dart';
-import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/domain/objects/energy_level.dart';
 import 'package:infinite_horizons/domain/objects/tip.dart';
 import 'package:infinite_horizons/domain/objects/work_type_abstract.dart';
@@ -41,10 +40,7 @@ class _IntroPageState extends State<IntroPage> {
     });
   }
 
-  void nextPage() {
-    VibrationController.instance.vibrate(VibrationType.light);
-    _introKey.currentState?.next();
-  }
+  void nextPage() => _introKey.currentState?.next();
 
   void onDone(BuildContext context) => Navigator.of(context)
       .push(MaterialPageRoute(builder: (context) => ActivityPage()));

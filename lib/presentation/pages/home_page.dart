@@ -108,10 +108,7 @@ class HomePageState extends State<HomePage> {
             ButtonAtom(
               text: 'Start',
               variant: ButtonVariant.mediumEmphasisOutlined,
-              onPressed: () {
-                VibrationController.instance.vibrate(VibrationType.light);
-                onClick();
-              },
+              onPressed: onClick,
             ),
           ],
         ),
