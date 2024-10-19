@@ -64,24 +64,26 @@ class _WelcomePageState extends State<WelcomePage> {
             ),
             const SeparatorAtom(),
             const Expanded(child: Text('')),
-            SafeArea(
-              child: AnimatedOpacity(
-                opacity: buttonOpacity,
-                duration: const Duration(seconds: 2),
-                child: ButtonAtom(
-                  variant: ButtonVariant.highEmphasisFilled,
-                  onPressed: () {
-                    Navigator.of(context).pop();
+            AnimatedOpacity(
+              opacity: buttonOpacity,
+              duration: const Duration(seconds: 2),
+              child: ButtonAtom(
+                variant: ButtonVariant.highEmphasisFilled,
+                onPressed: () {
+                  Navigator.of(context).pop();
 
-                    Navigator.of(context).push(
-                      MaterialPageRoute(
-                        builder: (context) => ConvincingPage(),
-                      ),
-                    );
-                  },
-                  text: 'Next',
-                ),
+                  Navigator.of(context).push(
+                    MaterialPageRoute(
+                      builder: (context) => ConvincingPage(),
+                    ),
+                  );
+                },
+                text: 'Next',
               ),
+            ),
+            const SeparatorAtom(),
+            const SafeArea(
+              child: Text(''),
             ),
           ],
         ),
