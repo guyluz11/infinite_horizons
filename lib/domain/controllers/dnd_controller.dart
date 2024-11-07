@@ -13,7 +13,9 @@ abstract class DndController {
 
   void init();
 
-  Future<void> enableDnd();
+  Future<void> enable();
 
   Future<bool> isDnd();
+
+  Future<void> disable();
 }

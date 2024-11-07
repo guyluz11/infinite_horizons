@@ -161,6 +161,12 @@ class TimerOrganismState extends State<TimerOrganism> {
   TimerState state = TimerStateManager.state;
   bool renderSizedBox = false;
 
+  void onComplete() {
+    TimerStateManager.incrementState();
+    TimerStateManager.iterateOverTimerStates();
+    setCurrentState();
+  }
+
   @override
   void initState() {
     super.initState();
@@ -219,11 +225,9 @@ class TimerOrganismState extends State<TimerOrganism> {
           initialValue: timePassed,
         );
       case TimerState.readyToStart:
-        return ReadyForSessionOrganism(() {
-          TimerStateManager.incrementState();
-          TimerStateManager.iterateOverTimerStates();
-          setCurrentState();
-        });
+        return ReadyForSessionOrganism(
+          onComplete: onComplete,
+        );
     }
   }
 
