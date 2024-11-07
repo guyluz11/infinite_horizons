@@ -3,8 +3,11 @@ import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:infinite_horizons/presentation/core/theme_data.dart';
 
-void openAlertDialog(BuildContext context, Widget body,
-    {VoidCallback? onConfirm}) {
+void openAlertDialog(
+  BuildContext context,
+  Widget body, {
+  VoidCallback? onConfirm,
+}) {
   showDialog(
     context: context,
     builder: (_) => DialogMolecule(body, onConfirm: onConfirm),

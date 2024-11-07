@@ -61,7 +61,7 @@ class _ActivityPageState extends State<ActivityPage>
     );
   }
 
-  Future<bool> onWillPop() async {
+  Future<bool> onWillPop(bool didPop, dynamic result) async {
     if (_currentTabNum == 0) {
       backToHomePopup();
     } else {
@@ -191,8 +191,8 @@ class _ActivityPageState extends State<ActivityPage>
 
   @override
   Widget build(BuildContext context) {
-    return WillPopScope(
-      onWillPop: onWillPop,
+    return PopScope(
+      onPopInvokedWithResult: onWillPop,
       child: Scaffold(
         body: PageView(
           onPageChanged: (index) {
