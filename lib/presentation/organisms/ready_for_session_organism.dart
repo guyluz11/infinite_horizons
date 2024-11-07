@@ -5,13 +5,15 @@ import 'package:infinite_horizons/domain/objects/work_type_abstract.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 
 class ReadyForSessionOrganism extends StatefulWidget {
-  const ReadyForSessionOrganism(
-    this.onComplete, {
+  const ReadyForSessionOrganism({
+    required this.onComplete,
+    this.onNextPressed,
     this.response,
   });
 
   final VoidCallback onComplete;
   final String? response;
+  final VoidCallback? onNextPressed;
 
   @override
   State<ReadyForSessionOrganism> createState() =>
@@ -24,6 +26,7 @@ class _ReadyForSessionOrganismState extends State<ReadyForSessionOrganism> {
   bool confettiGotPlayed = false;
 
   void onPressed() {
+    widget.onNextPressed?.call();
     setState(() {
       nextPressed = true;
     });

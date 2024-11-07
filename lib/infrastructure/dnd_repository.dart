@@ -5,7 +5,7 @@ class _DndRepository extends DndController {
   void init() => supported = Platform.isAndroid;
 
   @override
-  Future<void> enableDnd() async {
+  Future<void> enable() async {
     if (!supported) {
       return;
     }
@@ -18,6 +18,20 @@ class _DndRepository extends DndController {
       );
     } else {
       PermissionsController.instance.gotoPolicySettings();
+    }
+  }
+
+  @override
+  Future<void> disable() async {
+    if (!supported) {
+      return;
+    }
+
+    if (await PermissionsController.instance
+        .isNotificationPolicyAccessGranted()) {
+      await FlutterDnd.setInterruptionFilter(
+        FlutterDnd.INTERRUPTION_FILTER_ALL,
+      );
     }
   }
 
