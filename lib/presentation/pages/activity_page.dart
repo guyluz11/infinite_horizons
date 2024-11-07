@@ -193,6 +193,7 @@ class _ActivityPageState extends State<ActivityPage>
   Widget build(BuildContext context) {
     return PopScope(
       onPopInvokedWithResult: onWillPop,
+      canPop: false,
       child: Scaffold(
         body: PageView(
           onPageChanged: (index) {
