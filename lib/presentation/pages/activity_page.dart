@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
+import 'package:infinite_horizons/presentation/pages/home_page.dart';
 
 class ActivityPage extends StatefulWidget {
   @override
@@ -36,6 +37,47 @@ class _ActivityPageState extends State<ActivityPage>
   }
 
   AppLifecycleState currentAppState = AppLifecycleState.resumed;
+
+  void backToHomePopup() {
+    openAlertDialog(
+      context,
+      const SizedBox(
+        height: 150,
+        child: PageEnclosureMolecule(
+          title: 'Exit Session',
+          subTitle: 'Navigate back to Home Page?',
+          expendChild: false,
+          child: SizedBox(),
+        ),
+      ),
+      onConfirm: () {
+        Navigator.push(
+          context,
+          MaterialPageRoute(
+            builder: (context) => HomePage(),
+          ),
+        );
+      },
+    );
+  }
+
+  Future<bool> onWillPop() async {
+    if (_currentTabNum == 0) {
+      backToHomePopup();
+    } else {
+      animateToPage(0);
+    }
+
+    return false;
+  }
+
+  Future<void> animateToPage(int pageNum) async {
+    _pageController.animateToPage(
+      pageNum,
+      duration: const Duration(milliseconds: 200),
+      curve: Curves.linear,
+    );
+  }
 
   void setAppState(AppLifecycleState val) {
     if (val == AppLifecycleState.paused || val == AppLifecycleState.resumed) {
@@ -143,33 +185,30 @@ class _ActivityPageState extends State<ActivityPage>
   }
 
   void callback(int index) {
-    setState(() {
-      _currentTabNum = index;
-      _pageController.animateToPage(
-        _currentTabNum,
-        duration: const Duration(milliseconds: 200),
-        curve: Curves.linear,
-      );
-    });
+    _currentTabNum = index;
+    animateToPage(_currentTabNum);
   }
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      body: PageView(
-        onPageChanged: (index) {
-          setState(() {
-            if (index == 0) {
-              FocusScope.of(context).unfocus();
-            }
-            _currentTabNum = index;
-          });
-        },
-        controller: _pageController,
-        children: _tabs(),
+    return WillPopScope(
+      onWillPop: onWillPop,
+      child: Scaffold(
+        body: PageView(
+          onPageChanged: (index) {
+            setState(() {
+              if (index == 0) {
+                FocusScope.of(context).unfocus();
+              }
+              _currentTabNum = index;
+            });
+          },
+          controller: _pageController,
+          children: _tabs(),
+        ),
+        bottomNavigationBar:
+            BottomNavigationBarHomePage(callback, _currentTabNum),
       ),
-      bottomNavigationBar:
-          BottomNavigationBarHomePage(callback, _currentTabNum),
     );
   }
 

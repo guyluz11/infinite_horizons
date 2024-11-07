@@ -3,17 +3,19 @@ import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:infinite_horizons/presentation/core/theme_data.dart';
 
-void openAlertDialog(BuildContext context, Widget body) {
+void openAlertDialog(BuildContext context, Widget body,
+    {VoidCallback? onConfirm}) {
   showDialog(
     context: context,
-    builder: (_) => DialogMolecule(body),
+    builder: (_) => DialogMolecule(body, onConfirm: onConfirm),
   );
 }
 
 class DialogMolecule extends StatelessWidget {
-  const DialogMolecule(this.body);
+  const DialogMolecule(this.body, {this.onConfirm});
 
   final Widget body;
+  final VoidCallback? onConfirm;
 
   @override
   Widget build(BuildContext context) {
@@ -33,10 +35,23 @@ class DialogMolecule extends StatelessWidget {
             Column(
               crossAxisAlignment: CrossAxisAlignment.end,
               children: [
-                ButtonAtom(
-                  variant: ButtonVariant.highEmphasisFilled,
-                  onPressed: () => Navigator.pop(context),
-                  text: 'close',
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.center,
+                  children: [
+                    ButtonAtom(
+                      variant: ButtonVariant.highEmphasisFilled,
+                      onPressed: () => Navigator.pop(context),
+                      text: 'close',
+                    ),
+                    if (onConfirm != null) ...[
+                      const SeparatorAtom(),
+                      ButtonAtom(
+                        variant: ButtonVariant.mediumEmphasisOutlined,
+                        onPressed: onConfirm!,
+                        text: 'confirm',
+                      ),
+                    ],
+                  ],
                 ),
               ],
             ),

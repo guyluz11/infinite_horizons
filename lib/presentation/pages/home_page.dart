@@ -24,6 +24,21 @@ class HomePageState extends State<HomePage> {
   bool didPulledWakeTime = false;
   String? recommendedTypeText;
 
+  void recommendedExplained() {
+    openAlertDialog(
+      context,
+      SizedBox(
+        height: 150,
+        child: PageEnclosureMolecule(
+          title: 'Recommended type',
+          subTitle: recommendedTips.first.actionText,
+          expendChild: false,
+          child: TextAtom(recommendedTips.first.reason!),
+        ),
+      ),
+    );
+  }
+
   @override
   void initState() {
     super.initState();
@@ -136,21 +151,7 @@ class HomePageState extends State<HomePage> {
                         ),
                         const Expanded(child: Text('')),
                         IconButton(
-                          onPressed: () {
-                            openAlertDialog(
-                              context,
-                              SizedBox(
-                                height: 150,
-                                child: PageEnclosureMolecule(
-                                  title: 'Recommended type',
-                                  subTitle: recommendedTips.first.actionText,
-                                  expendChild: false,
-                                  child:
-                                      TextAtom(recommendedTips.first.reason!),
-                                ),
-                              ),
-                            );
-                          },
+                          onPressed: recommendedExplained,
                           icon: const FaIcon(FontAwesomeIcons.circleQuestion),
                         ),
                       ],
