@@ -33,6 +33,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: theme.light(),
       darkTheme: theme.dark(),
+      debugShowCheckedModeBanner: false,
       title: AppThemeData.appName,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,

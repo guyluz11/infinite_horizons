@@ -12,12 +12,14 @@ class ButtonAtom extends StatelessWidget {
     this.disabled = false,
     this.disableActionType = false,
     this.translate = true,
+    this.isVibrating = true,
   });
 
   final ButtonVariant variant;
   final VoidCallback onPressed;
   final String? text;
   final IconData? icon;
+  final bool isVibrating;
 
   double get width => 150;
 
@@ -27,7 +29,9 @@ class ButtonAtom extends StatelessWidget {
   final bool disableActionType;
 
   void onPressVibrate() {
-    VibrationController.instance.vibrate(VibrationType.light);
+    if (isVibrating) {
+      VibrationController.instance.vibrate(VibrationType.light);
+    }
     onPressed();
   }
 
@@ -57,7 +61,7 @@ class ButtonAtom extends StatelessWidget {
         if (icon == null) {
           return buttonConstraints(
             child: FilledButton(
-              onPressed: disabled ? null : onPressed,
+              onPressed: disabled ? null : onPressVibrate,
               style: disabled
                   ? null
                   : FilledButton.styleFrom().copyWith(
@@ -72,7 +76,7 @@ class ButtonAtom extends StatelessWidget {
         }
         return buttonConstraints(
           child: FilledButton.icon(
-            onPressed: disabled ? null : onPressed,
+            onPressed: disabled ? null : onPressVibrate,
             style: disabled
                 ? null
                 : FilledButton.styleFrom().copyWith(
@@ -89,7 +93,7 @@ class ButtonAtom extends StatelessWidget {
         if (icon == null) {
           return buttonConstraints(
             child: FilledButton.tonal(
-              onPressed: disabled ? null : onPressed,
+              onPressed: disabled ? null : onPressVibrate,
               style: disabled
                   ? null
                   : FilledButton.styleFrom().copyWith(
@@ -104,7 +108,7 @@ class ButtonAtom extends StatelessWidget {
         }
         return buttonConstraints(
           child: FilledButton.tonalIcon(
-            onPressed: disabled ? null : onPressed,
+            onPressed: disabled ? null : onPressVibrate,
             style: disabled
                 ? null
                 : FilledButton.styleFrom().copyWith(
@@ -120,14 +124,14 @@ class ButtonAtom extends StatelessWidget {
         if (icon == null) {
           return buttonConstraints(
             child: OutlinedButton(
-              onPressed: disabled ? null : onPressed,
+              onPressed: disabled ? null : onPressVibrate,
               child: label(textTheme, color: colorScheme.primary),
             ),
           );
         }
         return buttonConstraints(
           child: OutlinedButton.icon(
-            onPressed: disabled ? null : onPressed,
+            onPressed: disabled ? null : onPressVibrate,
             icon: Icon(icon, color: colorScheme.primary),
             label: label(textTheme, color: colorScheme.primary),
           ),
@@ -136,21 +140,21 @@ class ButtonAtom extends StatelessWidget {
         if (icon == null) {
           return buttonConstraints(
             child: TextButton(
-              onPressed: disabled ? null : onPressed,
+              onPressed: disabled ? null : onPressVibrate,
               child: label(textTheme, color: colorScheme.primary),
             ),
           );
         }
         return buttonConstraints(
           child: TextButton.icon(
-            onPressed: disabled ? null : onPressed,
+            onPressed: disabled ? null : onPressVibrate,
             icon: Icon(icon, color: colorScheme.primary),
             label: label(textTheme, color: colorScheme.primary),
           ),
         );
       case ButtonVariant.lowEmphasisIcon:
         return IconButton(
-          onPressed: onPressed,
+          onPressed: onPressVibrate,
           color: colorScheme.primary,
           icon: Icon(icon),
         );

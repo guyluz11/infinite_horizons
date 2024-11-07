@@ -1,8 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_svg/svg.dart';
+import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/presentation/core/theme_data.dart';
-
-import '../../domain/controllers/vibration_controller.dart';
 
 class CardAtom extends StatelessWidget {
   const CardAtom({required this.child, this.onClick, this.image});
