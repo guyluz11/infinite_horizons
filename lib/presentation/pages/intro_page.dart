@@ -22,9 +22,18 @@ class _IntroPageState extends State<IntroPage> {
   final GlobalKey<IntroductionScreenState> _introKey =
       GlobalKey<IntroductionScreenState>();
 
+  bool showBackButton = true;
   bool showNextButton = true;
+  bool isFinish = false;
   IntroState state = IntroState.tips;
   final Duration selectionTransitionDelay = const Duration(milliseconds: 200);
+
+  void onNextPressed() {
+    isFinish = true;
+    setState(() {
+      showBackButton = false;
+    });
+  }
 
   void onIntroPageChange(int n) {
     state = IntroState.getStateByPageNumber(n);
@@ -42,10 +51,15 @@ class _IntroPageState extends State<IntroPage> {
 
   void nextPage() => _introKey.currentState?.next();
 
-  void onDone(BuildContext context) => Navigator.of(context)
+  void onDone() => Navigator.of(context)
       .push(MaterialPageRoute(builder: (context) => ActivityPage()));
 
-  void previousPage() => _introKey.currentState?.previous();
+  void previousPage() {
+    if (isFinish) {
+      return;
+    }
+    _introKey.currentState?.previous();
+  }
 
   void onHorizontalDrag(DragEndDetails details) {
     if (details.primaryVelocity == 0) {
@@ -120,10 +134,13 @@ class _IntroPageState extends State<IntroPage> {
                 }),
               ),
               customPageViewModel(
-                bodyWidget: ReadyForSessionPage(() => onDone(context)),
+                bodyWidget: ReadyForSessionPage(
+                  onDone: onDone,
+                  onNextPressed: onNextPressed,
+                ),
               ),
             ],
-            showBackButton: true,
+            showBackButton: showBackButton,
             back: const Icon(Icons.arrow_back),
             next: const Icon(Icons.arrow_forward),
             scrollPhysics: const NeverScrollableScrollPhysics(),

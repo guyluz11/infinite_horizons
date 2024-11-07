@@ -6,13 +6,17 @@ import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 
 class ReadyForSessionPage extends StatelessWidget {
-  const ReadyForSessionPage(this.callback);
+  const ReadyForSessionPage({
+    required this.onDone,
+    required this.onNextPressed,
+  });
 
-  final VoidCallback callback;
+  final VoidCallback onNextPressed;
+  final VoidCallback onDone;
 
   void handleCallback() {
     VibrationController.instance.vibrate(VibrationType.light);
-    callback();
+    onDone();
   }
 
   @override
@@ -41,7 +45,8 @@ class ReadyForSessionPage extends StatelessWidget {
       scaffold: false,
       title: 'start_session',
       child: ReadyForSessionOrganism(
-        handleCallback,
+        onComplete: handleCallback,
+        onNextPressed: onNextPressed,
         response: text,
       ),
     );
