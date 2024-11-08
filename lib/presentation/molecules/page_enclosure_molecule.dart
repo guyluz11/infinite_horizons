@@ -13,6 +13,7 @@ class PageEnclosureMolecule extends StatelessWidget {
     this.topBarType = TopBarType.none,
     this.scaffold = true,
     this.topBarRightOnTap,
+    this.rightPopupMenu,
     this.expendChild = true,
     this.topBarRightIcon,
     super.key,
@@ -27,6 +28,7 @@ class PageEnclosureMolecule extends StatelessWidget {
   final bool scaffold;
   final TopBarType topBarType;
   final VoidCallback? topBarRightOnTap;
+  final List<PopupMenuEntry<SampleItem>>? rightPopupMenu;
   final bool expendChild;
   final IconData? topBarRightIcon;
 
@@ -40,6 +42,7 @@ class PageEnclosureMolecule extends StatelessWidget {
           margin: false,
           translate: topBarTranslate,
           rightOnTap: topBarRightOnTap,
+          rightPopupMenu: rightPopupMenu,
           rightIcon: topBarRightIcon,
         ),
         if (subTitle != null)

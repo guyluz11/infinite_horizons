@@ -7,6 +7,7 @@ class TopBarMolecule extends StatelessWidget {
     this.title,
     this.leftOnTap,
     this.rightOnTap,
+    this.rightPopupMenu,
     this.translate = true,
     this.margin = true,
     this.rightIcon,
@@ -16,6 +17,9 @@ class TopBarMolecule extends StatelessWidget {
   final String? title;
   final VoidCallback? leftOnTap;
   final VoidCallback? rightOnTap;
+
+  // TODO: Create atom for PopupMenuEntry
+  final List<PopupMenuEntry<SampleItem>>? rightPopupMenu;
   final IconData? rightIcon;
   final bool translate;
   final bool margin;
@@ -52,14 +56,26 @@ class TopBarMolecule extends StatelessWidget {
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
+                      if (rightPopupMenu != null)
+                        PopupMenuButton<SampleItem>(
+                          initialValue: SampleItem.values.first,
+                          icon: const Icon(Icons.more_vert),
+                          onSelected: (SampleItem item) {
+                            // setState(() {
+                            //   selectedItem = item;
+                            // });
+                          },
+                          itemBuilder: (BuildContext context) =>
+                              rightPopupMenu!,
+                        ),
                       if (rightOnTap != null)
                         ButtonAtom(
                           variant: ButtonVariant.lowEmphasisIcon,
                           onPressed: rightOnTap!,
                           translate: translate,
                           icon: Icons.more_vert,
-                        )
-                      else
+                        ),
+                      if (rightPopupMenu == null && rightOnTap == null)
                         TextAtom(
                           '',
                           style: textTheme.headlineSmall,
@@ -125,3 +141,5 @@ class TopBarMolecule extends StatelessWidget {
 }
 
 enum TopBarType { none, back, close }
+
+enum SampleItem { first, second }

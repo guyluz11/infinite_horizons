@@ -250,7 +250,18 @@ class TimerOrganismState extends State<TimerOrganism> {
       scaffold: false,
       expendChild: false,
       topMargin: false,
-      topBarRightOnTap: () => openAlertDialog(context, SettingsPage()),
+      rightPopupMenu: <PopupMenuEntry<SampleItem>>[
+        PopupMenuItem<SampleItem>(
+          value: SampleItem.first,
+          child: const Text('Navigate Home'),
+          onTap: () => backToHomePopup(context),
+        ),
+        PopupMenuItem<SampleItem>(
+          value: SampleItem.second,
+          child: const Text('Settings'),
+          onTap: () => openAlertDialog(context, SettingsPage()),
+        ),
+      ],
       child: Column(
         children: [
           ProgressTrackerAtom(

@@ -3,7 +3,6 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
-import 'package:infinite_horizons/presentation/pages/home_page.dart';
 
 class ActivityPage extends StatefulWidget {
   @override
@@ -38,32 +37,9 @@ class _ActivityPageState extends State<ActivityPage>
 
   AppLifecycleState currentAppState = AppLifecycleState.resumed;
 
-  void backToHomePopup() {
-    openAlertDialog(
-      context,
-      const SizedBox(
-        height: 150,
-        child: PageEnclosureMolecule(
-          title: 'Exit Session',
-          subTitle: 'Navigate back to Home Page?',
-          expendChild: false,
-          child: SizedBox(),
-        ),
-      ),
-      onConfirm: () {
-        Navigator.push(
-          context,
-          MaterialPageRoute(
-            builder: (context) => HomePage(),
-          ),
-        );
-      },
-    );
-  }
-
   Future<bool> onWillPop(bool didPop, dynamic result) async {
     if (_currentTabNum == 0) {
-      backToHomePopup();
+      backToHomePopup(context);
     } else {
       animateToPage(0);
     }
