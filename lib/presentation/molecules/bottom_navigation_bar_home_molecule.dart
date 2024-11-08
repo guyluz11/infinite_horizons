@@ -26,7 +26,7 @@ class BottomNavigationBarHomePage extends StatelessWidget {
         BottomNavigationBarItem(
           activeIcon: Icon(Icons.text_snippet),
           icon: Icon(Icons.text_snippet),
-          label: 'Text',
+          label: 'Notes',
         ),
       ],
     );
