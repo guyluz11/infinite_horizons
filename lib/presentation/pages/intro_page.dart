@@ -28,7 +28,7 @@ class _IntroPageState extends State<IntroPage> {
   IntroState state = IntroState.tips;
   final Duration selectionTransitionDelay = const Duration(milliseconds: 200);
 
-  void onNextPressed() {
+  void onLastNextPressed() {
     isFinish = true;
     setState(() {
       showBackButton = false;
@@ -52,9 +52,16 @@ class _IntroPageState extends State<IntroPage> {
   void nextPage() => _introKey.currentState?.next();
 
   void onDone() => Navigator.of(context)
-      .push(MaterialPageRoute(builder: (context) => ActivityPage()));
+      .pushReplacement(MaterialPageRoute(builder: (context) => ActivityPage()));
 
-  void previousPage() {
+  bool isPop = false;
+
+  Future previousPage() async {
+    if (state.pageNumber == 0 && !isPop) {
+      isPop = true;
+      Navigator.of(context).maybePop();
+      return;
+    }
     if (isFinish) {
       return;
     }
@@ -120,7 +127,6 @@ class _IntroPageState extends State<IntroPage> {
                 variant: ButtonVariant.lowEmphasisIcon,
                 onPressed: previousPage,
                 icon: FontAwesomeIcons.arrowLeft,
-                disabled: !showNextButton,
               ),
             ),
             pages: [
@@ -136,10 +142,11 @@ class _IntroPageState extends State<IntroPage> {
               customPageViewModel(
                 bodyWidget: ReadyForSessionPage(
                   onDone: onDone,
-                  onNextPressed: onNextPressed,
+                  onNextPressed: onLastNextPressed,
                 ),
               ),
             ],
+            showFirstBackButton: true,
             showBackButton: showBackButton,
             back: const Icon(Icons.arrow_back),
             next: const Icon(Icons.arrow_forward),

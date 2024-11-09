@@ -1,4 +1,5 @@
 export 'package:infinite_horizons/presentation/molecules/alert_dialog_molecule.dart';
+export 'package:infinite_horizons/presentation/molecules/back_to_home_alert_dialog_molecule.dart';
 export 'package:infinite_horizons/presentation/molecules/bottom_navigation_bar_home_molecule.dart';
 export 'package:infinite_horizons/presentation/molecules/energy_selection_molecule.dart';
 export 'package:infinite_horizons/presentation/molecules/page_enclosure_molecule.dart';
