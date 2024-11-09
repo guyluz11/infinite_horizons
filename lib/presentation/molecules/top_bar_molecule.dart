@@ -18,8 +18,7 @@ class TopBarMolecule extends StatelessWidget {
   final VoidCallback? leftOnTap;
   final VoidCallback? rightOnTap;
 
-  // TODO: Create atom for PopupMenuEntry
-  final List<PopupMenuEntry<SampleItem>>? rightPopupMenu;
+  final List<PopupMenuEntryAtom>? rightPopupMenu;
   final IconData? rightIcon;
   final bool translate;
   final bool margin;
@@ -57,14 +56,8 @@ class TopBarMolecule extends StatelessWidget {
                     mainAxisAlignment: MainAxisAlignment.end,
                     children: [
                       if (rightPopupMenu != null)
-                        PopupMenuButton<SampleItem>(
-                          initialValue: SampleItem.values.first,
+                        PopupMenuButton(
                           icon: const Icon(Icons.more_vert),
-                          onSelected: (SampleItem item) {
-                            // setState(() {
-                            //   selectedItem = item;
-                            // });
-                          },
                           itemBuilder: (BuildContext context) =>
                               rightPopupMenu!,
                         ),

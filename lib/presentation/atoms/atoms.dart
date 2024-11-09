@@ -7,6 +7,7 @@ export 'package:infinite_horizons/presentation/atoms/confetti_atom.dart';
 export 'package:infinite_horizons/presentation/atoms/image_atom.dart';
 export 'package:infinite_horizons/presentation/atoms/list_tile_atom.dart';
 export 'package:infinite_horizons/presentation/atoms/margined_expanded_atom.dart';
+export 'package:infinite_horizons/presentation/atoms/popup_menu_entry_atom.dart';
 export 'package:infinite_horizons/presentation/atoms/progress_indicator_atom.dart';
 export 'package:infinite_horizons/presentation/atoms/separator_atom.dart';
 export 'package:infinite_horizons/presentation/atoms/text_atom.dart';

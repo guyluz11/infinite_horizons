@@ -28,7 +28,7 @@ class PageEnclosureMolecule extends StatelessWidget {
   final bool scaffold;
   final TopBarType topBarType;
   final VoidCallback? topBarRightOnTap;
-  final List<PopupMenuEntry<SampleItem>>? rightPopupMenu;
+  final List<PopupMenuEntryAtom<Enum>>? rightPopupMenu;
   final bool expendChild;
   final IconData? topBarRightIcon;
 

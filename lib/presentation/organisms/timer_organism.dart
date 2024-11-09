@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/domain/objects/energy_level.dart';
 import 'package:infinite_horizons/domain/objects/work_type_abstract.dart';
+import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/atoms/progress_tracker_atom.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
@@ -250,13 +251,13 @@ class TimerOrganismState extends State<TimerOrganism> {
       scaffold: false,
       expendChild: false,
       topMargin: false,
-      rightPopupMenu: <PopupMenuEntry<SampleItem>>[
-        PopupMenuItem<SampleItem>(
+      rightPopupMenu: <PopupMenuEntryAtom<SampleItem>>[
+        PopupMenuEntryAtom<SampleItem>(
           value: SampleItem.first,
           child: const Text('Navigate Home'),
           onTap: () => backToHomePopup(context),
         ),
-        PopupMenuItem<SampleItem>(
+        PopupMenuEntryAtom<SampleItem>(
           value: SampleItem.second,
           child: const Text('Settings'),
           onTap: () => openAlertDialog(context, SettingsPage()),
