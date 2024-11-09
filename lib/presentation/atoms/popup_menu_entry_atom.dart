@@ -11,15 +11,6 @@ class PopupMenuEntryAtom<T extends Enum> extends PopupMenuEntry<T> {
   final Widget child;
   final VoidCallback onTap;
 
-  // @override
-  // Widget build(BuildContext context) {
-  //   return PopupMenuItem<SampleItem>(
-  //     value: SampleItem.first,
-  //     child: const Text(''),
-  //     onTap: () => backToHomePopup(context),
-  //   );
-  // }
-
   @override
   double get height => 50.0;
 

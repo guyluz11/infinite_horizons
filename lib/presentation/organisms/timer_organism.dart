@@ -251,15 +251,15 @@ class TimerOrganismState extends State<TimerOrganism> {
       scaffold: false,
       expendChild: false,
       topMargin: false,
-      rightPopupMenu: <PopupMenuEntryAtom<SampleItem>>[
-        PopupMenuEntryAtom<SampleItem>(
-          value: SampleItem.first,
-          child: const Text('Navigate Home'),
+      rightPopupMenu: <PopupMenuEntryAtom<PopMenuEnum>>[
+        PopupMenuEntryAtom<PopMenuEnum>(
+          value: PopMenuEnum.navigationHome,
+          child: const TextAtom('Navigate Home'),
           onTap: () => backToHomePopup(context),
         ),
-        PopupMenuEntryAtom<SampleItem>(
-          value: SampleItem.second,
-          child: const Text('Settings'),
+        PopupMenuEntryAtom<PopMenuEnum>(
+          value: PopMenuEnum.setting,
+          child: const TextAtom('Settings'),
           onTap: () => openAlertDialog(context, SettingsPage()),
         ),
       ],
@@ -300,3 +300,5 @@ extension TimerStateExtension on TimerState {
     );
   }
 }
+
+enum PopMenuEnum { navigationHome, setting }

@@ -134,5 +134,3 @@ class TopBarMolecule extends StatelessWidget {
 }
 
 enum TopBarType { none, back, close }
-
-enum SampleItem { first, second }
