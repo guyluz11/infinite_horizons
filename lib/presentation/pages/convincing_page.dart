@@ -2,7 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/core/theme_data.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
-import 'package:infinite_horizons/presentation/pages/contribute_us_page.dart';
+import 'package:infinite_horizons/presentation/pages/pages.dart';
 
 class ConvincingPage extends StatelessWidget {
   void continueOnPressed(BuildContext context) => Navigator.of(context).push(

@@ -44,7 +44,10 @@ class _ActivityPageState extends State<ActivityPage>
         false;
     final bool notificationGranted =
         await NotificationsController.instance.isPermissionGranted();
-    if (notificationPermissionRequested || notificationGranted) {
+    if (
+        // TODO: Remove
+        // notificationPermissionRequested ||
+        notificationGranted) {
       return;
     }
     await Future.delayed(const Duration(seconds: 5));

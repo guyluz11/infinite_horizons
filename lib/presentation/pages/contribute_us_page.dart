@@ -34,7 +34,7 @@ class ContributeUsPage extends StatelessWidget {
                 children: [
                   const SizedBox(width: double.infinity),
                   TextAtom(
-                    'Open App',
+                    'Open Source App',
                     style: Theme.of(context)
                         .textTheme
                         .displaySmall!

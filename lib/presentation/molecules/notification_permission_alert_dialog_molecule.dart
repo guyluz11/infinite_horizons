@@ -42,6 +42,7 @@ class _NotificationPopupState extends State<_NotificationPopup> {
       height: 280,
       child: PageEnclosureMolecule(
         title: 'Notification Permission',
+        expendChild: false,
         subTitle:
             'Please approve the permission inorder for the app to work properly',
         child: CardAtom(
