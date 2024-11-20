@@ -1,4 +1,5 @@
 export 'package:infinite_horizons/presentation/pages/activity_page.dart';
+export 'package:infinite_horizons/presentation/pages/contribute_us_page.dart';
 export 'package:infinite_horizons/presentation/pages/convincing_page.dart';
 export 'package:infinite_horizons/presentation/pages/energy_tips_page.dart';
 export 'package:infinite_horizons/presentation/pages/home_page.dart';

@@ -64,13 +64,6 @@ class _SettingsPageState extends State<SettingsPage> {
                 ButtonAtom(
                   variant: ButtonVariant.lowEmphasisIcon,
                   onPressed: () => WebBrowserController.instance.lunchLink(
-                    'https://github.com/guyluz11/infinite_horizons/issues',
-                  ),
-                  icon: FontAwesomeIcons.circleDot,
-                ),
-                ButtonAtom(
-                  variant: ButtonVariant.lowEmphasisIcon,
-                  onPressed: () => WebBrowserController.instance.lunchLink(
                     'https://github.com/guyluz11/infinite_horizons',
                   ),
                   icon: FontAwesomeIcons.github,
