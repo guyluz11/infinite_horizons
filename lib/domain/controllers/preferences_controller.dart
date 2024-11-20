@@ -44,4 +44,5 @@ enum PreferenceKeys {
   tipType,
   sleepPermissionGranted,
   finishedIntroduction,
+  notificationPermissionRequested,
 }
