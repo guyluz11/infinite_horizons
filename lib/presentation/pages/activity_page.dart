@@ -33,9 +33,32 @@ class _ActivityPageState extends State<ActivityPage>
     PlayerController.instance.play(SoundType.startSession);
     VibrationController.instance.vibrate(VibrationType.heavy);
     TimerStateManager.iterateOverTimerStates();
+    notificationPermissionPopup();
   }
 
   AppLifecycleState currentAppState = AppLifecycleState.resumed;
+
+  Future notificationPermissionPopup() async {
+    final bool notificationPermissionRequested = PreferencesController.instance
+            .getBool(PreferenceKeys.notificationPermissionRequested) ??
+        false;
+    final bool notificationGranted =
+        await NotificationsController.instance.isPermissionGranted();
+    if (
+        // TODO: Remove
+        // notificationPermissionRequested ||
+        notificationGranted) {
+      return;
+    }
+    await Future.delayed(const Duration(seconds: 5));
+
+    if (!mounted) {
+      return;
+    }
+    PreferencesController.instance
+        .setBool(PreferenceKeys.notificationPermissionRequested, true);
+    requestNotificationPermissionPopup(context);
+  }
 
   Future<bool> onWillPop(bool didPop, dynamic result) async {
     if (_currentTabNum == 0) {

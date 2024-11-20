@@ -13,6 +13,7 @@ class ButtonAtom extends StatelessWidget {
     this.disableActionType = false,
     this.translate = true,
     this.isVibrating = true,
+    this.onBlueBackground = false,
   });
 
   final ButtonVariant variant;
@@ -20,6 +21,7 @@ class ButtonAtom extends StatelessWidget {
   final String? text;
   final IconData? icon;
   final bool isVibrating;
+  final bool onBlueBackground;
 
   double get width => 150;
 
@@ -125,15 +127,24 @@ class ButtonAtom extends StatelessWidget {
           return buttonConstraints(
             child: OutlinedButton(
               onPressed: disabled ? null : onPressVibrate,
-              child: label(textTheme, color: colorScheme.primary),
+              child: label(
+                textTheme,
+                color: onBlueBackground ? Colors.white : colorScheme.primary,
+              ),
             ),
           );
         }
         return buttonConstraints(
           child: OutlinedButton.icon(
             onPressed: disabled ? null : onPressVibrate,
-            icon: Icon(icon, color: colorScheme.primary),
-            label: label(textTheme, color: colorScheme.primary),
+            icon: Icon(
+              icon,
+              color: onBlueBackground ? Colors.white : colorScheme.primary,
+            ),
+            label: label(
+              textTheme,
+              color: onBlueBackground ? Colors.white : colorScheme.primary,
+            ),
           ),
         );
       case ButtonVariant.lowEmphasisText:

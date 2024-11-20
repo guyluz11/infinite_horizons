@@ -1,11 +1,16 @@
 import 'package:flutter/material.dart';
-import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
 import 'package:infinite_horizons/presentation/core/theme_data.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
-import 'package:infinite_horizons/presentation/pages/home_page.dart';
+import 'package:infinite_horizons/presentation/pages/pages.dart';
 
 class ConvincingPage extends StatelessWidget {
+  void continueOnPressed(BuildContext context) => Navigator.of(context).push(
+        MaterialPageRoute(
+          builder: (context) => ContributeUsPage(),
+        ),
+      );
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -59,24 +64,13 @@ class ConvincingPage extends StatelessWidget {
               duration: const Duration(seconds: 2),
               child: ButtonAtom(
                 variant: ButtonVariant.highEmphasisFilled,
-                onPressed: () {
-                  PreferencesController.instance
-                      .setBool(PreferenceKeys.finishedIntroduction, true);
-
-                  Navigator.of(context).pop();
-
-                  Navigator.of(context).push(
-                    MaterialPageRoute(
-                      builder: (context) => HomePage(),
-                    ),
-                  );
-                },
-                text: 'Home Page',
+                onPressed: () => continueOnPressed(context),
+                text: 'Next',
               ),
             ),
             const SeparatorAtom(),
             const SafeArea(
-              child: Text(''),
+              child: SizedBox(),
             ),
           ],
         ),
