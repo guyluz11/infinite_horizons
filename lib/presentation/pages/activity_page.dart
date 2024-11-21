@@ -1,6 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/domain/controllers/controllers.dart';
+import 'package:infinite_horizons/domain/objects/work_type_abstract.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/organisms/organisms.dart';
 
@@ -26,6 +27,8 @@ class _ActivityPageState extends State<ActivityPage>
   @override
   void initState() {
     super.initState();
+    TimerStateManager.timerStates = WorkTypeAbstract.instance!.getTimerStates();
+
     WidgetsBinding.instance.addObserver(this);
     PlayerController.instance.setIsSound(
       PreferencesController.instance.getBool(PreferenceKeys.isSound) ?? true,

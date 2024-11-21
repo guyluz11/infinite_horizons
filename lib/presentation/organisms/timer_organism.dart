@@ -162,12 +162,6 @@ class TimerOrganismState extends State<TimerOrganism> {
   TimerState state = TimerStateManager.state;
   bool renderSizedBox = false;
 
-  void onComplete() {
-    TimerStateManager.incrementState();
-    TimerStateManager.iterateOverTimerStates();
-    setCurrentState();
-  }
-
   @override
   void initState() {
     super.initState();
@@ -186,6 +180,12 @@ class TimerOrganismState extends State<TimerOrganism> {
   void dispose() {
     WakeLockController.instance.setWakeLock(false);
     super.dispose();
+  }
+
+  void onComplete() {
+    TimerStateManager.incrementState();
+    TimerStateManager.iterateOverTimerStates();
+    setCurrentState();
   }
 
   Future setCurrentState() async {
