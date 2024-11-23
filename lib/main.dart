@@ -1,7 +1,7 @@
 import 'package:easy_localization/easy_localization.dart';
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/presentation/core/color_schemes.dart';
-import 'package:infinite_horizons/presentation/core/theme_data.dart';
+import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:infinite_horizons/presentation/pages/pages.dart';
 
 void main() async {
@@ -33,8 +33,7 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       theme: theme.light(),
       darkTheme: theme.dark(),
-      debugShowCheckedModeBanner: false,
-      title: AppThemeData.appName,
+      title: GlobalVariables.appName,
       localizationsDelegates: context.localizationDelegates,
       supportedLocales: context.supportedLocales,
       locale: context.locale,

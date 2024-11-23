@@ -6,16 +6,6 @@ analyzer:
     missing_required_param: error
     missing_return: error
     must_be_immutable: error
-  exclude:
-    - "**/*.g.dart"
-    - "**/*.freezed.dart"
-    - "**/*.pb.dart"
-    - "**/*.pbenum.dart"
-    - "**/*.pbgrpc.dart"
-    - "**/*.pbjson.dart"
-    - "**/*.gr.dart"
-    - "**/*.config.dart"
-    - "lib/infrastructure/core/gen/**"
 
 linter:
   rules:
@@ -25,3 +15,5 @@ linter:
     avoid_classes_with_only_static_members: false
 
     sort_constructors_first: true
+
+    prefer_single_quotes: true

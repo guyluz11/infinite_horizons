@@ -7,6 +7,4 @@ class AppThemeData {
       const EdgeInsets.symmetric(horizontal: generalSpacing);
 
   static Color logoBackgroundColor = const Color(0xff061E4A);
-
-  static String appName = 'Infinite Horizons';
 }
