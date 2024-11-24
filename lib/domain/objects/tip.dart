@@ -217,7 +217,7 @@ List<Tip> tipsList = [
     ],
   ),
   Tip(
-    'Sit in a sun lit environment and turn on as much lights as possible',
+    'Sit in a sun lit environment and turn on as much lights as possible, open the windows',
     reason:
         'Increase focus, good for healthy brain productivity, reduce depression and insomnia',
     type: TipType.general,
