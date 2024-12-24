@@ -86,25 +86,25 @@ class _NotificationsRepository extends NotificationsController {
 
   /// Use this method to detect when the user taps on a notification or action button
   /// Also capture when there is a message from firebase messaging
-  @pragma("vm:entry-point")
+  @pragma('vm:entry-point')
   static Future<void> onActionReceivedMethod(
     ReceivedAction receivedAction,
   ) async {}
 
   /// Use this method to detect when a new notification or a schedule is created
-  @pragma("vm:entry-point")
+  @pragma('vm:entry-point')
   static Future<void> onNotificationCreatedMethod(
     ReceivedNotification receivedNotification,
   ) async {}
 
   /// Use this method to detect every time that a new notification is displayed
-  @pragma("vm:entry-point")
+  @pragma('vm:entry-point')
   static Future<void> onNotificationDisplayedMethod(
     ReceivedNotification receivedNotification,
   ) async {}
 
   /// Use this method to detect if the user dismissed a notification
-  @pragma("vm:entry-point")
+  @pragma('vm:entry-point')
   static Future<void> onDismissActionReceivedMethod(
     ReceivedAction receivedAction,
   ) async {}
