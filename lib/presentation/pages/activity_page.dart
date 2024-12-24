@@ -42,9 +42,10 @@ class _ActivityPageState extends State<ActivityPage>
   AppLifecycleState currentAppState = AppLifecycleState.resumed;
 
   Future notificationPermissionPopup() async {
-    final bool notificationPermissionRequested = PreferencesController.instance
-            .getBool(PreferenceKeys.notificationPermissionRequested) ??
-        false;
+    // final bool notificationPermissionRequested =
+    PreferencesController.instance
+        .getBool(PreferenceKeys.notificationPermissionRequested);
+    // ?? false;
     final bool notificationGranted =
         await NotificationsController.instance.isPermissionGranted();
     if (

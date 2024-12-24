@@ -27,7 +27,7 @@ class MyApp extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    final TextTheme textTheme = createTextTheme(context, "Arya", "Arya");
+    final TextTheme textTheme = createTextTheme(context, 'Arya', 'Arya');
 
     final MaterialTheme theme = MaterialTheme(textTheme);
     return MaterialApp(

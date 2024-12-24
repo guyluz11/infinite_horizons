@@ -1,4 +1,4 @@
-import 'package:flutter_dnd/flutter_dnd.dart';
+import 'package:do_not_disturb/do_not_disturb.dart';
 import 'package:infinite_horizons/domain/controllers/controllers.dart';
 import 'package:universal_io/io.dart';
 
@@ -18,4 +18,8 @@ abstract class DndController {
   Future<bool> isDnd();
 
   Future<void> disable();
+
+  Future<bool> isNotificationPolicyAccessGranted();
+
+  Future<void> gotoPolicySettings();
 }

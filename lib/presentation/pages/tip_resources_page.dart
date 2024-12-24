@@ -12,9 +12,9 @@ class TipResourcePage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
-    if (url.endsWith(".pdf")) {
+    if (url.endsWith('.pdf')) {
       return PageEnclosureMolecule(
-        title: "resource",
+        title: 'resource',
         margin: false,
         topBarType: TopBarType.back,
         topBarRightOnTap: () => UrlLauncherController.instance.openUrl(url),
@@ -24,13 +24,13 @@ class TipResourcePage extends StatelessWidget {
           url: url,
         ),
       );
-    } else if (url.contains("youtube") || url.contains("youtu.be")) {
+    } else if (url.contains('youtube') || url.contains('youtu.be')) {
       return YoutubePlayerPage(
         url: url,
       );
     }
     return PageEnclosureMolecule(
-      title: "resource",
+      title: 'resource',
       margin: false,
       topBarType: TopBarType.back,
       expendChild: false,
