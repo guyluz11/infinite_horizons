@@ -249,7 +249,7 @@ List<Tip> tipsList = [
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
-        'After 9 hours of being awake your should reducing over the head light inorder to shift body production from dopamine and norepinephrine to serotonin and other neuromodulators.',
+        'After 9 hours of being awake your should reducing over the head light in order to shift body production from dopamine and norepinephrine to serotonin and other neuromodulators.',
         link: Uri.parse('https://youtu.be/Ze2pc6NwsHQ?si=wXUetxQZKNsk4wXT'),
       ),
     ],
