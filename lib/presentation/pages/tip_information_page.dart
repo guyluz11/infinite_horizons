@@ -146,7 +146,7 @@ class _TipInformationPageState extends State<TipInformationPage> {
                                                   if (link == null) {
                                                     SnackBarService().show(
                                                       context,
-                                                      "no_link",
+                                                      'no_link',
                                                     );
                                                     return;
                                                   }

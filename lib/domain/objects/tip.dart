@@ -130,7 +130,7 @@ List<Tip> tipsList = [
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
-        "Go to Sleep to keep your sleep circle and brain in good state",
+        'Go to Sleep to keep your sleep circle and brain in good state',
         link: Uri.parse('https://youtu.be/Ze2pc6NwsHQ?si=wXUetxQZKNsk4wXT'),
       ),
     ],
@@ -211,7 +211,7 @@ List<Tip> tipsList = [
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
-        "Getting expose to sun in the first 30m-60m of the day going to facilitate focus, further release of dopamine and norepinephrine and healthy amounts of cortisol.",
+        'Getting expose to sun in the first 30m-60m of the day going to facilitate focus, further release of dopamine and norepinephrine and healthy amounts of cortisol.',
         link: Uri.parse('https://youtu.be/Ze2pc6NwsHQ?si=wXUetxQZKNsk4wXT'),
       ),
     ],
@@ -230,7 +230,7 @@ List<Tip> tipsList = [
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
-        "Work environment with strong light without hurting your eyes in the first 9 hours of wake to increase focus and for releasing dopamine, norepinephrine, and healthy amounts of cortisol",
+        'Work environment with strong light without hurting your eyes in the first 9 hours of wake to increase focus and for releasing dopamine, norepinephrine, and healthy amounts of cortisol',
         link: Uri.parse('https://youtu.be/Ze2pc6NwsHQ?si=wXUetxQZKNsk4wXT'),
       ),
     ],
@@ -249,7 +249,7 @@ List<Tip> tipsList = [
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
-        "After 9 hours of being awake your should reducing over the head light inorder to shift body production from dopamine and norepinephrine to serotonin and other neuromodulators.",
+        'After 9 hours of being awake your should reducing over the head light in order to shift body production from dopamine and norepinephrine to serotonin and other neuromodulators.',
         link: Uri.parse('https://youtu.be/Ze2pc6NwsHQ?si=wXUetxQZKNsk4wXT'),
       ),
     ],
@@ -267,7 +267,7 @@ List<Tip> tipsList = [
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
-        "After 16 hours of being awake you should keep only the necessary light for the work, more than that will severely deplete your melatonin levels, going to severally shift your circadian clock like traveling to different time zone.",
+        'After 16 hours of being awake you should keep only the necessary light for the work, more than that will severely deplete your melatonin levels, going to severally shift your circadian clock like traveling to different time zone.',
         link: Uri.parse('https://youtu.be/Ze2pc6NwsHQ?si=wXUetxQZKNsk4wXT'),
       ),
     ],
@@ -311,7 +311,7 @@ List<Tip> tipsList = [
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
-        "In the first 9 hours after waking (around 8am-12pm) our brain enters state of high alertness and accurate thinking, which is good for working on analytical and accurate tasks.",
+        'In the first 9 hours after waking (around 8am-12pm) our brain enters state of high alertness and accurate thinking, which is good for working on analytical and accurate tasks.',
         link: Uri.parse('https://www.youtube.com/watch?v=Ze2pc6NwsHQ'),
       ),
     ],

@@ -44,14 +44,14 @@ class _NotificationPopupState extends State<_NotificationPopup> {
         title: 'Notification Permission',
         expendChild: false,
         subTitle:
-            'Please approve the permission inorder for the app to work properly',
+            'Please approve the permission in order for the app to work properly',
         child: CardAtom(
           child: isLoading
               ? const ProgressIndicatorAtom(totalDuration: Duration(seconds: 3))
               : ToggleSwitchMolecule(
                   text: 'Notification Permission',
                   description:
-                      'Get notify about timer status when the app is in the background',
+                      'Get notified about timer status when the app is in the background',
                   offIcon: Icons.notifications_off_outlined,
                   onIcon: Icons.notifications_outlined,
                   onChange: (value) async {

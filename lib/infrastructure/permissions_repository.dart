@@ -2,12 +2,11 @@ part of 'package:infinite_horizons/domain/controllers/permissions_controller.dar
 
 class _PermissionsRepository extends PermissionsController {
   @override
-  Future<bool> isNotificationPolicyAccessGranted() async =>
-      Platform.isAndroid &&
-      (await FlutterDnd.isNotificationPolicyAccessGranted ?? false);
+  Future<bool> isNotificationPolicyAccessGranted() =>
+      DndController.instance.isNotificationPolicyAccessGranted();
 
   @override
-  void gotoPolicySettings() => FlutterDnd.gotoPolicySettings();
+  void gotoPolicySettings() => DndController.instance.gotoPolicySettings();
 
   @override
   Future generalNotificationPermission() =>
