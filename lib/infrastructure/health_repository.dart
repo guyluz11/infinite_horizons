@@ -13,7 +13,7 @@ class _HealthRepository extends HealthController {
       return;
     }
     health = Health();
-    health.configure(useHealthConnectIfAvailable: true);
+    health.configure();
     sleepPermissionGranted = PreferencesController.instance
             .getBool(PreferenceKeys.sleepPermissionGranted) ??
         false;
