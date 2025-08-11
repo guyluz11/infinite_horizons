@@ -84,4 +84,6 @@ flutter {
     source '../..'
 }
 
-dependencies {}
+dependencies {
+    implementation 'com.google.j2objc:j2objc-annotations:2.8'
+}
