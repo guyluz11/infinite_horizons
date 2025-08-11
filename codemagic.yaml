@@ -37,7 +37,7 @@ workflows:
     publishing:
       google_play:
         credentials: $GCLOUD_SERVICE_ACCOUNT_CREDENTIALS
-        track: production
+        track: internal
 
   ios-workflow:
     triggering:
