@@ -1,8 +1,17 @@
 part of 'package:infinite_horizons/domain/controllers/dnd_controller.dart';
 
 class _DndRepository extends DndController {
+  // TODO: Switched packages for app to run, code not tested
+  late DoNotDisturbPlugin dnd;
+
   @override
-  void init() => supported = Platform.isAndroid;
+  void init() {
+    supported = Platform.isAndroid;
+    if (!supported) {
+      return;
+    }
+    dnd = DoNotDisturbPlugin();
+  }
 
   @override
   Future<void> enable() async {
@@ -13,9 +22,7 @@ class _DndRepository extends DndController {
     if (await PermissionsController.instance
         .isNotificationPolicyAccessGranted()) {
       // Turn on DND - All notifications are suppressed except priority.
-      await FlutterDnd.setInterruptionFilter(
-        FlutterDnd.INTERRUPTION_FILTER_PRIORITY,
-      );
+      await dnd.setInterruptionFilter(InterruptionFilter.priority);
     } else {
       PermissionsController.instance.gotoPolicySettings();
     }
@@ -29,9 +36,7 @@ class _DndRepository extends DndController {
 
     if (await PermissionsController.instance
         .isNotificationPolicyAccessGranted()) {
-      await FlutterDnd.setInterruptionFilter(
-        FlutterDnd.INTERRUPTION_FILTER_ALL,
-      );
+      await dnd.setInterruptionFilter(InterruptionFilter.all);
     }
   }
 
@@ -41,7 +46,22 @@ class _DndRepository extends DndController {
       return false;
     }
 
-    return await FlutterDnd.getCurrentInterruptionFilter() ==
-        FlutterDnd.INTERRUPTION_FILTER_PRIORITY;
+    return dnd.isDndEnabled();
+  }
+
+  @override
+  Future<void> gotoPolicySettings() async {
+    if (!supported) {
+      return;
+    }
+    await dnd.openNotificationPolicyAccessSettings();
+  }
+
+  @override
+  Future<bool> isNotificationPolicyAccessGranted() async {
+    if (!supported) {
+      return false;
+    }
+    return dnd.isNotificationPolicyAccessGranted();
   }
 }

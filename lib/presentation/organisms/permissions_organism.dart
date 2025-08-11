@@ -49,7 +49,7 @@ class _PermissionsOrganismState extends State<PermissionsOrganism> {
             child: ToggleSwitchMolecule(
               text: 'Notification Permission',
               description:
-                  'Get notify about timer status when the app is in the background',
+                  'Get notified about timer status when the app is in the background',
               offIcon: Icons.notifications_off_outlined,
               onIcon: Icons.notifications_outlined,
               onChange: (value) async {

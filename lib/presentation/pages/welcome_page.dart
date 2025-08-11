@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:infinite_horizons/presentation/atoms/atoms.dart';
+import 'package:infinite_horizons/presentation/core/global_variables.dart';
 import 'package:infinite_horizons/presentation/core/theme_data.dart';
 import 'package:infinite_horizons/presentation/molecules/molecules.dart';
 import 'package:infinite_horizons/presentation/pages/convincing_page.dart';
@@ -42,7 +43,7 @@ class _WelcomePageState extends State<WelcomePage> {
           children: [
             const TopBarMolecule(topBarType: TopBarType.none, margin: false),
             TextAtom(
-              AppThemeData.appName,
+              GlobalVariables.appName,
               style: Theme.of(context)
                   .textTheme
                   .displayMedium!

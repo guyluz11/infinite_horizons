@@ -35,7 +35,7 @@ class _TextAreaOrganismState extends State<TextAreaOrganism> {
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
                   const TextAtom(
-                    'What is on your mind',
+                    'What is on my mind:',
                     variant: TextVariant.smallTitle,
                   ),
                   const SeparatorAtom(),

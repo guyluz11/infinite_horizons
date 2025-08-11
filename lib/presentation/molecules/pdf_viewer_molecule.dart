@@ -47,7 +47,7 @@ class _PdfViewerMoleculeState extends State<PdfViewerMolecule>
         );
       },
       errorWidget: (error) => const Center(
-        child: TextAtom("error_pdf"),
+        child: TextAtom('error_pdf'),
       ),
     );
   }
