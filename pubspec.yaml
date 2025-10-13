@@ -30,16 +30,13 @@ dependencies:
   flutter:
     sdk: flutter
   flutter_cached_pdfview: ^0.4.2
-  flutter_inappwebview: ^6.0.0
+  flutter_inappwebview: ^6.1.5
   flutter_svg: ^2.0.10+1
   # Font Awesome Icon pack available as Flutter Icons.
   font_awesome_flutter: ^10.7.0
   google_fonts: ^6.2.1
   health: ^13.1.1
-  introduction_screen:
-    git:
-      url: https://github.com/guyluz11/introduction_screen.git
-      ref: master
+  introduction_screen: ^4.0.0
   liquid_progress_indicator_v2: ^0.5.0
   # Logger which prints beautiful logs
   logger: ^2.2.0
