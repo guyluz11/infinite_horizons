@@ -66,8 +66,6 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
         subtitle: subtitleBuffer.toString(),
         leading: Radio<EnergyType>(
           value: type,
-          groupValue: timerStates.type,
-          onChanged: onChanged,
         ),
         translateTitle: false,
         trailing: showTipButton
@@ -90,55 +88,59 @@ class _EnergySelectionMoleculeState extends State<EnergySelectionMolecule> {
       title: 'energy',
       subTitle: 'Select session length',
       scaffold: false,
-      child: SingleChildScrollView(
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
-          children: [
-            CardAtom(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const TextAtom(
-                    'recommended',
-                    variant: TextVariant.smallTitle,
-                  ),
-                  const SeparatorAtom(),
-                  energyWidget(EnergyType.efficient),
-                ],
+      child: RadioGroup(
+        groupValue: timerStates.type,
+        onChanged: onChanged,
+        child: SingleChildScrollView(
+          child: Column(
+            crossAxisAlignment: CrossAxisAlignment.start,
+            children: [
+              CardAtom(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const TextAtom(
+                      'recommended',
+                      variant: TextVariant.smallTitle,
+                    ),
+                    const SeparatorAtom(),
+                    energyWidget(EnergyType.efficient),
+                  ],
+                ),
               ),
-            ),
-            const SeparatorAtom(variant: SeparatorVariant.farApart),
-            CardAtom(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const TextAtom(
-                    'custom',
-                    variant: TextVariant.smallTitle,
-                  ),
-                  const SeparatorAtom(),
-                  energyWidget(EnergyType.veryHigh),
-                  energyWidget(EnergyType.high),
-                  energyWidget(EnergyType.low),
-                  energyWidget(EnergyType.veryLow),
-                ],
+              const SeparatorAtom(variant: SeparatorVariant.farApart),
+              CardAtom(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const TextAtom(
+                      'custom',
+                      variant: TextVariant.smallTitle,
+                    ),
+                    const SeparatorAtom(),
+                    energyWidget(EnergyType.veryHigh),
+                    energyWidget(EnergyType.high),
+                    energyWidget(EnergyType.low),
+                    energyWidget(EnergyType.veryLow),
+                  ],
+                ),
               ),
-            ),
-            const SeparatorAtom(variant: SeparatorVariant.farApart),
-            CardAtom(
-              child: Column(
-                crossAxisAlignment: CrossAxisAlignment.start,
-                children: [
-                  const TextAtom(
-                    'known_methods',
-                    variant: TextVariant.smallTitle,
-                  ),
-                  const SeparatorAtom(),
-                  energyWidget(EnergyType.pomodoro),
-                ],
+              const SeparatorAtom(variant: SeparatorVariant.farApart),
+              CardAtom(
+                child: Column(
+                  crossAxisAlignment: CrossAxisAlignment.start,
+                  children: [
+                    const TextAtom(
+                      'known_methods',
+                      variant: TextVariant.smallTitle,
+                    ),
+                    const SeparatorAtom(),
+                    energyWidget(EnergyType.pomodoro),
+                  ],
+                ),
               ),
-            ),
-          ],
+            ],
+          ),
         ),
       ),
     );
