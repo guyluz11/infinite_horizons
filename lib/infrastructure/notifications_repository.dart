@@ -64,7 +64,7 @@ class _NotificationsRepository extends NotificationsController {
     required String title,
     required NotificationVariant variant,
     String? body,
-  }) async =>
+  }) =>
       controller.createNotification(
         schedule: NotificationCalendar.fromDate(
           date: date,

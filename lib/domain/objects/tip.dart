@@ -153,7 +153,7 @@ List<Tip> tipsList = [
     reason: 'Increase alertness',
     type: TipType.general,
     timing: TipTiming.before,
-    icon: FontAwesomeIcons.userLarge,
+    icon: FontAwesomeIcons.user,
     resourceLinks: [
       Resource(
         'YouTube video by Andrew Huberman: "Optimizing Workspace for Productivity, Focus, & Creativity"',
