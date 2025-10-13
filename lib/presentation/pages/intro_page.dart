@@ -113,7 +113,7 @@ class _IntroPageState extends State<IntroPage> {
               color: colorScheme.outlineVariant,
               activeColor: colorScheme.primary,
             ),
-            overrideNext: Center(
+            overrideNext: (context, onPressed) => Center(
               child: ButtonAtom(
                 variant: ButtonVariant.highEmphasisFilled,
                 onPressed: showNextButton ? nextPage : () {},
@@ -122,7 +122,7 @@ class _IntroPageState extends State<IntroPage> {
                 disabled: !showNextButton,
               ),
             ),
-            overrideBack: Center(
+            overrideBack: (context, onPressed) => Center(
               child: ButtonAtom(
                 variant: ButtonVariant.lowEmphasisIcon,
                 onPressed: previousPage,
